@@ -1,3 +1,103 @@
+Skip to content
+Rideinapocalypse
+badjokeengine
+Repository navigation
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+Files
+Go to file
+t
+index.html
+badjokeengine
+/
+index.html
+in
+main
+
+Edit
+
+Preview
+Indent mode
+
+Spaces
+Indent size
+
+4
+Line wrap mode
+
+No wrap
+Editing index.html file contents
+  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
 """
 Call Center Budget & Forecast Tool – Generator Script
 ======================================================
@@ -62,656 +162,4 @@ BILLABLE_AGENTS = [
     ("Agent – Senior",       "English – Voice Inbound",  7.5),
     ("Agent – Senior",       "Tech Support – Tier 1",    7.5),
     ("Agent – Specialist",   "Back Office Processing",   7.5),
-    ("Agent – Specialist",   "Social Media Moderation",  7.5),
-]
-
-# Overhead (non-billable) roles
-OVERHEAD_ROLES = [
-    "Team Leader",
-    "Quality Analyst",
-    "Workforce Analyst",
-    "Trainer",
-    "Operations Manager",
-    "IT / Systems Support",
-    "HR / Recruitment",
-    "Finance / Admin",
-]
-
-# Salary roles (must match what you want in Salary & Cost sheet)
-SALARY_ROLES = [
-    "Agent – Junior",
-    "Agent – Senior",
-    "Agent – Specialist",
-    "Team Leader",
-    "Quality Analyst",
-    "Workforce Analyst",
-    "Trainer",
-    "Operations Manager",
-]
-
-# Shrinkage components (name, default %)
-SHRINKAGE = [
-    ("Annual Leave / Vacation",         0.08),
-    ("Public Holidays",                 0.03),
-    ("Sick Leave",                      0.05),
-    ("Unplanned Absence",               0.03),
-    ("Team Meetings & Briefings",       0.02),
-    ("Coaching & Training",             0.03),
-    ("System Downtime",                 0.01),
-    ("Late Arrivals / Early Depts",     0.01),
-    ("Break Overruns",                  0.01),
-    ("Other / Buffer",                  0.01),
-]
-
-# Employer on-costs (name, default %)
-EMPLOYER_ONCOSTS = [
-    ("Employer Social Security",    0.155),
-    ("Severance Fund / Pension",    0.020),
-    ("Work Accident Insurance",     0.020),
-    ("Unemployment Insurance",      0.020),
-    ("Private Health Insurance",    0.000),
-    ("Other Employer Taxes",        0.000),
-]
-
-# Extra overhead P&L lines (you fill these manually in Excel)
-EXTRA_OVERHEAD_LINES = [
-    "Rent & Utilities",
-    "Telecom & IT Infrastructure",
-    "Training & Recruitment",
-    "Travel & Expenses",
-    "Other Overhead Costs",
-]
-
-# ══════════════════════════════════════════════════════════════════════════════
-# ── STYLE HELPERS ─────────────────────────────────────────────────────────────
-# ══════════════════════════════════════════════════════════════════════════════
-
-C = {
-    "dark_navy":   "1F2D3D",
-    "mid_navy":    "2E4057",
-    "steel_blue":  "3A7CA5",
-    "light_blue":  "D6EAF8",
-    "pale_blue":   "EBF5FB",
-    "pale_green":  "E8F8F5",
-    "pale_yellow": "FEF9E7",
-    "pale_red":    "FDEDEC",
-    "input_blue":  "0000FF",
-    "formula":     "000000",
-    "link_green":  "008000",
-    "white":       "FFFFFF",
-    "light_grey":  "F2F3F4",
-    "mid_grey":    "D5D8DC",
-    "gold":        "F0B429",
-    "gold_light":  "FFF3CD",
-}
-
-def _thin():
-    s = Side(style="thin", color="AAAAAA")
-    return Border(left=s, right=s, top=s, bottom=s)
-
-def sc(cell, bold=False, size=11, fc="000000", bg=None,
-       align="left", wrap=False, italic=False, nf=None):
-    cell.font = Font(name="Arial", bold=bold, size=size,
-                     color=fc, italic=italic)
-    cell.alignment = Alignment(horizontal=align, vertical="center",
-                                wrap_text=wrap)
-    if bg:
-        cell.fill = PatternFill("solid", fgColor=bg)
-    cell.border = _thin()
-    if nf:
-        cell.number_format = nf
-
-def msc(ws, rng, text, fc=C["white"], bg=C["dark_navy"],
-        bold=True, size=11, align="center", wrap=False):
-    ws.merge_cells(rng)
-    tl = ws[rng.split(":")[0]]
-    tl.value = text
-    sc(tl, bold=bold, size=size, fc=fc, bg=bg, align=align, wrap=wrap)
-
-def col(n): return get_column_letter(n)
-
-
-# ══════════════════════════════════════════════════════════════════════════════
-# ── BUILD WORKBOOK ────────────────────────────────────────────────────────────
-# ══════════════════════════════════════════════════════════════════════════════
-
-wb = Workbook()
-
-# ─────────────────────────────────────────────────────────────────────────────
-# SHEET: Assumptions
-# ─────────────────────────────────────────────────────────────────────────────
-ws_a = wb.active
-ws_a.title = "Assumptions"
-ws_a.sheet_view.showGridLines = False
-ws_a.sheet_properties.tabColor = C["dark_navy"]
-ws_a.column_dimensions["A"].width = 32
-ws_a.column_dimensions["B"].width = 22
-ws_a.column_dimensions["C"].width = 22
-ws_a.column_dimensions["D"].width = 22
-ws_a.column_dimensions["E"].width = 30
-
-msc(ws_a, "A1:E1", "📞  CALL CENTER BUDGET & FORECAST TOOL", size=16)
-ws_a.row_dimensions[1].height = 36
-msc(ws_a, "A2:E2", "ASSUMPTIONS & INPUTS  —  fill BLUE cells only",
-    size=10, bg=C["mid_navy"])
-ws_a.row_dimensions[2].height = 22
-
-# Section A: Unit Rates
-r = 4
-msc(ws_a, f"A{r}:E{r}",
-    "A.  UNIT RATES  (per hour or transaction)",
-    size=11, bg=C["steel_blue"])
-ws_a.row_dimensions[r].height = 22
-
-r += 1
-for ci, h in enumerate(["Language / LOB","Rate Type","Unit Rate (€)","Currency","Notes"],1):
-    sc(ws_a.cell(r,ci,h), bold=True, bg=C["mid_grey"], align="center")
-ws_a.row_dimensions[r].height = 18
-
-UNIT_START = r + 1
-for i, (lob, rtype) in enumerate(UNIT_RATE_ROWS):
-    r += 1
-    bg = C["pale_blue"] if i%2==0 else C["white"]
-    for ci, (val,is_inp) in enumerate([(lob,False),(rtype,False),("",True),("EUR",False),("",False)],1):
-        c = ws_a.cell(r, ci, val)
-        if is_inp:
-            sc(c, fc=C["input_blue"], bg=C["gold_light"], align="center",
-               nf='"€"#,##0.00')
-        else:
-            sc(c, bg=bg, align="center" if ci in (2,4) else "left")
-    ws_a.row_dimensions[r].height = 17
-UNIT_END = r
-
-# Section B: Shrinkage
-r += 2
-msc(ws_a, f"A{r}:E{r}",
-    "B.  SHRINKAGE FACTORS  (adjust percentages as needed)",
-    size=11, bg=C["steel_blue"])
-ws_a.row_dimensions[r].height = 22
-
-r += 1
-for ci, h in enumerate(["Component","Rate (%)","Component","Rate (%)","Notes"],1):
-    sc(ws_a.cell(r,ci,h), bold=True, bg=C["mid_grey"], align="center")
-ws_a.row_dimensions[r].height = 18
-
-half = len(SHRINKAGE)//2
-left  = SHRINKAGE[:half]
-right = SHRINKAGE[half:]
-SHRINK_START = r + 1
-for i, ((s1,r1),(s2,r2)) in enumerate(zip(left, right)):
-    r += 1
-    bg = C["pale_yellow"] if i%2==0 else C["white"]
-    for ci, (val,is_inp) in enumerate([(s1,False),(r1,True),(s2,False),(r2,True),("",False)],1):
-        c = ws_a.cell(r, ci, val)
-        if is_inp:
-            sc(c, fc=C["input_blue"], bg=C["gold_light"], align="center", nf="0.0%")
-        else:
-            sc(c, bg=bg)
-    ws_a.row_dimensions[r].height = 17
-SHRINK_END = r
-
-r += 1
-sc(ws_a.cell(r,1,"TOTAL SHRINKAGE"), bold=True, bg=C["light_blue"])
-c2 = ws_a.cell(r, 2,
-    f"=SUM(B{SHRINK_START}:B{SHRINK_END})+SUM(D{SHRINK_START}:D{SHRINK_END})")
-sc(c2, bold=True, bg=C["light_blue"], align="center", nf="0.0%")
-sc(ws_a.cell(r,3,"Effective Productive Rate"), bold=True, bg=C["light_blue"])
-c4 = ws_a.cell(r, 4, f"=1-B{r}")
-sc(c4, bold=True, bg=C["pale_green"], align="center", nf="0.0%")
-ws_a.row_dimensions[r].height = 18
-SHRINK_TOTAL_ROW = r
-PROD_RATE_CELL = f"Assumptions!D{r}"
-
-# Section C: Salary
-r += 2
-msc(ws_a, f"A{r}:E{r}",
-    "C.  SALARY & MEAL CARD  (per role — monthly gross)",
-    size=11, bg=C["steel_blue"])
-ws_a.row_dimensions[r].height = 22
-
-r += 1
-for ci, h in enumerate(["Role","Monthly Gross Salary (€)","Meal Card (€/day)",
-                          "Working Days/Month","Notes"],1):
-    sc(ws_a.cell(r,ci,h), bold=True, bg=C["mid_grey"], align="center", wrap=True)
-ws_a.row_dimensions[r].height = 30
-
-SAL_START = r + 1
-for i, role in enumerate(SALARY_ROLES):
-    r += 1
-    bg = C["pale_green"] if i%2==0 else C["white"]
-    for ci, (val,is_inp,nf) in enumerate([
-            (role,False,None),("",True,'"€"#,##0.00'),
-            ("",True,'"€"#,##0.00'),(22,True,"#,##0"),("",False,None)],1):
-        c = ws_a.cell(r,ci,val)
-        if is_inp:
-            sc(c, fc=C["input_blue"], bg=C["gold_light"], align="center", nf=nf)
-        else:
-            sc(c, bg=bg)
-    ws_a.row_dimensions[r].height = 17
-SAL_END = r
-
-# Section D: CTC multipliers
-r += 2
-msc(ws_a, f"A{r}:E{r}",
-    "D.  COST-TO-COMPANY MULTIPLIERS  (employer on-costs)",
-    size=11, bg=C["steel_blue"])
-ws_a.row_dimensions[r].height = 22
-
-r += 1
-for ci, h in enumerate(["Component","Rate (%)","Notes","",""],1):
-    sc(ws_a.cell(r,ci,h), bold=True, bg=C["mid_grey"], align="center")
-ws_a.row_dimensions[r].height = 18
-
-CTC_START = r + 1
-for i, (name, rate) in enumerate(EMPLOYER_ONCOSTS):
-    r += 1
-    bg = C["pale_red"] if i%2==0 else C["white"]
-    sc(ws_a.cell(r,1,name), bg=bg)
-    sc(ws_a.cell(r,2,rate), fc=C["input_blue"], bg=C["gold_light"],
-       align="center", nf="0.0%")
-    sc(ws_a.cell(r,3,""), bg=bg, italic=True)
-    ws_a.row_dimensions[r].height = 17
-CTC_END = r
-
-r += 1
-sc(ws_a.cell(r,1,"TOTAL EMPLOYER ON-COST RATE"), bold=True, bg=C["light_blue"])
-c2 = ws_a.cell(r, 2, f"=SUM(B{CTC_START}:B{CTC_END})")
-sc(c2, bold=True, bg=C["light_blue"], align="center", nf="0.0%")
-sc(ws_a.cell(r,3,"CTC Multiplier  (1 + above)"), bold=True, bg=C["light_blue"])
-c4 = ws_a.cell(r, 4, f"=1+B{r}")
-sc(c4, bold=True, bg=C["pale_green"], align="center", nf="0.00x")
-CTC_TOTAL_ROW = r
-CTC_MULT_CELL = f"Assumptions!D{r}"
-ws_a.row_dimensions[r].height = 18
-
-# ─────────────────────────────────────────────────────────────────────────────
-# SHEET: Headcount Plan
-# ─────────────────────────────────────────────────────────────────────────────
-ws_h = wb.create_sheet("Headcount Plan")
-ws_h.sheet_view.showGridLines = False
-ws_h.sheet_properties.tabColor = C["steel_blue"]
-ws_h.column_dimensions["A"].width = 30
-ws_h.column_dimensions["B"].width = 22
-ws_h.column_dimensions["C"].width = 16
-for i in range(4, 16):
-    ws_h.column_dimensions[col(i)].width = 8
-
-msc(ws_h, f"A1:{col(15)}1",
-    "📊  HEADCOUNT PLAN  —  FTE by Role & Month", size=14)
-ws_h.row_dimensions[1].height = 34
-msc(ws_h, f"A2:{col(15)}2",
-    "Enter budgeted FTE per month.  Shrinkage-adjusted hours flow to Revenue sheet automatically.",
-    size=9, bg=C["mid_navy"])
-ws_h.row_dimensions[2].height = 20
-
-r = 4
-for ci, h in enumerate(["Role","LOB / Language","Avg Daily Hours"]+MONTHS,1):
-    sc(ws_h.cell(r,ci,h), bold=True, bg=C["mid_grey"], align="center", wrap=True)
-ws_h.row_dimensions[r].height = 28
-
-# Billable section
-r += 1
-msc(ws_h, f"A{r}:O{r}", "▶  BILLABLE AGENTS", size=10, bg=C["steel_blue"])
-ws_h.row_dimensions[r].height = 18
-
-BILLABLE_START = r + 1
-for i, (role, lob, hrs) in enumerate(BILLABLE_AGENTS):
-    r += 1
-    bg = C["pale_blue"] if i%2==0 else C["white"]
-    sc(ws_h.cell(r,1,role), bg=bg)
-    sc(ws_h.cell(r,2,lob), bg=bg, align="center")
-    sc(ws_h.cell(r,3,hrs), fc=C["input_blue"], bg=C["gold_light"],
-       align="center", nf="0.0")
-    for mi in range(12):
-        sc(ws_h.cell(r,4+mi,0), fc=C["input_blue"], bg=C["gold_light"],
-           align="center", nf="#,##0")
-    ws_h.row_dimensions[r].height = 16
-BILLABLE_END = r
-
-r += 1
-sc(ws_h.cell(r,1,"TOTAL BILLABLE FTE"), bold=True, bg=C["light_blue"])
-ws_h.merge_cells(f"B{r}:C{r}")
-for mi in range(12):
-    cl = col(4+mi)
-    c = ws_h.cell(r, 4+mi, f"=SUM({cl}{BILLABLE_START}:{cl}{BILLABLE_END})")
-    sc(c, bold=True, bg=C["light_blue"], align="center", nf="#,##0")
-ws_h.row_dimensions[r].height = 18
-BILLABLE_TOTAL = r
-
-# Overhead section
-r += 2
-msc(ws_h, f"A{r}:O{r}",
-    "▶  OVERHEAD ROLES  (non-billable — cost-driven)",
-    size=10, bg=C["steel_blue"])
-ws_h.row_dimensions[r].height = 18
-
-OVERHEAD_START = r + 1
-for i, role in enumerate(OVERHEAD_ROLES):
-    r += 1
-    bg = C["pale_red"] if i%2==0 else C["white"]
-    sc(ws_h.cell(r,1,role), bg=bg)
-    sc(ws_h.cell(r,2,"All LOBs"), bg=bg, align="center")
-    sc(ws_h.cell(r,3,7.5), fc=C["input_blue"], bg=C["gold_light"],
-       align="center", nf="0.0")
-    for mi in range(12):
-        sc(ws_h.cell(r,4+mi,0), fc=C["input_blue"], bg=C["gold_light"],
-           align="center", nf="#,##0")
-    ws_h.row_dimensions[r].height = 16
-OVERHEAD_END = r
-
-r += 1
-sc(ws_h.cell(r,1,"TOTAL OVERHEAD FTE"), bold=True, bg=C["pale_red"])
-ws_h.merge_cells(f"B{r}:C{r}")
-for mi in range(12):
-    cl = col(4+mi)
-    c = ws_h.cell(r, 4+mi, f"=SUM({cl}{OVERHEAD_START}:{cl}{OVERHEAD_END})")
-    sc(c, bold=True, bg=C["pale_red"], align="center", nf="#,##0")
-ws_h.row_dimensions[r].height = 18
-OVERHEAD_TOTAL = r
-
-r += 1
-sc(ws_h.cell(r,1,"GRAND TOTAL HEADCOUNT"), bold=True,
-   fc=C["white"], bg=C["dark_navy"])
-ws_h.merge_cells(f"B{r}:C{r}")
-for mi in range(12):
-    cl = col(4+mi)
-    c = ws_h.cell(r, 4+mi,
-        f"={cl}{BILLABLE_TOTAL}+{cl}{OVERHEAD_TOTAL}")
-    sc(c, bold=True, fc=C["white"], bg=C["dark_navy"],
-       align="center", nf="#,##0")
-ws_h.row_dimensions[r].height = 20
-HC_GRAND_TOTAL = r
-
-# ─────────────────────────────────────────────────────────────────────────────
-# SHEET: Salary & Cost
-# ─────────────────────────────────────────────────────────────────────────────
-ws_s = wb.create_sheet("Salary & Cost")
-ws_s.sheet_view.showGridLines = False
-ws_s.sheet_properties.tabColor = "27AE60"
-ws_s.column_dimensions["A"].width = 30
-for i in range(2, 18):
-    ws_s.column_dimensions[col(i)].width = 12
-
-msc(ws_s, f"A1:{col(17)}1",
-    "💰  SALARY, MEAL CARD & COST-TO-COMPANY  —  Monthly Detail", size=14)
-ws_s.row_dimensions[1].height = 34
-
-r = 4
-for ci, h in enumerate(["Role","Gross Salary (€/mo)","Meal Card (€/mo)",
-                          "Total Direct","CTC Cost (€/mo)"]+MONTHS,1):
-    sc(ws_s.cell(r,ci,h), bold=True, bg=C["mid_grey"], align="center", wrap=True)
-ws_s.row_dimensions[r].height = 30
-
-SAL_COST_START = r + 1
-for i, role in enumerate(SALARY_ROLES):
-    r += 1
-    arow = SAL_START + i
-    bg = C["pale_green"] if i%2==0 else C["white"]
-    sc(ws_s.cell(r,1,role), bg=bg)
-    sc(ws_s.cell(r,2,f"=Assumptions!B{arow}"),
-       fc=C["link_green"], bg=bg, align="center", nf='"€"#,##0.00')
-    sc(ws_s.cell(r,3,f"=Assumptions!C{arow}*Assumptions!D{arow}"),
-       bg=bg, align="center", nf='"€"#,##0.00')
-    sc(ws_s.cell(r,4,f"=B{r}+C{r}"),
-       bg=bg, align="center", nf='"€"#,##0.00')
-    sc(ws_s.cell(r,5,f"=D{r}*{CTC_MULT_CELL}"),
-       bold=True, bg=C["pale_yellow"], align="center", nf='"€"#,##0.00')
-    # monthly total cost = CTC cost × FTE for that role
-    for mi in range(12):
-        hc_col = col(4+mi)
-        # Map role to HC sheet
-        is_overhead = role in OVERHEAD_ROLES
-        if is_overhead:
-            idx = OVERHEAD_ROLES.index(role)
-            hc_ref = f"'Headcount Plan'!{hc_col}{OVERHEAD_START+idx}"
-        else:
-            hc_ref = f"'Headcount Plan'!{hc_col}{BILLABLE_TOTAL}"
-        c = ws_s.cell(r, 6+mi, f"=E{r}*{hc_ref}")
-        sc(c, bg=bg, align="center", nf='"€"#,##0')
-    ws_s.row_dimensions[r].height = 17
-SAL_COST_END = r
-
-r += 1
-sc(ws_s.cell(r,1,"TOTAL SALARY COST"), bold=True,
-   fc=C["white"], bg=C["dark_navy"])
-for ci in range(2, 18):
-    cl = col(ci)
-    c = ws_s.cell(r, ci, f"=SUM({cl}{SAL_COST_START}:{cl}{SAL_COST_END})")
-    sc(c, bold=True, fc=C["white"], bg=C["dark_navy"], align="center",
-       nf='"€"#,##0.00' if ci<=5 else '"€"#,##0')
-ws_s.row_dimensions[r].height = 20
-SAL_TOTAL_ROW = r
-
-# ─────────────────────────────────────────────────────────────────────────────
-# SHEET: Revenue Forecast
-# ─────────────────────────────────────────────────────────────────────────────
-ws_r = wb.create_sheet("Revenue Forecast")
-ws_r.sheet_view.showGridLines = False
-ws_r.sheet_properties.tabColor = "F39C12"
-ws_r.column_dimensions["A"].width = 30
-ws_r.column_dimensions["B"].width = 20
-ws_r.column_dimensions["C"].width = 16
-ws_r.column_dimensions["D"].width = 16
-for i in range(5, 17):
-    ws_r.column_dimensions[col(i)].width = 10
-
-msc(ws_r, f"A1:{col(16)}1",
-    "📈  REVENUE FORECAST  —  Billable Hours × Unit Rate", size=14)
-ws_r.row_dimensions[1].height = 34
-
-# Working days row
-r = 4
-sc(ws_r.cell(r,1,"Working Days in Month"), bold=True, bg=C["mid_grey"])
-sc(ws_r.cell(r,2,"(default pre-filled — adjust if needed)"),
-   bg=C["mid_grey"], italic=True)
-sc(ws_r.cell(r,3,""), bg=C["mid_grey"])
-sc(ws_r.cell(r,4,""), bg=C["mid_grey"])
-WD_ROW = r
-for mi, wd in enumerate(DEFAULT_WORKING_DAYS):
-    sc(ws_r.cell(r,5+mi,wd), fc=C["input_blue"], bg=C["gold_light"],
-       align="center", nf="#,##0")
-ws_r.row_dimensions[r].height = 18
-
-r = 6
-for ci, h in enumerate(["Language / LOB","Unit Rate (€)","Rate Type",
-                          "Productive Rate"]+MONTHS,1):
-    sc(ws_r.cell(r,ci,h), bold=True, bg=C["mid_grey"],
-       align="center", wrap=True)
-ws_r.row_dimensions[r].height = 28
-
-# build LOB → unit rate row lookup
-lob_rate_lookup = {lob: UNIT_START+i for i,(lob,_) in enumerate(UNIT_RATE_ROWS)}
-
-REV_START = r + 1
-for i, (role, lob, hrs) in enumerate(BILLABLE_AGENTS):
-    r += 1
-    bg = C["pale_blue"] if i%2==0 else C["white"]
-    rate_row = lob_rate_lookup.get(lob, UNIT_START)
-    hc_row   = BILLABLE_START + i
-
-    sc(ws_r.cell(r,1,f"{role}  ({lob})"), bg=bg)
-    sc(ws_r.cell(r,2,f"=Assumptions!C{rate_row}"),
-       fc=C["link_green"], bg=bg, align="center", nf='"€"#,##0.00')
-    sc(ws_r.cell(r,3,"Per Hour"), bg=bg, align="center")
-    sc(ws_r.cell(r,4,f"={PROD_RATE_CELL}"),
-       fc=C["link_green"], bg=bg, align="center", nf="0.0%")
-
-    for mi in range(12):
-        hc_col = col(4+mi)
-        wd_col = col(5+mi)
-        # revenue = FTE × daily hrs × working days × productive rate × unit rate
-        formula = (f"='Headcount Plan'!{hc_col}{hc_row}"
-                   f"*'Headcount Plan'!C{hc_row}"
-                   f"*'Revenue Forecast'!{wd_col}{WD_ROW}"
-                   f"*D{r}"
-                   f"*B{r}")
-        sc(ws_r.cell(r,5+mi,formula), align="center", nf='"€"#,##0')
-    ws_r.row_dimensions[r].height = 17
-REV_END = r
-
-r += 1
-sc(ws_r.cell(r,1,"TOTAL REVENUE"), bold=True,
-   fc=C["white"], bg=C["dark_navy"])
-for ci in range(2, 17):
-    cl = col(ci)
-    if ci >= 5:
-        c = ws_r.cell(r, ci, f"=SUM({cl}{REV_START}:{cl}{REV_END})")
-        sc(c, bold=True, fc=C["white"], bg=C["dark_navy"],
-           align="center", nf='"€"#,##0')
-    else:
-        sc(ws_r.cell(r,ci,""), bg=C["dark_navy"])
-ws_r.row_dimensions[r].height = 20
-REV_TOTAL_ROW = r
-
-# ─────────────────────────────────────────────────────────────────────────────
-# SHEET: P&L Summary
-# ─────────────────────────────────────────────────────────────────────────────
-ws_p = wb.create_sheet("P&L Summary")
-ws_p.sheet_view.showGridLines = False
-ws_p.sheet_properties.tabColor = "C0392B"
-ws_p.column_dimensions["A"].width = 36
-for i in range(2, 15):
-    ws_p.column_dimensions[col(i)].width = 11
-
-msc(ws_p, f"A1:{col(14)}1",
-    "📋  P&L SUMMARY  —  Revenue vs. Cost vs. Margin", size=14)
-ws_p.row_dimensions[1].height = 34
-
-r = 3
-for ci, h in enumerate(["Line Item"]+MONTHS+["FULL YEAR"],1):
-    sc(ws_p.cell(r,ci,h), bold=True, bg=C["mid_grey"], align="center")
-ws_p.row_dimensions[r].height = 22
-
-def pnl_total_row(row):
-    return f"=SUM(B{row}:M{row})"
-
-# Revenue
-r += 1
-msc(ws_p, f"A{r}:{col(14)}{r}", "REVENUE", size=10, bg=C["steel_blue"])
-ws_p.row_dimensions[r].height = 20
-r += 1
-REV_ROW = r
-sc(ws_p.cell(r,1,"Billable Revenue"), bold=True, bg=C["pale_blue"])
-for mi in range(12):
-    cl = col(5+mi)
-    c = ws_p.cell(r, 2+mi, f"='Revenue Forecast'!{cl}{REV_TOTAL_ROW}")
-    sc(c, bold=True, bg=C["pale_blue"], align="center", nf='"€"#,##0')
-sc(ws_p.cell(r,14,pnl_total_row(r)), bold=True,
-   bg=C["pale_blue"], align="center", nf='"€"#,##0')
-ws_p.row_dimensions[r].height = 18
-
-# Direct Costs
-r += 2
-msc(ws_p, f"A{r}:{col(14)}{r}",
-    "DIRECT COSTS  (Billable Agents)", size=10, bg=C["steel_blue"])
-ws_p.row_dimensions[r].height = 20
-r += 1
-DIRECT_COST_ROW = r
-sc(ws_p.cell(r,1,"    Agent Salary & CTC Cost"), bg=C["pale_red"])
-for mi in range(12):
-    cl = col(6+mi)
-    c = ws_p.cell(r, 2+mi, f"='Salary & Cost'!{cl}{SAL_TOTAL_ROW}")
-    sc(c, bg=C["pale_red"], align="center", nf='"€"#,##0')
-sc(ws_p.cell(r,14,pnl_total_row(r)), bg=C["pale_red"],
-   align="center", nf='"€"#,##0')
-ws_p.row_dimensions[r].height = 18
-
-# Overhead Costs
-r += 2
-msc(ws_p, f"A{r}:{col(14)}{r}",
-    "OVERHEAD COSTS  (Non-Billable — enter manually)", size=10, bg=C["steel_blue"])
-ws_p.row_dimensions[r].height = 20
-
-EXTRA_ROWS = []
-for label in EXTRA_OVERHEAD_LINES:
-    r += 1
-    sc(ws_p.cell(r,1,f"    {label}"), bg=C["pale_red"])
-    for ci in range(2, 15):
-        sc(ws_p.cell(r,ci,0), fc=C["input_blue"],
-           bg=C["gold_light"], align="center", nf='"€"#,##0')
-    EXTRA_ROWS.append(r)
-    ws_p.row_dimensions[r].height = 17
-
-r += 1
-TOTAL_COST_ROW = r
-sc(ws_p.cell(r,1,"TOTAL COSTS"), bold=True,
-   fc=C["white"], bg=C["mid_navy"])
-for ci in range(2, 15):
-    cl = col(ci)
-    extras = "+".join([f"{cl}{er}" for er in EXTRA_ROWS])
-    c = ws_p.cell(r, ci,
-        f"={cl}{DIRECT_COST_ROW}+{extras}")
-    sc(c, bold=True, fc=C["white"], bg=C["mid_navy"],
-       align="center", nf='"€"#,##0')
-ws_p.row_dimensions[r].height = 20
-
-r += 1
-MARGIN_ROW = r
-sc(ws_p.cell(r,1,"GROSS MARGIN  (€)"), bold=True,
-   fc=C["white"], bg=C["dark_navy"])
-for ci in range(2, 15):
-    cl = col(ci)
-    c = ws_p.cell(r, ci, f"={cl}{REV_ROW}-{cl}{TOTAL_COST_ROW}")
-    sc(c, bold=True, fc=C["white"], bg=C["dark_navy"],
-       align="center", nf='"€"#,##0')
-ws_p.row_dimensions[r].height = 22
-
-r += 1
-sc(ws_p.cell(r,1,"GROSS MARGIN  (%)"), bold=True,
-   fc=C["gold"], bg=C["dark_navy"])
-for ci in range(2, 15):
-    cl = col(ci)
-    c = ws_p.cell(r, ci,
-        f'=IFERROR({cl}{MARGIN_ROW}/{cl}{REV_ROW},"-")')
-    sc(c, bold=True, fc=C["gold"], bg=C["dark_navy"],
-       align="center", nf="0.0%")
-ws_p.row_dimensions[r].height = 22
-
-# ─────────────────────────────────────────────────────────────────────────────
-# SHEET: Instructions
-# ─────────────────────────────────────────────────────────────────────────────
-ws_i = wb.create_sheet("📖 Instructions")
-ws_i.sheet_view.showGridLines = False
-ws_i.sheet_properties.tabColor = "8E44AD"
-ws_i.column_dimensions["A"].width = 6
-ws_i.column_dimensions["B"].width = 28
-ws_i.column_dimensions["C"].width = 70
-
-msc(ws_i, "A1:C1", "📖  HOW TO USE THIS BUDGET TOOL", size=14)
-ws_i.row_dimensions[1].height = 36
-
-steps = [
-    ("STEP 1","Assumptions","Fill Unit Rates (blue) for each language/LOB.  "
-     "Set Shrinkage % for your operation.  Enter monthly Gross Salary and "
-     "Meal Card rate.  Adjust CTC multiplier components."),
-    ("STEP 2","Headcount Plan","Enter budgeted FTE per role per month (blue cells).  "
-     "Confirm daily working hours.  Billable and Overhead sections are separate."),
-    ("STEP 3","Salary & Cost","Auto-calculated from Assumptions × Headcount.  "
-     "Review monthly CTC cost per role."),
-    ("STEP 4","Revenue Forecast","Confirm or adjust working days per month.  "
-     "Revenue = FTE × Hours × Working Days × Productive Rate × Unit Rate."),
-    ("STEP 5","P&L Summary","Enter additional overhead costs (rent, IT, etc.) "
-     "in gold input cells.  Gross margin calculates automatically."),
-    ("STEP 6","Forecasting","Change headcount for future months to see revenue/cost "
-     "projections shift.  Adjust shrinkage seasonally as needed."),
-]
-
-r = 3
-for step, sheet, desc in steps:
-    r += 1
-    sc(ws_i.cell(r,1,step), bold=True, fc=C["white"],
-       bg=C["steel_blue"], align="center")
-    sc(ws_i.cell(r,2,sheet), bold=True, bg=C["light_blue"])
-    sc(ws_i.cell(r,3,desc), bg=C["pale_blue"], wrap=True)
-    ws_i.row_dimensions[r].height = 45
-
-# reorder: Instructions first
-wb.move_sheet("📖 Instructions", offset=-5)
-
-wb.save(OUTPUT_FILE)
-print(f"✅  Saved: {OUTPUT_FILE}")
-print("    Open the file, start with the '📖 Instructions' tab, then fill blue cells!")
-
-
-if __name__ == "__main__":
-    pass
+Use Control + Shift + m to toggle the tab key moving focus. Alternatively, use esc then tab to move to the next interactive element on the page.
