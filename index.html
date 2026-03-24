@@ -957,6 +957,78 @@
   </div>
 </div>
 
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="authModalTitle">Join DialDown</div>
+      <button class="modal-close" onclick="closeAuthModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabSignup" onclick="switchAuthTab('signup')">Create Account</button>
+        <button class="auth-tab" id="tabLogin" onclick="switchAuthTab('login')">Log In</button>
+      </div>
+      <div class="auth-panel active" id="panelSignup">
+        <div class="form-row">
+          <div><div class="form-label">First Name</div><input class="form-input" id="signupFirst" placeholder="e.g. Alex"/></div>
+          <div><div class="form-label">Last Name</div><input class="form-input" id="signupLast" placeholder="e.g. Morgan"/></div>
+        </div>
+        <div>
+          <div class="form-label">Username</div>
+          <input class="form-input" id="signupUsername" placeholder="e.g. holdqueen99"/>
+          <div class="form-hint">This is how you'll appear on posts</div>
+          <div class="form-error" id="errUsername">Username already taken or empty</div>
+        </div>
+        <div>
+          <div class="form-label">Email</div>
+          <input class="form-input" id="signupEmail" type="email" placeholder="you@callcenter.com"/>
+          <div class="form-error" id="errEmail">Please enter a valid email</div>
+        </div>
+        <div>
+          <div class="form-label">Your CC Role</div>
+          <select class="form-select" id="signupRole"><option value="">Select your role...</option></select>
+          <div class="form-error" id="errRole">Please select your role</div>
+        </div>
+        <div>
+          <div class="form-label">Password</div>
+          <div class="password-wrap">
+            <input class="form-input" id="signupPassword" type="password" placeholder="Min. 6 characters"/>
+            <button class="password-toggle" onclick="togglePwd('signupPassword', this)">👁</button>
+          </div>
+          <div class="form-error" id="errPassword">Password must be at least 6 characters</div>
+        </div>
+      </div>
+      <div class="auth-panel" id="panelLogin">
+        <div>
+          <div class="form-label">Username or Email</div>
+          <input class="form-input" id="loginIdent" placeholder="Your username or email"/>
+          <div class="form-error" id="errLogin">Invalid username/email or password</div>
+        </div>
+        <div>
+          <div class="form-label">Password</div>
+          <div class="password-wrap">
+            <input class="form-input" id="loginPassword" type="password" placeholder="Your password"/>
+            <button class="password-toggle" onclick="togglePwd('loginPassword', this)">👁</button>
+          </div>
+        </div>
+        <div style="text-align:right"><span style="font-size:12.5px;color:var(--accent);cursor:pointer">Forgot password?</span></div>
+      </div>
+      <div id="authSuccess" style="display:none">
+        <div class="success-state">
+          <div class="success-icon">🎉</div>
+          <div class="success-title" id="successTitle">Welcome to DialDown!</div>
+          <div class="success-sub" id="successSub">Your account is ready. Start sharing your know-how with the CC community.</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" id="authFooter">
+      <button class="btn-ghost" onclick="closeAuthModal()">Cancel</button>
+      <button class="btn-primary" id="authSubmitBtn" onclick="handleAuthSubmit()">Create Account 🚀</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // ── DATA ──────────────────────────────────────────────────────────────────
 
@@ -1433,94 +1505,5 @@ setInterval(nextJoke, 20000);
 // Open signup on first visit
 setTimeout(() => openAuthModal('signup'), 700);
 </script>
-<!-- AUTH MODAL -->
-<div class="modal-overlay" id="authModal">
-  <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title" id="authModalTitle">Join DialDown</div>
-      <button class="modal-close" onclick="closeAuthModal()">✕</button>
-    </div>
-    <div class="modal-body">
-      <!-- TABS -->
-      <div class="auth-tabs">
-        <button class="auth-tab active" id="tabSignup" onclick="switchAuthTab('signup')">Create Account</button>
-        <button class="auth-tab" id="tabLogin" onclick="switchAuthTab('login')">Log In</button>
-      </div>
-
-      <!-- SIGNUP PANEL -->
-      <div class="auth-panel active" id="panelSignup">
-        <div class="form-row">
-          <div>
-            <div class="form-label">First Name</div>
-            <input class="form-input" id="signupFirst" placeholder="e.g. Alex"/>
-          </div>
-          <div>
-            <div class="form-label">Last Name</div>
-            <input class="form-input" id="signupLast" placeholder="e.g. Morgan"/>
-          </div>
-        </div>
-        <div>
-          <div class="form-label">Username</div>
-          <input class="form-input" id="signupUsername" placeholder="e.g. holdqueen99"/>
-          <div class="form-hint">This is how you'll appear on posts</div>
-          <div class="form-error" id="errUsername">Username already taken</div>
-        </div>
-        <div>
-          <div class="form-label">Email</div>
-          <input class="form-input" id="signupEmail" type="email" placeholder="you@callcenter.com"/>
-          <div class="form-error" id="errEmail">Please enter a valid email</div>
-        </div>
-        <div>
-          <div class="form-label">Your CC Role</div>
-          <select class="form-select" id="signupRole">
-            <option value="">Select your role...</option>
-          </select>
-          <div class="form-error" id="errRole">Please select your role</div>
-        </div>
-        <div>
-          <div class="form-label">Password</div>
-          <div class="password-wrap">
-            <input class="form-input" id="signupPassword" type="password" placeholder="Min. 6 characters"/>
-            <button class="password-toggle" onclick="togglePwd('signupPassword', this)">👁</button>
-          </div>
-          <div class="form-error" id="errPassword">Password must be at least 6 characters</div>
-        </div>
-      </div>
-
-      <!-- LOGIN PANEL -->
-      <div class="auth-panel" id="panelLogin">
-        <div>
-          <div class="form-label">Username or Email</div>
-          <input class="form-input" id="loginIdent" placeholder="Your username or email"/>
-          <div class="form-error" id="errLogin">Invalid username/email or password</div>
-        </div>
-        <div>
-          <div class="form-label">Password</div>
-          <div class="password-wrap">
-            <input class="form-input" id="loginPassword" type="password" placeholder="Your password"/>
-            <button class="password-toggle" onclick="togglePwd('loginPassword', this)">👁</button>
-          </div>
-        </div>
-        <div style="text-align:right">
-          <span style="font-size:12.5px;color:var(--accent);cursor:pointer">Forgot password?</span>
-        </div>
-      </div>
-
-      <!-- SUCCESS STATE (hidden by default) -->
-      <div id="authSuccess" style="display:none">
-        <div class="success-state">
-          <div class="success-icon">🎉</div>
-          <div class="success-title" id="successTitle">Welcome to DialDown!</div>
-          <div class="success-sub" id="successSub">Your account is ready. Start sharing your know-how with the CC community.</div>
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer" id="authFooter">
-      <button class="btn-ghost" onclick="closeAuthModal()">Cancel</button>
-      <button class="btn-primary" id="authSubmitBtn" onclick="handleAuthSubmit()">Create Account 🚀</button>
-    </div>
-  </div>
-</div>
-
 </body>
 </html>
