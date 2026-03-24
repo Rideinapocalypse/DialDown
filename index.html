@@ -499,6 +499,159 @@
   }
   .tag-chip:hover { background: rgba(255,95,31,0.22); }
 
+  /* AUTH */
+  .btn-signup {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: var(--radius);
+    padding: 7px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-signup:hover { background: var(--accent); color: #fff; }
+
+  .user-menu {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 12px 5px 8px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .user-menu:hover { border-color: var(--accent); }
+
+  .user-avatar {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .user-name-small { font-size: 13px; font-weight: 500; }
+
+  /* AUTH TABS */
+  .auth-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    margin: -20px -22px 0;
+  }
+  .auth-tab {
+    flex: 1;
+    padding: 14px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text3);
+    border: none;
+    background: none;
+    font-family: 'DM Sans', sans-serif;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+    margin-bottom: -1px;
+  }
+  .auth-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .auth-panel { display: none; flex-direction: column; gap: 14px; margin-top: 20px; }
+  .auth-panel.active { display: flex; }
+
+  .auth-divider {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text3);
+    position: relative;
+    margin: 4px 0;
+  }
+  .auth-divider::before, .auth-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 42%;
+    height: 1px;
+    background: var(--border);
+  }
+  .auth-divider::before { left: 0; }
+  .auth-divider::after { right: 0; }
+
+  .success-state {
+    text-align: center;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .success-icon { font-size: 44px; }
+  .success-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 18px; }
+  .success-sub { font-size: 13.5px; color: var(--text2); line-height: 1.6; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  .password-wrap { position: relative; }
+  .password-wrap .form-input { padding-right: 40px; }
+  .password-toggle {
+    position: absolute;
+    right: 10px; top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text3);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 2px;
+  }
+
+  .form-hint { font-size: 12px; color: var(--text3); margin-top: -8px; }
+  .form-error { font-size: 12px; color: #ff6b6b; margin-top: -8px; display: none; }
+  .form-error.show { display: block; }
+
+  .user-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    min-width: 200px;
+    z-index: 300;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    animation: modalIn 0.15s ease;
+    display: none;
+  }
+  .user-dropdown.open { display: block; }
+  .dropdown-header {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .dropdown-username { font-weight: 600; font-size: 14px; }
+  .dropdown-role { font-size: 12px; color: var(--text3); margin-top: 2px; }
+  .dropdown-item {
+    padding: 10px 16px;
+    font-size: 13.5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.15s;
+    color: var(--text2);
+  }
+  .dropdown-item:hover { background: var(--bg3); color: var(--text); }
+  .dropdown-item.danger { color: #ff6b6b; }
+  .dropdown-item.danger:hover { background: rgba(255,107,107,0.08); }
+
+  .header-user-wrap { position: relative; }
+
   /* MODAL OVERLAY */
   .modal-overlay {
     display: none;
@@ -671,7 +824,28 @@
       <div class="role-dot"></div>
       <span id="headerRole">Pick your role</span>
     </div>
-    <button class="btn-primary" onclick="openPostModal()">+ New Post</button>
+    <div id="authButtons" style="display:flex;gap:8px;align-items:center">
+      <button class="btn-signup" onclick="openAuthModal('login')">Log In</button>
+      <button class="btn-primary" onclick="openAuthModal('signup')">Sign Up</button>
+    </div>
+    <div class="header-user-wrap" id="userMenuWrap" style="display:none">
+      <div class="user-menu" onclick="toggleDropdown()">
+        <div class="user-avatar" id="headerAvatar"></div>
+        <span class="user-name-small" id="headerUsername"></span>
+        <span style="color:var(--text3);font-size:12px">▾</span>
+      </div>
+      <div class="user-dropdown" id="userDropdown">
+        <div class="dropdown-header">
+          <div class="dropdown-username" id="dropdownUsername"></div>
+          <div class="dropdown-role" id="dropdownRole"></div>
+        </div>
+        <div class="dropdown-item">👤 My Profile</div>
+        <div class="dropdown-item">🔖 Saved Posts</div>
+        <div class="dropdown-item">⚙️ Settings</div>
+        <div class="dropdown-item danger" onclick="logout()">🚪 Log Out</div>
+      </div>
+    </div>
+    <button class="btn-primary" id="newPostBtn" onclick="openPostModal()" style="display:none">+ New Post</button>
   </div>
 </header>
 
@@ -1084,7 +1258,169 @@ document.getElementById('roleModal').addEventListener('click', function(e) {
   if (e.target === this) closeRolePicker();
 });
 
-// ── INIT ──────────────────────────────────────────────────────────────────
+// ── AUTH ──────────────────────────────────────────────────────────────────
+let users = []; // { username, email, password, firstName, lastName, role, color }
+let currentUser = null;
+let authTab = 'signup';
+
+const AVATAR_COLORS = ['#ff5f1f','#4f9eff','#a78bfa','#3ddc84','#fbbf24','#f472b6','#34d399','#fb923c'];
+
+function randomColor() { return AVATAR_COLORS[Math.floor(Math.random() * AVATAR_COLORS.length)]; }
+
+function initials(u) {
+  return ((u.firstName?.[0] || '') + (u.lastName?.[0] || u.username?.[0] || '')).toUpperCase();
+}
+
+function openAuthModal(tab = 'signup') {
+  switchAuthTab(tab);
+  populateSignupRoleSelect();
+  document.getElementById('authModal').classList.add('open');
+  document.getElementById('authSuccess').style.display = 'none';
+  document.getElementById('panelSignup').style.display = '';
+  document.getElementById('panelLogin').style.display = '';
+  document.getElementById('authFooter').style.display = '';
+}
+
+function closeAuthModal() {
+  document.getElementById('authModal').classList.remove('open');
+  clearAuthErrors();
+}
+
+function switchAuthTab(tab) {
+  authTab = tab;
+  document.getElementById('tabSignup').classList.toggle('active', tab === 'signup');
+  document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
+  document.getElementById('panelSignup').classList.toggle('active', tab === 'signup');
+  document.getElementById('panelLogin').classList.toggle('active', tab === 'login');
+  document.getElementById('authModalTitle').textContent = tab === 'signup' ? 'Join DialDown' : 'Welcome back';
+  document.getElementById('authSubmitBtn').textContent = tab === 'signup' ? 'Create Account 🚀' : 'Log In →';
+  clearAuthErrors();
+}
+
+function populateSignupRoleSelect() {
+  const sel = document.getElementById('signupRole');
+  sel.innerHTML = '<option value="">Select your role...</option>' +
+    ROLES.map(r => `<option value="${r.id}">${r.icon} ${r.name}</option>`).join('');
+}
+
+function togglePwd(inputId, btn) {
+  const inp = document.getElementById(inputId);
+  if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
+  else { inp.type = 'password'; btn.textContent = '👁'; }
+}
+
+function clearAuthErrors() {
+  document.querySelectorAll('.form-error').forEach(e => e.classList.remove('show'));
+}
+
+function showErr(id) { document.getElementById(id).classList.add('show'); }
+
+function handleAuthSubmit() {
+  clearAuthErrors();
+  if (authTab === 'signup') doSignup();
+  else doLogin();
+}
+
+function doSignup() {
+  const first    = document.getElementById('signupFirst').value.trim();
+  const last     = document.getElementById('signupLast').value.trim();
+  const username = document.getElementById('signupUsername').value.trim();
+  const email    = document.getElementById('signupEmail').value.trim();
+  const role     = document.getElementById('signupRole').value;
+  const password = document.getElementById('signupPassword').value;
+
+  let valid = true;
+  if (!username) { showErr('errUsername'); valid = false; }
+  if (users.find(u => u.username === username)) { showErr('errUsername'); valid = false; }
+  if (!email || !email.includes('@')) { showErr('errEmail'); valid = false; }
+  if (!role) { showErr('errRole'); valid = false; }
+  if (password.length < 6) { showErr('errPassword'); valid = false; }
+  if (!valid) return;
+
+  const newUser = { firstName: first, lastName: last, username, email, password, role, color: randomColor() };
+  users.push(newUser);
+  loginUser(newUser, true);
+}
+
+function doLogin() {
+  const ident    = document.getElementById('loginIdent').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const user = users.find(u => (u.username === ident || u.email === ident) && u.password === password);
+  if (!user) { showErr('errLogin'); return; }
+  loginUser(user, false);
+}
+
+function loginUser(user, isNew) {
+  currentUser = user;
+  userRole = user.role;
+
+  // Update role badge
+  const role = ROLES.find(r => r.id === user.role);
+  document.getElementById('headerRole').textContent = role ? role.name : user.role;
+
+  // Show success screen
+  document.getElementById('panelSignup').style.display = 'none';
+  document.getElementById('panelLogin').style.display = 'none';
+  document.getElementById('authFooter').style.display = 'none';
+  document.getElementById('authSuccess').style.display = 'block';
+  document.getElementById('successTitle').textContent = isNew
+    ? `Welcome, ${user.firstName || user.username}! 🎉`
+    : `Good to see you back, ${user.firstName || user.username}!`;
+  document.getElementById('successSub').textContent = isNew
+    ? 'Your account is live. Start sharing tips, ask questions, and connect with fellow CC folks!'
+    : 'You\'re back in. The community missed you (the queue didn\'t).';
+
+  // Update header
+  updateHeaderForUser(user);
+
+  setTimeout(closeAuthModal, 2200);
+}
+
+function updateHeaderForUser(user) {
+  // Hide auth buttons, show user menu + new post
+  document.getElementById('authButtons').style.display = 'none';
+  document.getElementById('userMenuWrap').style.display = 'block';
+  document.getElementById('newPostBtn').style.display = 'block';
+
+  // Set avatar
+  const av = document.getElementById('headerAvatar');
+  av.textContent = initials(user);
+  av.style.background = user.color;
+
+  document.getElementById('headerUsername').textContent = user.username;
+  document.getElementById('dropdownUsername').textContent = `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.username;
+
+  const role = ROLES.find(r => r.id === user.role);
+  document.getElementById('dropdownRole').textContent = role ? `${role.icon} ${role.name}` : user.role;
+}
+
+function toggleDropdown() {
+  document.getElementById('userDropdown').classList.toggle('open');
+}
+
+function logout() {
+  currentUser = null;
+  userRole = null;
+  document.getElementById('authButtons').style.display = 'flex';
+  document.getElementById('userMenuWrap').style.display = 'none';
+  document.getElementById('newPostBtn').style.display = 'none';
+  document.getElementById('userDropdown').classList.remove('open');
+  document.getElementById('headerRole').textContent = 'Pick your role';
+}
+
+// Close dropdown on outside click
+document.addEventListener('click', function(e) {
+  const wrap = document.getElementById('userMenuWrap');
+  if (wrap && !wrap.contains(e.target)) {
+    document.getElementById('userDropdown').classList.remove('open');
+  }
+});
+
+document.getElementById('authModal').addEventListener('click', function(e) {
+  if (e.target === this) closeAuthModal();
+});
+
+// ── END AUTH ──────────────────────────────────────────────────────────────
 document.getElementById('jokeText').textContent = JOKES[0];
 buildRolePicker();
 buildRoleFilter();
@@ -1094,8 +1430,97 @@ buildFeed();
 // Auto-cycle jokes every 20s
 setInterval(nextJoke, 20000);
 
-// Open role picker on first visit
-setTimeout(() => openRolePicker(), 600);
+// Open signup on first visit
+setTimeout(() => openAuthModal('signup'), 700);
 </script>
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="authModalTitle">Join DialDown</div>
+      <button class="modal-close" onclick="closeAuthModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <!-- TABS -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabSignup" onclick="switchAuthTab('signup')">Create Account</button>
+        <button class="auth-tab" id="tabLogin" onclick="switchAuthTab('login')">Log In</button>
+      </div>
+
+      <!-- SIGNUP PANEL -->
+      <div class="auth-panel active" id="panelSignup">
+        <div class="form-row">
+          <div>
+            <div class="form-label">First Name</div>
+            <input class="form-input" id="signupFirst" placeholder="e.g. Alex"/>
+          </div>
+          <div>
+            <div class="form-label">Last Name</div>
+            <input class="form-input" id="signupLast" placeholder="e.g. Morgan"/>
+          </div>
+        </div>
+        <div>
+          <div class="form-label">Username</div>
+          <input class="form-input" id="signupUsername" placeholder="e.g. holdqueen99"/>
+          <div class="form-hint">This is how you'll appear on posts</div>
+          <div class="form-error" id="errUsername">Username already taken</div>
+        </div>
+        <div>
+          <div class="form-label">Email</div>
+          <input class="form-input" id="signupEmail" type="email" placeholder="you@callcenter.com"/>
+          <div class="form-error" id="errEmail">Please enter a valid email</div>
+        </div>
+        <div>
+          <div class="form-label">Your CC Role</div>
+          <select class="form-select" id="signupRole">
+            <option value="">Select your role...</option>
+          </select>
+          <div class="form-error" id="errRole">Please select your role</div>
+        </div>
+        <div>
+          <div class="form-label">Password</div>
+          <div class="password-wrap">
+            <input class="form-input" id="signupPassword" type="password" placeholder="Min. 6 characters"/>
+            <button class="password-toggle" onclick="togglePwd('signupPassword', this)">👁</button>
+          </div>
+          <div class="form-error" id="errPassword">Password must be at least 6 characters</div>
+        </div>
+      </div>
+
+      <!-- LOGIN PANEL -->
+      <div class="auth-panel" id="panelLogin">
+        <div>
+          <div class="form-label">Username or Email</div>
+          <input class="form-input" id="loginIdent" placeholder="Your username or email"/>
+          <div class="form-error" id="errLogin">Invalid username/email or password</div>
+        </div>
+        <div>
+          <div class="form-label">Password</div>
+          <div class="password-wrap">
+            <input class="form-input" id="loginPassword" type="password" placeholder="Your password"/>
+            <button class="password-toggle" onclick="togglePwd('loginPassword', this)">👁</button>
+          </div>
+        </div>
+        <div style="text-align:right">
+          <span style="font-size:12.5px;color:var(--accent);cursor:pointer">Forgot password?</span>
+        </div>
+      </div>
+
+      <!-- SUCCESS STATE (hidden by default) -->
+      <div id="authSuccess" style="display:none">
+        <div class="success-state">
+          <div class="success-icon">🎉</div>
+          <div class="success-title" id="successTitle">Welcome to DialDown!</div>
+          <div class="success-sub" id="successSub">Your account is ready. Start sharing your know-how with the CC community.</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" id="authFooter">
+      <button class="btn-ghost" onclick="closeAuthModal()">Cancel</button>
+      <button class="btn-primary" id="authSubmitBtn" onclick="handleAuthSubmit()">Create Account 🚀</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
