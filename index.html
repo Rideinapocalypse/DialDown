@@ -4,960 +4,317 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>DialDown – The CC Community</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
 <style>
-  :root {
-    --bg: #0e0f13;
-    --bg2: #16181f;
-    --bg3: #1e2029;
-    --border: #2a2d38;
-    --accent: #ff5f1f;
-    --accent2: #ff8c55;
-    --green: #3ddc84;
-    --blue: #4f9eff;
-    --purple: #a78bfa;
-    --yellow: #fbbf24;
-    --text: #e8eaf0;
-    --text2: #8b90a7;
-    --text3: #555a72;
-    --card-hover: #1a1d26;
-    --radius: 10px;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* NOISE OVERLAY */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.4;
-  }
-
-  /* HEADER */
-  header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(14,15,19,0.92);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 24px;
-    height: 58px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 22px;
-    letter-spacing: -0.5px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-  }
-
-  .logo-icon {
-    width: 32px; height: 32px;
-    background: var(--accent);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
-  }
-
-  .logo-text span { color: var(--accent); }
-
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .role-badge {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 5px 12px;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: border-color 0.2s;
-  }
-
-  .role-badge:hover { border-color: var(--accent); }
-  .role-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
-
-  .btn-primary {
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    border-radius: var(--radius);
-    padding: 8px 18px;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-  }
-
-  .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
-  .btn-primary:active { transform: translateY(0); }
-
-  /* JOKE BAR */
-  .joke-bar {
-    background: linear-gradient(90deg, #1a0f07 0%, #1e1208 50%, #1a0f07 100%);
-    border-bottom: 1px solid #3a2010;
-    padding: 10px 24px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .joke-bar::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    background: var(--accent);
-  }
-
-  .joke-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--accent);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    white-space: nowrap;
-    font-weight: 500;
-  }
-
-  .joke-text {
-    font-size: 13.5px;
-    color: #d4a87a;
-    font-style: italic;
-    flex: 1;
-    transition: opacity 0.4s;
-  }
-
-  .joke-next {
-    background: none;
-    border: 1px solid #3a2010;
-    color: var(--accent2);
-    border-radius: 6px;
-    padding: 4px 10px;
-    font-size: 12px;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-    white-space: nowrap;
-  }
-  .joke-next:hover { border-color: var(--accent); background: rgba(255,95,31,0.08); }
-
-  /* LAYOUT */
-  .layout {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 28px 24px;
-    display: grid;
-    grid-template-columns: 1fr 300px;
-    gap: 24px;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* FEED */
-  .feed-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-  }
-
-  .feed-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 18px;
-  }
-
-  .sort-tabs {
-    display: flex;
-    gap: 4px;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 3px;
-  }
-
-  .sort-tab {
-    padding: 5px 12px;
-    border-radius: 5px;
-    font-size: 13px;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-    color: var(--text2);
-    border: none;
-    background: none;
-    font-family: 'DM Sans', sans-serif;
-  }
-
-  .sort-tab.active {
-    background: var(--bg3);
-    color: var(--text);
-  }
-
-  /* POST CARD */
-  .post-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px 18px;
-    margin-bottom: 10px;
-    display: flex;
-    gap: 14px;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s, transform 0.15s;
-    animation: fadeUp 0.4s ease both;
-  }
-
-  .post-card:hover {
-    border-color: #3e4155;
-    background: var(--card-hover);
-    transform: translateY(-1px);
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* VOTE */
-  .vote-col {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    min-width: 36px;
-  }
-
-  .vote-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-    border-radius: 4px;
-    font-size: 16px;
-    transition: background 0.15s, color 0.15s;
-    color: var(--text3);
-    line-height: 1;
-  }
-
-  .vote-btn:hover { background: var(--bg3); color: var(--text); }
-  .vote-btn.up.voted { color: var(--accent); }
-  .vote-btn.down.voted { color: var(--blue); }
-
-  .vote-count {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text2);
-  }
-
-  /* POST CONTENT */
-  .post-body { flex: 1; min-width: 0; }
-
-  .post-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 6px;
-    flex-wrap: wrap;
-  }
-
-  .role-tag {
-    font-size: 11px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-family: 'JetBrains Mono', monospace;
-    letter-spacing: 0.3px;
-  }
-
-  .role-agent { background: rgba(79,158,255,0.15); color: var(--blue); }
-  .role-tl { background: rgba(167,139,250,0.15); color: var(--purple); }
-  .role-qa { background: rgba(251,191,36,0.15); color: var(--yellow); }
-  .role-wfm { background: rgba(61,220,132,0.15); color: var(--green); }
-  .role-trainer { background: rgba(255,95,31,0.15); color: var(--accent2); }
-  .role-manager { background: rgba(255,95,31,0.2); color: var(--accent); }
-  .role-it { background: rgba(100,200,200,0.15); color: #5dd6d6; }
-  .role-back { background: rgba(180,180,100,0.15); color: #d4d47a; }
-
-  .post-author {
-    font-size: 12px;
-    color: var(--text3);
-  }
-
-  .post-time {
-    font-size: 12px;
-    color: var(--text3);
-    margin-left: auto;
-  }
-
-  .post-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 600;
-    font-size: 15.5px;
-    line-height: 1.4;
-    margin-bottom: 6px;
-    color: var(--text);
-  }
-
-  .post-preview {
-    font-size: 13.5px;
-    color: var(--text2);
-    line-height: 1.6;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .post-footer {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-top: 10px;
-  }
-
-  .post-action {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 12.5px;
-    color: var(--text3);
-    cursor: pointer;
-    padding: 3px 6px;
-    border-radius: 4px;
-    transition: background 0.15s, color 0.15s;
-  }
-
-  .post-action:hover { background: var(--bg3); color: var(--text2); }
-
-  /* SIDEBAR */
-  .sidebar { display: flex; flex-direction: column; gap: 16px; }
-
-  .sidebar-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
-
-  .sidebar-card-header {
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--text2);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .sidebar-card-body { padding: 14px 16px; }
-
-  .role-list { display: flex; flex-direction: column; gap: 8px; }
-
-  .role-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    padding: 8px 10px;
-    border-radius: 8px;
-    border: 1px solid transparent;
-    transition: background 0.15s, border-color 0.15s;
-    font-size: 13.5px;
-  }
-
-  .role-item:hover { background: var(--bg3); border-color: var(--border); }
-  .role-item.selected { background: var(--bg3); border-color: var(--accent); }
-  .role-item.selected .role-item-name { color: var(--accent); }
-
-  .role-item-icon { font-size: 18px; }
-  .role-item-name { font-weight: 500; flex: 1; }
-  .role-item-count { font-size: 12px; color: var(--text3); font-family: 'JetBrains Mono', monospace; }
-
-  .stats-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-
-  .stat-item {
-    background: var(--bg3);
-    border-radius: 8px;
-    padding: 10px 12px;
-    text-align: center;
-  }
-
-  .stat-num {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 20px;
-    color: var(--accent);
-  }
-
-  .stat-label {
-    font-size: 11px;
-    color: var(--text3);
-    margin-top: 2px;
-  }
-
-  .trending-list { display: flex; flex-direction: column; gap: 6px; }
-
-  .trending-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 7px 8px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s;
-    font-size: 13px;
-    color: var(--text2);
-    border: 1px solid transparent;
-  }
-
-  .trending-item:hover { background: var(--bg3); color: var(--text); }
-  .trending-item.active { background: rgba(255,95,31,0.08); border-color: rgba(255,95,31,0.3); color: var(--accent2); }
-  .trending-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--text3);
-    min-width: 16px;
-  }
-
-  /* ACTIVE FILTER BAR */
-  .filter-bar {
-    display: none;
-    align-items: center;
-    gap: 10px;
-    background: rgba(255,95,31,0.07);
-    border: 1px solid rgba(255,95,31,0.2);
-    border-radius: 8px;
-    padding: 8px 14px;
-    margin-bottom: 14px;
-    font-size: 13px;
-    color: var(--accent2);
-  }
-  .filter-bar.visible { display: flex; }
-  .filter-bar-tag { font-weight: 600; }
-  .filter-bar-clear {
-    margin-left: auto;
-    background: none;
-    border: none;
-    color: var(--text3);
-    cursor: pointer;
-    font-size: 13px;
-    padding: 2px 6px;
-    border-radius: 4px;
-    transition: color 0.15s, background 0.15s;
-  }
-  .filter-bar-clear:hover { color: var(--text); background: var(--bg3); }
-
-  .tag-chip {
-    display: inline-block;
-    background: rgba(255,95,31,0.12);
-    color: var(--accent2);
-    border-radius: 4px;
-    padding: 1px 6px;
-    font-size: 12px;
-    font-family: 'JetBrains Mono', monospace;
-    margin-right: 4px;
-    cursor: pointer;
-  }
-  .tag-chip:hover { background: rgba(255,95,31,0.22); }
-
-  /* AUTH */
-  .btn-signup {
-    background: transparent;
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    border-radius: var(--radius);
-    padding: 7px 16px;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-  }
-  .btn-signup:hover { background: var(--accent); color: #fff; }
-
-  .user-menu {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 5px 12px 5px 8px;
-    cursor: pointer;
-    transition: border-color 0.2s;
-  }
-  .user-menu:hover { border-color: var(--accent); }
-
-  .user-avatar {
-    width: 26px; height: 26px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px;
-    font-weight: 700;
-    color: #fff;
-    flex-shrink: 0;
-  }
-
-  .user-name-small { font-size: 13px; font-weight: 500; }
-
-  /* AUTH TABS */
-  .auth-tabs {
-    display: flex;
-    border-bottom: 1px solid var(--border);
-    margin: -20px -22px 0;
-  }
-  .auth-tab {
-    flex: 1;
-    padding: 14px;
-    text-align: center;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 14px;
-    color: var(--text3);
-    border: none;
-    background: none;
-    font-family: 'DM Sans', sans-serif;
-    border-bottom: 2px solid transparent;
-    transition: color 0.2s, border-color 0.2s;
-    margin-bottom: -1px;
-  }
-  .auth-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-
-  .auth-panel { display: none; flex-direction: column; gap: 14px; margin-top: 20px; }
-  .auth-panel.active { display: flex; }
-
-  .auth-divider {
-    text-align: center;
-    font-size: 12px;
-    color: var(--text3);
-    position: relative;
-    margin: 4px 0;
-  }
-  .auth-divider::before, .auth-divider::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    width: 42%;
-    height: 1px;
-    background: var(--border);
-  }
-  .auth-divider::before { left: 0; }
-  .auth-divider::after { right: 0; }
-
-  .success-state {
-    text-align: center;
-    padding: 20px 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-  .success-icon { font-size: 44px; }
-  .success-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 18px; }
-  .success-sub { font-size: 13.5px; color: var(--text2); line-height: 1.6; }
-
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
-  .password-wrap { position: relative; }
-  .password-wrap .form-input { padding-right: 40px; }
-  .password-toggle {
-    position: absolute;
-    right: 10px; top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    color: var(--text3);
-    cursor: pointer;
-    font-size: 16px;
-    padding: 2px;
-  }
-
-  .form-hint { font-size: 12px; color: var(--text3); margin-top: -8px; }
-  .form-error { font-size: 12px; color: #ff6b6b; margin-top: -8px; display: none; }
-  .form-error.show { display: block; }
-
-  .user-dropdown {
-    position: absolute;
-    top: calc(100% + 8px);
-    right: 0;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    min-width: 200px;
-    z-index: 300;
-    overflow: hidden;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-    animation: modalIn 0.15s ease;
-    display: none;
-  }
-  .user-dropdown.open { display: block; }
-  .dropdown-header {
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--border);
-  }
-  .dropdown-username { font-weight: 600; font-size: 14px; }
-  .dropdown-role { font-size: 12px; color: var(--text3); margin-top: 2px; }
-  .dropdown-item {
-    padding: 10px 16px;
-    font-size: 13.5px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: background 0.15s;
-    color: var(--text2);
-  }
-  .dropdown-item:hover { background: var(--bg3); color: var(--text); }
-  .dropdown-item.danger { color: #ff6b6b; }
-  .dropdown-item.danger:hover { background: rgba(255,107,107,0.08); }
-
-  .header-user-wrap { position: relative; }
-
-  /* POST IMAGE */
-  .post-image {
-    width: 100%;
-    max-height: 320px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-top: 10px;
-    display: block;
-    border: 1px solid var(--border);
-    cursor: pointer;
-    transition: opacity 0.2s;
-  }
-  .post-image:hover { opacity: 0.92; }
-
-  .post-image-thumb {
-    width: 100%;
-    max-height: 200px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-top: 10px;
-    display: block;
-    border: 1px solid var(--border);
-    cursor: zoom-in;
-    transition: opacity 0.2s, transform 0.2s;
-  }
-  .post-image-thumb:hover { opacity: 0.9; transform: scale(1.005); }
-
-  /* IMAGE UPLOAD AREA */
-  .image-upload-area {
-    border: 2px dashed var(--border);
-    border-radius: 10px;
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-    position: relative;
-  }
-  .image-upload-area:hover { border-color: var(--accent); background: rgba(255,95,31,0.04); }
-  .image-upload-area.has-image { border-style: solid; border-color: var(--accent); padding: 8px; }
-  .image-upload-area input[type="file"] { display: none; }
-  .upload-icon { font-size: 26px; margin-bottom: 6px; }
-  .upload-label { font-size: 13px; color: var(--text2); }
-  .upload-hint { font-size: 11.5px; color: var(--text3); margin-top: 4px; }
-  .upload-preview {
-    width: 100%;
-    max-height: 180px;
-    object-fit: cover;
-    border-radius: 6px;
-    display: block;
-  }
-  .upload-remove {
-    position: absolute;
-    top: 6px; right: 6px;
-    background: rgba(0,0,0,0.6);
-    border: none;
-    color: #fff;
-    border-radius: 50%;
-    width: 24px; height: 24px;
-    cursor: pointer;
-    font-size: 13px;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.15s;
-  }
-  .upload-remove:hover { background: rgba(255,95,31,0.8); }
-
-  /* IMAGE LIGHTBOX */
-  .lightbox {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.92);
-    z-index: 500;
-    align-items: center;
-    justify-content: center;
-    cursor: zoom-out;
-  }
-  .lightbox.open { display: flex; }
-  .lightbox img {
-    max-width: 90vw;
-    max-height: 90vh;
-    object-fit: contain;
-    border-radius: 8px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-    animation: modalIn 0.2s ease;
-  }
-  .lightbox-close {
-    position: absolute;
-    top: 20px; right: 24px;
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 28px;
-    cursor: pointer;
-    opacity: 0.7;
-    transition: opacity 0.15s;
-  }
-  .lightbox-close:hover { opacity: 1; }
-
-  /* MODAL OVERLAY */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.75);
-    backdrop-filter: blur(4px);
-    z-index: 200;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-  }
-
-  .modal-overlay.open { display: flex; }
-
-  .modal {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    width: 100%;
-    max-width: 580px;
-    animation: modalIn 0.25s ease;
-  }
-
-  @keyframes modalIn {
-    from { opacity: 0; transform: scale(0.96) translateY(10px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
-  }
-
-  .modal-header {
-    padding: 18px 22px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .modal-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 17px;
-  }
-
-  .modal-close {
-    background: none;
-    border: none;
-    color: var(--text3);
-    cursor: pointer;
-    font-size: 20px;
-    line-height: 1;
-    padding: 2px 6px;
-    border-radius: 4px;
-    transition: color 0.15s, background 0.15s;
-  }
-
-  .modal-close:hover { color: var(--text); background: var(--bg3); }
-
-  .modal-body { padding: 20px 22px; display: flex; flex-direction: column; gap: 14px; }
-
-  .form-label {
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--text2);
-    margin-bottom: 6px;
-  }
-
-  .form-input, .form-textarea, .form-select {
-    width: 100%;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 14px;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    transition: border-color 0.2s;
-    outline: none;
-  }
-
-  .form-input:focus, .form-textarea:focus, .form-select:focus {
-    border-color: var(--accent);
-  }
-
-  .form-textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
-  .form-select option { background: var(--bg3); }
-
-  .modal-footer {
-    padding: 14px 22px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-  }
-
-  .btn-ghost {
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--text2);
-    border-radius: var(--radius);
-    padding: 8px 18px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    cursor: pointer;
-    transition: border-color 0.2s, color 0.2s;
-  }
-
-  .btn-ghost:hover { border-color: var(--text2); color: var(--text); }
-
-  /* ROLE PICKER MODAL */
-  .role-picker-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    max-height: 400px;
-    overflow-y: auto;
-    padding-right: 4px;
-  }
-
-  .role-pick-btn {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 14px;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-    text-align: left;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-  }
-
-  .role-pick-btn:hover { border-color: var(--accent); background: rgba(255,95,31,0.05); }
-  .role-pick-icon { font-size: 22px; }
-  .role-pick-name { font-weight: 500; font-size: 13.5px; }
-  .role-pick-desc { font-size: 11.5px; color: var(--text3); margin-top: 2px; }
-
-  /* EMPTY / LOADING */
-  .empty-state {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--text3);
-  }
-  .empty-state-icon { font-size: 40px; margin-bottom: 12px; }
-
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
-  @media (max-width: 768px) {
-    .layout { grid-template-columns: 1fr; }
-    .sidebar { display: none; }
-  }
+:root{--bg:#0e0f13;--bg2:#16181f;--bg3:#1e2029;--bg4:#252836;--border:#2a2d38;--border2:#353848;--accent:#ff5f1f;--accent2:#ff8c55;--accent-dim:rgba(255,95,31,0.12);--green:#3ddc84;--blue:#4f9eff;--purple:#a78bfa;--yellow:#fbbf24;--red:#ff6b6b;--text:#e8eaf0;--text2:#8b90a7;--text3:#555a72;--radius:10px;--radius-lg:14px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.4;}
+/* HEADER */
+header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.94);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);padding:0 20px;height:56px;display:flex;align-items:center;gap:12px;}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:21px;letter-spacing:-.5px;display:flex;align-items:center;gap:8px;cursor:pointer;flex-shrink:0;}
+.logo-icon{width:30px;height:30px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;}
+.logo span{color:var(--accent);}
+.search-wrap{flex:1;max-width:420px;position:relative;}
+.search-input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:7px 14px 7px 36px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13.5px;outline:none;transition:border-color .2s;}
+.search-input:focus{border-color:var(--accent);}
+.search-input::placeholder{color:var(--text3);}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;pointer-events:none;}
+.search-results{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);z-index:200;overflow:hidden;display:none;box-shadow:0 8px 24px rgba(0,0,0,.4);}
+.search-results.open{display:block;}
+.search-result-item{padding:10px 14px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--border);}
+.search-result-item:last-child{border-bottom:none;}
+.search-result-item:hover{background:var(--bg3);}
+.sr-title{font-size:13.5px;font-weight:500;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sr-meta{font-size:11.5px;color:var(--text3);}
+.search-empty{padding:16px;text-align:center;color:var(--text3);font-size:13px;}
+.header-right{display:flex;align-items:center;gap:8px;margin-left:auto;}
+.nav-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);border-radius:8px;padding:6px 12px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.nav-btn:hover{border-color:var(--accent);color:var(--accent);}
+.role-badge{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:13px;font-weight:500;cursor:pointer;transition:border-color .2s;white-space:nowrap;}
+.role-badge:hover{border-color:var(--accent);}
+.role-dot{width:7px;height:7px;border-radius:50%;background:var(--green);}
+.btn-outline{background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:var(--radius);padding:7px 14px;font-family:'DM Sans',sans-serif;font-weight:500;font-size:13.5px;cursor:pointer;transition:background .2s,color .2s;white-space:nowrap;}
+.btn-outline:hover{background:var(--accent);color:#fff;}
+.btn-primary{background:var(--accent);color:#fff;border:none;border-radius:var(--radius);padding:7px 16px;font-family:'DM Sans',sans-serif;font-weight:500;font-size:13.5px;cursor:pointer;transition:background .2s,transform .1s;white-space:nowrap;}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-1px);}
+.btn-primary:active{transform:translateY(0);}
+.header-user-wrap{position:relative;}
+.user-menu{display:flex;align-items:center;gap:7px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 11px 4px 6px;cursor:pointer;transition:border-color .2s;}
+.user-menu:hover{border-color:var(--accent);}
+.user-avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;}
+.user-name-sm{font-size:13px;font-weight:500;}
+.user-dropdown{position:absolute;top:calc(100% + 8px);right:0;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);min-width:200px;z-index:300;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.4);animation:fadeUp .15s ease;display:none;}
+.user-dropdown.open{display:block;}
+.dd-header{padding:13px 15px;border-bottom:1px solid var(--border);}
+.dd-name{font-weight:600;font-size:14px;}
+.dd-role{font-size:12px;color:var(--text3);margin-top:2px;}
+.dd-item{padding:9px 15px;font-size:13.5px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .15s;color:var(--text2);}
+.dd-item:hover{background:var(--bg3);color:var(--text);}
+.dd-item.danger{color:var(--red);}
+.dd-item.danger:hover{background:rgba(255,107,107,.08);}
+/* JOKE BAR */
+.joke-bar{background:linear-gradient(90deg,#1a0f07,#1e1208 50%,#1a0f07);border-bottom:1px solid #3a2010;padding:9px 20px;display:flex;align-items:center;gap:12px;position:relative;overflow:hidden;}
+.joke-bar::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);}
+.joke-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;white-space:nowrap;}
+.joke-text{font-size:13.5px;color:#d4a87a;font-style:italic;flex:1;transition:opacity .35s;}
+.joke-next{background:none;border:1px solid #3a2010;color:var(--accent2);border-radius:6px;padding:3px 10px;font-size:12px;cursor:pointer;transition:border-color .2s,background .2s;white-space:nowrap;}
+.joke-next:hover{border-color:var(--accent);background:rgba(255,95,31,.08);}
+/* LAYOUT */
+.layout{max-width:1120px;margin:0 auto;padding:24px 20px;display:grid;grid-template-columns:1fr 296px;gap:22px;position:relative;z-index:1;}
+/* FEED */
+.feed-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.feed-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;}
+.sort-tabs{display:flex;gap:3px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:3px;}
+.sort-tab{padding:5px 11px;border-radius:5px;font-size:13px;cursor:pointer;transition:background .2s,color .2s;color:var(--text2);border:none;background:none;font-family:'DM Sans',sans-serif;}
+.sort-tab.active{background:var(--bg3);color:var(--text);}
+.filter-bar{display:none;align-items:center;gap:10px;background:rgba(255,95,31,.07);border:1px solid rgba(255,95,31,.2);border-radius:8px;padding:7px 13px;margin-bottom:12px;font-size:13px;color:var(--accent2);}
+.filter-bar.visible{display:flex;}
+.filter-bar-tag{font-weight:600;}
+.filter-bar-clear{margin-left:auto;background:none;border:none;color:var(--text3);cursor:pointer;font-size:13px;padding:2px 6px;border-radius:4px;transition:color .15s,background .15s;}
+.filter-bar-clear:hover{color:var(--text);background:var(--bg3);}
+/* POST CARD */
+.post-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:9px;display:flex;gap:12px;transition:border-color .2s,background .2s,transform .15s;animation:fadeUp .4s ease both;}
+.post-card:hover{border-color:#3e4155;background:#1a1d26;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@keyframes modalIn{from{opacity:0;transform:scale(.96) translateY(10px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.vote-col{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:34px;}
+.vote-btn{background:none;border:none;cursor:pointer;padding:4px;border-radius:4px;font-size:15px;transition:background .15s,color .15s;color:var(--text3);line-height:1;}
+.vote-btn:hover{background:var(--bg3);color:var(--text);}
+.vote-btn.up.voted{color:var(--accent);}
+.vote-btn.down.voted{color:var(--blue);}
+.vote-count{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;color:var(--text2);}
+.post-body{flex:1;min-width:0;}
+.post-meta{display:flex;align-items:center;gap:7px;margin-bottom:5px;flex-wrap:wrap;}
+.role-tag{font-size:11px;font-weight:600;padding:2px 7px;border-radius:4px;font-family:'JetBrains Mono',monospace;}
+.role-agent{background:rgba(79,158,255,.15);color:var(--blue);}
+.role-tl{background:rgba(167,139,250,.15);color:var(--purple);}
+.role-qa{background:rgba(251,191,36,.15);color:var(--yellow);}
+.role-wfm{background:rgba(61,220,132,.15);color:var(--green);}
+.role-trainer{background:rgba(255,95,31,.15);color:var(--accent2);}
+.role-manager{background:rgba(255,95,31,.2);color:var(--accent);}
+.role-it{background:rgba(100,200,200,.15);color:#5dd6d6;}
+.role-back{background:rgba(180,180,100,.15);color:#d4d47a;}
+.post-author{font-size:12px;color:var(--text3);}
+.post-time{font-size:12px;color:var(--text3);margin-left:auto;}
+.post-title{font-family:'Syne',sans-serif;font-weight:600;font-size:15px;line-height:1.4;margin-bottom:5px;}
+.post-preview{font-size:13.5px;color:var(--text2);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.post-image-thumb{width:100%;max-height:220px;object-fit:cover;border-radius:8px;margin-top:9px;display:block;border:1px solid var(--border);cursor:zoom-in;transition:opacity .2s;}
+.post-image-thumb:hover{opacity:.9;}
+.post-footer{display:flex;align-items:center;gap:12px;margin-top:9px;flex-wrap:wrap;}
+.post-action{display:flex;align-items:center;gap:4px;font-size:12.5px;color:var(--text3);cursor:pointer;padding:3px 6px;border-radius:4px;transition:background .15s,color .15s;}
+.post-action:hover{background:var(--bg3);color:var(--text2);}
+.tag-chip{display:inline-block;background:rgba(255,95,31,.12);color:var(--accent2);border-radius:4px;padding:1px 6px;font-size:11.5px;font-family:'JetBrains Mono',monospace;cursor:pointer;}
+.tag-chip:hover{background:rgba(255,95,31,.22);}
+/* COMMENTS */
+.comments-section{margin-top:12px;border-top:1px solid var(--border);padding-top:12px;display:none;}
+.comments-section.open{display:block;}
+.comment-input-row{display:flex;gap:8px;margin-bottom:12px;}
+.comment-input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .2s;}
+.comment-input:focus{border-color:var(--accent);}
+.comment-send{background:var(--accent);border:none;color:#fff;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:13px;transition:background .2s;}
+.comment-send:hover{background:var(--accent2);}
+.comment-item{display:flex;gap:9px;margin-bottom:10px;animation:fadeUp .3s ease both;}
+.comment-avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;margin-top:1px;}
+.comment-bubble{flex:1;background:var(--bg3);border-radius:8px;padding:9px 12px;}
+.comment-meta{font-size:11.5px;color:var(--text3);margin-bottom:4px;}
+.comment-meta strong{color:var(--text2);font-weight:600;}
+.comment-text{font-size:13.5px;line-height:1.55;}
+.comments-empty{font-size:13px;color:var(--text3);text-align:center;padding:10px;font-style:italic;}
+.comments-login-hint{font-size:12.5px;color:var(--text3);text-align:center;padding:6px 0;}
+/* SIDEBAR */
+.sidebar{display:flex;flex-direction:column;gap:14px;}
+.sidebar-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.sidebar-card-header{padding:11px 15px;border-bottom:1px solid var(--border);font-family:'Syne',sans-serif;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);display:flex;align-items:center;gap:7px;}
+.sidebar-card-body{padding:12px 14px;}
+.role-list{display:flex;flex-direction:column;gap:6px;}
+.role-item{display:flex;align-items:center;gap:9px;cursor:pointer;padding:7px 9px;border-radius:8px;border:1px solid transparent;transition:background .15s,border-color .15s;font-size:13px;}
+.role-item:hover{background:var(--bg3);border-color:var(--border);}
+.role-item.selected{background:var(--bg3);border-color:var(--accent);}
+.role-item.selected .role-item-name{color:var(--accent);}
+.role-item-icon{font-size:16px;}
+.role-item-name{font-weight:500;flex:1;}
+.role-item-count{font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace;}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.stat-item{background:var(--bg3);border-radius:8px;padding:9px 11px;text-align:center;}
+.stat-num{font-family:'Syne',sans-serif;font-weight:700;font-size:19px;color:var(--accent);}
+.stat-label{font-size:11px;color:var(--text3);margin-top:1px;}
+.trending-item{display:flex;align-items:center;gap:9px;padding:6px 7px;border-radius:6px;cursor:pointer;transition:background .15s,color .15s;font-size:13px;color:var(--text2);border:1px solid transparent;}
+.trending-item:hover{background:var(--bg3);color:var(--text);}
+.trending-item.active{background:rgba(255,95,31,.08);border-color:rgba(255,95,31,.3);color:var(--accent2);}
+.trending-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);min-width:14px;}
+/* LIGHTBOX */
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:500;align-items:center;justify-content:center;cursor:zoom-out;}
+.lightbox.open{display:flex;}
+.lightbox img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:8px;animation:fadeUp .2s ease;}
+.lightbox-close{position:absolute;top:18px;right:22px;background:none;border:none;color:#fff;font-size:26px;cursor:pointer;opacity:.7;transition:opacity .15s;}
+.lightbox-close:hover{opacity:1;}
+/* IMAGE UPLOAD */
+.image-upload-area{border:2px dashed var(--border);border-radius:10px;padding:18px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;position:relative;}
+.image-upload-area:hover{border-color:var(--accent);background:rgba(255,95,31,.04);}
+.image-upload-area.has-image{border-style:solid;border-color:var(--accent);padding:7px;}
+.image-upload-area input[type="file"]{display:none;}
+.upload-icon{font-size:24px;margin-bottom:5px;}
+.upload-label{font-size:13px;color:var(--text2);}
+.upload-hint{font-size:11.5px;color:var(--text3);margin-top:3px;}
+.upload-preview{width:100%;max-height:160px;object-fit:cover;border-radius:6px;display:block;}
+.upload-remove{position:absolute;top:5px;right:5px;background:rgba(0,0,0,.6);border:none;color:#fff;border-radius:50%;width:22px;height:22px;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+.upload-remove:hover{background:rgba(255,95,31,.8);}
+/* MODALS */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.76);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);width:100%;max-width:580px;animation:modalIn .25s ease;max-height:90vh;overflow-y:auto;}
+.modal-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--bg2);z-index:1;}
+.modal-title{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;}
+.modal-close{background:none;border:none;color:var(--text3);cursor:pointer;font-size:19px;line-height:1;padding:2px 5px;border-radius:4px;transition:color .15s,background .15s;}
+.modal-close:hover{color:var(--text);background:var(--bg3);}
+.modal-body{padding:18px 20px;display:flex;flex-direction:column;gap:13px;}
+.modal-footer{padding:13px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:9px;}
+.form-label{font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);margin-bottom:5px;}
+.form-input,.form-textarea,.form-select{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:9px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13.5px;transition:border-color .2s;outline:none;}
+.form-input:focus,.form-textarea:focus,.form-select:focus{border-color:var(--accent);}
+.form-textarea{resize:vertical;min-height:90px;line-height:1.6;}
+.form-select option{background:var(--bg3);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.form-hint{font-size:11.5px;color:var(--text3);margin-top:-7px;}
+.form-error{font-size:12px;color:var(--red);margin-top:-7px;display:none;}
+.form-error.show{display:block;}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--text2);border-radius:var(--radius);padding:7px 16px;font-family:'DM Sans',sans-serif;font-size:13.5px;cursor:pointer;transition:border-color .2s,color .2s;}
+.btn-ghost:hover{border-color:var(--text2);color:var(--text);}
+.password-wrap{position:relative;}
+.password-wrap .form-input{padding-right:38px;}
+.password-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text3);cursor:pointer;font-size:15px;padding:2px;}
+.auth-tabs{display:flex;border-bottom:1px solid var(--border);margin:-18px -20px 0;}
+.auth-tab{flex:1;padding:13px;text-align:center;cursor:pointer;font-weight:600;font-size:13.5px;color:var(--text3);border:none;background:none;font-family:'DM Sans',sans-serif;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;margin-bottom:-1px;}
+.auth-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.auth-panel{display:none;flex-direction:column;gap:13px;margin-top:18px;}
+.auth-panel.active{display:flex;}
+.success-state{text-align:center;padding:18px 10px;display:flex;flex-direction:column;align-items:center;gap:9px;}
+.success-icon{font-size:42px;}
+.success-title{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;}
+.success-sub{font-size:13px;color:var(--text2);line-height:1.6;}
+.role-picker-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;max-height:380px;overflow-y:auto;padding-right:3px;}
+.role-pick-btn{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:11px 13px;cursor:pointer;transition:border-color .2s,background .2s;text-align:left;display:flex;align-items:center;gap:9px;color:var(--text);font-family:'DM Sans',sans-serif;}
+.role-pick-btn:hover{border-color:var(--accent);background:rgba(255,95,31,.05);}
+.role-pick-icon{font-size:20px;}
+.role-pick-name{font-weight:500;font-size:13px;}
+.role-pick-desc{font-size:11px;color:var(--text3);margin-top:1px;}
+.empty-state{text-align:center;padding:36px 20px;color:var(--text3);}
+.empty-state-icon{font-size:38px;margin-bottom:10px;}
+/* PAGES */
+.page{display:none;}
+.page.active{display:block;}
+/* MINI GAME */
+.game-wrap{max-width:720px;margin:0 auto;padding:24px 20px;position:relative;z-index:1;}
+.game-header{text-align:center;margin-bottom:28px;}
+.game-title{font-family:'Syne',sans-serif;font-weight:800;font-size:32px;letter-spacing:-1px;margin-bottom:6px;}
+.game-title span{color:var(--accent);}
+.game-subtitle{font-size:14px;color:var(--text2);}
+.game-hud{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+.hud-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:12px;text-align:center;}
+.hud-label{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);font-family:'JetBrains Mono',monospace;margin-bottom:4px;}
+.hud-val{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;}
+.hud-val.danger{color:var(--red);}
+.hud-val.warn{color:var(--yellow);}
+.hud-val.good{color:var(--green);}
+.hud-val.accent{color:var(--accent);}
+.aht-bar-wrap{margin-bottom:20px;}
+.aht-bar-label{display:flex;justify-content:space-between;font-size:12px;color:var(--text3);margin-bottom:5px;font-family:'JetBrains Mono',monospace;}
+.aht-bar-track{height:8px;background:var(--bg3);border-radius:4px;overflow:hidden;}
+.aht-bar-fill{height:100%;border-radius:4px;transition:width .1s linear,background .3s;}
+.ticket-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;margin-bottom:16px;animation:fadeUp .3s ease;}
+.ticket-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.ticket-caller{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;}
+.ticket-anger{font-size:12px;padding:2px 8px;border-radius:20px;font-weight:600;}
+.anger-low{background:rgba(61,220,132,.15);color:var(--green);}
+.anger-med{background:rgba(251,191,36,.15);color:var(--yellow);}
+.anger-high{background:rgba(255,107,107,.15);color:var(--red);}
+.ticket-issue{background:var(--bg3);border-left:3px solid var(--accent);padding:12px 14px;border-radius:6px;font-size:14px;line-height:1.6;color:var(--text2);margin-bottom:16px;font-style:italic;}
+.ticket-question{font-size:14px;font-weight:500;margin-bottom:12px;}
+.ticket-options{display:flex;flex-direction:column;gap:8px;}
+.ticket-option{background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:11px 15px;cursor:pointer;font-size:13.5px;text-align:left;color:var(--text);font-family:'DM Sans',sans-serif;transition:border-color .2s,background .2s,transform .1s;}
+.ticket-option:hover:not(:disabled){border-color:var(--accent);background:rgba(255,95,31,.06);transform:translateX(3px);}
+.ticket-option.correct{border-color:var(--green);background:rgba(61,220,132,.1);color:var(--green);}
+.ticket-option.wrong{border-color:var(--red);background:rgba(255,107,107,.1);color:var(--red);}
+.ticket-option:disabled{cursor:default;transform:none;}
+.ticket-feedback{margin-top:12px;padding:12px 14px;border-radius:8px;font-size:13.5px;line-height:1.55;display:none;}
+.ticket-feedback.show{display:block;}
+.ticket-feedback.good{background:rgba(61,220,132,.1);border:1px solid rgba(61,220,132,.3);color:var(--green);}
+.ticket-feedback.bad{background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.3);color:var(--red);}
+.ticket-next{margin-top:12px;display:none;}
+.ticket-next.show{display:flex;justify-content:flex-end;}
+.game-screen{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:36px 28px;text-align:center;}
+.game-screen-icon{font-size:52px;margin-bottom:14px;}
+.game-screen-title{font-family:'Syne',sans-serif;font-weight:800;font-size:26px;margin-bottom:8px;}
+.game-screen-sub{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:22px;}
+.game-result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
+.result-item{background:var(--bg3);border-radius:9px;padding:14px;}
+.result-num{font-family:'Syne',sans-serif;font-weight:700;font-size:26px;color:var(--accent);}
+.result-label{font-size:12px;color:var(--text3);margin-top:3px;}
+.difficulty-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.diff-btn{background:var(--bg3);border:2px solid var(--border);color:var(--text);border-radius:12px;padding:14px 22px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;transition:border-color .2s,background .2s,transform .1s;min-width:140px;}
+.diff-btn:hover{transform:translateY(-2px);}
+.diff-btn.easy:hover{border-color:var(--green);background:rgba(61,220,132,.08);}
+.diff-btn.normal:hover{border-color:var(--yellow);background:rgba(251,191,36,.08);}
+.diff-btn.hard:hover{border-color:var(--red);background:rgba(255,107,107,.08);}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+@media(max-width:768px){.layout{grid-template-columns:1fr;}.sidebar{display:none;}.game-hud{grid-template-columns:1fr 1fr;}.form-row{grid-template-columns:1fr;}.search-wrap{max-width:200px;}}
 </style>
 </head>
 <body>
 
 <!-- HEADER -->
 <header>
-  <div class="logo">
+  <div class="logo" onclick="showPage('feed')">
     <div class="logo-icon">📞</div>
-    <div class="logo-text">Dial<span>Down</span></div>
+    <div>Dial<span>Down</span></div>
+  </div>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" id="searchInput" placeholder="Search posts, roles, tags…" oninput="handleSearch(this.value)" onblur="setTimeout(()=>closeSearch(),160)"/>
+    <div class="search-results" id="searchResults"></div>
   </div>
   <div class="header-right">
+    <button class="nav-btn" id="navFeed" onclick="showPage('feed')" style="display:none;">📰 Feed</button>
+    <button class="nav-btn" id="navGame" onclick="showPage('game')">🎮 AHT Runner</button>
     <div class="role-badge" onclick="openRolePicker()">
       <div class="role-dot"></div>
       <span id="headerRole">Pick your role</span>
     </div>
-    <div id="authButtons" style="display:flex;gap:8px;align-items:center">
-      <button class="btn-signup" onclick="openAuthModal('login')">Log In</button>
+    <div id="authButtons" style="display:flex;gap:7px;align-items:center;">
+      <button class="btn-outline" onclick="openAuthModal('login')">Log In</button>
       <button class="btn-primary" onclick="openAuthModal('signup')">Sign Up</button>
     </div>
-    <div class="header-user-wrap" id="userMenuWrap" style="display:none">
+    <div class="header-user-wrap" id="userMenuWrap" style="display:none;">
       <div class="user-menu" onclick="toggleDropdown()">
         <div class="user-avatar" id="headerAvatar"></div>
-        <span class="user-name-small" id="headerUsername"></span>
-        <span style="color:var(--text3);font-size:12px">▾</span>
+        <span class="user-name-sm" id="headerUsername"></span>
+        <span style="color:var(--text3);font-size:11px;">▾</span>
       </div>
       <div class="user-dropdown" id="userDropdown">
-        <div class="dropdown-header">
-          <div class="dropdown-username" id="dropdownUsername"></div>
-          <div class="dropdown-role" id="dropdownRole"></div>
-        </div>
-        <div class="dropdown-item">👤 My Profile</div>
-        <div class="dropdown-item">🔖 Saved Posts</div>
-        <div class="dropdown-item">⚙️ Settings</div>
-        <div class="dropdown-item danger" onclick="logout()">🚪 Log Out</div>
+        <div class="dd-header"><div class="dd-name" id="ddName"></div><div class="dd-role" id="ddRole"></div></div>
+        <div class="dd-item">👤 My Profile</div>
+        <div class="dd-item">🔖 Saved Posts</div>
+        <div class="dd-item">⚙️ Settings</div>
+        <div class="dd-item danger" onclick="logout()">🚪 Log Out</div>
       </div>
     </div>
-    <button class="btn-primary" id="newPostBtn" onclick="openPostModal()" style="display:none">+ New Post</button>
+    <button class="btn-primary" id="newPostBtn" onclick="openPostModal()" style="display:none;">+ New Post</button>
   </div>
 </header>
 
 <!-- JOKE BAR -->
 <div class="joke-bar">
   <span class="joke-label">☎ CC Joke</span>
-  <span class="joke-text" id="jokeText">Loading...</span>
+  <span class="joke-text" id="jokeText"></span>
   <button class="joke-next" onclick="nextJoke()">Next ↻</button>
 </div>
 
-<!-- MAIN LAYOUT -->
+<!-- ══ FEED PAGE ══ -->
+<div class="page active" id="pageFeed">
 <div class="layout">
-
-  <!-- FEED -->
   <main>
     <div class="feed-header">
       <div class="feed-title" id="feedTitle">Community Feed</div>
@@ -967,120 +324,139 @@
         <button class="sort-tab" onclick="setSort(this,'top')">👑 Top</button>
       </div>
     </div>
-
     <div class="filter-bar" id="filterBar">
       <span>📌 Showing posts tagged</span>
       <span class="filter-bar-tag" id="filterBarTag"></span>
-      <button class="filter-bar-clear" onclick="clearTagFilter()">✕ Clear filter</button>
+      <button class="filter-bar-clear" onclick="clearTagFilter()">✕ Clear</button>
     </div>
-
     <div id="feed"></div>
   </main>
-
-  <!-- SIDEBAR -->
   <aside class="sidebar">
-
-    <!-- Role filter -->
     <div class="sidebar-card">
       <div class="sidebar-card-header">🎯 Browse by Role</div>
-      <div class="sidebar-card-body">
-        <div class="role-list" id="roleFilterList"></div>
-      </div>
+      <div class="sidebar-card-body"><div class="role-list" id="roleFilterList"></div></div>
     </div>
-
-    <!-- Stats -->
     <div class="sidebar-card">
       <div class="sidebar-card-header">📊 Community Stats</div>
       <div class="sidebar-card-body">
         <div class="stats-grid">
           <div class="stat-item"><div class="stat-num">4.2k</div><div class="stat-label">Members</div></div>
-          <div class="stat-item"><div class="stat-num">891</div><div class="stat-label">Posts Today</div></div>
+          <div class="stat-item"><div class="stat-num" id="statPosts">15</div><div class="stat-label">Posts</div></div>
           <div class="stat-item"><div class="stat-num">12k</div><div class="stat-label">Tips Shared</div></div>
           <div class="stat-item"><div class="stat-num">99%</div><div class="stat-label">AHT Stress</div></div>
         </div>
       </div>
     </div>
-
-    <!-- Trending tags -->
     <div class="sidebar-card">
       <div class="sidebar-card-header">📈 Trending</div>
-      <div class="sidebar-card-body">
-        <div class="trending-list" id="trendingList"></div>
+      <div class="sidebar-card-body"><div class="trending-list" id="trendingList"></div></div>
+    </div>
+    <div class="sidebar-card" style="background:linear-gradient(135deg,#1a0f07,#1e1208);border-color:#3a2010;">
+      <div class="sidebar-card-body" style="text-align:center;padding:16px;">
+        <div style="font-size:28px;margin-bottom:6px;">🎮</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:4px;">AHT Runner</div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.5;">Handle tickets fast.<br>Keep your AHT low. Survive.</div>
+        <button class="btn-primary" onclick="showPage('game')" style="width:100%;">Play Now 🎯</button>
       </div>
     </div>
-
   </aside>
 </div>
+</div>
 
-<!-- POST MODAL -->
-<div class="modal-overlay" id="postModal">
-  <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title">Share your know-how</div>
-      <button class="modal-close" onclick="closePostModal()">✕</button>
+<!-- ══ GAME PAGE ══ -->
+<div class="page" id="pageGame">
+<div class="game-wrap">
+  <div class="game-header">
+    <div class="game-title">AHT <span>Runner</span></div>
+    <div class="game-subtitle">Handle tickets fast. Keep your AHT low. Don't let the queue win.</div>
+  </div>
+  <div id="gameStart" class="game-screen">
+    <div class="game-screen-icon">🎧</div>
+    <div class="game-screen-title">Ready to take calls?</div>
+    <div class="game-screen-sub">You'll get 10 customer tickets. Answer correctly and fast to keep your AHT low.<br>Wrong answers and timeouts cost you points. Choose your difficulty:</div>
+    <div class="difficulty-btns">
+      <button class="diff-btn easy" onclick="startGame('easy')">😌 Easy<br><small style="color:var(--text3);font-size:12px;">45s per ticket</small></button>
+      <button class="diff-btn normal" onclick="startGame('normal')">😤 Normal<br><small style="color:var(--text3);font-size:12px;">30s per ticket</small></button>
+      <button class="diff-btn hard" onclick="startGame('hard')">🔥 Hard<br><small style="color:var(--text3);font-size:12px;">18s per ticket</small></button>
     </div>
-    <div class="modal-body">
-      <div>
-        <div class="form-label">Your Role</div>
-        <select class="form-select" id="postRole">
-          <option value="">Select your role...</option>
-        </select>
+  </div>
+  <div id="gamePlaying" style="display:none;">
+    <div class="game-hud">
+      <div class="hud-card"><div class="hud-label">Ticket</div><div class="hud-val accent" id="hudTicket">1/10</div></div>
+      <div class="hud-card"><div class="hud-label">Score</div><div class="hud-val good" id="hudScore">0</div></div>
+      <div class="hud-card"><div class="hud-label">Avg AHT</div><div class="hud-val" id="hudAHT">0s</div></div>
+      <div class="hud-card"><div class="hud-label">Streak</div><div class="hud-val" id="hudStreak">0🔥</div></div>
+    </div>
+    <div class="aht-bar-wrap">
+      <div class="aht-bar-label"><span>⏱ Time left</span><span id="ahtTimeLeft">30s</span></div>
+      <div class="aht-bar-track"><div class="aht-bar-fill" id="ahtBarFill" style="width:100%;background:var(--green);"></div></div>
+    </div>
+    <div class="ticket-card" id="ticketCard">
+      <div class="ticket-header">
+        <span class="ticket-caller" id="ticketCaller"></span>
+        <span class="ticket-anger" id="ticketAnger"></span>
       </div>
-      <div>
-        <div class="form-label">Title</div>
-        <input class="form-input" id="postTitle" placeholder="What's on your mind? Tips, rants, wins..."/>
-      </div>
-      <div>
-        <div class="form-label">Body</div>
-        <textarea class="form-textarea" id="postBody" placeholder="Share the full story or know-how..."></textarea>
-      </div>
-      <div>
-        <div class="form-label">Image <span style="color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></div>
-        <div class="image-upload-area" id="uploadArea" onclick="document.getElementById('postImageInput').click()">
-          <input type="file" id="postImageInput" accept="image/*" onchange="handleImageUpload(event)"/>
-          <div id="uploadPlaceholder">
-            <div class="upload-icon">🖼</div>
-            <div class="upload-label">Click to upload an image</div>
-            <div class="upload-hint">PNG, JPG, GIF — max 5MB</div>
-          </div>
-          <img id="uploadPreview" class="upload-preview" style="display:none"/>
-          <button class="upload-remove" id="uploadRemove" style="display:none" onclick="removeImage(event)">✕</button>
-        </div>
+      <div class="ticket-issue" id="ticketIssue"></div>
+      <div class="ticket-question" id="ticketQuestion"></div>
+      <div class="ticket-options" id="ticketOptions"></div>
+      <div class="ticket-feedback" id="ticketFeedback"></div>
+      <div class="ticket-next" id="ticketNext">
+        <button class="btn-primary" onclick="nextTicket()">Next Ticket →</button>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn-ghost" onclick="closePostModal()">Cancel</button>
-      <button class="btn-primary" onclick="submitPost()">Post It 🚀</button>
+  </div>
+  <div id="gameOver" class="game-screen" style="display:none;">
+    <div class="game-screen-icon" id="goIcon">🏆</div>
+    <div class="game-screen-title" id="goTitle">Shift Complete!</div>
+    <div class="game-screen-sub" id="goSub"></div>
+    <div class="game-result-grid">
+      <div class="result-item"><div class="result-num" id="goScore">0</div><div class="result-label">Final Score</div></div>
+      <div class="result-item"><div class="result-num" id="goAHT">0s</div><div class="result-label">Avg AHT</div></div>
+      <div class="result-item"><div class="result-num" id="goAcc">0%</div><div class="result-label">Accuracy</div></div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn-ghost" onclick="showPage('feed')">← Back to Feed</button>
+      <button class="btn-primary" onclick="resetGame()">Play Again 🔁</button>
     </div>
   </div>
 </div>
+</div>
 
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-  <img id="lightboxImg" src="" alt=""/>
+<!-- ══ MODALS ══ -->
+<!-- POST MODAL -->
+<div class="modal-overlay" id="postModal">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">Share your know-how</div><button class="modal-close" onclick="closePostModal()">✕</button></div>
+    <div class="modal-body">
+      <div><div class="form-label">Your Role</div><select class="form-select" id="postRole"><option value="">Select your role…</option></select></div>
+      <div><div class="form-label">Title</div><input class="form-input" id="postTitle" placeholder="What's on your mind? Tips, rants, wins…"/></div>
+      <div><div class="form-label">Body</div><textarea class="form-textarea" id="postBody" placeholder="Share the full story or know-how…"></textarea></div>
+      <div>
+        <div class="form-label">Image <span style="color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></div>
+        <div class="image-upload-area" id="uploadArea" onclick="document.getElementById('postImageInput').click()">
+          <input type="file" id="postImageInput" accept="image/*" onchange="handleImageUpload(event)"/>
+          <div id="uploadPlaceholder"><div class="upload-icon">🖼</div><div class="upload-label">Click to upload an image</div><div class="upload-hint">PNG, JPG, GIF — max 5MB</div></div>
+          <img id="uploadPreview" class="upload-preview" style="display:none;"/>
+          <button class="upload-remove" id="uploadRemove" style="display:none;" onclick="removeImage(event)">✕</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer"><button class="btn-ghost" onclick="closePostModal()">Cancel</button><button class="btn-primary" onclick="submitPost()">Post It 🚀</button></div>
+  </div>
 </div>
 
 <!-- ROLE PICKER MODAL -->
 <div class="modal-overlay" id="roleModal">
   <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title">What's your role in CC?</div>
-      <button class="modal-close" onclick="closeRolePicker()">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="role-picker-grid" id="rolePickerGrid"></div>
-    </div>
+    <div class="modal-header"><div class="modal-title">What's your role in CC?</div><button class="modal-close" onclick="closeRolePicker()">✕</button></div>
+    <div class="modal-body"><div class="role-picker-grid" id="rolePickerGrid"></div></div>
   </div>
 </div>
 
 <!-- AUTH MODAL -->
 <div class="modal-overlay" id="authModal">
   <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title" id="authModalTitle">Join DialDown</div>
-      <button class="modal-close" onclick="closeAuthModal()">✕</button>
-    </div>
+    <div class="modal-header"><div class="modal-title" id="authModalTitle">Join DialDown</div><button class="modal-close" onclick="closeAuthModal()">✕</button></div>
     <div class="modal-body">
       <div class="auth-tabs">
         <button class="auth-tab active" id="tabSignup" onclick="switchAuthTab('signup')">Create Account</button>
@@ -1091,52 +467,18 @@
           <div><div class="form-label">First Name</div><input class="form-input" id="signupFirst" placeholder="e.g. Alex"/></div>
           <div><div class="form-label">Last Name</div><input class="form-input" id="signupLast" placeholder="e.g. Morgan"/></div>
         </div>
-        <div>
-          <div class="form-label">Username</div>
-          <input class="form-input" id="signupUsername" placeholder="e.g. holdqueen99"/>
-          <div class="form-hint">This is how you'll appear on posts</div>
-          <div class="form-error" id="errUsername">Username already taken or empty</div>
-        </div>
-        <div>
-          <div class="form-label">Email</div>
-          <input class="form-input" id="signupEmail" type="email" placeholder="you@callcenter.com"/>
-          <div class="form-error" id="errEmail">Please enter a valid email</div>
-        </div>
-        <div>
-          <div class="form-label">Your CC Role</div>
-          <select class="form-select" id="signupRole"><option value="">Select your role...</option></select>
-          <div class="form-error" id="errRole">Please select your role</div>
-        </div>
-        <div>
-          <div class="form-label">Password</div>
-          <div class="password-wrap">
-            <input class="form-input" id="signupPassword" type="password" placeholder="Min. 6 characters"/>
-            <button class="password-toggle" onclick="togglePwd('signupPassword', this)">👁</button>
-          </div>
-          <div class="form-error" id="errPassword">Password must be at least 6 characters</div>
-        </div>
+        <div><div class="form-label">Username</div><input class="form-input" id="signupUsername" placeholder="e.g. holdqueen99"/><div class="form-hint">How you appear on posts</div><div class="form-error" id="errUsername">Username already taken or empty</div></div>
+        <div><div class="form-label">Email</div><input class="form-input" id="signupEmail" type="email" placeholder="you@callcenter.com"/><div class="form-error" id="errEmail">Please enter a valid email</div></div>
+        <div><div class="form-label">Your CC Role</div><select class="form-select" id="signupRole"><option value="">Select your role…</option></select><div class="form-error" id="errRole">Please select your role</div></div>
+        <div><div class="form-label">Password</div><div class="password-wrap"><input class="form-input" id="signupPassword" type="password" placeholder="Min. 6 characters"/><button class="password-toggle" onclick="togglePwd('signupPassword',this)">👁</button></div><div class="form-error" id="errPassword">Password must be at least 6 characters</div></div>
       </div>
       <div class="auth-panel" id="panelLogin">
-        <div>
-          <div class="form-label">Username or Email</div>
-          <input class="form-input" id="loginIdent" placeholder="Your username or email"/>
-          <div class="form-error" id="errLogin">Invalid username/email or password</div>
-        </div>
-        <div>
-          <div class="form-label">Password</div>
-          <div class="password-wrap">
-            <input class="form-input" id="loginPassword" type="password" placeholder="Your password"/>
-            <button class="password-toggle" onclick="togglePwd('loginPassword', this)">👁</button>
-          </div>
-        </div>
-        <div style="text-align:right"><span style="font-size:12.5px;color:var(--accent);cursor:pointer">Forgot password?</span></div>
+        <div><div class="form-label">Username or Email</div><input class="form-input" id="loginIdent" placeholder="Your username or email"/><div class="form-error" id="errLogin">Invalid username/email or password</div></div>
+        <div><div class="form-label">Password</div><div class="password-wrap"><input class="form-input" id="loginPassword" type="password" placeholder="Your password"/><button class="password-toggle" onclick="togglePwd('loginPassword',this)">👁</button></div></div>
+        <div style="text-align:right;"><span style="font-size:12.5px;color:var(--accent);cursor:pointer;">Forgot password?</span></div>
       </div>
-      <div id="authSuccess" style="display:none">
-        <div class="success-state">
-          <div class="success-icon">🎉</div>
-          <div class="success-title" id="successTitle">Welcome to DialDown!</div>
-          <div class="success-sub" id="successSub">Your account is ready. Start sharing your know-how with the CC community.</div>
-        </div>
+      <div id="authSuccess" style="display:none;">
+        <div class="success-state"><div class="success-icon">🎉</div><div class="success-title" id="successTitle">Welcome!</div><div class="success-sub" id="successSub"></div></div>
       </div>
     </div>
     <div class="modal-footer" id="authFooter">
@@ -1146,196 +488,208 @@
   </div>
 </div>
 
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt=""/>
+</div>
+
 <script>
-// ── DATA ──────────────────────────────────────────────────────────────────
-
-const ROLES = [
-  { id: 'agent-inbound',  icon: '🎧', name: 'Inbound Agent',    desc: 'Handling the chaos daily',       cls: 'role-agent'   },
-  { id: 'agent-outbound', icon: '📲', name: 'Outbound Agent',   desc: 'Dialing for dollars (or doom)',  cls: 'role-agent'   },
-  { id: 'team-lead',      icon: '🦁', name: 'Team Lead / TL',   desc: 'Sandwich between all sides',     cls: 'role-tl'      },
-  { id: 'qa',             icon: '🔍', name: 'QA Analyst',        desc: 'The grammar police',             cls: 'role-qa'      },
-  { id: 'wfm',            icon: '📅', name: 'WFM Analyst',       desc: 'Master of the schedule matrix', cls: 'role-wfm'     },
-  { id: 'trainer',        icon: '🎓', name: 'Trainer',           desc: 'Teaching scripts since forever', cls: 'role-trainer' },
-  { id: 'ops-manager',    icon: '📊', name: 'Ops Manager',       desc: 'The dashboard whisperer',        cls: 'role-manager' },
-  { id: 'it-support',     icon: '🖥',  name: 'IT Support',        desc: 'Have you tried turning it off?', cls: 'role-it'     },
-  { id: 'back-office',    icon: '📂', name: 'Back Office',       desc: 'Tickets and tranquility',        cls: 'role-back'    },
-  { id: 'supervisor',     icon: '🧑‍💼', name: 'Supervisor',      desc: 'Approving breaks, denying feels', cls: 'role-tl'   },
-  { id: 'csat-analyst',   icon: '⭐', name: 'CSAT Analyst',      desc: 'Guarding the score',             cls: 'role-qa'      },
-  { id: 'escalation',     icon: '🚨', name: 'Escalation Desk',   desc: 'Where calls go to die or fly',   cls: 'role-manager' },
+// ═══════════ DATA ═══════════
+const ROLES=[
+  {id:'agent-inbound', icon:'🎧',name:'Inbound Agent',   desc:'Handling the chaos daily',        cls:'role-agent'},
+  {id:'agent-outbound',icon:'📲',name:'Outbound Agent',  desc:'Dialing for dollars (or doom)',   cls:'role-agent'},
+  {id:'team-lead',     icon:'🦁',name:'Team Lead / TL',  desc:'Sandwich between all sides',      cls:'role-tl'},
+  {id:'qa',            icon:'🔍',name:'QA Analyst',       desc:'The grammar police',              cls:'role-qa'},
+  {id:'wfm',           icon:'📅',name:'WFM Analyst',      desc:'Master of the schedule matrix',  cls:'role-wfm'},
+  {id:'trainer',       icon:'🎓',name:'Trainer',          desc:'Teaching scripts since forever',  cls:'role-trainer'},
+  {id:'ops-manager',   icon:'📊',name:'Ops Manager',      desc:'The dashboard whisperer',         cls:'role-manager'},
+  {id:'it-support',    icon:'🖥', name:'IT Support',       desc:'Have you tried turning it off?', cls:'role-it'},
+  {id:'back-office',   icon:'📂',name:'Back Office',      desc:'Tickets and tranquility',         cls:'role-back'},
+  {id:'supervisor',    icon:'🧑‍💼',name:'Supervisor',    desc:'Approving breaks, denying feels', cls:'role-tl'},
+  {id:'csat-analyst',  icon:'⭐',name:'CSAT Analyst',     desc:'Guarding the score',              cls:'role-qa'},
+  {id:'escalation',    icon:'🚨',name:'Escalation Desk',  desc:'Where calls go to die or fly',   cls:'role-manager'},
 ];
-
-const JOKES = [
+const JOKES=[
   "Why did the agent put the customer on hold? To finally finish that one cup of coffee.",
   "What do you call a WFM analyst on vacation? A myth.",
-  "My AHT was so high today, the supervisor asked if I was running a therapy clinic.",
+  "My AHT was so high, the supervisor asked if I was running a therapy clinic.",
   "QA: 'You said uh twice.' Agent: 'Uh... sorry.'",
-  "Why don't call center agents ever get lost? Because they always follow the script.",
-  "A customer told me to 'have a nice day.' First kind words I've heard since onboarding.",
-  "What's the call center diet? You eat during wrap time and drink during hold.",
-  "WFM gave us 15 minutes for lunch. The microwave takes 2. Math was never their strength.",
+  "Why don't CC agents ever get lost? They always follow the script.",
+  "A customer said 'have a nice day.' First kind words since onboarding.",
+  "What's the CC diet? You eat during wrap time and drink during hold.",
+  "WFM gave us 15 min for lunch. Microwave takes 2. Math was never their strength.",
   "Why did the TL cross the road? To get away from the escalation queue.",
   "Customer: 'I want to speak to a human.' Agent: 'Same, honestly.'",
-  "Our CSAT score dropped because a customer gave us 4/5. Said it was 'almost perfect.' Sleep tight.",
+  "Our CSAT dropped because a customer gave us 4/5. Said it was 'almost perfect.' Sleep tight.",
   "Trainer: 'Any questions?' Agent: 'Yes. Why?'",
-  "We have great work-life balance. We work hard so we can cry from the comfort of home.",
-  "What's an outbound agent's favourite movie? Dial Hard.",
-  "IT fixed the headsets. Only took 3 tickets and a prayer to the server room.",
+  "Great work-life balance: work hard so we can cry from the comfort of home.",
+  "What's an outbound agent's fave movie? Dial Hard.",
+  "IT fixed the headsets. Took 3 tickets and a prayer to the server room.",
+];
+const TRENDING_TAGS=[
+  {tag:'AHTsurvivor',emoji:'⏱'},{tag:'QAfeedback',emoji:'🔍'},{tag:'SilentCalls',emoji:'🔇'},
+  {tag:'WFMwoes',emoji:'📅'},{tag:'ScriptKiller',emoji:'📋'},{tag:'HoldMusicPTSD',emoji:'🎵'},
+];
+const SEED_POSTS=[
+  {id:1,role:'agent-inbound',author:'queenOfHolds',tags:['AHTsurvivor'],image:'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80',title:'My proven trick to de-escalate an irate customer in under 60 seconds',body:'After 6 years of inbound I figured out one thing: let them finish. Fully. Don\'t interrupt. Most people just want to feel heard. Mirror their words back and they instantly calm down. Works 80% of the time.',votes:312,time:'2h ago',comments:[{author:'burnoutTL',color:'#a78bfa',text:'This is gold. I share this with every new agent.'},{author:'gradeAGrammar',color:'#fbbf24',text:'The mirroring technique is backed by actual psychology research. Huge +1.'}]},
+  {id:2,role:'qa',author:'gradeAGrammar',tags:['QAfeedback'],title:'Stop writing "I understand your frustration" — here\'s what actually scores better',body:'QA perspective: that phrase is so overused it reads as scripted. Try "That sounds genuinely stressful — let me look into this right now" instead. Specificity > sympathy clichés.',votes:278,time:'4h ago',comments:[{author:'roleplayRuler',color:'#ff8c55',text:'I banned this phrase on my team last quarter. CSAT went up 0.3 points.'},{author:'quietSupervisor',color:'#3ddc84',text:'Customers want to feel like YOU specifically care, not a robot.'}]},
+  {id:3,role:'wfm',author:'scheduleGod',tags:['WFMwoes'],image:'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&q=80',title:'How I built a shrinkage buffer that my TLs actually believe in',body:'Spent 3 months tracking unplanned aux vs planned. Built a simple Excel model that shows the gap visually. Once leadership could SEE the data it went from "you\'re overstaffing" to "can we do this monthly?"',votes:189,time:'5h ago',comments:[]},
+  {id:4,role:'team-lead',author:'burnoutTL',tags:['AHTsurvivor','QAfeedback'],title:'How do you handle an agent whose CSAT is great but AHT is through the roof?',body:'One of my best agents gets consistently 4.8+ CSAT but her AHT is 2x the team average. Customers love her. Numbers hate her. Management is on my case. Anyone been here?',votes:156,time:'6h ago',comments:[{author:'quietSupervisor',color:'#3ddc84',text:'Coach her on wrapping up faster, not on caring less.'},{author:'calibrationQueen',color:'#fbbf24',text:'Use her calls as calibration examples. Build the case for her.'},{author:'queenOfHolds',color:'#4f9eff',text:'Eventually got management to look at FCR alongside AHT. Changed everything.'}]},
+  {id:5,role:'trainer',author:'slidedecksurvivor',tags:['ScriptKiller'],image:'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80',title:'5 onboarding modules I ditched and what I replaced them with',body:'The traditional 3-day product knowledge dump is dead on arrival. New agents retain maybe 20%. I switched to scenario-based learning on day 1 and live call listening from day 2. Retention jumped.',votes:241,time:'8h ago',comments:[{author:'burnoutTL',color:'#a78bfa',text:'Night and day difference in time to proficiency.'}]},
+  {id:6,role:'escalation',author:'lastResort99',tags:['ScriptKiller'],title:'The exact words I use when a customer demands a manager and there is no manager',body:'When customers ask for "someone above you" I say: "I\'m the specialist team your call was escalated to — let me see what I can resolve for you today." Reframes it completely.',votes:334,time:'10h ago',comments:[{author:'queenOfHolds',color:'#4f9eff',text:'Saving this. The reframe is everything.'},{author:'ctrl_alt_despair',color:'#5dd6d6',text:'"I\'m the senior support tier" hits different than "I\'m just IT."'}]},
+  {id:7,role:'agent-outbound',author:'dialerDreams',tags:['ScriptKiller'],title:'Outbound warm-up script that gets past gatekeepers without lying',body:'Don\'t trick them. I say "Hi, I\'m [name] calling for [first name only] — is this a good time?" Gets through ~60% of the time.',votes:175,time:'12h ago',comments:[]},
+  {id:8,role:'it-support',author:'ctrl_alt_despair',tags:['SilentCalls'],image:'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800&q=80',title:'CC-specific IT issues nobody documents (thread)',body:'Softphone audio cutting out on Windows 11 after sleep mode. Fix: disable USB selective suspend in power settings. You\'re welcome.',votes:290,time:'1d ago',comments:[{author:'rosterNinja',color:'#3ddc84',text:'Dialer dashboard freezes on Chrome: clear cache + disable hardware acceleration.'},{author:'scheduleGod',color:'#ff8c55',text:'Our IT takes 3 days to respond to anything.'}]},
+  {id:9,role:'agent-inbound',author:'holdQueen',tags:['HoldMusicPTSD'],image:'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800&q=80',title:'I now hear our hold music in my dreams. Not a joke.',body:'Three years of Vivaldi on a 45-second loop. I hum it involuntarily at the supermarket. My therapist says it\'s a conditioned response. My supervisor says I need to improve my hold usage rate. Both are correct.',votes:401,time:'1d ago',comments:[{author:'auxCodePoet',color:'#4f9eff',text:'I started humming ours in the shower. My partner thought I was having a breakdown.'},{author:'holdMusicHero',color:'#a78bfa',text:'The worst part: a customer says they like the music. What do you say??'}]},
+  {id:10,role:'wfm',author:'rosterNinja',tags:['WFMwoes'],title:'Why agents hate WFM (and what we can actually do about it)',body:'WFM looks like a faceless machine that denies your leave. I started doing monthly "WFM explains itself" sessions on the floor. Trust went up, unplanned absences down 18%.',votes:223,time:'1d ago',comments:[]},
+  {id:11,role:'qa',author:'calibrationQueen',tags:['QAfeedback'],image:'https://images.unsplash.com/photo-1606857521015-7f9fcf423740?w=800&q=80',title:'Calibration sessions are broken — here is how to fix them',body:'If your calibration sessions end with everyone still disagreeing, you don\'t have a process, you have a meeting. Here\'s the 3-step framework I use that actually closes gaps.',votes:188,time:'2d ago',comments:[{author:'gradeAGrammar',color:'#fbbf24',text:'The pre-calibration alignment doc you shared was incredible. Any chance of a repost?'}]},
+  {id:12,role:'agent-inbound',author:'auxCodePoet',tags:['SilentCalls'],title:'The art of handling a completely silent call',body:'Silent calls are not always dead air. Sometimes it\'s someone in crisis. Protocol: announce yourself twice, stay on, say "if you can hear me, press any key." I\'ve had 3 cases where staying on made a real difference.',votes:567,time:'2d ago',comments:[{author:'queenOfHolds',color:'#4f9eff',text:'This should be standard training. Shared with my entire floor.'},{author:'lastResort99',color:'#ff5f1f',text:'We had a welfare check that started as a silent call. You never know.'}]},
+  {id:13,role:'supervisor',author:'quietSupervisor',tags:['AHTsurvivor'],image:'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=800&q=80',title:'Stopped pushing AHT for one month. Here\'s what happened.',body:'Experiment: removed AHT from daily coaching for 30 days. Focused only on resolution and CSAT. AHT actually dropped by 4%. When agents aren\'t rushing, they resolve faster.',votes:445,time:'2d ago',comments:[{author:'burnoutTL',color:'#a78bfa',text:'Every ops manager needs to read this.'},{author:'scheduleGod',color:'#ff8c55',text:'Rushed calls = repeat contacts = higher total handle time anyway.'}]},
+  {id:14,role:'trainer',author:'roleplayRuler',tags:['ScriptKiller'],title:'I replaced our entire script with 7 principles. Scores went up.',body:'Scripts are training wheels for week 1. I built a principles-based approach: empathy, ownership, clarity, urgency, resolution, recap, close. Agents internalize it in days.',votes:312,time:'3d ago',comments:[]},
+  {id:15,role:'agent-inbound',author:'holdMusicHero',tags:['HoldMusicPTSD'],image:'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80',title:'Customer asked me to "put on the music again." I nearly cried.',body:'An older gentleman said he enjoyed being on hold because the music reminded him of his late wife\'s favourite composer. He asked me to put him back on hold for a moment. I sat there not knowing whether to laugh or cry.',votes:892,time:'3d ago',comments:[{author:'queenOfHolds',color:'#4f9eff',text:'I am not crying. You are crying.'},{author:'auxCodePoet',color:'#a78bfa',text:'This is the most human thing I\'ve read on this platform.'},{author:'burnoutTL',color:'#3ddc84',text:'Sharing this with my team on Monday. This is why we do it.'}]},
+];
+const TICKETS=[
+  {caller:'Margaret, 68',anger:'low',issue:'"I\'ve been with you for 20 years and my bill went up by $5 this month. I\'m not happy."',question:'Best first response?',options:['Apologize and immediately offer a $5 credit','Acknowledge her loyalty, empathize, then investigate the reason','Tell her about current promotions','Transfer her to billing'],correct:1,feedback:'Acknowledge first, always. She\'s been loyal — validate that before jumping to solutions.'},
+  {caller:'Dave, 34',anger:'high',issue:'"This is the THIRD time I\'m calling! Nobody fixes ANYTHING here. I want to cancel NOW."',question:'What do you do first?',options:['Match his urgency and promise immediate escalation','Let him vent completely without interrupting, then empathize','Immediately transfer to retention','Calmly explain your cancellation policy'],correct:1,feedback:'Let irate customers exhaust themselves first. Interrupting escalates. Silence and empathy de-escalates.'},
+  {caller:'Priya, 29',anger:'low',issue:'"Hi, I just want to check if my payment went through last Tuesday?"',question:'Fastest way to handle this call?',options:['Ask for full account details and security questions','Pull up account, verify basic ID, confirm payment — done','Launch into upsell after confirming','Suggest she check online next time'],correct:1,feedback:'Quick verifications should be quick. Pull, confirm, close. High efficiency = low AHT on simple calls.'},
+  {caller:'Ron, 52',anger:'med',issue:'"Your website says one price but my invoice says another. This is false advertising."',question:'Your response?',options:['Apologize and give the lower price immediately','Acknowledge the discrepancy, review both, explain the difference clearly','Blame the website team','Escalate immediately'],correct:1,feedback:'Never promise a price before investigating. Acknowledge, review, explain. Customers respect transparency.'},
+  {caller:'Unknown',anger:'low',issue:'[Complete silence. You\'ve said "Hello, you\'ve reached support" twice already.]',question:'What do you do?',options:['Hang up — dead air','Stay on the line: "If you can hear me, press any key or stay on the line"','Ask "Is anyone there?" repeatedly','Transfer to emergency services immediately'],correct:1,feedback:'Silent calls may be crisis situations. Stay on, announce yourself calmly. Protocol saves lives.'},
+  {caller:'Sandra, 41',anger:'med',issue:'"I want to speak to a manager RIGHT NOW. I don\'t want to deal with an agent."',question:'Best approach?',options:['Put on hold and find a manager','Tell her managers are unavailable','Say: "I\'m the senior specialist handling escalations today — let me see what I can do."','Warn her that managers will say the same thing'],correct:2,feedback:'Reframing your role as "senior specialist" is not deceptive. It changes the dynamic immediately.'},
+  {caller:'Tom, 25',anger:'low',issue:'"Can I upgrade my plan without losing my promotional rate?"',question:'You don\'t know the answer. You say…?',options:['"I\'m not sure, let me guess."','"No, that\'s not possible."','"Great question — let me check your account and our current offers."','Put him on hold without warning'],correct:2,feedback:'Never guess on plan details. Customers respect honesty + effort over confident wrong answers.'},
+  {caller:'Helen, 77',anger:'low',issue:'"Dear, I\'ve been trying to use this app thing and I can\'t make it work. My grandson set it up."',question:'How do you approach this call?',options:['Tell her to ask her grandson','Walk her through it step by step using simple, non-technical language','Send an email with instructions instead','Escalate to tech support'],correct:1,feedback:'Patience and plain language are your tools here. Helen\'s satisfaction matters too.'},
+  {caller:'Alex, 38',anger:'high',issue:'"I\'ve been on hold for 47 MINUTES. This is UNACCEPTABLE. What are you going to do about this?"',question:'First thing you say?',options:['Defend the hold time by explaining call volumes','Apologize sincerely, own the experience, ask what you can do to make it right','Tell them hold time is beyond your control','Immediately offer a discount'],correct:1,feedback:'Own it. Don\'t defend it. "47 minutes is too long and I\'m sorry" lands better than any explanation.'},
+  {caller:'Carlos, 44',anger:'med',issue:'"My service has been down for 3 days. I\'ve lost money. I want compensation."',question:'How do you handle a compensation request?',options:['Deny it — compensation is not guaranteed','Promise maximum compensation immediately','Acknowledge the impact, investigate, explain what policy allows, then act','Tell him to submit a written complaint'],correct:2,feedback:'Acknowledge impact, investigate facts, apply policy correctly. Never promise what you can\'t deliver.'},
 ];
 
-const TRENDING_TAGS = [
-  { tag: 'AHTsurvivor',    emoji: '⏱' },
-  { tag: 'QAfeedback',     emoji: '🔍' },
-  { tag: 'SilentCalls',    emoji: '🔇' },
-  { tag: 'WFMwoes',        emoji: '📅' },
-  { tag: 'ScriptKiller',   emoji: '📋' },
-  { tag: 'HoldMusicPTSD',  emoji: '🎵' },
-];
+// ═══════════ STATE ═══════════
+let currentJoke=0,userRole=null,currentUser=null;
+let posts=SEED_POSTS.map(p=>({...p,comments:[...p.comments]}));
+let voteMap={},filterRole=null,filterTag=null,sortMode='hot';
+let openComments=new Set(),pendingImageDataUrl=null;
+let users=[];
+const AVATAR_COLORS=['#ff5f1f','#4f9eff','#a78bfa','#3ddc84','#fbbf24','#f472b6','#34d399','#fb923c'];
 
-const SEED_POSTS = [
-  { id: 1,  role: 'agent-inbound',  author: 'queenOfHolds',     tags: ['AHTsurvivor'],   image: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80', title: 'My proven trick to de-escalate an irate customer in under 60 seconds', body: 'After 6 years of inbound I figured out one thing: let them finish. Fully. Don\'t interrupt. Most people just want to feel heard. Then mirror their words back and they instantly calm down. Works 80% of the time.', votes: 312, comments: 47, time: '2h ago' },
-  { id: 2,  role: 'qa',             author: 'gradeAGrammar',    tags: ['QAfeedback'],    title: 'Stop writing "I understand your frustration" — here\'s what actually scores better', body: 'QA perspective: that phrase is so overused it reads as scripted. Try "That sounds genuinely stressful — let me look into this right now" instead. Specificity > sympathy clichés.', votes: 278, comments: 63, time: '4h ago' },
-  { id: 3,  role: 'wfm',            author: 'scheduleGod',      tags: ['WFMwoes'],       image: 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&q=80', title: 'How I built a shrinkage buffer that my TLs actually believe in', body: 'Spent 3 months tracking unplanned aux vs planned. Built a simple Excel model that shows the gap visually. Once leadership could SEE the data it went from "you\'re overstaffing" to "can we do this monthly?"', votes: 189, comments: 29, time: '5h ago' },
-  { id: 4,  role: 'team-lead',      author: 'burnoutTL',        tags: ['AHTsurvivor','QAfeedback'], title: 'How do you handle an agent whose CSAT is great but AHT is through the roof?', body: 'One of my best agents gets consistently 4.8+ CSAT but her AHT is 2x the team average. Customers love her. Numbers hate her. Management is on my case. Anyone been here?', votes: 156, comments: 88, time: '6h ago' },
-  { id: 5,  role: 'trainer',        author: 'slidedecksurvivor',tags: ['ScriptKiller'],  image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80', title: '5 onboarding modules I ditched and what I replaced them with', body: 'The traditional 3-day product knowledge dump is dead on arrival. New agents retain maybe 20%. I switched to scenario-based learning on day 1 and live call listening from day 2. Retention jumped.', votes: 241, comments: 34, time: '8h ago' },
-  { id: 6,  role: 'escalation',     author: 'lastResort99',     tags: ['ScriptKiller'],  title: 'The exact words I use when a customer demands a manager and there is no manager', body: 'I am the escalation desk. When customers ask for "someone above you" I say: "I\'m the specialist team your call was escalated to — let me see what I can resolve for you today." Reframes it completely.', votes: 334, comments: 71, time: '10h ago' },
-  { id: 7,  role: 'agent-outbound', author: 'dialerDreams',     tags: ['ScriptKiller'],  title: 'Outbound warm-up script that gets past gatekeepers without lying', body: 'Gatekeepers are doing their job. Don\'t trick them. I say "Hi, I\'m [name] calling for [first name only] — is this a good time?" Short, professional, personal. Gets through ~60% of the time.', votes: 175, comments: 42, time: '12h ago' },
-  { id: 8,  role: 'it-support',     author: 'ctrl_alt_despair', tags: ['SilentCalls'],   image: 'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800&q=80', title: 'CC-specific IT issues nobody documents (thread)', body: 'Starting a thread: softphone audio cutting out on Windows 11 after sleep mode. Fix: disable USB selective suspend in power settings. You\'re welcome.', votes: 290, comments: 115, time: '1d ago' },
-  { id: 9,  role: 'agent-inbound',  author: 'holdQueen',        tags: ['HoldMusicPTSD'], image: 'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800&q=80', title: 'I now hear our hold music in my dreams. Not a joke.', body: 'Three years of Vivaldi\'s Four Seasons on a 45-second loop. I hum it involuntarily at the supermarket. My therapist says it\'s a conditioned response. My supervisor says I need to improve my hold usage rate. Both are correct.', votes: 401, comments: 134, time: '1d ago' },
-  { id: 10, role: 'wfm',            author: 'rosterNinja',      tags: ['WFMwoes'],       title: 'Why agents hate WFM (and what we can actually do about it)', body: 'I get it. From the agent side, WFM looks like a faceless machine that denies your leave and micro-tracks your aux. So I started doing monthly "WFM explains itself" sessions on the floor. Trust went up, unplanned absences went down by 18%.', votes: 223, comments: 57, time: '1d ago' },
-  { id: 11, role: 'qa',             author: 'calibrationQueen', tags: ['QAfeedback'],    image: 'https://images.unsplash.com/photo-1606857521015-7f9fcf423740?w=800&q=80', title: 'Calibration sessions are broken — here is how to fix them', body: 'If your calibration sessions end with everyone still disagreeing and no documented outcome, you don\'t have a calibration process, you have a meeting. Here\'s the 3-step framework I use that actually closes gaps between evaluators.', votes: 188, comments: 43, time: '2d ago' },
-  { id: 12, role: 'agent-inbound',  author: 'auxCodePoet',      tags: ['SilentCalls'],   title: 'The art of handling a completely silent call', body: 'Silent calls are not always dead air. Sometimes it\'s someone in crisis who can\'t speak. Protocol: announce yourself twice, stay on, say "if you can hear me, press any key or stay on the line." I\'ve had 3 cases where staying on made a real difference.', votes: 567, comments: 201, time: '2d ago' },
-  { id: 13, role: 'supervisor',     author: 'quietSupervisor',  tags: ['AHTsurvivor'],   image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=800&q=80', title: 'Stopped pushing AHT for one month. Here\'s what happened.', body: 'Experiment: removed AHT from our daily coaching focus for 30 days. Focused only on resolution and CSAT. Result: AHT actually dropped by 4%. Turns out when agents aren\'t rushing, they resolve faster. Coaching culture matters more than metric pressure.', votes: 445, comments: 97, time: '2d ago' },
-  { id: 14, role: 'trainer',        author: 'roleplayRuler',    tags: ['ScriptKiller'],  title: 'I replaced our entire script with 7 principles. Scores went up.', body: 'Scripts are training wheels. They work for week 1. After that, agents who rely on them sound robotic and perform worse under stress. I built a principles-based approach: empathy, ownership, clarity, urgency, resolution, recap, close. Agents internalize it in days.', votes: 312, comments: 88, time: '3d ago' },
-  { id: 15, role: 'agent-inbound',  author: 'holdMusicHero',    tags: ['HoldMusicPTSD'], image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80', title: 'Customer asked me to "put on the music again." I nearly cried.', body: 'I had a customer — older gentleman — who said he actually enjoyed being on hold because the music reminded him of his late wife\'s favourite composer. He asked me to put him back on hold for a moment. I sat there not knowing whether to laugh or cry.', votes: 892, comments: 267, time: '3d ago' },
-];
-
-// ── STATE ─────────────────────────────────────────────────────────────────
-let currentJoke = 0;
-let userRole = null;
-let posts = [...SEED_POSTS];
-let votes = {}; // postId -> 'up'|'down'|null
-let filterRole = null;
-let filterTag = null;
-let sortMode = 'hot';
-
-// ── JOKES ─────────────────────────────────────────────────────────────────
-function nextJoke() {
-  currentJoke = (currentJoke + 1) % JOKES.length;
-  const el = document.getElementById('jokeText');
-  el.style.opacity = 0;
-  setTimeout(() => { el.textContent = JOKES[currentJoke]; el.style.opacity = 1; }, 250);
+// ═══════════ NAV ═══════════
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page'+name.charAt(0).toUpperCase()+name.slice(1)).classList.add('active');
+  document.getElementById('navFeed').style.display=name==='game'?'block':'none';
+  document.getElementById('navGame').style.display=name==='game'?'none':'block';
+  if(name==='feed'){buildFeed();buildRoleFilter();buildTrending();}
 }
 
-// ── ROLES ─────────────────────────────────────────────────────────────────
-function buildRolePicker() {
-  const grid = document.getElementById('rolePickerGrid');
-  grid.innerHTML = ROLES.map(r => `
+// ═══════════ JOKES ═══════════
+function nextJoke(){
+  currentJoke=(currentJoke+1)%JOKES.length;
+  const el=document.getElementById('jokeText');
+  el.style.opacity=0;
+  setTimeout(()=>{el.textContent=JOKES[currentJoke];el.style.opacity=1;},280);
+}
+
+// ═══════════ SEARCH ═══════════
+function handleSearch(q){
+  const res=document.getElementById('searchResults');
+  q=q.trim().toLowerCase();
+  if(!q){res.classList.remove('open');return;}
+  const matches=posts.filter(p=>
+    p.title.toLowerCase().includes(q)||p.body.toLowerCase().includes(q)||
+    p.author.toLowerCase().includes(q)||(p.tags||[]).some(t=>t.toLowerCase().includes(q))
+  ).slice(0,6);
+  if(!matches.length){
+    res.innerHTML='<div class="search-empty">No posts found for "'+q+'"</div>';
+  } else {
+    res.innerHTML=matches.map(p=>{
+      const r=ROLES.find(x=>x.id===p.role)||{icon:'👤',name:p.role};
+      return`<div class="search-result-item" onclick="goToPost(${p.id})">
+        <div class="sr-title">${p.title}</div>
+        <div class="sr-meta">${r.icon} ${r.name} · u/${p.author} · ▲${p.votes}</div></div>`;
+    }).join('');
+  }
+  res.classList.add('open');
+}
+function closeSearch(){document.getElementById('searchResults').classList.remove('open');}
+function goToPost(id){
+  closeSearch();document.getElementById('searchInput').value='';
+  showPage('feed');openComments.add(id);filterRole=null;filterTag=null;
+  buildFeed();
+  setTimeout(()=>{
+    const el=document.querySelector(`[data-pid="${id}"]`);
+    if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+  },150);
+}
+
+// ═══════════ ROLES ═══════════
+function buildRolePicker(){
+  document.getElementById('rolePickerGrid').innerHTML=ROLES.map(r=>`
     <button class="role-pick-btn" onclick="selectRole('${r.id}')">
       <span class="role-pick-icon">${r.icon}</span>
-      <div>
-        <div class="role-pick-name">${r.name}</div>
-        <div class="role-pick-desc">${r.desc}</div>
-      </div>
-    </button>
-  `).join('');
+      <div><div class="role-pick-name">${r.name}</div><div class="role-pick-desc">${r.desc}</div></div>
+    </button>`).join('');
 }
-
-function buildRoleFilter() {
-  const list = document.getElementById('roleFilterList');
-  const allItem = `
-    <div class="role-item ${filterRole === null ? 'selected' : ''}" onclick="setFilter(null)">
-      <span class="role-item-icon">🌐</span>
-      <span class="role-item-name">All Roles</span>
-      <span class="role-item-count">${posts.length}</span>
-    </div>
-  `;
-  const roleItems = ROLES.map(r => {
-    const count = posts.filter(p => p.role === r.id).length;
-    if (count === 0) return '';
-    return `
-      <div class="role-item ${filterRole === r.id ? 'selected' : ''}" onclick="setFilter('${r.id}')">
-        <span class="role-item-icon">${r.icon}</span>
-        <span class="role-item-name">${r.name}</span>
-        <span class="role-item-count">${count}</span>
-      </div>
-    `;
+function buildRoleFilter(){
+  const list=document.getElementById('roleFilterList');
+  const all=`<div class="role-item ${!filterRole?'selected':''}" onclick="setFilter(null)">
+    <span class="role-item-icon">🌐</span><span class="role-item-name">All Roles</span>
+    <span class="role-item-count">${posts.length}</span></div>`;
+  const items=ROLES.map(r=>{
+    const c=posts.filter(p=>p.role===r.id).length;
+    if(!c)return'';
+    return`<div class="role-item ${filterRole===r.id?'selected':''}" onclick="setFilter('${r.id}')">
+      <span class="role-item-icon">${r.icon}</span><span class="role-item-name">${r.name}</span>
+      <span class="role-item-count">${c}</span></div>`;
   }).join('');
-  list.innerHTML = allItem + roleItems;
+  list.innerHTML=all+items;
 }
-
-function selectRole(id) {
-  userRole = id;
-  const role = ROLES.find(r => r.id === id);
-  document.getElementById('headerRole').textContent = role.name;
+function selectRole(id){
+  userRole=id;
+  const r=ROLES.find(x=>x.id===id);
+  document.getElementById('headerRole').textContent=r.name;
+  if(currentUser)currentUser.role=id;
   closeRolePicker();
-  // pre-fill post modal
-  const sel = document.getElementById('postRole');
-  if (sel) sel.value = id;
+}
+function setFilter(id){filterRole=id;buildFeed();buildRoleFilter();}
+function openRolePicker(){buildRolePicker();document.getElementById('roleModal').classList.add('open');}
+function closeRolePicker(){document.getElementById('roleModal').classList.remove('open');}
+function populateRoleSelects(){
+  ['postRole','signupRole'].forEach(id=>{
+    const sel=document.getElementById(id);
+    if(!sel)return;
+    sel.innerHTML='<option value="">Select your role…</option>'+ROLES.map(r=>`<option value="${r.id}">${r.icon} ${r.name}</option>`).join('');
+    if(id==='postRole'&&userRole)sel.value=userRole;
+  });
 }
 
-function setFilter(id) {
-  filterRole = id;
-  buildFeed();
-  buildRoleFilter();
-}
+// ═══════════ FEED ═══════════
+function getRoleInfo(id){return ROLES.find(r=>r.id===id)||{icon:'👤',name:id,cls:'role-agent'};}
 
-function populatePostRoleSelect() {
-  const sel = document.getElementById('postRole');
-  sel.innerHTML = '<option value="">Select your role...</option>' +
-    ROLES.map(r => `<option value="${r.id}">${r.icon} ${r.name}</option>`).join('');
-  if (userRole) sel.value = userRole;
-}
-
-// ── FEED ──────────────────────────────────────────────────────────────────
-function getRoleInfo(id) {
-  return ROLES.find(r => r.id === id) || { icon: '👤', name: id, cls: 'role-agent' };
-}
-
-function buildFeed() {
-  let filtered = [...posts];
-  if (filterRole) filtered = filtered.filter(p => p.role === filterRole);
-  if (filterTag)  filtered = filtered.filter(p => p.tags && p.tags.includes(filterTag));
-
-  if (sortMode === 'hot') filtered.sort((a, b) => (b.votes + b.comments * 2) - (a.votes + a.comments * 2));
-  else if (sortMode === 'new') filtered.sort((a, b) => b.id - a.id);
-  else if (sortMode === 'top') filtered.sort((a, b) => b.votes - a.votes);
-
-  // Update feed title
-  const title = document.getElementById('feedTitle');
-  title.textContent = filterTag ? `#${filterTag}` : 'Community Feed';
-
-  // Update filter bar
-  const bar = document.getElementById('filterBar');
-  const barTag = document.getElementById('filterBarTag');
-  if (filterTag) {
-    bar.classList.add('visible');
-    barTag.textContent = `#${filterTag}`;
-  } else {
-    bar.classList.remove('visible');
-  }
-
-  const feed = document.getElementById('feed');
-
-  if (filtered.length === 0) {
-    feed.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📭</div><p>No posts tagged #${filterTag || 'here'} yet. Be the first!</p></div>`;
-    return;
-  }
-
-  feed.innerHTML = filtered.map((p, i) => {
-    const role = getRoleInfo(p.role);
-    const myVote = votes[p.id] || null;
-    const tagChips = (p.tags || []).map(t =>
-      `<span class="tag-chip" onclick="setTagFilter('${t}')">#${t}</span>`
-    ).join('');
-    const imageHTML = p.image
-      ? `<img class="post-image-thumb" src="${p.image}" alt="Post image" onclick="openLightbox(event,'${p.image}')" loading="lazy"/>`
-      : '';
-    return `
-      <div class="post-card" style="animation-delay:${i * 0.05}s">
+function buildFeed(){
+  let filtered=[...posts];
+  if(filterRole)filtered=filtered.filter(p=>p.role===filterRole);
+  if(filterTag)filtered=filtered.filter(p=>p.tags?.includes(filterTag));
+  if(sortMode==='hot')filtered.sort((a,b)=>(b.votes+b.comments.length*2)-(a.votes+a.comments.length*2));
+  else if(sortMode==='new')filtered.sort((a,b)=>b.id-a.id);
+  else filtered.sort((a,b)=>b.votes-a.votes);
+  document.getElementById('feedTitle').textContent=filterTag?`#${filterTag}`:'Community Feed';
+  document.getElementById('statPosts').textContent=posts.length;
+  const bar=document.getElementById('filterBar');
+  if(filterTag){bar.classList.add('visible');document.getElementById('filterBarTag').textContent=`#${filterTag}`;}
+  else bar.classList.remove('visible');
+  const feed=document.getElementById('feed');
+  if(!filtered.length){feed.innerHTML=`<div class="empty-state"><div class="empty-state-icon">📭</div><p>No posts here yet. Be the first!</p></div>`;return;}
+  feed.innerHTML=filtered.map((p,i)=>{
+    const role=getRoleInfo(p.role);
+    const myVote=voteMap[p.id]||null;
+    const vt=p.votes+(myVote==='up'?1:myVote==='down'?-1:0);
+    const chips=(p.tags||[]).map(t=>`<span class="tag-chip" onclick="setTagFilter('${t}')">#${t}</span>`).join('');
+    const img=p.image?`<img class="post-image-thumb" src="${p.image}" alt="" onclick="openLightbox(event,'${p.image}')" loading="lazy"/>`:'';
+    const commOpen=openComments.has(p.id);
+    return`
+    <div class="post-card" style="animation-delay:${i*.04}s;flex-direction:column;" data-pid="${p.id}">
+      <div style="display:flex;gap:12px;">
         <div class="vote-col">
-          <button class="vote-btn up ${myVote === 'up' ? 'voted' : ''}" onclick="vote(event,${p.id},'up')">▲</button>
-          <span class="vote-count">${p.votes + (myVote === 'up' ? 1 : myVote === 'down' ? -1 : 0)}</span>
-          <button class="vote-btn down ${myVote === 'down' ? 'voted' : ''}" onclick="vote(event,${p.id},'down')">▼</button>
+          <button class="vote-btn up ${myVote==='up'?'voted':''}" onclick="vote(event,${p.id},'up')">▲</button>
+          <span class="vote-count">${vt}</span>
+          <button class="vote-btn down ${myVote==='down'?'voted':''}" onclick="vote(event,${p.id},'down')">▼</button>
         </div>
         <div class="post-body">
           <div class="post-meta">
@@ -1345,338 +699,338 @@ function buildFeed() {
           </div>
           <div class="post-title">${p.title}</div>
           <div class="post-preview">${p.body}</div>
-          ${imageHTML}
+          ${img}
           <div class="post-footer">
-            <span class="post-action">💬 ${p.comments} comments</span>
+            <span class="post-action" onclick="toggleComments(${p.id})">💬 ${p.comments.length} comment${p.comments.length!==1?'s':''}</span>
             <span class="post-action">🔗 Share</span>
             <span class="post-action">🔖 Save</span>
-            <span style="margin-left:auto">${tagChips}</span>
+            <span style="margin-left:auto;">${chips}</span>
           </div>
         </div>
       </div>
-    `;
+      <div class="comments-section ${commOpen?'open':''}" id="cs-${p.id}">${commOpen?buildCommentsHTML(p):''}</div>
+    </div>`;
   }).join('');
 }
 
-// ── TRENDING ──────────────────────────────────────────────────────────────
-function buildTrending() {
-  const list = document.getElementById('trendingList');
-  list.innerHTML = TRENDING_TAGS.map((t, i) => {
-    const count = posts.filter(p => p.tags && p.tags.includes(t.tag)).length;
-    const active = filterTag === t.tag ? 'active' : '';
-    return `
-      <div class="trending-item ${active}" onclick="setTagFilter('${t.tag}')">
-        <span class="trending-num">${i + 1}</span>
-        <span>${t.emoji}</span>
-        <span style="flex:1">#${t.tag}</span>
-        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)">${count}</span>
-      </div>
-    `;
+function buildCommentsHTML(p){
+  const items=p.comments.length
+    ?p.comments.map(c=>`
+      <div class="comment-item">
+        <div class="comment-avatar" style="background:${c.color||'#555'}">${c.author.slice(0,2).toUpperCase()}</div>
+        <div class="comment-bubble">
+          <div class="comment-meta"><strong>u/${c.author}</strong></div>
+          <div class="comment-text">${c.text}</div>
+        </div>
+      </div>`).join('')
+    :'<div class="comments-empty">No comments yet — be the first!</div>';
+  const inputArea=currentUser
+    ?`<div class="comment-input-row">
+        <input class="comment-input" id="ci-${p.id}" placeholder="Add a comment…" onkeydown="if(event.key==='Enter')submitComment(${p.id})"/>
+        <button class="comment-send" onclick="submitComment(${p.id})">↵</button>
+      </div>`
+    :`<div class="comments-login-hint"><span style="color:var(--accent);cursor:pointer;" onclick="openAuthModal('signup')">Sign up</span> or <span style="color:var(--accent);cursor:pointer;" onclick="openAuthModal('login')">log in</span> to comment</div>`;
+  return inputArea+items;
+}
+
+function toggleComments(id){
+  if(openComments.has(id))openComments.delete(id);
+  else openComments.add(id);
+  const sec=document.getElementById(`cs-${id}`);
+  const post=posts.find(p=>p.id===id);
+  if(!sec||!post)return;
+  if(openComments.has(id)){sec.classList.add('open');sec.innerHTML=buildCommentsHTML(post);}
+  else{sec.classList.remove('open');sec.innerHTML='';}
+}
+
+function submitComment(postId){
+  if(!currentUser){openAuthModal('signup');return;}
+  const inp=document.getElementById(`ci-${postId}`);
+  const text=inp?.value.trim();
+  if(!text)return;
+  const post=posts.find(p=>p.id===postId);
+  if(!post)return;
+  post.comments.push({author:currentUser.username,color:currentUser.color,text});
+  const sec=document.getElementById(`cs-${postId}`);
+  if(sec){sec.innerHTML=buildCommentsHTML(post);}
+  // update comment count in action bar
+  buildFeed();
+  setTimeout(()=>{
+    const el=document.getElementById(`cs-${postId}`);
+    if(el){el.classList.add('open');el.innerHTML=buildCommentsHTML(post);}
+  },50);
+}
+
+// ═══════════ TRENDING ═══════════
+function buildTrending(){
+  document.getElementById('trendingList').innerHTML=TRENDING_TAGS.map((t,i)=>{
+    const count=posts.filter(p=>p.tags?.includes(t.tag)).length;
+    return`<div class="trending-item ${filterTag===t.tag?'active':''}" onclick="setTagFilter('${t.tag}')">
+      <span class="trending-num">${i+1}</span><span>${t.emoji}</span>
+      <span style="flex:1">#${t.tag}</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)">${count}</span>
+    </div>`;
   }).join('');
 }
+function setTagFilter(tag){filterTag=filterTag===tag?null:tag;buildFeed();buildTrending();document.querySelector('main')?.scrollIntoView({behavior:'smooth',block:'start'});}
+function clearTagFilter(){filterTag=null;buildFeed();buildTrending();}
 
-function setTagFilter(tag) {
-  filterTag = filterTag === tag ? null : tag; // toggle
-  buildFeed();
-  buildTrending();
-  // scroll to top of feed smoothly
-  document.querySelector('main').scrollIntoView({ behavior: 'smooth', block: 'start' });
+// ═══════════ VOTES & SORT ═══════════
+function vote(e,id,dir){e.stopPropagation();voteMap[id]=voteMap[id]===dir?null:dir;buildFeed();}
+function setSort(btn,mode){document.querySelectorAll('.sort-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');sortMode=mode;buildFeed();}
+
+// ═══════════ POST MODAL ═══════════
+function openPostModal(){populateRoleSelects();document.getElementById('postModal').classList.add('open');}
+function closePostModal(){
+  document.getElementById('postModal').classList.remove('open');
+  document.getElementById('postTitle').value='';document.getElementById('postBody').value='';
+  removeImage({stopPropagation:()=>{}});
+}
+function submitPost(){
+  const role=document.getElementById('postRole').value;
+  const title=document.getElementById('postTitle').value.trim();
+  const body=document.getElementById('postBody').value.trim();
+  if(!role||!title){alert('Please select a role and add a title.');return;}
+  posts.unshift({id:Date.now(),role,author:currentUser?.username||'anon',title,body,image:pendingImageDataUrl||null,tags:[],votes:1,time:'just now',comments:[]});
+  sortMode='new';
+  document.querySelectorAll('.sort-tab').forEach((t,i)=>t.classList.toggle('active',i===1));
+  closePostModal();buildFeed();buildRoleFilter();buildTrending();
 }
 
-function clearTagFilter() {
-  filterTag = null;
-  buildFeed();
-  buildTrending();
-}
-
-function vote(e, id, dir) {
-  e.stopPropagation();
-  if (votes[id] === dir) votes[id] = null;
-  else votes[id] = dir;
-  buildFeed();
-}
-
-function setSort(btn, mode) {
-  document.querySelectorAll('.sort-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  sortMode = mode;
-  buildFeed();
-}
-
-// ── IMAGE UPLOAD ──────────────────────────────────────────────────────────
-let pendingImageDataUrl = null;
-
-function handleImageUpload(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  if (file.size > 5 * 1024 * 1024) { alert('Image must be under 5MB.'); return; }
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    pendingImageDataUrl = e.target.result;
-    const area = document.getElementById('uploadArea');
-    const preview = document.getElementById('uploadPreview');
-    const placeholder = document.getElementById('uploadPlaceholder');
-    const removeBtn = document.getElementById('uploadRemove');
-    preview.src = pendingImageDataUrl;
-    preview.style.display = 'block';
-    placeholder.style.display = 'none';
-    removeBtn.style.display = 'flex';
-    area.classList.add('has-image');
-    area.onclick = null; // disable re-click on area when image shown
+// ═══════════ IMAGE ═══════════
+function handleImageUpload(e){
+  const file=e.target.files[0];if(!file)return;
+  if(file.size>5*1024*1024){alert('Image must be under 5MB.');return;}
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    pendingImageDataUrl=ev.target.result;
+    document.getElementById('uploadPreview').src=pendingImageDataUrl;
+    document.getElementById('uploadPreview').style.display='block';
+    document.getElementById('uploadPlaceholder').style.display='none';
+    document.getElementById('uploadRemove').style.display='flex';
+    const area=document.getElementById('uploadArea');
+    area.classList.add('has-image');area.onclick=null;
   };
   reader.readAsDataURL(file);
 }
-
-function removeImage(e) {
-  e.stopPropagation();
-  pendingImageDataUrl = null;
-  const area = document.getElementById('uploadArea');
-  document.getElementById('uploadPreview').style.display = 'none';
-  document.getElementById('uploadPreview').src = '';
-  document.getElementById('uploadPlaceholder').style.display = 'block';
-  document.getElementById('uploadRemove').style.display = 'none';
-  document.getElementById('postImageInput').value = '';
+function removeImage(e){
+  e.stopPropagation();pendingImageDataUrl=null;
+  document.getElementById('uploadPreview').style.display='none';
+  document.getElementById('uploadPreview').src='';
+  document.getElementById('uploadPlaceholder').style.display='block';
+  document.getElementById('uploadRemove').style.display='none';
+  document.getElementById('postImageInput').value='';
+  const area=document.getElementById('uploadArea');
   area.classList.remove('has-image');
-  area.onclick = () => document.getElementById('postImageInput').click();
+  area.onclick=()=>document.getElementById('postImageInput').click();
 }
+function openLightbox(e,src){e.stopPropagation();document.getElementById('lightboxImg').src=src;document.getElementById('lightbox').classList.add('open');}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('open');}
 
-function openLightbox(e, src) {
-  e.stopPropagation();
-  document.getElementById('lightboxImg').src = src;
-  document.getElementById('lightbox').classList.add('open');
-}
-
-function closeLightbox() {
-  document.getElementById('lightbox').classList.remove('open');
-}
-
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
-
-// ── POST MODAL ────────────────────────────────────────────────────────────
-function openPostModal() {
-  populatePostRoleSelect();
-  document.getElementById('postModal').classList.add('open');
-}
-
-function closePostModal() {
-  document.getElementById('postModal').classList.remove('open');
-  document.getElementById('postTitle').value = '';
-  document.getElementById('postBody').value = '';
-  removeImage({ stopPropagation: () => {} });
-}
-
-function submitPost() {
-  const role = document.getElementById('postRole').value;
-  const title = document.getElementById('postTitle').value.trim();
-  const body = document.getElementById('postBody').value.trim();
-  if (!role || !title) { alert('Please select a role and add a title.'); return; }
-  const newPost = {
-    id: Date.now(),
-    role,
-    author: currentUser ? currentUser.username : 'anon',
-    title,
-    body: body || '',
-    image: pendingImageDataUrl || null,
-    tags: [],
-    votes: 1,
-    comments: 0,
-    time: 'just now'
-  };
-  posts.unshift(newPost);
-  sortMode = 'new';
-  document.querySelectorAll('.sort-tab').forEach((t, i) => t.classList.toggle('active', i === 1));
-  closePostModal();
-  buildFeed();
-  buildRoleFilter();
-  buildTrending();
-}
-
-// ── ROLE PICKER MODAL ─────────────────────────────────────────────────────
-function openRolePicker() { document.getElementById('roleModal').classList.add('open'); }
-function closeRolePicker() { document.getElementById('roleModal').classList.remove('open'); }
-
-// Close on overlay click
-document.getElementById('postModal').addEventListener('click', function(e) {
-  if (e.target === this) closePostModal();
-});
-document.getElementById('roleModal').addEventListener('click', function(e) {
-  if (e.target === this) closeRolePicker();
-});
-
-// ── AUTH ──────────────────────────────────────────────────────────────────
-let users = []; // { username, email, password, firstName, lastName, role, color }
-let currentUser = null;
-let authTab = 'signup';
-
-const AVATAR_COLORS = ['#ff5f1f','#4f9eff','#a78bfa','#3ddc84','#fbbf24','#f472b6','#34d399','#fb923c'];
-
-function randomColor() { return AVATAR_COLORS[Math.floor(Math.random() * AVATAR_COLORS.length)]; }
-
-function initials(u) {
-  return ((u.firstName?.[0] || '') + (u.lastName?.[0] || u.username?.[0] || '')).toUpperCase();
-}
-
-function openAuthModal(tab = 'signup') {
-  switchAuthTab(tab);
-  populateSignupRoleSelect();
+// ═══════════ AUTH ═══════════
+function openAuthModal(tab='signup'){
+  populateRoleSelects();switchAuthTab(tab);
+  document.getElementById('authSuccess').style.display='none';
+  document.getElementById('panelSignup').style.display='';
+  document.getElementById('panelLogin').style.display='';
+  document.getElementById('authFooter').style.display='';
   document.getElementById('authModal').classList.add('open');
-  document.getElementById('authSuccess').style.display = 'none';
-  document.getElementById('panelSignup').style.display = '';
-  document.getElementById('panelLogin').style.display = '';
-  document.getElementById('authFooter').style.display = '';
 }
-
-function closeAuthModal() {
-  document.getElementById('authModal').classList.remove('open');
+function closeAuthModal(){document.getElementById('authModal').classList.remove('open');clearAuthErrors();}
+function switchAuthTab(tab){
+  document.getElementById('tabSignup').classList.toggle('active',tab==='signup');
+  document.getElementById('tabLogin').classList.toggle('active',tab==='login');
+  document.getElementById('panelSignup').classList.toggle('active',tab==='signup');
+  document.getElementById('panelLogin').classList.toggle('active',tab==='login');
+  document.getElementById('authModalTitle').textContent=tab==='signup'?'Join DialDown':'Welcome back';
+  document.getElementById('authSubmitBtn').textContent=tab==='signup'?'Create Account 🚀':'Log In →';
   clearAuthErrors();
 }
-
-function switchAuthTab(tab) {
-  authTab = tab;
-  document.getElementById('tabSignup').classList.toggle('active', tab === 'signup');
-  document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
-  document.getElementById('panelSignup').classList.toggle('active', tab === 'signup');
-  document.getElementById('panelLogin').classList.toggle('active', tab === 'login');
-  document.getElementById('authModalTitle').textContent = tab === 'signup' ? 'Join DialDown' : 'Welcome back';
-  document.getElementById('authSubmitBtn').textContent = tab === 'signup' ? 'Create Account 🚀' : 'Log In →';
-  clearAuthErrors();
+function clearAuthErrors(){document.querySelectorAll('.form-error').forEach(e=>e.classList.remove('show'));}
+function showErr(id){document.getElementById(id).classList.add('show');}
+function togglePwd(id,btn){const i=document.getElementById(id);i.type=i.type==='password'?'text':'password';btn.textContent=i.type==='password'?'👁':'🙈';}
+function handleAuthSubmit(){clearAuthErrors();document.getElementById('tabSignup').classList.contains('active')?doSignup():doLogin();}
+function doSignup(){
+  const first=document.getElementById('signupFirst').value.trim();
+  const last=document.getElementById('signupLast').value.trim();
+  const username=document.getElementById('signupUsername').value.trim();
+  const email=document.getElementById('signupEmail').value.trim();
+  const role=document.getElementById('signupRole').value;
+  const password=document.getElementById('signupPassword').value;
+  let ok=true;
+  if(!username||users.find(u=>u.username===username)){showErr('errUsername');ok=false;}
+  if(!email||!email.includes('@')){showErr('errEmail');ok=false;}
+  if(!role){showErr('errRole');ok=false;}
+  if(password.length<6){showErr('errPassword');ok=false;}
+  if(!ok)return;
+  const u={firstName:first,lastName:last,username,email,password,role,color:AVATAR_COLORS[users.length%AVATAR_COLORS.length]};
+  users.push(u);loginUser(u,true);
 }
-
-function populateSignupRoleSelect() {
-  const sel = document.getElementById('signupRole');
-  sel.innerHTML = '<option value="">Select your role...</option>' +
-    ROLES.map(r => `<option value="${r.id}">${r.icon} ${r.name}</option>`).join('');
+function doLogin(){
+  const ident=document.getElementById('loginIdent').value.trim();
+  const password=document.getElementById('loginPassword').value;
+  const u=users.find(u=>(u.username===ident||u.email===ident)&&u.password===password);
+  if(!u){showErr('errLogin');return;}
+  loginUser(u,false);
 }
-
-function togglePwd(inputId, btn) {
-  const inp = document.getElementById(inputId);
-  if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
-  else { inp.type = 'password'; btn.textContent = '👁'; }
+function loginUser(u,isNew){
+  currentUser=u;userRole=u.role;
+  const r=ROLES.find(x=>x.id===u.role);
+  document.getElementById('headerRole').textContent=r?r.name:u.role;
+  document.getElementById('panelSignup').style.display='none';
+  document.getElementById('panelLogin').style.display='none';
+  document.getElementById('authFooter').style.display='none';
+  document.getElementById('authSuccess').style.display='block';
+  document.getElementById('successTitle').textContent=isNew?`Welcome, ${u.firstName||u.username}! 🎉`:`Back on the floor, ${u.firstName||u.username}!`;
+  document.getElementById('successSub').textContent=isNew?'Your account is live. Start sharing tips and connecting with fellow CC folks!':'The queue missed you. (The hold music did too.)';
+  document.getElementById('authButtons').style.display='none';
+  document.getElementById('userMenuWrap').style.display='block';
+  document.getElementById('newPostBtn').style.display='block';
+  const av=document.getElementById('headerAvatar');
+  av.textContent=((u.firstName?.[0]||'')+(u.lastName?.[0]||u.username?.[0]||'')).toUpperCase();
+  av.style.background=u.color;
+  document.getElementById('headerUsername').textContent=u.username;
+  document.getElementById('ddName').textContent=`${u.firstName||''} ${u.lastName||''}`.trim()||u.username;
+  document.getElementById('ddRole').textContent=r?`${r.icon} ${r.name}`:'';
+  setTimeout(closeAuthModal,2000);
 }
-
-function clearAuthErrors() {
-  document.querySelectorAll('.form-error').forEach(e => e.classList.remove('show'));
-}
-
-function showErr(id) { document.getElementById(id).classList.add('show'); }
-
-function handleAuthSubmit() {
-  clearAuthErrors();
-  if (authTab === 'signup') doSignup();
-  else doLogin();
-}
-
-function doSignup() {
-  const first    = document.getElementById('signupFirst').value.trim();
-  const last     = document.getElementById('signupLast').value.trim();
-  const username = document.getElementById('signupUsername').value.trim();
-  const email    = document.getElementById('signupEmail').value.trim();
-  const role     = document.getElementById('signupRole').value;
-  const password = document.getElementById('signupPassword').value;
-
-  let valid = true;
-  if (!username) { showErr('errUsername'); valid = false; }
-  if (users.find(u => u.username === username)) { showErr('errUsername'); valid = false; }
-  if (!email || !email.includes('@')) { showErr('errEmail'); valid = false; }
-  if (!role) { showErr('errRole'); valid = false; }
-  if (password.length < 6) { showErr('errPassword'); valid = false; }
-  if (!valid) return;
-
-  const newUser = { firstName: first, lastName: last, username, email, password, role, color: randomColor() };
-  users.push(newUser);
-  loginUser(newUser, true);
-}
-
-function doLogin() {
-  const ident    = document.getElementById('loginIdent').value.trim();
-  const password = document.getElementById('loginPassword').value;
-  const user = users.find(u => (u.username === ident || u.email === ident) && u.password === password);
-  if (!user) { showErr('errLogin'); return; }
-  loginUser(user, false);
-}
-
-function loginUser(user, isNew) {
-  currentUser = user;
-  userRole = user.role;
-
-  // Update role badge
-  const role = ROLES.find(r => r.id === user.role);
-  document.getElementById('headerRole').textContent = role ? role.name : user.role;
-
-  // Show success screen
-  document.getElementById('panelSignup').style.display = 'none';
-  document.getElementById('panelLogin').style.display = 'none';
-  document.getElementById('authFooter').style.display = 'none';
-  document.getElementById('authSuccess').style.display = 'block';
-  document.getElementById('successTitle').textContent = isNew
-    ? `Welcome, ${user.firstName || user.username}! 🎉`
-    : `Good to see you back, ${user.firstName || user.username}!`;
-  document.getElementById('successSub').textContent = isNew
-    ? 'Your account is live. Start sharing tips, ask questions, and connect with fellow CC folks!'
-    : 'You\'re back in. The community missed you (the queue didn\'t).';
-
-  // Update header
-  updateHeaderForUser(user);
-
-  setTimeout(closeAuthModal, 2200);
-}
-
-function updateHeaderForUser(user) {
-  // Hide auth buttons, show user menu + new post
-  document.getElementById('authButtons').style.display = 'none';
-  document.getElementById('userMenuWrap').style.display = 'block';
-  document.getElementById('newPostBtn').style.display = 'block';
-
-  // Set avatar
-  const av = document.getElementById('headerAvatar');
-  av.textContent = initials(user);
-  av.style.background = user.color;
-
-  document.getElementById('headerUsername').textContent = user.username;
-  document.getElementById('dropdownUsername').textContent = `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.username;
-
-  const role = ROLES.find(r => r.id === user.role);
-  document.getElementById('dropdownRole').textContent = role ? `${role.icon} ${role.name}` : user.role;
-}
-
-function toggleDropdown() {
-  document.getElementById('userDropdown').classList.toggle('open');
-}
-
-function logout() {
-  currentUser = null;
-  userRole = null;
-  document.getElementById('authButtons').style.display = 'flex';
-  document.getElementById('userMenuWrap').style.display = 'none';
-  document.getElementById('newPostBtn').style.display = 'none';
+function logout(){
+  currentUser=null;userRole=null;
+  document.getElementById('authButtons').style.display='flex';
+  document.getElementById('userMenuWrap').style.display='none';
+  document.getElementById('newPostBtn').style.display='none';
   document.getElementById('userDropdown').classList.remove('open');
-  document.getElementById('headerRole').textContent = 'Pick your role';
+  document.getElementById('headerRole').textContent='Pick your role';
+}
+function toggleDropdown(){document.getElementById('userDropdown').classList.toggle('open');}
+
+// ═══════════ MINI GAME ═══════════
+let gs={};
+function startGame(difficulty){
+  const timeMap={easy:45,normal:30,hard:18};
+  gs={difficulty,ticketTime:timeMap[difficulty],tickets:[...TICKETS].sort(()=>Math.random()-.5),
+    current:0,score:0,correct:0,totalTime:0,timeLeft:0,timer:null,answered:false,streak:0};
+  document.getElementById('gameStart').style.display='none';
+  document.getElementById('gamePlaying').style.display='block';
+  document.getElementById('gameOver').style.display='none';
+  loadTicket();
+}
+function resetGame(){
+  document.getElementById('gameOver').style.display='none';
+  document.getElementById('gameStart').style.display='block';
+}
+function loadTicket(){
+  if(gs.current>=gs.tickets.length){endGame();return;}
+  const t=gs.tickets[gs.current];
+  gs.answered=false;gs.timeLeft=gs.ticketTime;
+  document.getElementById('hudTicket').textContent=`${gs.current+1}/${gs.tickets.length}`;
+  document.getElementById('hudScore').textContent=gs.score;
+  document.getElementById('hudStreak').textContent=`${gs.streak}🔥`;
+  document.getElementById('ticketCaller').textContent=`📞 ${t.caller}`;
+  const angerEl=document.getElementById('ticketAnger');
+  angerEl.textContent=t.anger==='low'?'😊 Calm':t.anger==='med'?'😤 Annoyed':'😡 Furious';
+  angerEl.className=`ticket-anger ${t.anger==='low'?'anger-low':t.anger==='med'?'anger-med':'anger-high'}`;
+  document.getElementById('ticketIssue').textContent=t.issue;
+  document.getElementById('ticketQuestion').textContent=t.question;
+  document.getElementById('ticketFeedback').className='ticket-feedback';
+  document.getElementById('ticketFeedback').textContent='';
+  document.getElementById('ticketNext').className='ticket-next';
+  document.getElementById('ticketOptions').innerHTML=t.options.map((o,i)=>
+    `<button class="ticket-option" onclick="answerTicket(${i})">${String.fromCharCode(65+i)}. ${o}</button>`
+  ).join('');
+  clearInterval(gs.timer);
+  updateTimerBar();
+  gs.timer=setInterval(tickTimer,100);
+}
+function tickTimer(){
+  gs.timeLeft-=0.1;updateTimerBar();
+  if(gs.timeLeft<=0){gs.timeLeft=0;clearInterval(gs.timer);if(!gs.answered)timeOut();}
+}
+function updateTimerBar(){
+  const pct=Math.max(0,(gs.timeLeft/gs.ticketTime)*100);
+  const fill=document.getElementById('ahtBarFill');
+  fill.style.width=pct+'%';
+  fill.style.background=pct>60?'var(--green)':pct>30?'var(--yellow)':'var(--red)';
+  document.getElementById('ahtTimeLeft').textContent=Math.ceil(gs.timeLeft)+'s';
+  const avgAHT=gs.current>0?Math.round(gs.totalTime/gs.current):0;
+  const hudAHT=document.getElementById('hudAHT');
+  hudAHT.textContent=avgAHT+'s';
+  hudAHT.className='hud-val '+(avgAHT<20?'good':avgAHT<35?'warn':'danger');
+}
+function answerTicket(idx){
+  if(gs.answered)return;
+  gs.answered=true;clearInterval(gs.timer);
+  const t=gs.tickets[gs.current];
+  const timeTaken=gs.ticketTime-gs.timeLeft;
+  gs.totalTime+=timeTaken;
+  const isCorrect=idx===t.correct;
+  document.querySelectorAll('.ticket-option').forEach((b,i)=>{
+    b.disabled=true;
+    if(i===t.correct)b.classList.add('correct');
+    else if(i===idx&&!isCorrect)b.classList.add('wrong');
+  });
+  const fb=document.getElementById('ticketFeedback');
+  if(isCorrect){
+    const timeBonus=Math.round((gs.ticketTime-timeTaken)*3);
+    const pts=100+timeBonus+gs.streak*15;
+    gs.score+=pts;gs.correct++;gs.streak++;
+    fb.className='ticket-feedback good show';
+    fb.innerHTML=`✅ Correct! <strong>+${pts} pts</strong> (time bonus: +${timeBonus}) · ${t.feedback}`;
+  } else {
+    gs.score=Math.max(0,gs.score-30);gs.streak=0;
+    fb.className='ticket-feedback bad show';
+    fb.innerHTML=`❌ Not quite. -30 pts · ${t.feedback}`;
+  }
+  document.getElementById('hudScore').textContent=gs.score;
+  document.getElementById('hudStreak').textContent=`${gs.streak}🔥`;
+  document.getElementById('ticketNext').className='ticket-next show';
+}
+function timeOut(){
+  gs.answered=true;gs.totalTime+=gs.ticketTime;gs.score=Math.max(0,gs.score-50);gs.streak=0;
+  const t=gs.tickets[gs.current];
+  document.querySelectorAll('.ticket-option').forEach((b,i)=>{b.disabled=true;if(i===t.correct)b.classList.add('correct');});
+  const fb=document.getElementById('ticketFeedback');
+  fb.className='ticket-feedback bad show';
+  fb.innerHTML=`⏰ Time's up! -50 pts · ${t.feedback}`;
+  document.getElementById('hudScore').textContent=gs.score;
+  document.getElementById('hudStreak').textContent='0🔥';
+  document.getElementById('ticketNext').className='ticket-next show';
+}
+function nextTicket(){gs.current++;if(gs.current>=gs.tickets.length)endGame();else loadTicket();}
+function endGame(){
+  clearInterval(gs.timer);
+  document.getElementById('gamePlaying').style.display='none';
+  document.getElementById('gameOver').style.display='block';
+  const avgAHT=Math.round(gs.totalTime/gs.tickets.length);
+  const acc=Math.round((gs.correct/gs.tickets.length)*100);
+  document.getElementById('goScore').textContent=gs.score;
+  document.getElementById('goAHT').textContent=avgAHT+'s';
+  document.getElementById('goAcc').textContent=acc+'%';
+  let icon,title,sub;
+  if(acc>=90&&avgAHT<15){icon='🏆';title='Call Center Legend!';sub='Your AHT would make any WFM analyst weep with joy. The queue feared you today.';}
+  else if(acc>=70){icon='🎉';title='Solid Shift!';sub='Good resolution skills. Work on your speed and you\'ll be untouchable.';}
+  else if(acc>=50){icon='📋';title='Needs Coaching';sub='You\'ve got the right instincts but the calls are running long. Shadow a senior agent.';}
+  else{icon='😅';title='Back to Training';sub='We\'ve all been there. Review the feedback on each call and try again.';}
+  document.getElementById('goIcon').textContent=icon;
+  document.getElementById('goTitle').textContent=title;
+  document.getElementById('goSub').textContent=sub;
 }
 
-// Close dropdown on outside click
-document.addEventListener('click', function(e) {
-  const wrap = document.getElementById('userMenuWrap');
-  if (wrap && !wrap.contains(e.target)) {
-    document.getElementById('userDropdown').classList.remove('open');
-  }
+// ═══════════ EVENTS ═══════════
+document.getElementById('authModal').addEventListener('click',e=>{if(e.target.id==='authModal')closeAuthModal();});
+document.getElementById('postModal').addEventListener('click',e=>{if(e.target.id==='postModal')closePostModal();});
+document.getElementById('roleModal').addEventListener('click',e=>{if(e.target.id==='roleModal')closeRolePicker();});
+document.addEventListener('click',e=>{
+  const wrap=document.getElementById('userMenuWrap');
+  if(wrap&&!wrap.contains(e.target))document.getElementById('userDropdown').classList.remove('open');
 });
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeLightbox();closeAuthModal();closePostModal();}});
 
-document.getElementById('authModal').addEventListener('click', function(e) {
-  if (e.target === this) closeAuthModal();
-});
-
-// ── END AUTH ──────────────────────────────────────────────────────────────
-document.getElementById('jokeText').textContent = JOKES[0];
-buildRolePicker();
-buildRoleFilter();
-buildTrending();
-buildFeed();
-
-// Auto-cycle jokes every 20s
-setInterval(nextJoke, 20000);
-
-// Open signup on first visit
-setTimeout(() => openAuthModal('signup'), 700);
+// ═══════════ INIT ═══════════
+document.getElementById('jokeText').textContent=JOKES[0];
+buildRoleFilter();buildTrending();buildFeed();
+setInterval(nextJoke,20000);
+setTimeout(()=>openAuthModal('signup'),700);
 </script>
 </body>
 </html>
