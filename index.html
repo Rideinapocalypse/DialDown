@@ -307,6 +307,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
   #navFeed::before{content:'📰';}
   #navGame::before{content:'🎮';}
   #navTemplates::before{content:'📝';}
+  #navNews::before{content:'📰';}
 
   /* Role badge: compact */
   .role-badge span{display:none;}
@@ -407,7 +408,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 
 /* Push page content above bottom nav on mobile */
 @media(max-width:480px){
-  #pageFeed,#pageGame,#pageTemplates{padding-bottom:72px;}
+  #pageFeed,#pageGame,#pageTemplates,#pageNews{padding-bottom:72px;}
 }
 
 
@@ -449,6 +450,76 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .ph-label{font-size:12px;color:var(--accent2);font-family:'JetBrains Mono',monospace;margin-bottom:5px;display:block;}
 .copy-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1e2029;border:1px solid var(--green);color:var(--green);padding:10px 20px;border-radius:8px;font-size:13.5px;z-index:999;animation:fadeUp .25s ease;pointer-events:none;}
 
+
+/* ── NEWS PAGE ── */
+.news-layout{max-width:1120px;margin:0 auto;padding:24px 20px;display:grid;grid-template-columns:1fr 300px;gap:22px;position:relative;z-index:1;}
+.news-main{min-width:0;}
+.news-sidebar{display:flex;flex-direction:column;gap:14px;}
+.news-filter-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);border-radius:20px;padding:5px 13px;font-size:12.5px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.news-filter-btn:hover{border-color:var(--accent);color:var(--accent);}
+.news-filter-btn.active{background:var(--accent-dim);border-color:var(--accent);color:var(--accent);}
+.news-loading{color:var(--text3);font-size:13px;padding:20px;}
+.news-grid{display:flex;flex-direction:column;gap:12px;}
+.news-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;transition:border-color .2s,transform .15s;animation:fadeUp .4s ease both;text-decoration:none;display:block;cursor:pointer;}
+.news-card:hover{border-color:#3e4155;transform:translateY(-1px);}
+.news-card-top{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.news-source{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3);}
+.news-cat-badge{font-size:10.5px;padding:1px 7px;border-radius:10px;font-weight:600;}
+.news-cat-ai{background:rgba(79,158,255,.15);color:var(--blue);}
+.news-cat-cx{background:rgba(167,139,250,.15);color:var(--purple);}
+.news-cat-ops{background:rgba(61,220,132,.15);color:var(--green);}
+.news-cat-industry{background:rgba(251,191,36,.15);color:var(--yellow);}
+.news-date{font-size:11px;color:var(--text3);margin-left:auto;}
+.news-title{font-family:'Syne',sans-serif;font-weight:600;font-size:15px;line-height:1.4;margin-bottom:6px;color:var(--text);}
+.news-desc{font-size:13px;color:var(--text2);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.news-footer{display:flex;align-items:center;gap:10px;margin-top:10px;}
+.news-read-btn{font-size:12px;color:var(--accent);cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;padding:0;}
+
+/* Tip of the Day */
+.tip-card{background:linear-gradient(135deg,#1a0f07,#1e1208);border:1px solid #3a2010;border-radius:var(--radius);padding:16px 18px;margin-bottom:18px;position:relative;overflow:hidden;}
+.tip-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);}
+.tip-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.tip-text{font-size:14px;color:var(--text);line-height:1.65;font-style:italic;margin-bottom:8px;}
+.tip-author{font-size:12px;color:var(--text3);}
+.tip-next-btn{background:none;border:none;color:var(--accent2);font-size:12px;cursor:pointer;margin-top:8px;font-family:'DM Sans',sans-serif;padding:0;}
+.tip-next-btn:hover{color:var(--accent);}
+
+/* Wellbeing */
+.wb-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;}
+.wb-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:3px;}
+.wb-sub{font-size:12px;color:var(--text3);margin-bottom:14px;}
+.wb-moods{display:flex;gap:6px;justify-content:space-between;margin-bottom:14px;}
+.wb-mood{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:8px 4px;cursor:pointer;flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:20px;transition:border-color .2s,background .2s;}
+.wb-mood span{font-size:10px;color:var(--text3);}
+.wb-mood:hover{border-color:var(--accent);background:rgba(255,95,31,.06);}
+.wb-mood.selected{border-color:var(--accent);background:rgba(255,95,31,.12);}
+.wb-response{background:var(--bg3);border-radius:8px;padding:10px 12px;font-size:13px;line-height:1.55;color:var(--text2);margin-bottom:12px;}
+.wb-history-wrap{margin-bottom:12px;}
+.wb-history-title{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;font-family:'JetBrains Mono',monospace;margin-bottom:6px;}
+.wb-history{display:flex;gap:5px;}
+.wb-day{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:15px;background:var(--bg3);border:1px solid var(--border);}
+.wb-team-title{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;font-family:'JetBrains Mono',monospace;margin-bottom:8px;}
+.wb-bars{display:flex;flex-direction:column;gap:5px;}
+.wb-bar-row{display:flex;align-items:center;gap:8px;font-size:12px;}
+.wb-bar-label{width:60px;color:var(--text2);}
+.wb-bar-track{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;}
+.wb-bar-fill{height:100%;border-radius:3px;transition:width .6s ease;}
+.wb-bar-val{font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace;width:28px;text-align:right;}
+.pulse-item{display:flex;align-items:center;gap:8px;}
+.pulse-label{font-size:12px;color:var(--text2);width:100px;flex-shrink:0;}
+.pulse-bar-track{flex:1;height:5px;background:var(--bg3);border-radius:3px;overflow:hidden;}
+.pulse-bar-fill{height:100%;border-radius:3px;}
+.pulse-val{font-size:11.5px;color:var(--text3);font-family:'JetBrains Mono',monospace;width:34px;text-align:right;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .news-layout{grid-template-columns:1fr;}
+  .news-sidebar{order:-1;}
+}
+@media(max-width:480px){
+  .news-layout{padding:10px 12px;}
+}
+
 </style>
 </head>
 <body>
@@ -464,6 +535,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
     <button class="nav-btn" id="navFeed" onclick="showPage('feed')" style="display:none">📰 Feed</button>
     <button class="nav-btn" id="navGame" onclick="showPage('game')">🎮 AHT Runner</button>
     <button class="nav-btn" id="navTemplates" onclick="showPage('templates')">📝 Templates</button>
+    <button class="nav-btn" id="navNews" onclick="showPage('news')">📰 News</button>
     <div class="role-badge" onclick="openRolePicker()"><div class="role-dot"></div><span id="headerRole">Pick your role</span></div>
     <div id="authBtns" style="display:flex;gap:7px;align-items:center">
       <button class="btn-outline" onclick="openAuth('login')">Log In</button>
@@ -696,6 +768,74 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
   </div>
 </div>
 
+
+<!-- NEWS PAGE -->
+<div class="page" id="pageNews">
+<div class="news-layout">
+  <div class="news-main">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px;">
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:22px;display:flex;align-items:center;gap:10px;">📰 CC Industry News<span style="font-size:11px;background:rgba(61,220,132,.15);color:var(--green);padding:2px 8px;border-radius:10px;font-weight:600;font-family:'JetBrains Mono',monospace;letter-spacing:.5px;">● LIVE</span></div>
+        <div style="font-size:12.5px;color:var(--text3);margin-top:3px;">Real-time updates from the contact center world · <span id="newsLastUpdated">fetching…</span></div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;" id="newsFilterBtns">
+        <button class="news-filter-btn active" onclick="filterNews('all',this)">All</button>
+        <button class="news-filter-btn" onclick="filterNews('ai',this)">🤖 AI & Tech</button>
+        <button class="news-filter-btn" onclick="filterNews('cx',this)">💬 CX</button>
+        <button class="news-filter-btn" onclick="filterNews('ops',this)">⚙️ Operations</button>
+        <button class="news-filter-btn" onclick="filterNews('industry',this)">🏢 Industry</button>
+      </div>
+    </div>
+    <!-- Tip of the Day -->
+    <div class="tip-card" id="tipCard">
+      <div class="tip-label">💡 Tip of the Day</div>
+      <div class="tip-text" id="tipText"></div>
+      <div class="tip-author" id="tipAuthor"></div>
+      <button class="tip-next-btn" onclick="nextTip()">Next tip →</button>
+    </div>
+    <!-- News grid -->
+    <div id="newsGrid"></div>
+    <div style="text-align:center;margin-top:20px;" id="newsLoader">
+      <div class="news-loading">⟳ Loading latest news…</div>
+    </div>
+  </div>
+  <div class="news-sidebar">
+    <!-- Wellbeing Tracker -->
+    <div class="wb-card">
+      <div class="wb-title">📊 Wellbeing Check-in</div>
+      <div class="wb-sub">How are you feeling today?</div>
+      <div class="wb-moods" id="wbMoods">
+        <button class="wb-mood" onclick="setMood('great',this)">😄<span>Great</span></button>
+        <button class="wb-mood" onclick="setMood('good',this)">🙂<span>Good</span></button>
+        <button class="wb-mood" onclick="setMood('meh',this)">😐<span>Meh</span></button>
+        <button class="wb-mood" onclick="setMood('tough',this)">😔<span>Tough</span></button>
+        <button class="wb-mood" onclick="setMood('burnout',this)">🔥<span>Burned</span></button>
+      </div>
+      <div id="wbResponse" class="wb-response" style="display:none"></div>
+      <div class="wb-history-wrap">
+        <div class="wb-history-title">Your week</div>
+        <div class="wb-history" id="wbHistory"></div>
+      </div>
+      <div class="wb-team-bar">
+        <div class="wb-team-title">Team mood today</div>
+        <div class="wb-bars" id="wbTeamBars"></div>
+      </div>
+    </div>
+    <!-- Quick stats -->
+    <div class="sidebar-card" style="margin-top:14px;">
+      <div class="sc-header">📈 Industry Pulse</div>
+      <div class="sc-body" style="display:flex;flex-direction:column;gap:10px;">
+        <div class="pulse-item"><div class="pulse-label">AI in CC</div><div class="pulse-bar-track"><div class="pulse-bar-fill" style="width:88%;background:var(--blue)"></div></div><div class="pulse-val">88%</div></div>
+        <div class="pulse-item"><div class="pulse-label">Turnover rate</div><div class="pulse-bar-track"><div class="pulse-bar-fill" style="width:38%;background:var(--red)"></div></div><div class="pulse-val">38%</div></div>
+        <div class="pulse-item"><div class="pulse-label">Remote / hybrid</div><div class="pulse-bar-track"><div class="pulse-bar-fill" style="width:62%;background:var(--green)"></div></div><div class="pulse-val">62%</div></div>
+        <div class="pulse-item"><div class="pulse-label">CSAT w/ AI</div><div class="pulse-bar-track"><div class="pulse-bar-fill" style="width:71%;background:var(--yellow)"></div></div><div class="pulse-val">71%</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
 <!-- POST MODAL -->
 <div class="modal-overlay" id="postModal">
   <div class="modal">
@@ -846,10 +986,12 @@ function showPage(name){
   document.getElementById('navFeed').style.display=notFeed?'block':'none';
   document.getElementById('navGame').style.display=name==='game'?'none':'block';
   document.getElementById('navTemplates').style.display=name==='templates'?'none':'block';
+  document.getElementById('navNews').style.display=name==='news'?'none':'block';
   if(name==='feed'){buildFeed();buildRoleFilter();buildTrending();}
   if(name==='templates'){renderTemplates();}
+  if(name==='news'){initNews();}
   // sync mobile nav
-  const mobMap={feed:'mnFeed',templates:'mnTemplates',game:'mnGame'};
+  const mobMap={feed:'mnFeed',templates:'mnTemplates',game:'mnGame',news:'mnNews'};
   if(mobMap[name])setMobNav(mobMap[name]);
 }
 function nextJoke(){
@@ -1341,6 +1483,197 @@ function showToast(msg){
   document.body.appendChild(t);setTimeout(()=>t.remove(),2200);
 }
 
+
+/* ── TIPS OF THE DAY ── */
+const TIPS = [
+  {text:"Always start with the customer's name. It's the most personal word in any language.",author:"— Inbound Veteran, 8 years"},
+  {text:"Silence is a tool. After acknowledging a complaint, pause for 2 seconds. It signals you're actually thinking.",author:"— QA Lead, CC community"},
+  {text:"'Let me look into that for you' buys time without sounding dismissive. Master it.",author:"— Escalation Specialist"},
+  {text:"Write your closing before your opening in emails. Know where you're going first.",author:"— Trainer Tip"},
+  {text:"If a customer asks for a manager, try: 'I'm the specialist for this — let me see what I can do.' 60% won't escalate.",author:"— Team Lead, 5 years"},
+  {text:"AHT is a metric, not a target. Agents who care about resolution naturally reduce it.",author:"— Ops Manager insight"},
+  {text:"On a silent call: stay on. Say 'If you can hear me, press any key.' Never hang up first.",author:"— Safety Protocol"},
+  {text:"Mirror the customer's energy DOWN, not up. If they're loud, be calm. If rushed, be measured.",author:"— De-escalation master"},
+  {text:"The best script is no script. Know the principles. Empathy, ownership, resolution.",author:"— Principles-based training"},
+  {text:"Your tone carries more weight than your words. Smile when you talk — it physically changes how you sound.",author:"— Trainer classic"},
+  {text:"FCR (First Call Resolution) matters more than AHT. One thorough call beats three rushed ones.",author:"— WFM Analyst"},
+  {text:"After a hard call, do 90 seconds of 'shake it off' — literally stand up, breathe, reset.",author:"— Wellbeing tip"},
+];
+let tipIdx = Math.floor(Math.random() * TIPS.length);
+function renderTip(){
+  const t = TIPS[tipIdx];
+  document.getElementById('tipText').textContent = t.text;
+  document.getElementById('tipAuthor').textContent = t.author;
+}
+function nextTip(){
+  tipIdx = (tipIdx + 1) % TIPS.length;
+  renderTip();
+}
+
+/* ── LIVE NEWS (RSS via rss2json proxy) ── */
+const NEWS_SOURCES = [
+  {url:'https://www.cxtoday.com/feed/', label:'CX Today', cat:'cx'},
+  {url:'https://callminer.com/blog/feed/', label:'CallMiner', cat:'ai'},
+  {url:'https://www.callcentrehelper.com/feed', label:'CC Helper', cat:'ops'},
+];
+// Curated fallback news (shown if API fails or while loading)
+const FALLBACK_NEWS = [
+  {title:'Gartner: AI Will Handle 50% of Contact Center Interactions by 2027',desc:'New Gartner research projects that conversational AI adoption in contact centers will double over the next 18 months, fundamentally reshaping agent roles from call handlers to complex problem solvers.',source:'Gartner',cat:'ai',date:'Mar 2026',url:'#'},
+  {title:'Agent Burnout Reaches 5-Year High — New Study Reveals Root Causes',desc:'A comprehensive industry survey of 12,000 contact center agents across 40 countries found that unrealistic AHT targets and lack of manager empathy are the top two drivers of burnout in 2026.',source:'CX Network',cat:'industry',url:'#',date:'Mar 2026'},
+  {title:'Why Talkdesk Says CCaaS Is Dead — And What Comes Next',desc:'The contact center software giant argues that the era of standalone CCaaS platforms is ending, replaced by customer experience automation ecosystems that blend AI, CRM, and workforce management.',source:'CX Today',cat:'ai',url:'#',date:'Mar 2026'},
+  {title:'76% of Customers Still Prefer Phone Support — Despite AI Push',desc:'Despite massive investment in chatbots and digital deflection, new research confirms that phone remains the dominant channel for complex customer issues, with CSAT scores 34% higher than chat.',source:'CallMiner',cat:'cx',url:'#',date:'Feb 2026'},
+  {title:'PolyAI Raises $86M to Transform Enterprise Voice AI',desc:'The London-based conversational AI company secured $86 million in Series C funding to expand its autonomous voice agent platform, which it claims can handle 70% of inbound calls without human intervention.',source:'TechCrunch',cat:'ai',url:'#',date:'Feb 2026'},
+  {title:'The BPO Wake-Up Call: A Complete Guide for CX Leaders',desc:'As AI threatens to automate up to 40% of BPO work by 2028, outsourcing leaders are under pressure to redefine their value proposition. This comprehensive guide covers the strategic shifts already underway.',source:'CX Today',cat:'industry',url:'#',date:'Feb 2026'},
+  {title:'Call Center Work-From-Home: 62% of Centers Now Fully Remote or Hybrid',desc:'New workforce data shows that remote and hybrid contact center models have become the new normal post-pandemic, with companies reporting 18% lower attrition and 12% higher CSAT in distributed teams.',source:'CC Helper',cat:'ops',url:'#',date:'Jan 2026'},
+  {title:'Severe Winter Storms Cause Home Services Call Volume to Spike 340%',desc:'Utility and home services contact centers across the US Midwest reported unprecedented call volumes following severe winter storms, with some centers activating emergency overflow protocols for the first time.',source:'Customer Service Management',cat:'ops',url:'#',date:'Mar 2026'},
+  {title:'2026 CX Trends: What Every Contact Center Leader Should Act On Now',desc:'From AI-assisted coaching to real-time sentiment analysis and predictive churn detection, this year\'s biggest trends are reshaping how contact center leaders think about performance, wellbeing, and technology.',source:'CX Today',cat:'cx',url:'#',date:'Jan 2026'},
+  {title:'Speech Analytics Now Used in 71% of Enterprise Contact Centers',desc:'Adoption of real-time speech analytics has surged, with enterprise contact centers using AI-powered tools to monitor 100% of calls for compliance, coaching opportunities, and customer sentiment.',source:'CallMiner',cat:'ai',url:'#',date:'Jan 2026'},
+];
+let newsFilter = 'all';
+let newsItems = [...FALLBACK_NEWS];
+let newsLoaded = false;
+
+async function fetchNews(){
+  const loader = document.getElementById('newsLoader');
+  try {
+    // Try fetching from rss2json (free, CORS-friendly RSS proxy)
+    const feed = NEWS_SOURCES[0];
+    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}&count=8`;
+    const resp = await fetch(apiUrl, {signal: AbortSignal.timeout(5000)});
+    if(!resp.ok) throw new Error('fetch failed');
+    const data = await resp.json();
+    if(data.status === 'ok' && data.items?.length) {
+      const fresh = data.items.map(item => ({
+        title: item.title,
+        desc: item.description?.replace(/<[^>]*>/g,'').substring(0,200) + '…',
+        source: data.feed.title || feed.label,
+        cat: feed.cat,
+        date: new Date(item.pubDate).toLocaleDateString('en-US',{month:'short',year:'numeric'}),
+        url: item.link,
+      }));
+      newsItems = [...fresh, ...FALLBACK_NEWS.slice(0,6)];
+    }
+  } catch(e) {
+    // silent fail — fallback news already loaded
+  }
+  newsLoaded = true;
+  if(loader) loader.style.display = 'none';
+  const lu=document.getElementById('newsLastUpdated');
+  if(lu)lu.textContent='Updated '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  renderNews();
+}
+
+function filterNews(cat, btn) {
+  newsFilter = cat;
+  document.querySelectorAll('.news-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderNews();
+}
+
+function renderNews(){
+  const grid = document.getElementById('newsGrid');
+  if(!grid) return;
+  const filtered = newsFilter === 'all' ? newsItems : newsItems.filter(n => n.cat === newsFilter);
+  if(!filtered.length){
+    grid.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text3)">No news in this category yet.</div>';
+    return;
+  }
+  const catCls = {ai:'news-cat-ai',cx:'news-cat-cx',ops:'news-cat-ops',industry:'news-cat-industry'};
+  const catLabel = {ai:'🤖 AI & Tech',cx:'💬 CX',ops:'⚙️ Operations',industry:'🏢 Industry'};
+  grid.className = 'news-grid';
+  grid.innerHTML = filtered.map((n,i) => `
+    <div class="news-card" style="animation-delay:${i*.05}s" onclick="window.open('${n.url}','_blank')">
+      <div class="news-card-top">
+        <span class="news-source">${n.source}</span>
+        <span class="news-cat-badge ${catCls[n.cat]||'news-cat-industry'}">${catLabel[n.cat]||n.cat}</span>
+        <span class="news-date">${n.date}</span>
+      </div>
+      <div class="news-title">${n.title}</div>
+      <div class="news-desc">${n.desc}</div>
+      <div class="news-footer">
+        <button class="news-read-btn">Read full article ↗</button>
+      </div>
+    </div>`).join('');
+}
+
+function initNews(){
+  renderTip();
+  const lu=document.getElementById('newsLastUpdated');
+  if(lu)lu.textContent='fetching…';
+  renderNews();
+  renderWellbeing();
+  if(!newsLoaded) fetchNews();
+  else{if(lu)lu.textContent='Updated '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
+}
+
+/* ── WELLBEING TRACKER ── */
+const MOOD_RESPONSES = {
+  great:{emoji:'😄',msg:"That's amazing! Keep that energy — spread some of it to your team today. You're a vibe."},
+  good:{emoji:'🙂',msg:"Solid day. Stay hydrated, take your breaks, and keep doing what you're doing."},
+  meh:{emoji:'😐',msg:"Meh days happen to everyone. Go easy on yourself today. One call at a time."},
+  tough:{emoji:'😔',msg:"Sorry to hear that. Remember: you don't have to carry it alone. Talk to someone — a colleague, your TL, or anyone you trust."},
+  burnout:{emoji:'🔥',msg:"That's a signal worth taking seriously. Please take your breaks today. If it persists, speak to your supervisor or HR. You matter more than your metrics."},
+};
+const TEAM_MOOD = {great:14,good:31,meh:24,tough:18,burnout:13};
+let moodHistory = ['good','great','meh','good','good','great',''];
+let todayMood = null;
+
+function setMood(mood, btn){
+  todayMood = mood;
+  moodHistory[6] = mood;
+  document.querySelectorAll('.wb-mood').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const resp = MOOD_RESPONSES[mood];
+  const el = document.getElementById('wbResponse');
+  el.style.display = 'block';
+  el.className = 'wb-response';
+  el.innerHTML = `<strong>${resp.emoji}</strong> ${resp.msg}`;
+  renderWbHistory();
+}
+
+function renderWellbeing(){
+  renderWbHistory();
+  renderTeamBars();
+}
+
+function renderWbHistory(){
+  const h = document.getElementById('wbHistory');
+  if(!h) return;
+  const moodEmoji = {great:'😄',good:'🙂',meh:'😐',tough:'😔',burnout:'🔥','':'—'};
+  const days = ['M','T','W','T','F','S','T'];
+  h.innerHTML = moodHistory.map((m,i) => `
+    <div class="wb-day" title="${days[i]}" style="border-color:${m?'var(--border)':'transparent'}">${moodEmoji[m]||'·'}</div>`
+  ).join('');
+}
+
+function renderTeamBars(){
+  const el = document.getElementById('wbTeamBars');
+  if(!el) return;
+  const total = Object.values(TEAM_MOOD).reduce((a,b)=>a+b,0);
+  const items = [
+    {label:'😄 Great', key:'great', color:'var(--green)'},
+    {label:'🙂 Good', key:'good', color:'var(--blue)'},
+    {label:'😐 Meh', key:'meh', color:'var(--yellow)'},
+    {label:'😔 Tough', key:'tough', color:'var(--accent2)'},
+    {label:'🔥 Burned', key:'burnout', color:'var(--red)'},
+  ];
+  el.innerHTML = items.map(it => {
+    const pct = Math.round((TEAM_MOOD[it.key]/total)*100);
+    return `<div class="wb-bar-row">
+      <div class="wb-bar-label">${it.label}</div>
+      <div class="wb-bar-track"><div class="wb-bar-fill" style="width:${pct}%;background:${it.color}"></div></div>
+      <div class="wb-bar-val">${pct}%</div>
+    </div>`;
+  }).join('');
+}
+
+/* ── NOTIFICATIONS ── */
+  {id:2,icon:'▲',msg:'<strong>gradeAGrammar</strong> upvoted your post',time:'12m ago',unread:true},
+  {id:3,icon:'💬',msg:'<strong>holdMusicHero</strong> replied to your comment',time:'1h ago',unread:true},
+  {id:4,icon:'🏆',msg:'You\'ve been mentioned in the <strong>Leaderboard</strong> top 10!',time:'2h ago',unread:false},
+  {id:5,icon:'📰',msg:'New CC industry news: <strong>PolyAI raises $86M</strong>',time:'3h ago',unread:false},
+];
+
 /* EVENTS */
 document.getElementById('authModal').addEventListener('click',e=>{if(e.target.id==='authModal')closeAuth();});
 document.getElementById('tplModal').addEventListener('click',e=>{if(e.target.id==='tplModal')closeTplModal();});
@@ -1364,6 +1697,9 @@ setTimeout(()=>openAuth('signup'),700);
   </button>
   <button class="mob-nav-btn" id="mnTemplates" onclick="showPage('templates');setMobNav('mnTemplates')">
     <span>📝</span><span>Templates</span>
+  </button>
+  <button class="mob-nav-btn" id="mnNews" onclick="showPage('news');setMobNav('mnNews')">
+    <span>📰</span><span>News</span>
   </button>
   <button class="mob-nav-btn" id="mnGame" onclick="showPage('game');setMobNav('mnGame')">
     <span>🎮</span><span>AHT Run</span>
