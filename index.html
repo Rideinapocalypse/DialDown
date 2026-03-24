@@ -10,6 +10,8 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.4;}
+
+/* HEADER */
 header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);padding:0 20px;height:56px;display:flex;align-items:center;gap:12px;}
 .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:21px;letter-spacing:-.5px;display:flex;align-items:center;gap:8px;cursor:pointer;flex-shrink:0;}
 .logo-icon{width:30px;height:30px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;}
@@ -52,15 +54,23 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .dd-item:hover{background:var(--bg3);color:var(--text);}
 .dd-item.danger{color:var(--red);}
 .dd-item.danger:hover{background:rgba(255,107,107,.08);}
+
+/* JOKE BAR */
 .joke-bar{background:linear-gradient(90deg,#1a0f07,#1e1208 50%,#1a0f07);border-bottom:1px solid #3a2010;padding:9px 20px;display:flex;align-items:center;gap:12px;position:relative;}
 .joke-bar::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);}
 .joke-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;white-space:nowrap;}
 .joke-text{font-size:13.5px;color:#d4a87a;font-style:italic;flex:1;transition:opacity .35s;}
 .joke-next{background:none;border:1px solid #3a2010;color:var(--accent2);border-radius:6px;padding:3px 10px;font-size:12px;cursor:pointer;transition:border-color .2s,background .2s;white-space:nowrap;}
 .joke-next:hover{border-color:var(--accent);background:rgba(255,95,31,.08);}
+
+/* PAGES */
 .page{display:none;}
 .page.active{display:block;}
+
+/* LAYOUT */
 .layout{max-width:1120px;margin:0 auto;padding:24px 20px;display:grid;grid-template-columns:1fr 296px;gap:22px;position:relative;z-index:1;}
+
+/* FEED */
 .feed-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
 .feed-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;}
 .sort-tabs{display:flex;gap:3px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:3px;}
@@ -69,8 +79,10 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .filter-bar{display:none;align-items:center;gap:10px;background:rgba(255,95,31,.07);border:1px solid rgba(255,95,31,.2);border-radius:8px;padding:7px 13px;margin-bottom:12px;font-size:13px;color:var(--accent2);}
 .filter-bar.visible{display:flex;}
 .filter-bar-tag{font-weight:600;}
-.filter-bar-clear{margin-left:auto;background:none;border:none;color:var(--text3);cursor:pointer;font-size:13px;padding:2px 6px;border-radius:4px;transition:color .15s,background .15s;}
+.filter-bar-clear{margin-left:auto;background:none;border:none;color:var(--text3);cursor:pointer;font-size:13px;padding:2px 6px;border-radius:4px;}
 .filter-bar-clear:hover{color:var(--text);background:var(--bg3);}
+
+/* POST CARD */
 .post-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:9px;display:flex;flex-direction:column;transition:border-color .2s,background .2s;animation:fadeUp .4s ease both;}
 .post-card:hover{border-color:#3e4155;background:#1a1d26;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
@@ -104,6 +116,8 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .post-action:hover{background:var(--bg3);color:var(--text2);}
 .tag-chip{display:inline-block;background:rgba(255,95,31,.12);color:var(--accent2);border-radius:4px;padding:1px 6px;font-size:11.5px;font-family:'JetBrains Mono',monospace;cursor:pointer;}
 .tag-chip:hover{background:rgba(255,95,31,.22);}
+
+/* COMMENTS */
 .comments-section{margin-top:12px;border-top:1px solid var(--border);padding-top:12px;display:none;}
 .comments-section.open{display:block;}
 .comment-input-row{display:flex;gap:8px;margin-bottom:12px;}
@@ -119,6 +133,8 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .comment-text{font-size:13.5px;line-height:1.55;}
 .comments-empty{font-size:13px;color:var(--text3);text-align:center;padding:10px;font-style:italic;}
 .comments-login{font-size:12.5px;color:var(--text3);text-align:center;padding:6px 0;}
+
+/* SIDEBAR */
 .sidebar{display:flex;flex-direction:column;gap:14px;}
 .sidebar-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
 .sc-header{padding:11px 15px;border-bottom:1px solid var(--border);font-family:'Syne',sans-serif;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);}
@@ -128,9 +144,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .role-item:hover{background:var(--bg3);border-color:var(--border);}
 .role-item.selected{background:var(--bg3);border-color:var(--accent);}
 .role-item.selected .rin{color:var(--accent);}
-.rii{font-size:16px;}
-.rin{font-weight:500;flex:1;}
-.ric{font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace;}
+.rii{font-size:16px;}.rin{font-weight:500;flex:1;}.ric{font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace;}
 .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
 .stat-item{background:var(--bg3);border-radius:8px;padding:9px 11px;text-align:center;}
 .stat-num{font-family:'Syne',sans-serif;font-weight:700;font-size:19px;color:var(--accent);}
@@ -139,11 +153,15 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .trending-item:hover{background:var(--bg3);color:var(--text);}
 .trending-item.active{background:rgba(255,95,31,.08);border-color:rgba(255,95,31,.3);color:var(--accent2);}
 .tnum{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);min-width:14px;}
+
+/* LIGHTBOX */
 .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:500;align-items:center;justify-content:center;cursor:zoom-out;}
 .lightbox.open{display:flex;}
 .lightbox img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:8px;animation:fadeUp .2s ease;}
-.lb-close{position:absolute;top:18px;right:22px;background:none;border:none;color:#fff;font-size:26px;cursor:pointer;opacity:.7;transition:opacity .15s;}
+.lb-close{position:absolute;top:18px;right:22px;background:none;border:none;color:#fff;font-size:26px;cursor:pointer;opacity:.7;}
 .lb-close:hover{opacity:1;}
+
+/* IMAGE UPLOAD */
 .upload-area{border:2px dashed var(--border);border-radius:10px;padding:18px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;position:relative;}
 .upload-area:hover{border-color:var(--accent);background:rgba(255,95,31,.04);}
 .upload-area.has-img{border-style:solid;border-color:var(--accent);padding:7px;}
@@ -151,12 +169,14 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .up-preview{width:100%;max-height:160px;object-fit:cover;border-radius:6px;display:block;}
 .up-remove{position:absolute;top:5px;right:5px;background:rgba(0,0,0,.6);border:none;color:#fff;border-radius:50%;width:22px;height:22px;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;}
 .up-remove:hover{background:rgba(255,95,31,.8);}
+
+/* MODALS */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.76);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center;padding:20px;}
 .modal-overlay.open{display:flex;}
 .modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);width:100%;max-width:560px;animation:modalIn .25s ease;max-height:90vh;overflow-y:auto;}
 .modal-hdr{padding:15px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--bg2);z-index:1;}
 .modal-hdr-title{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;}
-.modal-x{background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px;line-height:1;padding:2px 5px;border-radius:4px;transition:color .15s,background .15s;}
+.modal-x{background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px;line-height:1;padding:2px 5px;border-radius:4px;}
 .modal-x:hover{color:var(--text);background:var(--bg3);}
 .modal-body{padding:18px 20px;display:flex;flex-direction:column;gap:13px;}
 .modal-footer{padding:12px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:9px;}
@@ -180,239 +200,16 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .auth-panel{display:none;flex-direction:column;gap:13px;margin-top:18px;}
 .auth-panel.active{display:flex;}
 .success-state{text-align:center;padding:18px 10px;display:flex;flex-direction:column;align-items:center;gap:9px;}
-.success-icon{font-size:42px;}
-.success-title{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;}
+.success-icon{font-size:42px;}.success-title{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;}
 .success-sub{font-size:13px;color:var(--text2);line-height:1.6;}
 .rpg{display:grid;grid-template-columns:1fr 1fr;gap:9px;max-height:380px;overflow-y:auto;}
 .rp-btn{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:11px 13px;cursor:pointer;transition:border-color .2s,background .2s;text-align:left;display:flex;align-items:center;gap:9px;color:var(--text);font-family:'DM Sans',sans-serif;}
 .rp-btn:hover{border-color:var(--accent);background:rgba(255,95,31,.05);}
-.rp-icon{font-size:20px;}
-.rp-name{font-weight:500;font-size:13px;}
-.rp-desc{font-size:11px;color:var(--text3);margin-top:1px;}
+.rp-icon{font-size:20px;}.rp-name{font-weight:500;font-size:13px;}.rp-desc{font-size:11px;color:var(--text3);margin-top:1px;}
 .empty-state{text-align:center;padding:36px 20px;color:var(--text3);}
 .empty-icon{font-size:38px;margin-bottom:10px;}
-/* GAME */
-.game-wrap{max-width:700px;margin:0 auto;padding:24px 20px;position:relative;z-index:1;}
-.game-hdr{text-align:center;margin-bottom:28px;}
-.game-title{font-family:'Syne',sans-serif;font-weight:800;font-size:30px;letter-spacing:-1px;margin-bottom:6px;}
-.game-title span{color:var(--accent);}
-.game-sub{font-size:14px;color:var(--text2);}
-.hud{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px;}
-.hud-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:11px;text-align:center;}
-.hud-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);font-family:'JetBrains Mono',monospace;margin-bottom:3px;}
-.hud-val{font-family:'Syne',sans-serif;font-weight:700;font-size:21px;}
-.hud-val.d{color:var(--red);}
-.hud-val.w{color:var(--yellow);}
-.hud-val.g{color:var(--green);}
-.hud-val.a{color:var(--accent);}
-.timer-wrap{margin-bottom:18px;}
-.timer-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--text3);margin-bottom:5px;font-family:'JetBrains Mono',monospace;}
-.timer-track{height:8px;background:var(--bg3);border-radius:4px;overflow:hidden;}
-.timer-fill{height:100%;border-radius:4px;transition:width .1s linear,background .3s;}
-.tkt-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;margin-bottom:16px;animation:fadeUp .3s ease;}
-.tkt-hdr{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
-.tkt-caller{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;}
-.tkt-anger{font-size:12px;padding:2px 8px;border-radius:20px;font-weight:600;}
-.al{background:rgba(61,220,132,.15);color:var(--green);}
-.am{background:rgba(251,191,36,.15);color:var(--yellow);}
-.ah{background:rgba(255,107,107,.15);color:var(--red);}
-.tkt-issue{background:var(--bg3);border-left:3px solid var(--accent);padding:12px 14px;border-radius:6px;font-size:14px;line-height:1.6;color:var(--text2);margin-bottom:14px;font-style:italic;}
-.tkt-q{font-size:14px;font-weight:500;margin-bottom:12px;}
-.tkt-opts{display:flex;flex-direction:column;gap:8px;}
-.tkt-opt{background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:10px 14px;cursor:pointer;font-size:13.5px;text-align:left;color:var(--text);font-family:'DM Sans',sans-serif;transition:border-color .2s,background .2s,transform .1s;}
-.tkt-opt:hover:not(:disabled){border-color:var(--accent);background:rgba(255,95,31,.06);transform:translateX(3px);}
-.tkt-opt.correct{border-color:var(--green);background:rgba(61,220,132,.1);color:var(--green);}
-.tkt-opt.wrong{border-color:var(--red);background:rgba(255,107,107,.1);color:var(--red);}
-.tkt-opt:disabled{cursor:default;transform:none;}
-.tkt-fb{margin-top:12px;padding:12px 14px;border-radius:8px;font-size:13.5px;line-height:1.55;display:none;}
-.tkt-fb.show{display:block;}
-.tkt-fb.good{background:rgba(61,220,132,.1);border:1px solid rgba(61,220,132,.3);color:var(--green);}
-.tkt-fb.bad{background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.3);color:var(--red);}
-.tkt-next{margin-top:12px;display:none;}
-.tkt-next.show{display:flex;justify-content:flex-end;}
-.gscreen{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:34px 26px;text-align:center;}
-.gs-icon{font-size:50px;margin-bottom:14px;}
-.gs-title{font-family:'Syne',sans-serif;font-weight:800;font-size:24px;margin-bottom:8px;}
-.gs-sub{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:20px;}
-.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px;}
-.result-item{background:var(--bg3);border-radius:9px;padding:14px;}
-.result-num{font-family:'Syne',sans-serif;font-weight:700;font-size:25px;color:var(--accent);}
-.result-label{font-size:12px;color:var(--text3);margin-top:3px;}
-.diff-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
-.diff-btn{background:var(--bg3);border:2px solid var(--border);color:var(--text);border-radius:12px;padding:13px 20px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;transition:border-color .2s,background .2s,transform .1s;min-width:130px;}
-.diff-btn:hover{transform:translateY(-2px);}
-.diff-btn.easy:hover{border-color:var(--green);background:rgba(61,220,132,.08);}
-.diff-btn.normal:hover{border-color:var(--yellow);background:rgba(251,191,36,.08);}
-.diff-btn.hard:hover{border-color:var(--red);background:rgba(255,107,107,.08);}
-::-webkit-scrollbar{width:5px;}
-::-webkit-scrollbar-track{background:var(--bg);}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 
-/* ─── MOBILE RESPONSIVE ─── */
-
-/* Tablet: 768px and below */
-@media(max-width:768px){
-  /* Header: stack search below on small tablets */
-  header{flex-wrap:wrap;height:auto;padding:10px 16px;gap:8px;}
-  .search-wrap{order:3;max-width:100%;flex:1 1 100%;}
-  .header-right{gap:6px;}
-  .role-badge{padding:5px 9px;font-size:12px;}
-  .btn-outline,.btn-primary{padding:6px 10px;font-size:12px;}
-  .user-name-sm{display:none;}
-  .nav-btn{padding:5px 9px;font-size:12px;}
-
-  /* Layout: single column */
-  .layout{grid-template-columns:1fr;padding:16px;}
-  .sidebar{display:none;}
-
-  /* Templates */
-  .tpl-layout{grid-template-columns:1fr;padding:16px;gap:14px;}
-  .tpl-sidebar{position:static;display:flex;flex-direction:column;gap:0;}
-  .tpl-cats{display:flex;flex-direction:row;flex-wrap:wrap;gap:6px;margin-top:10px;}
-  .tpl-cat{padding:5px 10px;font-size:12px;}
-  .tpl-topbar{flex-direction:column;align-items:stretch;gap:10px;}
-  .tpl-grid{grid-template-columns:1fr;}
-  .tpl-channel-toggle{justify-content:flex-start;}
-
-  /* Game */
-  .hud{grid-template-columns:1fr 1fr;}
-  .game-wrap{padding:16px;}
-  .game-title{font-size:24px;}
-  .diff-btns{flex-direction:column;align-items:center;}
-  .diff-btn{width:100%;max-width:300px;}
-
-  /* Forms */
-  .frow{grid-template-columns:1fr;}
-
-  /* Modals */
-  .modal-overlay{padding:12px;}
-  .modal{max-height:95vh;}
-  .modal-body{padding:14px 16px;gap:11px;}
-  .modal-hdr{padding:13px 16px;}
-  .modal-footer{padding:11px 16px;}
-}
-
-/* Mobile: 480px and below */
-@media(max-width:480px){
-  /* Header: compact icon-only nav */
-  header{padding:8px 12px;gap:6px;}
-  .logo{font-size:18px;}
-  .logo-icon{width:26px;height:26px;font-size:13px;}
-  .search-wrap{order:3;flex:1 1 100%;}
-  .header-right{gap:5px;}
-
-  /* Hide text labels on nav buttons, show icons only */
-  .nav-btn{font-size:0;padding:6px 8px;border-radius:7px;}
-  .nav-btn::before{font-size:15px;}
-  #navFeed::before{content:'📰';}
-  #navGame::before{content:'🎮';}
-  #navTemplates::before{content:'📝';}
-  #navNews::before{content:'📰';}
-
-  /* Role badge: compact */
-  .role-badge span{display:none;}
-  .role-badge{padding:6px 8px;border-radius:8px;}
-
-  /* Auth buttons */
-  .btn-outline{display:none;}
-  #newPostBtn{padding:6px 10px;font-size:12px;}
-
-  /* Joke bar */
-  .joke-bar{padding:7px 12px;gap:8px;}
-  .joke-label{display:none;}
-  .joke-text{font-size:12.5px;}
-
-  /* Feed */
-  .layout{padding:10px 12px;}
-  .feed-header{flex-direction:column;align-items:flex-start;gap:10px;}
-  .sort-tabs{width:100%;}
-  .sort-tab{flex:1;text-align:center;}
-  .post-card{padding:11px 12px;}
-  .post-title{font-size:14px;}
-  .post-preview{font-size:13px;}
-  .post-footer{gap:8px;}
-  .post-action{font-size:11.5px;padding:3px 4px;}
-  .post-image-thumb{max-height:180px;}
-
-  /* Comments */
-  .comment-bubble{padding:7px 10px;}
-  .comment-text{font-size:13px;}
-
-  /* Vote column */
-  .vote-col{min-width:28px;}
-  .vote-btn{font-size:13px;}
-  .vote-count{font-size:11px;}
-
-  /* Sidebar stat cards (show as horizontal strip when visible) */
-  .stats-grid{grid-template-columns:repeat(4,1fr);}
-  .stat-num{font-size:15px;}
-
-  /* Game */
-  .hud{grid-template-columns:1fr 1fr;gap:8px;}
-  .hud-card{padding:9px 8px;}
-  .hud-val{font-size:18px;}
-  .hud-lbl{font-size:9px;}
-  .game-title{font-size:22px;}
-  .gs-title{font-size:20px;}
-  .result-grid{grid-template-columns:1fr 1fr 1fr;gap:8px;}
-  .result-num{font-size:20px;}
-  .tkt-card{padding:14px 12px;}
-  .tkt-issue{padding:9px 11px;font-size:13px;}
-  .tkt-opt{padding:9px 12px;font-size:13px;}
-  .diff-btn{min-width:unset;width:100%;}
-
-  /* Templates page */
-  .tpl-layout{padding:10px 12px;}
-  .tpl-sidebar-header{margin-bottom:8px;}
-  .tpl-cats{gap:5px;}
-  .tpl-cat{font-size:11.5px;padding:4px 8px;}
-  .tpl-card{padding:13px;}
-  .tpl-actions{flex-direction:column;gap:6px;}
-  .tpl-btn{width:100%;}
-  .tpl-channel-toggle{flex-wrap:wrap;}
-
-  /* Modals */
-  .modal-overlay{padding:8px;}
-  .modal{border-radius:12px;}
-  .rpg{grid-template-columns:1fr;}
-  .auth-tabs{margin:-14px -16px 0;}
-  .frow{grid-template-columns:1fr;}
-  .modal-body{padding:12px 14px;}
-
-  /* Filter bar */
-  .filter-bar{font-size:12px;padding:6px 10px;}
-}
-
-/* Bottom nav for mobile — fixed navigation bar */
-@media(max-width:480px){
-  .mobile-nav{display:flex;}
-}
-.mobile-nav{
-  display:none;
-  position:fixed;bottom:0;left:0;right:0;
-  background:rgba(22,24,31,.97);
-  backdrop-filter:blur(16px);
-  border-top:1px solid var(--border);
-  z-index:150;
-  padding:8px 0 calc(8px + env(safe-area-inset-bottom));
-  justify-content:space-around;
-}
-.mob-nav-btn{
-  display:flex;flex-direction:column;align-items:center;gap:3px;
-  background:none;border:none;color:var(--text3);cursor:pointer;
-  font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 12px;
-  border-radius:8px;transition:color .15s;
-}
-.mob-nav-btn.active{color:var(--accent);}
-.mob-nav-btn span:first-child{font-size:20px;}
-
-/* Push page content above bottom nav on mobile */
-@media(max-width:480px){
-  #pageFeed,#pageGame,#pageTemplates,#pageNews{padding-bottom:72px;}
-}
-
-
-/* ── TEMPLATES ── */
+/* TEMPLATES */
 .tpl-layout{max-width:1120px;margin:0 auto;padding:24px 20px;display:grid;grid-template-columns:220px 1fr;gap:22px;position:relative;z-index:1;min-height:calc(100vh - 110px);}
 .tpl-sidebar{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;height:fit-content;position:sticky;top:76px;}
 .tpl-sidebar-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
@@ -437,8 +234,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .tpl-card-footer{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:auto;}
 .tpl-tag{background:var(--bg3);color:var(--text3);border-radius:4px;padding:2px 7px;font-size:11px;font-family:'JetBrains Mono',monospace;}
 .tpl-channels{display:flex;gap:4px;margin-left:auto;}
-.tch-icon{font-size:14px;opacity:.5;}
-.tch-icon.on{opacity:1;}
+.tch-icon{font-size:14px;opacity:.5;}.tch-icon.on{opacity:1;}
 .tpl-actions{display:flex;gap:7px;margin-top:4px;}
 .tpl-btn{flex:1;padding:7px;border-radius:7px;font-size:12.5px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s,color .15s;border:1px solid var(--border);background:var(--bg3);color:var(--text2);}
 .tpl-btn:hover{border-color:var(--accent);color:var(--accent);}
@@ -450,19 +246,16 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .ph-label{font-size:12px;color:var(--accent2);font-family:'JetBrains Mono',monospace;margin-bottom:5px;display:block;}
 .copy-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1e2029;border:1px solid var(--green);color:var(--green);padding:10px 20px;border-radius:8px;font-size:13.5px;z-index:999;animation:fadeUp .25s ease;pointer-events:none;}
 
-
-/* ── NEWS PAGE ── */
+/* NEWS PAGE */
 .news-layout{max-width:1120px;margin:0 auto;padding:24px 20px;display:grid;grid-template-columns:1fr 300px;gap:22px;position:relative;z-index:1;}
-.news-main{min-width:0;}
 .news-sidebar{display:flex;flex-direction:column;gap:14px;}
 .news-filter-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);border-radius:20px;padding:5px 13px;font-size:12.5px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
 .news-filter-btn:hover{border-color:var(--accent);color:var(--accent);}
 .news-filter-btn.active{background:var(--accent-dim);border-color:var(--accent);color:var(--accent);}
-.news-loading{color:var(--text3);font-size:13px;padding:20px;}
 .news-grid{display:flex;flex-direction:column;gap:12px;}
-.news-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;transition:border-color .2s,transform .15s;animation:fadeUp .4s ease both;text-decoration:none;display:block;cursor:pointer;}
+.news-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;transition:border-color .2s,transform .15s;animation:fadeUp .4s ease both;cursor:pointer;}
 .news-card:hover{border-color:#3e4155;transform:translateY(-1px);}
-.news-card-top{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.news-card-top{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;}
 .news-source{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3);}
 .news-cat-badge{font-size:10.5px;padding:1px 7px;border-radius:10px;font-weight:600;}
 .news-cat-ai{background:rgba(79,158,255,.15);color:var(--blue);}
@@ -472,10 +265,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .news-date{font-size:11px;color:var(--text3);margin-left:auto;}
 .news-title{font-family:'Syne',sans-serif;font-weight:600;font-size:15px;line-height:1.4;margin-bottom:6px;color:var(--text);}
 .news-desc{font-size:13px;color:var(--text2);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.news-footer{display:flex;align-items:center;gap:10px;margin-top:10px;}
-.news-read-btn{font-size:12px;color:var(--accent);cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;padding:0;}
-
-/* Tip of the Day */
+.news-read-btn{font-size:12px;color:var(--accent);cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;padding:0;margin-top:8px;display:block;}
 .tip-card{background:linear-gradient(135deg,#1a0f07,#1e1208);border:1px solid #3a2010;border-radius:var(--radius);padding:16px 18px;margin-bottom:18px;position:relative;overflow:hidden;}
 .tip-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);}
 .tip-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
@@ -483,43 +273,123 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .tip-author{font-size:12px;color:var(--text3);}
 .tip-next-btn{background:none;border:none;color:var(--accent2);font-size:12px;cursor:pointer;margin-top:8px;font-family:'DM Sans',sans-serif;padding:0;}
 .tip-next-btn:hover{color:var(--accent);}
-
-/* Wellbeing */
 .wb-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;}
 .wb-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:3px;}
 .wb-sub{font-size:12px;color:var(--text3);margin-bottom:14px;}
 .wb-moods{display:flex;gap:6px;justify-content:space-between;margin-bottom:14px;}
-.wb-mood{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:8px 4px;cursor:pointer;flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:20px;transition:border-color .2s,background .2s;}
-.wb-mood span{font-size:10px;color:var(--text3);}
-.wb-mood:hover{border-color:var(--accent);background:rgba(255,95,31,.06);}
-.wb-mood.selected{border-color:var(--accent);background:rgba(255,95,31,.12);}
+.wb-mood{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:8px 4px;cursor:pointer;flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:20px;transition:border-color .2s,background .2s;border:none;}
+.wb-mood span{font-size:10px;color:var(--text3);font-family:'DM Sans',sans-serif;}
+.wb-mood:hover{background:var(--bg3);}
+.wb-mood.selected{background:rgba(255,95,31,.12);outline:2px solid var(--accent);}
 .wb-response{background:var(--bg3);border-radius:8px;padding:10px 12px;font-size:13px;line-height:1.55;color:var(--text2);margin-bottom:12px;}
-.wb-history-wrap{margin-bottom:12px;}
 .wb-history-title{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;font-family:'JetBrains Mono',monospace;margin-bottom:6px;}
-.wb-history{display:flex;gap:5px;}
-.wb-day{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:15px;background:var(--bg3);border:1px solid var(--border);}
+.wb-history{display:flex;gap:5px;margin-bottom:14px;}
+.wb-day{width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:15px;background:var(--bg3);}
 .wb-team-title{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;font-family:'JetBrains Mono',monospace;margin-bottom:8px;}
-.wb-bars{display:flex;flex-direction:column;gap:5px;}
-.wb-bar-row{display:flex;align-items:center;gap:8px;font-size:12px;}
+.wb-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;font-size:12px;}
 .wb-bar-label{width:60px;color:var(--text2);}
 .wb-bar-track{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;}
 .wb-bar-fill{height:100%;border-radius:3px;transition:width .6s ease;}
 .wb-bar-val{font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace;width:28px;text-align:right;}
-.pulse-item{display:flex;align-items:center;gap:8px;}
+.pulse-item{display:flex;align-items:center;gap:8px;margin-bottom:9px;}
 .pulse-label{font-size:12px;color:var(--text2);width:100px;flex-shrink:0;}
 .pulse-bar-track{flex:1;height:5px;background:var(--bg3);border-radius:3px;overflow:hidden;}
 .pulse-bar-fill{height:100%;border-radius:3px;}
 .pulse-val{font-size:11.5px;color:var(--text3);font-family:'JetBrains Mono',monospace;width:34px;text-align:right;}
 
-/* ── RESPONSIVE ── */
+/* GAME */
+.game-wrap{max-width:700px;margin:0 auto;padding:24px 20px;position:relative;z-index:1;}
+.game-hdr{text-align:center;margin-bottom:28px;}
+.game-title{font-family:'Syne',sans-serif;font-weight:800;font-size:30px;letter-spacing:-1px;margin-bottom:6px;}
+.game-title span{color:var(--accent);}
+.game-sub{font-size:14px;color:var(--text2);}
+.hud{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px;}
+.hud-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:11px;text-align:center;}
+.hud-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);font-family:'JetBrains Mono',monospace;margin-bottom:3px;}
+.hud-val{font-family:'Syne',sans-serif;font-weight:700;font-size:21px;}
+.hud-val.d{color:var(--red);}.hud-val.w{color:var(--yellow);}.hud-val.g{color:var(--green);}.hud-val.a{color:var(--accent);}
+.timer-wrap{margin-bottom:18px;}
+.timer-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--text3);margin-bottom:5px;font-family:'JetBrains Mono',monospace;}
+.timer-track{height:8px;background:var(--bg3);border-radius:4px;overflow:hidden;}
+.timer-fill{height:100%;border-radius:4px;transition:width .1s linear,background .3s;}
+.tkt-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;margin-bottom:16px;animation:fadeUp .3s ease;}
+.tkt-hdr{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.tkt-caller{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;}
+.tkt-anger{font-size:12px;padding:2px 8px;border-radius:20px;font-weight:600;}
+.al{background:rgba(61,220,132,.15);color:var(--green);}.am{background:rgba(251,191,36,.15);color:var(--yellow);}.ah{background:rgba(255,107,107,.15);color:var(--red);}
+.tkt-issue{background:var(--bg3);border-left:3px solid var(--accent);padding:12px 14px;border-radius:6px;font-size:14px;line-height:1.6;color:var(--text2);margin-bottom:14px;font-style:italic;}
+.tkt-q{font-size:14px;font-weight:500;margin-bottom:12px;}
+.tkt-opts{display:flex;flex-direction:column;gap:8px;}
+.tkt-opt{background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:10px 14px;cursor:pointer;font-size:13.5px;text-align:left;color:var(--text);font-family:'DM Sans',sans-serif;transition:border-color .2s,background .2s,transform .1s;}
+.tkt-opt:hover:not(:disabled){border-color:var(--accent);background:rgba(255,95,31,.06);transform:translateX(3px);}
+.tkt-opt.correct{border-color:var(--green);background:rgba(61,220,132,.1);color:var(--green);}
+.tkt-opt.wrong{border-color:var(--red);background:rgba(255,107,107,.1);color:var(--red);}
+.tkt-opt:disabled{cursor:default;transform:none;}
+.tkt-fb{margin-top:12px;padding:12px 14px;border-radius:8px;font-size:13.5px;line-height:1.55;display:none;}
+.tkt-fb.show{display:block;}
+.tkt-fb.good{background:rgba(61,220,132,.1);border:1px solid rgba(61,220,132,.3);color:var(--green);}
+.tkt-fb.bad{background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.3);color:var(--red);}
+.tkt-next{margin-top:12px;display:none;}
+.tkt-next.show{display:flex;justify-content:flex-end;}
+.gscreen{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:34px 26px;text-align:center;}
+.gs-icon{font-size:50px;margin-bottom:14px;}.gs-title{font-family:'Syne',sans-serif;font-weight:800;font-size:24px;margin-bottom:8px;}
+.gs-sub{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:20px;}
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px;}
+.result-item{background:var(--bg3);border-radius:9px;padding:14px;}
+.result-num{font-family:'Syne',sans-serif;font-weight:700;font-size:25px;color:var(--accent);}
+.result-label{font-size:12px;color:var(--text3);margin-top:3px;}
+.diff-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.diff-btn{background:var(--bg3);border:2px solid var(--border);color:var(--text);border-radius:12px;padding:13px 20px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;transition:border-color .2s,background .2s,transform .1s;min-width:130px;}
+.diff-btn:hover{transform:translateY(-2px);}
+.diff-btn.easy:hover{border-color:var(--green);background:rgba(61,220,132,.08);}
+.diff-btn.normal:hover{border-color:var(--yellow);background:rgba(251,191,36,.08);}
+.diff-btn.hard:hover{border-color:var(--red);background:rgba(255,107,107,.08);}
+
+/* MOBILE */
+.mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(22,24,31,.97);backdrop-filter:blur(16px);border-top:1px solid var(--border);z-index:150;padding:8px 0 calc(8px + env(safe-area-inset-bottom));justify-content:space-around;}
+.mob-nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;color:var(--text3);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 12px;border-radius:8px;transition:color .15s;}
+.mob-nav-btn.active{color:var(--accent);}
+.mob-nav-btn span:first-child{font-size:20px;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+/* RESPONSIVE */
 @media(max-width:768px){
+  header{flex-wrap:wrap;height:auto;padding:10px 16px;gap:8px;}
+  .search-wrap{order:3;max-width:100%;flex:1 1 100%;}
+  .header-right{gap:6px;}
+  .role-badge span{display:none;}.role-badge{padding:6px 8px;border-radius:8px;}
+  .btn-outline{display:none;}
+  .layout{grid-template-columns:1fr;padding:16px;}.sidebar{display:none;}
+  .tpl-layout{grid-template-columns:1fr;padding:16px;gap:14px;}
+  .tpl-sidebar{position:static;}.tpl-cats{flex-direction:row;flex-wrap:wrap;gap:6px;margin-top:10px;}
+  .tpl-cat{padding:5px 10px;font-size:12px;}
   .news-layout{grid-template-columns:1fr;}
   .news-sidebar{order:-1;}
+  .hud{grid-template-columns:1fr 1fr;}.game-wrap{padding:16px;}
+  .diff-btns{flex-direction:column;align-items:center;}.diff-btn{width:100%;max-width:300px;}
+  .frow{grid-template-columns:1fr;}
+  .modal-overlay{padding:12px;}.modal{max-height:95vh;}
 }
 @media(max-width:480px){
+  header{padding:8px 12px;}
+  .logo{font-size:18px;}.logo-icon{width:26px;height:26px;font-size:13px;}
+  .nav-btn{font-size:0;padding:6px 8px;}
+  #navGame::before{content:'🎮';font-size:15px;}
+  #navTemplates::before{content:'📝';font-size:15px;}
+  #navNews::before{content:'📰';font-size:15px;}
+  .layout{padding:10px 12px;}.feed-header{flex-direction:column;align-items:flex-start;gap:10px;}
+  .sort-tabs{width:100%;}.sort-tab{flex:1;text-align:center;}
+  .post-card{padding:11px 12px;}.post-title{font-size:14px;}.post-preview{font-size:13px;}
+  .hud{gap:8px;}.hud-card{padding:9px 8px;}.hud-val{font-size:18px;}.hud-lbl{font-size:9px;}
+  .tpl-layout{padding:10px 12px;}.tpl-cat{font-size:11.5px;padding:4px 8px;}
+  .tpl-card{padding:13px;}.tpl-actions{flex-direction:column;gap:6px;}.tpl-btn{width:100%;}
   .news-layout{padding:10px 12px;}
+  .rpg{grid-template-columns:1fr;}.modal-body{padding:12px 14px;}
+  .mobile-nav{display:flex;}
+  #pageFeed,#pageGame,#pageTemplates,#pageNews{padding-bottom:72px;}
 }
-
 </style>
 </head>
 <body>
@@ -549,9 +419,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
       </div>
       <div class="user-dropdown" id="userDD">
         <div class="dd-header"><div class="dd-name" id="ddName"></div><div class="dd-role" id="ddRole"></div></div>
-        <div class="dd-item">👤 My Profile</div>
-        <div class="dd-item">🔖 Saved Posts</div>
-        <div class="dd-item">⚙️ Settings</div>
+        <div class="dd-item">👤 My Profile</div><div class="dd-item">🔖 Saved Posts</div>
         <div class="dd-item danger" onclick="logout()">🚪 Log Out</div>
       </div>
     </div>
@@ -578,19 +446,18 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
       </div>
     </div>
     <div class="filter-bar" id="filterBar">
-      <span>📌 Showing posts tagged</span>
-      <span class="filter-bar-tag" id="filterBarTag"></span>
+      <span>📌 Tagged</span><span class="filter-bar-tag" id="filterBarTag"></span>
       <button class="filter-bar-clear" onclick="clearTagFilter()">✕ Clear</button>
     </div>
     <div id="feed"></div>
   </main>
   <aside class="sidebar">
     <div class="sidebar-card"><div class="sc-header">🎯 Browse by Role</div><div class="sc-body"><div class="role-list" id="roleFilterList"></div></div></div>
-    <div class="sidebar-card"><div class="sc-header">📊 Community Stats</div><div class="sc-body">
+    <div class="sidebar-card"><div class="sc-header">📊 Stats</div><div class="sc-body">
       <div class="stats-grid">
         <div class="stat-item"><div class="stat-num">4.2k</div><div class="stat-label">Members</div></div>
         <div class="stat-item"><div class="stat-num" id="statPosts">15</div><div class="stat-label">Posts</div></div>
-        <div class="stat-item"><div class="stat-num">12k</div><div class="stat-label">Tips Shared</div></div>
+        <div class="stat-item"><div class="stat-num">12k</div><div class="stat-label">Tips</div></div>
         <div class="stat-item"><div class="stat-num">99%</div><div class="stat-label">AHT Stress</div></div>
       </div>
     </div></div>
@@ -599,7 +466,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
       <div class="sc-body" style="text-align:center;padding:16px">
         <div style="font-size:28px;margin-bottom:6px">🎮</div>
         <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:4px">AHT Runner</div>
-        <div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.5">Handle tickets fast.<br>Keep your AHT low. Survive.</div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.5">Handle tickets fast.<br>Keep AHT low. Survive.</div>
         <button class="btn-primary" onclick="showPage('game')" style="width:100%">Play Now 🎯</button>
       </div>
     </div>
@@ -610,14 +477,10 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 <!-- GAME PAGE -->
 <div class="page" id="pageGame">
 <div class="game-wrap">
-  <div class="game-hdr">
-    <div class="game-title">AHT <span>Runner</span></div>
-    <div class="game-sub">Handle tickets fast. Keep your AHT low. Don't let the queue win.</div>
-  </div>
+  <div class="game-hdr"><div class="game-title">AHT <span>Runner</span></div><div class="game-sub">Handle tickets fast. Keep your AHT low. Don't let the queue win.</div></div>
   <div id="gameStart" class="gscreen">
-    <div class="gs-icon">🎧</div>
-    <div class="gs-title">Ready to take calls?</div>
-    <div class="gs-sub">10 customer tickets. Answer correctly and fast to keep your AHT low.<br>Wrong answers and timeouts cost you points. Choose your difficulty:</div>
+    <div class="gs-icon">🎧</div><div class="gs-title">Ready to take calls?</div>
+    <div class="gs-sub">10 customer tickets. Answer correctly and fast to keep your AHT low. Wrong answers cost points.</div>
     <div class="diff-btns">
       <button class="diff-btn easy" onclick="startGame('easy')">😌 Easy<br><small style="color:var(--text3);font-size:11px">45s per ticket</small></button>
       <button class="diff-btn normal" onclick="startGame('normal')">😤 Normal<br><small style="color:var(--text3);font-size:11px">30s per ticket</small></button>
@@ -645,11 +508,9 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
     </div>
   </div>
   <div id="gameOver" class="gscreen" style="display:none">
-    <div class="gs-icon" id="goIcon">🏆</div>
-    <div class="gs-title" id="goTitle">Shift Complete!</div>
-    <div class="gs-sub" id="goSub"></div>
+    <div class="gs-icon" id="goIcon">🏆</div><div class="gs-title" id="goTitle"></div><div class="gs-sub" id="goSub"></div>
     <div class="result-grid">
-      <div class="result-item"><div class="result-num" id="goScore">0</div><div class="result-label">Final Score</div></div>
+      <div class="result-item"><div class="result-num" id="goScore">0</div><div class="result-label">Score</div></div>
       <div class="result-item"><div class="result-num" id="goAHT">0s</div><div class="result-label">Avg AHT</div></div>
       <div class="result-item"><div class="result-num" id="goAcc">0%</div><div class="result-label">Accuracy</div></div>
     </div>
@@ -661,15 +522,11 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 </div>
 </div>
 
-
 <!-- TEMPLATES PAGE -->
 <div class="page" id="pageTemplates">
 <div class="tpl-layout">
   <div class="tpl-sidebar">
-    <div class="tpl-sidebar-header">
-      <div class="tpl-sidebar-title">📝 Script Templates</div>
-      <button class="btn-primary" onclick="openTplModal()" style="font-size:12px;padding:6px 12px">+ New</button>
-    </div>
+    <div class="tpl-sidebar-header"><div class="tpl-sidebar-title">📝 Templates</div><button class="btn-primary" onclick="openTplModal()" style="font-size:12px;padding:6px 12px">+ New</button></div>
     <div class="tpl-cats">
       <div class="tpl-cat active" onclick="filterTpls('all',this)">🌐 All Templates</div>
       <div class="tpl-cat" onclick="filterTpls('apology',this)">😔 Apology</div>
@@ -683,16 +540,12 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
   </div>
   <div class="tpl-main">
     <div class="tpl-topbar">
-      <div class="tpl-search-wrap">
-        <span class="search-icon" style="font-size:13px">🔍</span>
-        <input class="search-input" id="tplSearchInput" placeholder="Search templates…" oninput="renderTemplates()" style="padding-left:32px"/>
-      </div>
-      <div style="display:flex;gap:8px;align-items:center">
-        <span style="font-size:12px;color:var(--text3)" id="tplCount"></span>
+      <div class="tpl-search-wrap"><span class="search-icon" style="font-size:13px">🔍</span><input class="search-input" id="tplSearchInput" placeholder="Search templates…" oninput="renderTemplates()" style="padding-left:32px"/></div>
+      <div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px;color:var(--text3)" id="tplCount"></span>
         <div class="tpl-channel-toggle">
-          <button class="tch-btn active" id="tchEmail" onclick="setChannel('email',this)">✉ Email</button>
-          <button class="tch-btn" id="tchPhone" onclick="setChannel('phone',this)">📞 Phone</button>
-          <button class="tch-btn" id="tchChat" onclick="setChannel('chat',this)">💬 Chat</button>
+          <button class="tch-btn active" onclick="setChannel('email',this)">✉ Email</button>
+          <button class="tch-btn" onclick="setChannel('phone',this)">📞 Phone</button>
+          <button class="tch-btn" onclick="setChannel('chat',this)">💬 Chat</button>
         </div>
       </div>
     </div>
@@ -701,133 +554,55 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 </div>
 </div>
 
-<!-- TPL CREATE/EDIT MODAL -->
-<div class="modal-overlay" id="tplModal">
-  <div class="modal" style="max-width:640px">
-    <div class="modal-hdr">
-      <div class="modal-hdr-title" id="tplModalTitle">New Template</div>
-      <button class="modal-x" onclick="closeTplModal()">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="frow">
-        <div><div class="fl">Template Name</div><input class="fi" id="tplName" placeholder="e.g. Billing Apology"/></div>
-        <div><div class="fl">Category</div>
-          <select class="fsel" id="tplCat">
-            <option value="apology">😔 Apology</option>
-            <option value="info">❓ Ask for Info</option>
-            <option value="escalation">🚨 Escalation</option>
-            <option value="followup">🔁 Follow-up</option>
-            <option value="closing">✅ Closing</option>
-            <option value="hold">⏸ Hold / Transfer</option>
-            <option value="custom">🏷 Custom</option>
-          </select>
-        </div>
-      </div>
-      <div><div class="fl">Channel</div>
-        <div style="display:flex;gap:8px">
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px"><input type="checkbox" id="chkEmail" checked style="accent-color:var(--accent)"/> ✉ Email</label>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px"><input type="checkbox" id="chkPhone" style="accent-color:var(--accent)"/> 📞 Phone Script</label>
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px"><input type="checkbox" id="chkChat" style="accent-color:var(--accent)"/> 💬 Chat</label>
-        </div>
-      </div>
-      <div>
-        <div class="fl">Template Body</div>
-        <div style="font-size:12px;color:var(--text3);margin-bottom:6px">Use <code style="background:var(--bg3);padding:1px 5px;border-radius:3px;color:var(--accent2)">[Customer Name]</code>, <code style="background:var(--bg3);padding:1px 5px;border-radius:3px;color:var(--accent2)">[Issue]</code>, <code style="background:var(--bg3);padding:1px 5px;border-radius:3px;color:var(--accent2)">[Agent Name]</code> as placeholders</div>
-        <textarea class="fta" id="tplBody" placeholder="Write your template here…" style="min-height:160px"></textarea>
-      </div>
-      <div><div class="fl">Tags <span style="color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">(comma separated)</span></div><input class="fi" id="tplTags" placeholder="e.g. billing, refund, empathy"/></div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-ghost" onclick="closeTplModal()">Cancel</button>
-      <button class="btn-primary" onclick="saveTpl()">Save Template 💾</button>
-    </div>
-  </div>
-</div>
-
-<!-- TPL USE MODAL (fill in placeholders) -->
-<div class="modal-overlay" id="tplUseModal">
-  <div class="modal" style="max-width:620px">
-    <div class="modal-hdr">
-      <div class="modal-hdr-title" id="tplUseName">Use Template</div>
-      <button class="modal-x" onclick="closeTplUse()">✕</button>
-    </div>
-    <div class="modal-body">
-      <div id="tplPlaceholderFields"></div>
-      <div>
-        <div class="fl">Preview</div>
-        <textarea class="fta" id="tplPreview" style="min-height:160px;font-family:'DM Sans',sans-serif;font-size:13.5px;line-height:1.65"></textarea>
-      </div>
-    </div>
-    <div class="modal-footer" style="justify-content:space-between">
-      <button class="btn-ghost" onclick="closeTplUse()">Cancel</button>
-      <div style="display:flex;gap:8px">
-        <button class="btn-ghost" onclick="copyTpl()">📋 Copy</button>
-        <button class="btn-primary" onclick="copyTpl(true)">📋 Copy & Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
 <!-- NEWS PAGE -->
 <div class="page" id="pageNews">
 <div class="news-layout">
-  <div class="news-main">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px;">
+  <div class="news-main" style="min-width:0">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:12px">
       <div>
-        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:22px;display:flex;align-items:center;gap:10px;">📰 CC Industry News<span style="font-size:11px;background:rgba(61,220,132,.15);color:var(--green);padding:2px 8px;border-radius:10px;font-weight:600;font-family:'JetBrains Mono',monospace;letter-spacing:.5px;">● LIVE</span></div>
-        <div style="font-size:12.5px;color:var(--text3);margin-top:3px;">Real-time updates from the contact center world · <span id="newsLastUpdated">fetching…</span></div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:22px;display:flex;align-items:center;gap:10px">📰 CC Industry News <span style="font-size:11px;background:rgba(61,220,132,.15);color:var(--green);padding:2px 8px;border-radius:10px;font-weight:600;font-family:'JetBrains Mono',monospace">● LIVE</span></div>
+        <div style="font-size:12.5px;color:var(--text3);margin-top:3px">Real-time updates · <span id="newsLastUpdated">fetching…</span></div>
       </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;" id="newsFilterBtns">
+      <div style="display:flex;gap:8px;flex-wrap:wrap" id="newsFilterBtns">
         <button class="news-filter-btn active" onclick="filterNews('all',this)">All</button>
         <button class="news-filter-btn" onclick="filterNews('ai',this)">🤖 AI & Tech</button>
         <button class="news-filter-btn" onclick="filterNews('cx',this)">💬 CX</button>
-        <button class="news-filter-btn" onclick="filterNews('ops',this)">⚙️ Operations</button>
+        <button class="news-filter-btn" onclick="filterNews('ops',this)">⚙️ Ops</button>
         <button class="news-filter-btn" onclick="filterNews('industry',this)">🏢 Industry</button>
       </div>
     </div>
-    <!-- Tip of the Day -->
-    <div class="tip-card" id="tipCard">
+    <div class="tip-card">
       <div class="tip-label">💡 Tip of the Day</div>
       <div class="tip-text" id="tipText"></div>
       <div class="tip-author" id="tipAuthor"></div>
       <button class="tip-next-btn" onclick="nextTip()">Next tip →</button>
     </div>
-    <!-- News grid -->
-    <div id="newsGrid"></div>
-    <div style="text-align:center;margin-top:20px;" id="newsLoader">
-      <div class="news-loading">⟳ Loading latest news…</div>
-    </div>
+    <div id="newsGrid" class="news-grid"></div>
+    <div style="text-align:center;margin-top:20px;color:var(--text3);font-size:13px" id="newsLoader">⟳ Loading latest news…</div>
   </div>
   <div class="news-sidebar">
-    <!-- Wellbeing Tracker -->
     <div class="wb-card">
       <div class="wb-title">📊 Wellbeing Check-in</div>
       <div class="wb-sub">How are you feeling today?</div>
-      <div class="wb-moods" id="wbMoods">
-        <button class="wb-mood" onclick="setMood('great',this)">😄<span>Great</span></button>
-        <button class="wb-mood" onclick="setMood('good',this)">🙂<span>Good</span></button>
-        <button class="wb-mood" onclick="setMood('meh',this)">😐<span>Meh</span></button>
-        <button class="wb-mood" onclick="setMood('tough',this)">😔<span>Tough</span></button>
-        <button class="wb-mood" onclick="setMood('burnout',this)">🔥<span>Burned</span></button>
+      <div class="wb-moods">
+        <button class="wb-mood" onclick="setMood('great',this)"><span>😄</span><span>Great</span></button>
+        <button class="wb-mood" onclick="setMood('good',this)"><span>🙂</span><span>Good</span></button>
+        <button class="wb-mood" onclick="setMood('meh',this)"><span>😐</span><span>Meh</span></button>
+        <button class="wb-mood" onclick="setMood('tough',this)"><span>😔</span><span>Tough</span></button>
+        <button class="wb-mood" onclick="setMood('burnout',this)"><span>🔥</span><span>Burned</span></button>
       </div>
       <div id="wbResponse" class="wb-response" style="display:none"></div>
-      <div class="wb-history-wrap">
-        <div class="wb-history-title">Your week</div>
-        <div class="wb-history" id="wbHistory"></div>
-      </div>
-      <div class="wb-team-bar">
-        <div class="wb-team-title">Team mood today</div>
-        <div class="wb-bars" id="wbTeamBars"></div>
-      </div>
+      <div class="wb-history-title">Your week</div>
+      <div class="wb-history" id="wbHistory"></div>
+      <div class="wb-team-title">Team mood today</div>
+      <div id="wbTeamBars"></div>
     </div>
-    <!-- Quick stats -->
-    <div class="sidebar-card" style="margin-top:14px;">
+    <div class="sidebar-card">
       <div class="sc-header">📈 Industry Pulse</div>
-      <div class="sc-body" style="display:flex;flex-direction:column;gap:10px;">
+      <div class="sc-body">
         <div class="pulse-item"><div class="pulse-label">AI in CC</div><div class="pulse-bar-track"><div class="pulse-bar-fill" style="width:88%;background:var(--blue)"></div></div><div class="pulse-val">88%</div></div>
-        <div class="pulse-item"><div class="pulse-label">Turnover rate</div><div class="pulse-bar-track"><div class="pulse-bar-fill" style="width:38%;background:var(--red)"></div></div><div class="pulse-val">38%</div></div>
-        <div class="pulse-item"><div class="pulse-label">Remote / hybrid</div><div class="pulse-bar-track"><div class="pulse-bar-fill" style="width:62%;background:var(--green)"></div></div><div class="pulse-val">62%</div></div>
+        <div class="pulse-item"><div class="pulse-label">Turnover</div><div class="pulse-bar-track"><div class="pulse-bar-fill" style="width:38%;background:var(--red)"></div></div><div class="pulse-val">38%</div></div>
+        <div class="pulse-item"><div class="pulse-label">Remote/hybrid</div><div class="pulse-bar-track"><div class="pulse-bar-fill" style="width:62%;background:var(--green)"></div></div><div class="pulse-val">62%</div></div>
         <div class="pulse-item"><div class="pulse-label">CSAT w/ AI</div><div class="pulse-bar-track"><div class="pulse-bar-fill" style="width:71%;background:var(--yellow)"></div></div><div class="pulse-val">71%</div></div>
       </div>
     </div>
@@ -835,20 +610,19 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 </div>
 </div>
 
-
 <!-- POST MODAL -->
 <div class="modal-overlay" id="postModal">
   <div class="modal">
     <div class="modal-hdr"><div class="modal-hdr-title">Share your know-how</div><button class="modal-x" onclick="closePostModal()">✕</button></div>
     <div class="modal-body">
-      <div><div class="fl">Your Role</div><select class="fsel" id="postRole"><option value="">Select your role…</option></select></div>
+      <div><div class="fl">Your Role</div><select class="fsel" id="postRole"><option value="">Select…</option></select></div>
       <div><div class="fl">Title</div><input class="fi" id="postTitle" placeholder="Tips, rants, wins…"/></div>
       <div><div class="fl">Body</div><textarea class="fta" id="postBody" placeholder="Share the full story…"></textarea></div>
       <div>
         <div class="fl">Image <span style="color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></div>
         <div class="upload-area" id="upArea" onclick="document.getElementById('upFile').click()">
           <input type="file" id="upFile" accept="image/*" onchange="handleUpload(event)"/>
-          <div id="upPH"><div style="font-size:24px;margin-bottom:5px">🖼</div><div style="font-size:13px;color:var(--text2)">Click to upload an image</div><div style="font-size:11.5px;color:var(--text3);margin-top:3px">PNG, JPG, GIF — max 5MB</div></div>
+          <div id="upPH"><div style="font-size:24px;margin-bottom:5px">🖼</div><div style="font-size:13px;color:var(--text2)">Click to upload</div><div style="font-size:11.5px;color:var(--text3);margin-top:3px">PNG, JPG, GIF — max 5MB</div></div>
           <img id="upPreview" class="up-preview" style="display:none"/>
           <button class="up-remove" id="upRemove" style="display:none" onclick="removeUpload(event)">✕</button>
         </div>
@@ -877,22 +651,19 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
       </div>
       <div class="auth-panel active" id="panelS">
         <div class="frow">
-          <div><div class="fl">First Name</div><input class="fi" id="sFirst" placeholder="e.g. Alex"/></div>
-          <div><div class="fl">Last Name</div><input class="fi" id="sLast" placeholder="e.g. Morgan"/></div>
+          <div><div class="fl">First Name</div><input class="fi" id="sFirst" placeholder="Alex"/></div>
+          <div><div class="fl">Last Name</div><input class="fi" id="sLast" placeholder="Morgan"/></div>
         </div>
-        <div><div class="fl">Username</div><input class="fi" id="sUser" placeholder="e.g. holdqueen99"/><div class="fhint">How you appear on posts</div><div class="ferr" id="eUser">Username already taken or empty</div></div>
-        <div><div class="fl">Email</div><input class="fi" id="sEmail" type="email" placeholder="you@callcenter.com"/><div class="ferr" id="eEmail">Please enter a valid email</div></div>
-        <div><div class="fl">Your CC Role</div><select class="fsel" id="sRole"><option value="">Select your role…</option></select><div class="ferr" id="eRole">Please select your role</div></div>
+        <div><div class="fl">Username</div><input class="fi" id="sUser" placeholder="holdqueen99"/><div class="fhint">How you appear on posts</div><div class="ferr" id="eUser">Username taken or empty</div></div>
+        <div><div class="fl">Email</div><input class="fi" id="sEmail" type="email" placeholder="you@callcenter.com"/><div class="ferr" id="eEmail">Valid email required</div></div>
+        <div><div class="fl">Your CC Role</div><select class="fsel" id="sRole"><option value="">Select…</option></select><div class="ferr" id="eRole">Please select a role</div></div>
         <div><div class="fl">Password</div><div class="pw-wrap"><input class="fi" id="sPwd" type="password" placeholder="Min. 6 characters"/><button class="pw-toggle" onclick="tPwd('sPwd',this)">👁</button></div><div class="ferr" id="ePwd">At least 6 characters</div></div>
       </div>
       <div class="auth-panel" id="panelL">
-        <div><div class="fl">Username or Email</div><input class="fi" id="lIdent" placeholder="Your username or email"/><div class="ferr" id="eLogin">Invalid username/email or password</div></div>
+        <div><div class="fl">Username or Email</div><input class="fi" id="lIdent" placeholder="Your username or email"/><div class="ferr" id="eLogin">Invalid credentials</div></div>
         <div><div class="fl">Password</div><div class="pw-wrap"><input class="fi" id="lPwd" type="password" placeholder="Your password"/><button class="pw-toggle" onclick="tPwd('lPwd',this)">👁</button></div></div>
-        <div style="text-align:right"><span style="font-size:12.5px;color:var(--accent);cursor:pointer">Forgot password?</span></div>
       </div>
-      <div id="authOK" style="display:none">
-        <div class="success-state"><div class="success-icon">🎉</div><div class="success-title" id="okTitle">Welcome!</div><div class="success-sub" id="okSub"></div></div>
-      </div>
+      <div id="authOK" style="display:none"><div class="success-state"><div class="success-icon">🎉</div><div class="success-title" id="okTitle">Welcome!</div><div class="success-sub" id="okSub"></div></div></div>
     </div>
     <div class="modal-footer" id="authFooter">
       <button class="btn-ghost" onclick="closeAuth()">Cancel</button>
@@ -901,13 +672,52 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
   </div>
 </div>
 
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lb" onclick="closeLB()">
-  <button class="lb-close" onclick="closeLB()">✕</button>
-  <img id="lbImg" src="" alt=""/>
+<!-- TPL MODAL -->
+<div class="modal-overlay" id="tplModal">
+  <div class="modal" style="max-width:640px">
+    <div class="modal-hdr"><div class="modal-hdr-title" id="tplModalTitle">New Template</div><button class="modal-x" onclick="closeTplModal()">✕</button></div>
+    <div class="modal-body">
+      <div class="frow">
+        <div><div class="fl">Name</div><input class="fi" id="tplName" placeholder="e.g. Billing Apology"/></div>
+        <div><div class="fl">Category</div><select class="fsel" id="tplCat"><option value="apology">😔 Apology</option><option value="info">❓ Ask for Info</option><option value="escalation">🚨 Escalation</option><option value="followup">🔁 Follow-up</option><option value="closing">✅ Closing</option><option value="hold">⏸ Hold / Transfer</option><option value="custom">🏷 Custom</option></select></div>
+      </div>
+      <div><div class="fl">Channels</div><div style="display:flex;gap:12px"><label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px"><input type="checkbox" id="chkEmail" checked style="accent-color:var(--accent)"/> ✉ Email</label><label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px"><input type="checkbox" id="chkPhone" style="accent-color:var(--accent)"/> 📞 Phone</label><label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px"><input type="checkbox" id="chkChat" style="accent-color:var(--accent)"/> 💬 Chat</label></div></div>
+      <div><div class="fl">Body</div><div style="font-size:12px;color:var(--text3);margin-bottom:6px">Use <code style="background:var(--bg3);padding:1px 5px;border-radius:3px;color:var(--accent2)">[Customer Name]</code>, <code style="background:var(--bg3);padding:1px 5px;border-radius:3px;color:var(--accent2)">[Issue]</code>, <code style="background:var(--bg3);padding:1px 5px;border-radius:3px;color:var(--accent2)">[Agent Name]</code> as placeholders</div><textarea class="fta" id="tplBody" placeholder="Write your template here…" style="min-height:160px"></textarea></div>
+      <div><div class="fl">Tags</div><input class="fi" id="tplTags" placeholder="billing, refund, empathy"/></div>
+    </div>
+    <div class="modal-footer"><button class="btn-ghost" onclick="closeTplModal()">Cancel</button><button class="btn-primary" onclick="saveTpl()">Save Template 💾</button></div>
+  </div>
 </div>
 
+<!-- TPL USE MODAL -->
+<div class="modal-overlay" id="tplUseModal">
+  <div class="modal" style="max-width:620px">
+    <div class="modal-hdr"><div class="modal-hdr-title" id="tplUseName">Use Template</div><button class="modal-x" onclick="closeTplUse()">✕</button></div>
+    <div class="modal-body">
+      <div id="tplPlaceholderFields"></div>
+      <div><div class="fl">Preview</div><textarea class="fta" id="tplPreview" style="min-height:160px;line-height:1.65"></textarea></div>
+    </div>
+    <div class="modal-footer" style="justify-content:space-between">
+      <button class="btn-ghost" onclick="closeTplUse()">Cancel</button>
+      <div style="display:flex;gap:8px"><button class="btn-ghost" onclick="copyTpl()">📋 Copy</button><button class="btn-primary" onclick="copyTpl(true)">📋 Copy & Close</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lb" onclick="closeLB()"><button class="lb-close" onclick="closeLB()">✕</button><img id="lbImg" src="" alt=""/></div>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav">
+  <button class="mob-nav-btn active" id="mnFeed" onclick="showPage('feed');setMobNav('mnFeed')"><span>📰</span><span>Feed</span></button>
+  <button class="mob-nav-btn" id="mnNews" onclick="showPage('news');setMobNav('mnNews')"><span>📡</span><span>News</span></button>
+  <button class="mob-nav-btn" id="mnTemplates" onclick="showPage('templates');setMobNav('mnTemplates')"><span>📝</span><span>Templates</span></button>
+  <button class="mob-nav-btn" id="mnGame" onclick="showPage('game');setMobNav('mnGame')"><span>🎮</span><span>Game</span></button>
+  <button class="mob-nav-btn" id="mnAuth" onclick="handleMobAuth()"><span id="mnAuthIcon">👤</span><span id="mnAuthLabel">Sign In</span></button>
+</nav>
+
 <script>
+// ═══ DATA ═══
 const ROLES=[
   {id:'agent-inbound',icon:'🎧',name:'Inbound Agent',desc:'Handling the chaos daily',cls:'role-agent'},
   {id:'agent-outbound',icon:'📲',name:'Outbound Agent',desc:'Dialing for dollars (or doom)',cls:'role-agent'},
@@ -918,67 +728,94 @@ const ROLES=[
   {id:'ops-manager',icon:'📊',name:'Ops Manager',desc:'The dashboard whisperer',cls:'role-manager'},
   {id:'it-support',icon:'🖥',name:'IT Support',desc:'Have you tried turning it off?',cls:'role-it'},
   {id:'back-office',icon:'📂',name:'Back Office',desc:'Tickets and tranquility',cls:'role-back'},
-  {id:'supervisor',icon:'🧑\u200d💼',name:'Supervisor',desc:'Approving breaks, denying feels',cls:'role-tl'},
+  {id:'supervisor',icon:'🧑‍💼',name:'Supervisor',desc:'Approving breaks, denying feels',cls:'role-tl'},
   {id:'csat-analyst',icon:'⭐',name:'CSAT Analyst',desc:'Guarding the score',cls:'role-qa'},
   {id:'escalation',icon:'🚨',name:'Escalation Desk',desc:'Where calls go to die or fly',cls:'role-manager'},
 ];
-const JOKES=[
-  "Why did the agent put the customer on hold? To finally finish that one cup of coffee.",
-  "What do you call a WFM analyst on vacation? A myth.",
-  "My AHT was so high, the supervisor asked if I was running a therapy clinic.",
-  "QA: 'You said uh twice.' Agent: 'Uh... sorry.'",
-  "Why don't CC agents ever get lost? They always follow the script.",
-  "A customer said 'have a nice day.' First kind words since onboarding.",
-  "WFM gave us 15 min for lunch. Microwave takes 2. Math was never their strength.",
-  "Why did the TL cross the road? To get away from the escalation queue.",
-  "Customer: 'I want to speak to a human.' Agent: 'Same, honestly.'",
-  "CSAT dropped because a customer gave us 4/5. Said it was 'almost perfect.' Sleep tight.",
-  "Trainer: 'Any questions?' Agent: 'Yes. Why?'",
-  "What's an outbound agent's fave movie? Dial Hard.",
-  "IT fixed the headsets. Took 3 tickets and a prayer to the server room.",
-  "What's the CC diet? Eat during wrap time. Drink during hold.",
-  "We have great work-life balance. We work hard so we can cry from home.",
-];
-const TTAGS=[
-  {tag:'AHTsurvivor',emoji:'⏱'},{tag:'QAfeedback',emoji:'🔍'},{tag:'SilentCalls',emoji:'🔇'},
-  {tag:'WFMwoes',emoji:'📅'},{tag:'ScriptKiller',emoji:'📋'},{tag:'HoldMusicPTSD',emoji:'🎵'},
-];
-const POSTS_SEED=[
+const JOKES=["Why did the agent put the customer on hold? To finally finish that one cup of coffee.","What do you call a WFM analyst on vacation? A myth.","My AHT was so high, the supervisor asked if I was running a therapy clinic.","QA: 'You said uh twice.' Agent: 'Uh... sorry.'","Why don't CC agents ever get lost? They always follow the script.","A customer said 'have a nice day.' First kind words since onboarding.","WFM gave us 15 min for lunch. Microwave takes 2. Math was never their strength.","Why did the TL cross the road? To get away from the escalation queue.","Customer: 'I want to speak to a human.' Agent: 'Same, honestly.'","CSAT dropped because a customer gave us 4/5. Said it was 'almost perfect.' Sleep tight.","Trainer: 'Any questions?' Agent: 'Yes. Why?'","What's an outbound agent's fave movie? Dial Hard.","IT fixed the headsets. Took 3 tickets and a prayer to the server room.","What's the CC diet? Eat during wrap time. Drink during hold.","Great work-life balance: work hard so we can cry from home."];
+const TTAGS=[{tag:'AHTsurvivor',emoji:'⏱'},{tag:'QAfeedback',emoji:'🔍'},{tag:'SilentCalls',emoji:'🔇'},{tag:'WFMwoes',emoji:'📅'},{tag:'ScriptKiller',emoji:'📋'},{tag:'HoldMusicPTSD',emoji:'🎵'}];
+const SEED=[
   {id:1,role:'agent-inbound',author:'queenOfHolds',tags:['AHTsurvivor'],image:'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80',title:'My proven trick to de-escalate an irate customer in under 60 seconds',body:'After 6 years of inbound I figured out one thing: let them finish. Fully. Mirror their words back and they instantly calm down. Works 80% of the time.',votes:312,time:'2h ago',comments:[{author:'burnoutTL',color:'#a78bfa',text:'Gold. I share this with every new agent.'},{author:'gradeAGrammar',color:'#fbbf24',text:'Mirroring is backed by psychology research. +1.'}]},
-  {id:2,role:'qa',author:'gradeAGrammar',tags:['QAfeedback'],title:'Stop writing "I understand your frustration" — here\'s what actually scores better',body:'That phrase is so overused it reads as scripted. Try "That sounds genuinely stressful — let me look into this right now." Specificity > sympathy clichés.',votes:278,time:'4h ago',comments:[{author:'roleplayRuler',color:'#ff8c55',text:'Banned this phrase on my team last quarter. CSAT went up 0.3 points.'},{author:'quietSupervisor',color:'#3ddc84',text:'Customers want to feel like YOU specifically care, not a robot.'}]},
-  {id:3,role:'wfm',author:'scheduleGod',tags:['WFMwoes'],image:'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&q=80',title:'How I built a shrinkage buffer that my TLs actually believe in',body:'3 months tracking unplanned aux vs planned. Built a simple Excel model. Once leadership could SEE the data it went from "you\'re overstaffing" to "can we do this monthly?"',votes:189,time:'5h ago',comments:[]},
-  {id:4,role:'team-lead',author:'burnoutTL',tags:['AHTsurvivor','QAfeedback'],title:'Agent with great CSAT but AHT through the roof — what do you do?',body:'She gets consistently 4.8+ CSAT but her AHT is 2x the team average. Customers love her. Numbers hate her. Management is on my case.',votes:156,time:'6h ago',comments:[{author:'quietSupervisor',color:'#3ddc84',text:'Coach her on wrapping faster, not on caring less.'},{author:'queenOfHolds',color:'#4f9eff',text:'Got management to look at FCR alongside AHT. Changed everything.'}]},
-  {id:5,role:'trainer',author:'slidedecksurvivor',tags:['ScriptKiller'],image:'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80',title:'5 onboarding modules I ditched and what I replaced them with',body:'3-day product knowledge dump is dead on arrival. New agents retain maybe 20%. Switched to scenario-based learning day 1, live call listening day 2. Retention jumped.',votes:241,time:'8h ago',comments:[{author:'burnoutTL',color:'#a78bfa',text:'Night and day difference in time to proficiency.'}]},
-  {id:6,role:'escalation',author:'lastResort99',tags:['ScriptKiller'],title:'The exact words I use when a customer demands a manager and there is no manager',body:'When customers ask for "someone above you" I say: "I\'m the specialist team your call was escalated to — let me see what I can resolve for you today." Reframes it completely.',votes:334,time:'10h ago',comments:[{author:'queenOfHolds',color:'#4f9eff',text:'The reframe is everything.'},{author:'ctrl_alt_despair',color:'#5dd6d6',text:'"Senior support tier" hits different than "I\'m just IT."'}]},
-  {id:7,role:'agent-outbound',author:'dialerDreams',tags:['ScriptKiller'],title:'Outbound warm-up script that gets past gatekeepers without lying',body:'Don\'t trick them. I say "Hi, I\'m [name] calling for [first name only] — is this a good time?" Gets through ~60% of the time.',votes:175,time:'12h ago',comments:[]},
-  {id:8,role:'it-support',author:'ctrl_alt_despair',tags:['SilentCalls'],image:'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800&q=80',title:'CC-specific IT issues nobody documents (thread)',body:'Softphone audio cutting out on Windows 11 after sleep mode. Fix: disable USB selective suspend in power settings.',votes:290,time:'1d ago',comments:[{author:'rosterNinja',color:'#3ddc84',text:'Dialer freezes on Chrome: clear cache + disable hardware acceleration.'},{author:'scheduleGod',color:'#ff8c55',text:'Our IT takes 3 days to respond to anything.'}]},
-  {id:9,role:'agent-inbound',author:'holdQueen',tags:['HoldMusicPTSD'],image:'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800&q=80',title:'I now hear our hold music in my dreams. Not a joke.',body:'Three years of Vivaldi on a 45-second loop. I hum it involuntarily at the supermarket. My therapist says it\'s a conditioned response. My supervisor says I need to improve my hold usage rate.',votes:401,time:'1d ago',comments:[{author:'auxCodePoet',color:'#4f9eff',text:'I hum ours in the shower. My partner thought I was having a breakdown.'},{author:'holdMusicHero',color:'#a78bfa',text:'Worst part: a customer says they like the music. What do you say??'}]},
-  {id:10,role:'wfm',author:'rosterNinja',tags:['WFMwoes'],title:'Why agents hate WFM (and what we can actually do about it)',body:'WFM looks like a faceless machine that denies your leave. I started doing monthly "WFM explains itself" sessions on the floor. Unplanned absences down 18%.',votes:223,time:'1d ago',comments:[]},
-  {id:11,role:'qa',author:'calibrationQueen',tags:['QAfeedback'],image:'https://images.unsplash.com/photo-1606857521015-7f9fcf423740?w=800&q=80',title:'Calibration sessions are broken — here is how to fix them',body:'If your calibration sessions end with everyone still disagreeing, you don\'t have a process, you have a meeting. Here\'s the 3-step framework I use that actually closes gaps.',votes:188,time:'2d ago',comments:[{author:'gradeAGrammar',color:'#fbbf24',text:'The pre-calibration alignment doc you shared was incredible. Repost?'}]},
-  {id:12,role:'agent-inbound',author:'auxCodePoet',tags:['SilentCalls'],title:'The art of handling a completely silent call',body:'Silent calls are not always dead air. Sometimes it\'s someone in crisis. Protocol: announce yourself twice, stay on, say "if you can hear me, press any key." I\'ve had 3 cases where staying on made a real difference.',votes:567,time:'2d ago',comments:[{author:'queenOfHolds',color:'#4f9eff',text:'This should be standard training. Shared with my entire floor.'},{author:'lastResort99',color:'#ff5f1f',text:'We had a welfare check that started as a silent call. You never know.'}]},
-  {id:13,role:'supervisor',author:'quietSupervisor',tags:['AHTsurvivor'],image:'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=800&q=80',title:'Stopped pushing AHT for one month. Here\'s what happened.',body:'Removed AHT from daily coaching for 30 days. Focused only on resolution and CSAT. AHT actually dropped by 4%. When agents aren\'t rushing, they resolve faster.',votes:445,time:'2d ago',comments:[{author:'burnoutTL',color:'#a78bfa',text:'Every ops manager needs to read this.'},{author:'scheduleGod',color:'#ff8c55',text:'Rushed calls = repeat contacts = higher total handle time anyway.'}]},
-  {id:14,role:'trainer',author:'roleplayRuler',tags:['ScriptKiller'],title:'I replaced our entire script with 7 principles. Scores went up.',body:'Scripts are training wheels for week 1. I built a principles-based approach: empathy, ownership, clarity, urgency, resolution, recap, close. Agents internalize it in days.',votes:312,time:'3d ago',comments:[]},
-  {id:15,role:'agent-inbound',author:'holdMusicHero',tags:['HoldMusicPTSD'],image:'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80',title:'Customer asked me to "put on the music again." I nearly cried.',body:'An older gentleman said he enjoyed being on hold because the music reminded him of his late wife\'s favourite composer. He asked me to put him back on hold for a moment. I sat there not knowing whether to laugh or cry.',votes:892,time:'3d ago',comments:[{author:'queenOfHolds',color:'#4f9eff',text:'I am not crying. You are crying.'},{author:'auxCodePoet',color:'#a78bfa',text:'Most human thing I\'ve read on this platform.'},{author:'burnoutTL',color:'#3ddc84',text:'Sharing this with my team on Monday. This is why we do it.'}]},
+  {id:2,role:'qa',author:'gradeAGrammar',tags:['QAfeedback'],title:'Stop writing "I understand your frustration" — here\'s what actually scores better',body:'That phrase reads as scripted. Try "That sounds genuinely stressful — let me look into this right now." Specificity beats sympathy clichés.',votes:278,time:'4h ago',comments:[{author:'roleplayRuler',color:'#ff8c55',text:'Banned this phrase. CSAT went up 0.3 points.'},{author:'quietSupervisor',color:'#3ddc84',text:'Customers want to feel like YOU specifically care.'}]},
+  {id:3,role:'wfm',author:'scheduleGod',tags:['WFMwoes'],image:'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&q=80',title:'How I built a shrinkage buffer that my TLs actually believe in',body:'3 months tracking unplanned aux vs planned. Built an Excel model. Once leadership could SEE the data it went from "you\'re overstaffing" to "can we do this monthly?"',votes:189,time:'5h ago',comments:[]},
+  {id:4,role:'team-lead',author:'burnoutTL',tags:['AHTsurvivor','QAfeedback'],title:'Agent with great CSAT but AHT through the roof — what do you do?',body:'She gets 4.8+ CSAT but her AHT is 2x the team average. Customers love her. Numbers hate her. Management is on my case.',votes:156,time:'6h ago',comments:[{author:'quietSupervisor',color:'#3ddc84',text:'Coach her on wrapping faster, not on caring less.'},{author:'queenOfHolds',color:'#4f9eff',text:'Got management to look at FCR alongside AHT. Changed everything.'}]},
+  {id:5,role:'trainer',author:'slidedecksurvivor',tags:['ScriptKiller'],image:'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80',title:'5 onboarding modules I ditched and what I replaced them with',body:'3-day product dump is dead on arrival. Agents retain maybe 20%. Switched to scenario-based learning day 1, live calls day 2. Retention jumped.',votes:241,time:'8h ago',comments:[{author:'burnoutTL',color:'#a78bfa',text:'Night and day difference in time to proficiency.'}]},
+  {id:6,role:'escalation',author:'lastResort99',tags:['ScriptKiller'],title:'The exact words I use when a customer demands a manager and there is no manager',body:'I say: "I\'m the specialist team your call was escalated to — let me see what I can resolve for you today." Reframes it completely.',votes:334,time:'10h ago',comments:[{author:'queenOfHolds',color:'#4f9eff',text:'The reframe is everything.'},{author:'ctrl_alt_despair',color:'#5dd6d6',text:'"Senior support tier" hits different than "I\'m just IT."'}]},
+  {id:7,role:'agent-outbound',author:'dialerDreams',tags:['ScriptKiller'],title:'Outbound warm-up script that gets past gatekeepers without lying',body:'Don\'t trick them. "Hi, I\'m [name] calling for [first name only] — is this a good time?" Gets through ~60% of the time.',votes:175,time:'12h ago',comments:[]},
+  {id:8,role:'it-support',author:'ctrl_alt_despair',tags:['SilentCalls'],image:'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800&q=80',title:'CC-specific IT issues nobody documents (thread)',body:'Softphone audio cutting out on Windows 11 after sleep mode. Fix: disable USB selective suspend in power settings.',votes:290,time:'1d ago',comments:[{author:'rosterNinja',color:'#3ddc84',text:'Dialer freezes on Chrome: clear cache + disable hardware acceleration.'},{author:'scheduleGod',color:'#ff8c55',text:'Our IT takes 3 days to respond.'}]},
+  {id:9,role:'agent-inbound',author:'holdQueen',tags:['HoldMusicPTSD'],image:'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800&q=80',title:'I now hear our hold music in my dreams. Not a joke.',body:'Three years of Vivaldi on a 45-second loop. I hum it at the supermarket. My therapist says conditioned response. My supervisor says improve hold usage rate.',votes:401,time:'1d ago',comments:[{author:'auxCodePoet',color:'#4f9eff',text:'I hum ours in the shower. My partner thought I was having a breakdown.'},{author:'holdMusicHero',color:'#a78bfa',text:'Worst part: a customer says they like the music. What do you say??'}]},
+  {id:10,role:'wfm',author:'rosterNinja',tags:['WFMwoes'],title:'Why agents hate WFM (and what we can actually do about it)',body:'WFM looks like a faceless machine. I started monthly "WFM explains itself" sessions on the floor. Unplanned absences down 18%.',votes:223,time:'1d ago',comments:[]},
+  {id:11,role:'qa',author:'calibrationQueen',tags:['QAfeedback'],image:'https://images.unsplash.com/photo-1606857521015-7f9fcf423740?w=800&q=80',title:'Calibration sessions are broken — here is how to fix them',body:'If your calibrations end with everyone still disagreeing, you don\'t have a process, you have a meeting. Here\'s the 3-step framework.',votes:188,time:'2d ago',comments:[{author:'gradeAGrammar',color:'#fbbf24',text:'The pre-calibration alignment doc was incredible. Repost?'}]},
+  {id:12,role:'agent-inbound',author:'auxCodePoet',tags:['SilentCalls'],title:'The art of handling a completely silent call',body:'Silent calls may be crises. Protocol: announce twice, stay on, say "if you can hear me press any key." I\'ve had 3 cases where staying on made a real difference.',votes:567,time:'2d ago',comments:[{author:'queenOfHolds',color:'#4f9eff',text:'This should be standard training.'},{author:'lastResort99',color:'#ff5f1f',text:'We had a welfare check start as a silent call. You never know.'}]},
+  {id:13,role:'supervisor',author:'quietSupervisor',tags:['AHTsurvivor'],image:'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=800&q=80',title:'Stopped pushing AHT for one month. Here\'s what happened.',body:'Removed AHT from daily coaching for 30 days. AHT dropped 4%. When agents aren\'t rushing, they resolve faster.',votes:445,time:'2d ago',comments:[{author:'burnoutTL',color:'#a78bfa',text:'Every ops manager needs to read this.'},{author:'scheduleGod',color:'#ff8c55',text:'Rushed calls = repeat contacts = higher total handle time.'}]},
+  {id:14,role:'trainer',author:'roleplayRuler',tags:['ScriptKiller'],title:'I replaced our entire script with 7 principles. Scores went up.',body:'Scripts are training wheels for week 1. Principles-based: empathy, ownership, clarity, urgency, resolution, recap, close.',votes:312,time:'3d ago',comments:[]},
+  {id:15,role:'agent-inbound',author:'holdMusicHero',tags:['HoldMusicPTSD'],image:'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80',title:'Customer asked me to "put on the music again." I nearly cried.',body:'An older gentleman said he enjoyed being on hold because the music reminded him of his late wife\'s favourite composer. He asked to be put back on hold.',votes:892,time:'3d ago',comments:[{author:'queenOfHolds',color:'#4f9eff',text:'I am not crying. You are crying.'},{author:'auxCodePoet',color:'#a78bfa',text:'Most human thing I\'ve read on this platform.'},{author:'burnoutTL',color:'#3ddc84',text:'Sharing with my team Monday. This is why we do it.'}]},
 ];
 const TICKETS=[
-  {caller:'Margaret, 68',anger:'low',issue:'"I\'ve been with you 20 years and my bill went up $5 this month."',q:'Best first response?',opts:['Apologize and offer a $5 credit immediately','Acknowledge her loyalty, empathize, then investigate','Tell her about current promotions','Transfer her to billing'],correct:1,fb:'Acknowledge first, always. Validate her loyalty before jumping to solutions.'},
-  {caller:'Dave, 34',anger:'high',issue:'"This is the THIRD time I\'m calling! Nobody fixes ANYTHING here. I want to cancel NOW."',q:'What do you do first?',opts:['Match his urgency and promise escalation','Let him vent completely without interrupting, then empathize','Transfer to retention immediately','Calmly explain your cancellation policy'],correct:1,fb:'Let irate customers exhaust themselves first. Interrupting escalates. Silence and empathy de-escalates.'},
-  {caller:'Priya, 29',anger:'low',issue:'"Hi, I just want to check if my payment went through last Tuesday?"',q:'Fastest way to handle this?',opts:['Ask for full account details and security questions','Pull up account, verify ID, confirm payment — done','Launch into upsell after confirming','Suggest she check online next time'],correct:1,fb:'Quick verifications should be quick. Pull, confirm, close. High efficiency = low AHT.'},
-  {caller:'Ron, 52',anger:'med',issue:'"Your website says one price but my invoice says another. This is false advertising."',q:'Your response?',opts:['Apologize and give the lower price immediately','Acknowledge the discrepancy, review both, explain clearly','Blame the website team','Escalate immediately'],correct:1,fb:'Never promise a price before investigating. Acknowledge, review, explain.'},
-  {caller:'Unknown',anger:'low',issue:'[Complete silence. You\'ve said "Hello, you\'ve reached support" twice.]',q:'What do you do?',opts:['Hang up — dead air','Stay on: "If you can hear me, press any key or stay on the line"','Ask "Is anyone there?" repeatedly','Transfer to emergency services immediately'],correct:1,fb:'Silent calls may be crisis situations. Stay on, announce yourself calmly.'},
-  {caller:'Sandra, 41',anger:'med',issue:'"I want to speak to a manager RIGHT NOW."',q:'Best approach?',opts:['Put on hold and find a manager','Tell her managers are unavailable','Say: "I\'m the senior specialist handling escalations — let me see what I can do."','Warn her that managers will say the same thing'],correct:2,fb:'Reframing your role as senior specialist changes the dynamic immediately.'},
-  {caller:'Tom, 25',anger:'low',issue:'"Can I upgrade my plan without losing my promotional rate?"',q:'You don\'t know the answer. You say…?',opts:['"I\'m not sure, let me guess."','"No, that\'s not possible."','"Great question — let me check your account and our current offers."','Put him on hold without warning'],correct:2,fb:'Never guess on plan details. Customers respect honesty + effort over confident wrong answers.'},
-  {caller:'Helen, 77',anger:'low',issue:'"Dear, I\'ve been trying to use this app and I can\'t make it work."',q:'How do you approach this call?',opts:['Tell her to ask her grandson','Walk her through it step by step in simple language','Send an email with instructions','Escalate to tech support'],correct:1,fb:'Patience and plain language are your tools here.'},
-  {caller:'Alex, 38',anger:'high',issue:'"I\'ve been on hold for 47 MINUTES. This is UNACCEPTABLE."',q:'First thing you say?',opts:['Defend the hold time by explaining call volumes','Apologize sincerely, own the experience, ask what you can do','Tell them hold time is beyond your control','Immediately offer a discount'],correct:1,fb:'Own it. Don\'t defend it. "47 minutes is too long and I\'m sorry" lands better than any explanation.'},
-  {caller:'Carlos, 44',anger:'med',issue:'"My service has been down 3 days. I\'ve lost money. I want compensation."',q:'How do you handle a compensation request?',opts:['Deny it — not guaranteed','Promise maximum compensation immediately','Acknowledge impact, investigate, explain policy, then act','Tell him to submit a written complaint'],correct:2,fb:'Acknowledge impact, investigate facts, apply policy. Never promise what you can\'t deliver.'},
+  {caller:'Margaret, 68',anger:'low',issue:'"I\'ve been with you 20 years and my bill went up $5."',q:'Best first response?',opts:['Apologize and offer a credit immediately','Acknowledge loyalty, empathize, then investigate','Tell her about promotions','Transfer to billing'],correct:1,fb:'Acknowledge first. Validate her loyalty before jumping to solutions.'},
+  {caller:'Dave, 34',anger:'high',issue:'"This is the THIRD time I\'m calling! I want to cancel NOW."',q:'What do you do first?',opts:['Match urgency and promise escalation','Let him vent fully without interrupting, then empathize','Transfer to retention','Explain your cancellation policy'],correct:1,fb:'Let irate customers exhaust themselves. Interrupting escalates. Silence de-escalates.'},
+  {caller:'Priya, 29',anger:'low',issue:'"I just want to check if my payment went through last Tuesday."',q:'Fastest way to handle this?',opts:['Ask for full account details','Pull up account, verify ID, confirm payment — done','Upsell after confirming','Suggest she check online'],correct:1,fb:'Quick verifications should be quick. Pull, confirm, close.'},
+  {caller:'Ron, 52',anger:'med',issue:'"Your website says one price but my invoice says another."',q:'Your response?',opts:['Give the lower price immediately','Acknowledge discrepancy, review both, explain clearly','Blame the website team','Escalate immediately'],correct:1,fb:'Never promise a price before investigating. Acknowledge, review, explain.'},
+  {caller:'Unknown',anger:'low',issue:'[Complete silence. You\'ve said "Hello" twice already.]',q:'What do you do?',opts:['Hang up','Stay on: "If you can hear me, press any key or stay on the line"','Ask "Is anyone there?" repeatedly','Transfer immediately'],correct:1,fb:'Silent calls may be crises. Stay on, announce calmly.'},
+  {caller:'Sandra, 41',anger:'med',issue:'"I want to speak to a manager RIGHT NOW."',q:'Best approach?',opts:['Put on hold and find a manager','Tell her managers are unavailable','Say: "I\'m the senior specialist handling escalations — let me see what I can do."','Warn her managers will say the same'],correct:2,fb:'Reframing your role as senior specialist changes the dynamic immediately.'},
+  {caller:'Tom, 25',anger:'low',issue:'"Can I upgrade without losing my promotional rate?"',q:'You don\'t know the answer. You say…?',opts:['"Let me guess."','"No, that\'s not possible."','"Great question — let me check your account and our offers."','Put on hold without warning'],correct:2,fb:'Never guess on plan details. Customers respect honesty + effort.'},
+  {caller:'Helen, 77',anger:'low',issue:'"Dear, I\'ve been trying to use this app and I can\'t make it work."',q:'How do you approach this?',opts:['Tell her to ask her grandson','Walk through it step by step in simple language','Send an email','Escalate to tech support'],correct:1,fb:'Patience and plain language. Helen\'s satisfaction matters too.'},
+  {caller:'Alex, 38',anger:'high',issue:'"I\'ve been on hold for 47 MINUTES. This is UNACCEPTABLE."',q:'First thing you say?',opts:['Defend hold time by explaining volumes','Apologize sincerely, own it, ask what you can do','Say hold time is beyond your control','Offer a discount immediately'],correct:1,fb:'Own it. Don\'t defend it. "47 minutes is too long and I\'m sorry" beats any explanation.'},
+  {caller:'Carlos, 44',anger:'med',issue:'"My service has been down 3 days. I want compensation."',q:'How do you handle this?',opts:['Deny it','Promise maximum compensation','Acknowledge impact, investigate, explain policy, then act','Tell him to submit a written complaint'],correct:2,fb:'Acknowledge impact, investigate facts, apply policy. Never promise what you can\'t deliver.'},
+];
+const TIPS=[
+  {text:"Always start with the customer's name. It's the most personal word in any language.",author:"— Inbound Veteran, 8 years"},
+  {text:"Silence is a tool. After acknowledging a complaint, pause 2 seconds. It signals you're actually thinking.",author:"— QA Lead"},
+  {text:"'Let me look into that for you' buys time without sounding dismissive. Master it.",author:"— Escalation Specialist"},
+  {text:"Write your closing before your opening in emails. Know where you're going first.",author:"— Trainer Tip"},
+  {text:"If a customer asks for a manager, try: 'I'm the specialist for this — let me see what I can do.' 60% won't escalate.",author:"— Team Lead, 5 years"},
+  {text:"AHT is a metric, not a target. Agents who care about resolution naturally reduce it.",author:"— Ops Manager"},
+  {text:"On a silent call: stay on. Say 'If you can hear me, press any key.' Never hang up first.",author:"— Safety Protocol"},
+  {text:"Mirror the customer's energy DOWN, not up. If they're loud, be calm. If rushed, be measured.",author:"— De-escalation master"},
+  {text:"The best script is no script. Know the principles: Empathy, ownership, resolution.",author:"— Principles-based training"},
+  {text:"Your tone carries more weight than your words. Smile when you talk — it physically changes how you sound.",author:"— Trainer classic"},
+  {text:"FCR matters more than AHT. One thorough call beats three rushed ones.",author:"— WFM Analyst"},
+  {text:"After a hard call, do 90 seconds of reset — stand up, breathe, shake it off.",author:"— Wellbeing tip"},
+];
+const FALLBACK_NEWS=[
+  {title:'Gartner: AI Will Handle 50% of Contact Center Interactions by 2027',desc:'Conversational AI adoption is projected to double over the next 18 months, reshaping agent roles from call handlers to complex problem solvers.',source:'Gartner',cat:'ai',date:'Mar 2026',url:'https://www.gartner.com'},
+  {title:'Agent Burnout Reaches 5-Year High — New Study Reveals Root Causes',desc:'A survey of 12,000 CC agents found unrealistic AHT targets and lack of manager empathy are the top two drivers of burnout in 2026.',source:'CX Network',cat:'industry',date:'Mar 2026',url:'https://www.cxnetwork.com'},
+  {title:'Why Talkdesk Says CCaaS Is Dead — And What Comes Next',desc:'The end of standalone CCaaS platforms, replaced by customer experience automation ecosystems blending AI, CRM, and workforce management.',source:'CX Today',cat:'ai',date:'Mar 2026',url:'https://www.cxtoday.com'},
+  {title:'76% of Customers Still Prefer Phone Despite AI Push',desc:'Despite massive chatbot investment, phone remains dominant for complex issues, with CSAT scores 34% higher than chat.',source:'CallMiner',cat:'cx',date:'Feb 2026',url:'https://callminer.com'},
+  {title:'PolyAI Raises $86M to Transform Enterprise Voice AI',desc:'The conversational AI company secured $86M to expand its autonomous voice agent platform claiming to handle 70% of inbound calls without human intervention.',source:'TechCrunch',cat:'ai',date:'Feb 2026',url:'https://techcrunch.com'},
+  {title:'Call Center Work-From-Home: 62% of Centers Now Remote or Hybrid',desc:'Remote and hybrid models show 18% lower attrition and 12% higher CSAT compared to fully on-site centers.',source:'CC Helper',cat:'ops',date:'Jan 2026',url:'https://www.callcentrehelper.com'},
+  {title:'2026 CX Trends: What Contact Center Leaders Should Act On Now',desc:'AI-assisted coaching, real-time sentiment analysis, and predictive churn detection are reshaping how leaders think about performance and wellbeing.',source:'CX Today',cat:'cx',date:'Jan 2026',url:'https://www.cxtoday.com'},
+  {title:'Speech Analytics Now Used in 71% of Enterprise Contact Centers',desc:'Real-time speech analytics adoption has surged, with AI tools now monitoring 100% of calls for compliance and coaching opportunities.',source:'CallMiner',cat:'ai',date:'Jan 2026',url:'https://callminer.com'},
+  {title:'Severe Winter Storms Cause Home Services Call Volume to Spike 340%',desc:'Utility contact centers reported unprecedented volumes, with some activating emergency overflow protocols for the first time.',source:'CSM',cat:'ops',date:'Mar 2026',url:'https://www.crmxchange.com'},
+  {title:'The BPO Wake-Up Call: A Complete Guide for CX Leaders',desc:'As AI threatens to automate 40% of BPO work by 2028, outsourcing leaders must redefine their value proposition urgently.',source:'CX Today',cat:'industry',date:'Feb 2026',url:'https://www.cxtoday.com'},
+];
+const CAT_META={apology:{label:'Apology',color:'rgba(255,107,107,.15)',text:'#ff6b6b',emoji:'😔'},info:{label:'Ask for Info',color:'rgba(79,158,255,.15)',text:'#4f9eff',emoji:'❓'},escalation:{label:'Escalation',color:'rgba(251,191,36,.15)',text:'#fbbf24',emoji:'🚨'},followup:{label:'Follow-up',color:'rgba(61,220,132,.15)',text:'#3ddc84',emoji:'🔁'},closing:{label:'Closing',color:'rgba(167,139,250,.15)',text:'#a78bfa',emoji:'✅'},hold:{label:'Hold/Transfer',color:'rgba(100,200,200,.15)',text:'#5dd6d6',emoji:'⏸'},custom:{label:'Custom',color:'rgba(255,95,31,.15)',text:'#ff8c55',emoji:'🏷'}};
+const SEED_TPLS=[
+  {id:1,name:'Sincere Billing Apology',cat:'apology',channels:{email:true,phone:true,chat:true},tags:['billing','refund'],body:"Dear [Customer Name],\n\nI want to sincerely apologize for the billing error on your account. I completely understand how frustrating this must be.\n\nI have reviewed your account and can confirm [Issue]. I have taken immediate steps to resolve this: [Resolution Steps].\n\nYou should see the correction within 3–5 business days. If you have any questions, please don't hesitate to reach out.\n\nWarm regards,\n[Agent Name]"},
+  {id:2,name:'Request for Additional Information',cat:'info',channels:{email:true,phone:false,chat:true},tags:['info','verification'],body:"Dear [Customer Name],\n\nThank you for contacting us regarding [Issue].\n\nTo best assist you, I kindly need a few additional details:\n\n1. [Information Needed 1]\n2. [Information Needed 2]\n3. [Information Needed 3]\n\nOnce I have this, I'll move forward quickly.\n\nBest regards,\n[Agent Name]"},
+  {id:3,name:'Escalation Handover',cat:'escalation',channels:{email:true,phone:false,chat:false},tags:['escalation','handover'],body:"Dear [Customer Name],\n\nAfter reviewing your situation, I am escalating your case to our specialist team who are best equipped to resolve [Issue]. Your reference number is [Reference Number].\n\nA specialist will contact you within [Timeframe]. You will not need to re-explain — all details have been documented.\n\nKind regards,\n[Agent Name]"},
+  {id:4,name:'Follow-up Check-in',cat:'followup',channels:{email:true,phone:true,chat:false},tags:['follow-up','satisfaction'],body:"Dear [Customer Name],\n\nI'm reaching out to follow up on your recent case regarding [Issue], resolved on [Date].\n\nI wanted to ensure the solution is working as expected. If you have any further questions, please don't hesitate to get in touch.\n\nThank you for your continued trust.\n\nKind regards,\n[Agent Name]"},
+  {id:5,name:'Professional Call Closing',cat:'closing',channels:{email:false,phone:true,chat:true},tags:['closing','satisfaction'],body:"Before I let you go, [Customer Name], let me quickly recap what we've done today:\n\n[Summary of actions taken]\n\nIs there anything else I can help you with?\n\n[Pause for response]\n\nIt was a pleasure speaking with you. Thank you for contacting us and have a wonderful [day/evening]. Goodbye!"},
+  {id:6,name:'Hold Acknowledgment',cat:'hold',channels:{email:false,phone:true,chat:false},tags:['hold','wait time'],body:"[Customer Name], I have everything I need. I'm going to place you on a brief hold — no longer than [Hold Time] — while I look into this.\n\nIs that okay?\n\n[Wait for confirmation]\n\nThank you. I'll be right back.\n\n[After hold]\n\nThank you for your patience, [Customer Name]. Here's what I found: [Finding/Update]."},
+  {id:7,name:'Service Outage Apology',cat:'apology',channels:{email:true,phone:true,chat:true},tags:['outage','service'],body:"Dear [Customer Name],\n\nI want to sincerely apologize for the service disruption you experienced on [Date]. We fully understand the impact and take complete responsibility.\n\nOur team resolved the root cause at [Resolution Time]. The issue was: [Brief Explanation].\n\nAs a gesture of goodwill, we'd like to offer you [Compensation]. This will be applied within [Timeframe].\n\nSincerely,\n[Agent Name]"},
+  {id:8,name:'Chat Warm Transfer',cat:'hold',channels:{email:false,phone:false,chat:true},tags:['transfer','handover'],body:"Hi [Customer Name]! I'm transferring you to my colleague [Colleague Name] from our [Department] team — they're best placed to help with [Issue].\n\nI've already shared all details so you won't need to repeat yourself. 😊\n\nOne moment while I connect you!"},
 ];
 const AVCOLORS=['#ff5f1f','#4f9eff','#a78bfa','#3ddc84','#fbbf24','#f472b6','#34d399','#fb923c'];
+const MOOD_RESPONSES={great:{msg:"That's amazing! Keep that energy — spread some to your team today."},good:{msg:"Solid day. Stay hydrated, take your breaks, and keep doing what you're doing."},meh:{msg:"Meh days happen. Go easy on yourself. One call at a time."},tough:{msg:"Sorry to hear that. Remember: you don't have to carry it alone. Talk to someone you trust."},burnout:{msg:"That's a signal worth taking seriously. Please take your breaks. If it persists, speak to your supervisor or HR. You matter more than your metrics."}};
+const TEAM_MOOD={great:14,good:31,meh:24,tough:18,burnout:13};
 
-let jokeIdx=0,userRole=null,currentUser=null;
-let posts=POSTS_SEED.map(p=>({...p,comments:[...p.comments]}));
+// ═══ STATE ═══
+let jokeIdx=0,tipIdx=Math.floor(Math.random()*TIPS.length);
+let userRole=null,currentUser=null,users=[];
+let posts=SEED.map(p=>({...p,comments:[...p.comments]}));
 let voteMap={},filterRole=null,filterTag=null,sortMode='hot';
-let openComments=new Set(),pendingImg=null,users=[];
+let openComments=new Set(),pendingImg=null;
+let templates=SEED_TPLS.map(t=>({...t}));
+let tplFilter='all',tplChannel='email',tplEditId=null,activeTplId=null;
+let newsFilter='all',newsItems=[...FALLBACK_NEWS],newsLoaded=false;
+let moodHistory=['good','great','meh','good','good','great',''];
 
+// ═══ NAVIGATION ═══
 function showPage(name){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page'+name.charAt(0).toUpperCase()+name.slice(1)).classList.add('active');
@@ -988,59 +825,47 @@ function showPage(name){
   document.getElementById('navTemplates').style.display=name==='templates'?'none':'block';
   document.getElementById('navNews').style.display=name==='news'?'none':'block';
   if(name==='feed'){buildFeed();buildRoleFilter();buildTrending();}
-  if(name==='templates'){renderTemplates();}
-  if(name==='news'){initNews();}
-  // sync mobile nav
-  const mobMap={feed:'mnFeed',templates:'mnTemplates',game:'mnGame',news:'mnNews'};
+  if(name==='templates')renderTemplates();
+  if(name==='news')initNews();
+  const mobMap={feed:'mnFeed',news:'mnNews',templates:'mnTemplates',game:'mnGame'};
   if(mobMap[name])setMobNav(mobMap[name]);
 }
-function nextJoke(){
-  jokeIdx=(jokeIdx+1)%JOKES.length;
-  const el=document.getElementById('jokeText');
-  el.style.opacity=0;setTimeout(()=>{el.textContent=JOKES[jokeIdx];el.style.opacity=1;},280);
-}
-function handleSearch(q){
-  const res=document.getElementById('searchResults');
-  q=q.trim().toLowerCase();
-  if(!q){res.classList.remove('open');return;}
-  const m=posts.filter(p=>p.title.toLowerCase().includes(q)||p.body.toLowerCase().includes(q)||p.author.toLowerCase().includes(q)||(p.tags||[]).some(t=>t.toLowerCase().includes(q))).slice(0,6);
-  res.innerHTML=m.length?m.map(p=>{const r=ROLES.find(x=>x.id===p.role)||{icon:'👤',name:p.role};return`<div class="sr-item" onclick="gotoPost(${p.id})"><div class="sr-title">${p.title}</div><div class="sr-meta">${r.icon} ${r.name} · u/${p.author} · ▲${p.votes}</div></div>`}).join(''):`<div class="sr-empty">No results for "${q}"</div>`;
-  res.classList.add('open');
-}
+function setMobNav(id){document.querySelectorAll('.mob-nav-btn').forEach(b=>b.classList.remove('active'));const el=document.getElementById(id);if(el)el.classList.add('active');}
+function handleMobAuth(){if(currentUser)toggleDD();else openAuth('signup');}
+function updateMobAuth(){if(!currentUser)return;const i=document.getElementById('mnAuthIcon');const l=document.getElementById('mnAuthLabel');if(i)i.textContent=currentUser.username.slice(0,1).toUpperCase();if(l)l.textContent=currentUser.username.slice(0,8);}
+
+// ═══ JOKES ═══
+function nextJoke(){jokeIdx=(jokeIdx+1)%JOKES.length;const el=document.getElementById('jokeText');el.style.opacity=0;setTimeout(()=>{el.textContent=JOKES[jokeIdx];el.style.opacity=1;},280);}
+
+// ═══ SEARCH ═══
+function handleSearch(q){const res=document.getElementById('searchResults');q=q.trim().toLowerCase();if(!q){res.classList.remove('open');return;}const m=posts.filter(p=>p.title.toLowerCase().includes(q)||p.body.toLowerCase().includes(q)||p.author.toLowerCase().includes(q)||(p.tags||[]).some(t=>t.toLowerCase().includes(q))).slice(0,6);res.innerHTML=m.length?m.map(p=>{const r=ROLES.find(x=>x.id===p.role)||{icon:'👤',name:p.role};return`<div class="sr-item" onclick="gotoPost(${p.id})"><div class="sr-title">${p.title}</div><div class="sr-meta">${r.icon} ${r.name} · u/${p.author} · ▲${p.votes}</div></div>`}).join(''):`<div class="sr-empty">No results for "${q}"</div>`;res.classList.add('open');}
 function closeSearch(){document.getElementById('searchResults').classList.remove('open');}
-function gotoPost(id){
-  closeSearch();document.getElementById('searchInput').value='';
-  showPage('feed');openComments.add(id);filterRole=null;filterTag=null;buildFeed();
-  setTimeout(()=>{const el=document.querySelector(`[data-pid="${id}"]`);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},150);
-}
-function buildRolePicker(){
-  document.getElementById('rpg').innerHTML=ROLES.map(r=>`<button class="rp-btn" onclick="selectRole('${r.id}')"><span class="rp-icon">${r.icon}</span><div><div class="rp-name">${r.name}</div><div class="rp-desc">${r.desc}</div></div></button>`).join('');
-}
-function buildRoleFilter(){
-  const list=document.getElementById('roleFilterList');
-  const all=`<div class="role-item ${!filterRole?'selected':''}" onclick="setRoleFilter(null)"><span class="rii">🌐</span><span class="rin">All Roles</span><span class="ric">${posts.length}</span></div>`;
-  const items=ROLES.map(r=>{const c=posts.filter(p=>p.role===r.id).length;if(!c)return'';return`<div class="role-item ${filterRole===r.id?'selected':''}" onclick="setRoleFilter('${r.id}')"><span class="rii">${r.icon}</span><span class="rin">${r.name}</span><span class="ric">${c}</span></div>`;}).join('');
-  list.innerHTML=all+items;
-}
+function gotoPost(id){closeSearch();document.getElementById('searchInput').value='';showPage('feed');openComments.add(id);filterRole=null;filterTag=null;buildFeed();setTimeout(()=>{const el=document.querySelector('[data-pid="'+id+'"]');if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},150);}
+
+// ═══ ROLES ═══
+function buildRolePicker(){document.getElementById('rpg').innerHTML=ROLES.map(r=>`<button class="rp-btn" onclick="selectRole('${r.id}')"><span class="rp-icon">${r.icon}</span><div><div class="rp-name">${r.name}</div><div class="rp-desc">${r.desc}</div></div></button>`).join('');}
+function buildRoleFilter(){const list=document.getElementById('roleFilterList');const all=`<div class="role-item ${!filterRole?'selected':''}" onclick="setRoleFilter(null)"><span class="rii">🌐</span><span class="rin">All Roles</span><span class="ric">${posts.length}</span></div>`;const items=ROLES.map(r=>{const c=posts.filter(p=>p.role===r.id).length;if(!c)return'';return`<div class="role-item ${filterRole===r.id?'selected':''}" onclick="setRoleFilter('${r.id}')"><span class="rii">${r.icon}</span><span class="rin">${r.name}</span><span class="ric">${c}</span></div>`;}).join('');list.innerHTML=all+items;}
 function selectRole(id){userRole=id;const r=ROLES.find(x=>x.id===id);document.getElementById('headerRole').textContent=r.name;if(currentUser)currentUser.role=id;closeRolePicker();}
 function setRoleFilter(id){filterRole=id;buildFeed();buildRoleFilter();}
 function openRolePicker(){buildRolePicker();document.getElementById('roleModal').classList.add('open');}
 function closeRolePicker(){document.getElementById('roleModal').classList.remove('open');}
-function populateRoleSelects(){['postRole','sRole'].forEach(id=>{const sel=document.getElementById(id);if(!sel)return;sel.innerHTML='<option value="">Select your role…</option>'+ROLES.map(r=>`<option value="${r.id}">${r.icon} ${r.name}</option>`).join('');if(id==='postRole'&&userRole)sel.value=userRole;});}
+function populateRoleSelects(){['postRole','sRole'].forEach(id=>{const sel=document.getElementById(id);if(!sel)return;sel.innerHTML='<option value="">Select…</option>'+ROLES.map(r=>`<option value="${r.id}">${r.icon} ${r.name}</option>`).join('');if(id==='postRole'&&userRole)sel.value=userRole;});}
+
+// ═══ FEED ═══
 function getRole(id){return ROLES.find(r=>r.id===id)||{icon:'👤',name:id,cls:'role-agent'};}
 function buildFeed(){
   let f=[...posts];
   if(filterRole)f=f.filter(p=>p.role===filterRole);
-  if(filterTag)f=f.filter(p=>p.tags?.includes(filterTag));
+  if(filterTag)f=f.filter(p=>p.tags&&p.tags.includes(filterTag));
   if(sortMode==='hot')f.sort((a,b)=>(b.votes+b.comments.length*2)-(a.votes+a.comments.length*2));
   else if(sortMode==='new')f.sort((a,b)=>b.id-a.id);
   else f.sort((a,b)=>b.votes-a.votes);
-  document.getElementById('feedTitle').textContent=filterTag?`#${filterTag}`:'Community Feed';
+  document.getElementById('feedTitle').textContent=filterTag?'#'+filterTag:'Community Feed';
   document.getElementById('statPosts').textContent=posts.length;
   const bar=document.getElementById('filterBar');
-  if(filterTag){bar.classList.add('visible');document.getElementById('filterBarTag').textContent=`#${filterTag}`;}else bar.classList.remove('visible');
+  if(filterTag){bar.classList.add('visible');document.getElementById('filterBarTag').textContent='#'+filterTag;}else bar.classList.remove('visible');
   const feed=document.getElementById('feed');
-  if(!f.length){feed.innerHTML=`<div class="empty-state"><div class="empty-icon">📭</div><p>No posts here yet. Be the first!</p></div>`;return;}
+  if(!f.length){feed.innerHTML='<div class="empty-state"><div class="empty-icon">📭</div><p>No posts here yet.</p></div>';return;}
   feed.innerHTML=f.map((p,i)=>{
     const role=getRole(p.role);const mv=voteMap[p.id]||null;
     const vt=p.votes+(mv==='up'?1:mv==='down'?-1:0);
@@ -1074,661 +899,93 @@ function commentsHTML(p){
   const inp=currentUser?`<div class="comment-input-row"><input class="comment-input" id="ci-${p.id}" placeholder="Add a comment…" onkeydown="if(event.key==='Enter')submitComment(${p.id})"/><button class="comment-send" onclick="submitComment(${p.id})">↵</button></div>`:`<div class="comments-login"><span style="color:var(--accent);cursor:pointer" onclick="openAuth('signup')">Sign up</span> or <span style="color:var(--accent);cursor:pointer" onclick="openAuth('login')">log in</span> to comment</div>`;
   return inp+items;
 }
-function toggleComments(id){
-  const sec=document.getElementById(`cs-${id}`);
-  const post=posts.find(p=>p.id===id);if(!sec||!post)return;
-  if(openComments.has(id)){openComments.delete(id);sec.classList.remove('open');sec.innerHTML='';}
-  else{openComments.add(id);sec.classList.add('open');sec.innerHTML=commentsHTML(post);}
-}
-function submitComment(postId){
-  if(!currentUser){openAuth('signup');return;}
-  const inp=document.getElementById(`ci-${postId}`);
-  const text=inp?.value.trim();if(!text)return;
-  const post=posts.find(p=>p.id===postId);if(!post)return;
-  post.comments.push({author:currentUser.username,color:currentUser.color,text});
-  const sec=document.getElementById(`cs-${postId}`);
-  if(sec){sec.innerHTML=commentsHTML(post);}
-  buildFeed();
-  setTimeout(()=>{const s=document.getElementById(`cs-${postId}`);if(s){s.classList.add('open');s.innerHTML=commentsHTML(post);}},50);
-}
-function buildTrending(){
-  document.getElementById('trendingList').innerHTML=TTAGS.map((t,i)=>{
-    const c=posts.filter(p=>p.tags?.includes(t.tag)).length;
-    return`<div class="trending-item ${filterTag===t.tag?'active':''}" onclick="setTagFilter('${t.tag}')"><span class="tnum">${i+1}</span><span>${t.emoji}</span><span style="flex:1">#${t.tag}</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)">${c}</span></div>`;
-  }).join('');
-}
-function setTagFilter(tag){filterTag=filterTag===tag?null:tag;buildFeed();buildTrending();document.querySelector('main')?.scrollIntoView({behavior:'smooth',block:'start'});}
+function toggleComments(id){const sec=document.getElementById('cs-'+id);const post=posts.find(p=>p.id===id);if(!sec||!post)return;if(openComments.has(id)){openComments.delete(id);sec.classList.remove('open');sec.innerHTML='';}else{openComments.add(id);sec.classList.add('open');sec.innerHTML=commentsHTML(post);}}
+function submitComment(postId){if(!currentUser){openAuth('signup');return;}const inp=document.getElementById('ci-'+postId);const text=inp&&inp.value.trim();if(!text)return;const post=posts.find(p=>p.id===postId);if(!post)return;post.comments.push({author:currentUser.username,color:currentUser.color,text});buildFeed();setTimeout(()=>{const s=document.getElementById('cs-'+postId);if(s){s.classList.add('open');s.innerHTML=commentsHTML(post);}},50);}
+function buildTrending(){document.getElementById('trendingList').innerHTML=TTAGS.map((t,i)=>{const c=posts.filter(p=>p.tags&&p.tags.includes(t.tag)).length;return`<div class="trending-item ${filterTag===t.tag?'active':''}" onclick="setTagFilter('${t.tag}')"><span class="tnum">${i+1}</span><span>${t.emoji}</span><span style="flex:1">#${t.tag}</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)">${c}</span></div>`;}).join('');}
+function setTagFilter(tag){filterTag=filterTag===tag?null:tag;buildFeed();buildTrending();document.querySelector('main')&&document.querySelector('main').scrollIntoView({behavior:'smooth',block:'start'});}
 function clearTagFilter(){filterTag=null;buildFeed();buildTrending();}
 function vote(e,id,dir){e.stopPropagation();voteMap[id]=voteMap[id]===dir?null:dir;buildFeed();}
 function setSort(btn,mode){document.querySelectorAll('.sort-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');sortMode=mode;buildFeed();}
+
+// ═══ POST MODAL ═══
 function openPostModal(){populateRoleSelects();document.getElementById('postModal').classList.add('open');}
-function closePostModal(){document.getElementById('postModal').classList.remove('open');document.getElementById('postTitle').value='';document.getElementById('postBody').value='';removeUpload({stopPropagation:()=>{}});}
-function submitPost(){
-  const role=document.getElementById('postRole').value,title=document.getElementById('postTitle').value.trim(),body=document.getElementById('postBody').value.trim();
-  if(!role||!title){alert('Please select a role and add a title.');return;}
-  posts.unshift({id:Date.now(),role,author:currentUser?.username||'anon',title,body,image:pendingImg||null,tags:[],votes:1,time:'just now',comments:[]});
-  sortMode='new';document.querySelectorAll('.sort-tab').forEach((t,i)=>t.classList.toggle('active',i===1));
-  closePostModal();buildFeed();buildRoleFilter();buildTrending();
-}
-function handleUpload(e){
-  const file=e.target.files[0];if(!file)return;
-  if(file.size>5*1024*1024){alert('Image must be under 5MB.');return;}
-  const r=new FileReader();
-  r.onload=ev=>{
-    pendingImg=ev.target.result;
-    document.getElementById('upPreview').src=pendingImg;document.getElementById('upPreview').style.display='block';
-    document.getElementById('upPH').style.display='none';document.getElementById('upRemove').style.display='flex';
-    const a=document.getElementById('upArea');a.classList.add('has-img');a.onclick=null;
-  };r.readAsDataURL(file);
-}
-function removeUpload(e){
-  e.stopPropagation();pendingImg=null;
-  document.getElementById('upPreview').style.display='none';document.getElementById('upPreview').src='';
-  document.getElementById('upPH').style.display='block';document.getElementById('upRemove').style.display='none';
-  document.getElementById('upFile').value='';
-  const a=document.getElementById('upArea');a.classList.remove('has-img');a.onclick=()=>document.getElementById('upFile').click();
-}
+function closePostModal(){document.getElementById('postModal').classList.remove('open');document.getElementById('postTitle').value='';document.getElementById('postBody').value='';removeUpload({stopPropagation:function(){}});}
+function submitPost(){const role=document.getElementById('postRole').value,title=document.getElementById('postTitle').value.trim(),body=document.getElementById('postBody').value.trim();if(!role||!title){alert('Please select a role and add a title.');return;}posts.unshift({id:Date.now(),role,author:currentUser?currentUser.username:'anon',title,body,image:pendingImg||null,tags:[],votes:1,time:'just now',comments:[]});sortMode='new';document.querySelectorAll('.sort-tab').forEach((t,i)=>t.classList.toggle('active',i===1));closePostModal();buildFeed();buildRoleFilter();buildTrending();}
+
+// ═══ IMAGE ═══
+function handleUpload(e){const file=e.target.files[0];if(!file)return;if(file.size>5*1024*1024){alert('Image must be under 5MB.');return;}const r=new FileReader();r.onload=ev=>{pendingImg=ev.target.result;document.getElementById('upPreview').src=pendingImg;document.getElementById('upPreview').style.display='block';document.getElementById('upPH').style.display='none';document.getElementById('upRemove').style.display='flex';const a=document.getElementById('upArea');a.classList.add('has-img');a.onclick=null;};r.readAsDataURL(file);}
+function removeUpload(e){e.stopPropagation();pendingImg=null;document.getElementById('upPreview').style.display='none';document.getElementById('upPreview').src='';document.getElementById('upPH').style.display='block';document.getElementById('upRemove').style.display='none';document.getElementById('upFile').value='';const a=document.getElementById('upArea');a.classList.remove('has-img');a.onclick=function(){document.getElementById('upFile').click();};}
 function openLB(e,src){e.stopPropagation();document.getElementById('lbImg').src=src;document.getElementById('lb').classList.add('open');}
 function closeLB(){document.getElementById('lb').classList.remove('open');}
-function openAuth(tab='signup'){
-  populateRoleSelects();switchTab(tab);
-  document.getElementById('authOK').style.display='none';
-  document.getElementById('panelS').style.display='';document.getElementById('panelL').style.display='';
-  document.getElementById('authFooter').style.display='';
-  document.getElementById('authModal').classList.add('open');
-}
-function closeAuth(){document.getElementById('authModal').classList.remove('open');clearErrs();}
-function switchTab(tab){
-  document.getElementById('tabS').classList.toggle('active',tab==='signup');
-  document.getElementById('tabL').classList.toggle('active',tab==='login');
-  document.getElementById('panelS').classList.toggle('active',tab==='signup');
-  document.getElementById('panelL').classList.toggle('active',tab==='login');
-  document.getElementById('authTitle').textContent=tab==='signup'?'Join DialDown':'Welcome back';
-  document.getElementById('authBtn').textContent=tab==='signup'?'Create Account 🚀':'Log In →';
-  clearErrs();
-}
-function clearErrs(){document.querySelectorAll('.ferr').forEach(e=>e.classList.remove('show'));}
-function showE(id){document.getElementById(id).classList.add('show');}
+
+// ═══ AUTH ═══
+function openAuth(tab){populateRoleSelects();switchTab(tab||'signup');document.getElementById('authOK').style.display='none';document.getElementById('panelS').style.display='';document.getElementById('panelL').style.display='';document.getElementById('authFooter').style.display='';document.getElementById('authModal').classList.add('open');}
+function closeAuth(){document.getElementById('authModal').classList.remove('open');document.querySelectorAll('.ferr').forEach(e=>e.classList.remove('show'));}
+function switchTab(tab){document.getElementById('tabS').classList.toggle('active',tab==='signup');document.getElementById('tabL').classList.toggle('active',tab==='login');document.getElementById('panelS').classList.toggle('active',tab==='signup');document.getElementById('panelL').classList.toggle('active',tab==='login');document.getElementById('authTitle').textContent=tab==='signup'?'Join DialDown':'Welcome back';document.getElementById('authBtn').textContent=tab==='signup'?'Create Account 🚀':'Log In →';}
 function tPwd(id,btn){const i=document.getElementById(id);i.type=i.type==='password'?'text':'password';btn.textContent=i.type==='password'?'👁':'🙈';}
-function handleAuth(){clearErrs();document.getElementById('tabS').classList.contains('active')?doSignup():doLogin();}
-function doSignup(){
-  const first=document.getElementById('sFirst').value.trim(),last=document.getElementById('sLast').value.trim();
-  const username=document.getElementById('sUser').value.trim(),email=document.getElementById('sEmail').value.trim();
-  const role=document.getElementById('sRole').value,password=document.getElementById('sPwd').value;
-  let ok=true;
-  if(!username||users.find(u=>u.username===username)){showE('eUser');ok=false;}
-  if(!email||!email.includes('@')){showE('eEmail');ok=false;}
-  if(!role){showE('eRole');ok=false;}
-  if(password.length<6){showE('ePwd');ok=false;}
-  if(!ok)return;
-  const u={firstName:first,lastName:last,username,email,password,role,color:AVCOLORS[users.length%AVCOLORS.length]};
-  users.push(u);loginUser(u,true);
-}
-function doLogin(){
-  const ident=document.getElementById('lIdent').value.trim(),password=document.getElementById('lPwd').value;
-  const u=users.find(u=>(u.username===ident||u.email===ident)&&u.password===password);
-  if(!u){showE('eLogin');return;}loginUser(u,false);
-}
-function loginUser(u,isNew){
-  currentUser=u;userRole=u.role;
-  const r=ROLES.find(x=>x.id===u.role);
-  document.getElementById('headerRole').textContent=r?r.name:u.role;
-  document.getElementById('panelS').style.display='none';document.getElementById('panelL').style.display='none';
-  document.getElementById('authFooter').style.display='none';document.getElementById('authOK').style.display='block';
-  document.getElementById('okTitle').textContent=isNew?`Welcome, ${u.firstName||u.username}! 🎉`:`Back on the floor, ${u.firstName||u.username}!`;
-  document.getElementById('okSub').textContent=isNew?'Your account is live. Start sharing tips with fellow CC folks!':'The queue missed you. (The hold music did too.)';
-  document.getElementById('authBtns').style.display='none';document.getElementById('userWrap').style.display='block';document.getElementById('newPostBtn').style.display='block';
-  const av=document.getElementById('hAvatar');
-  av.textContent=((u.firstName?.[0]||'')+(u.lastName?.[0]||u.username?.[0]||'')).toUpperCase();av.style.background=u.color;
-  document.getElementById('hUsername').textContent=u.username;
-  document.getElementById('ddName').textContent=`${u.firstName||''} ${u.lastName||''}`.trim()||u.username;
-  document.getElementById('ddRole').textContent=r?`${r.icon} ${r.name}`:'';
-  setTimeout(closeAuth,2000);
-  setTimeout(updateMobAuth,2100);
-}
+function handleAuth(){document.querySelectorAll('.ferr').forEach(e=>e.classList.remove('show'));document.getElementById('tabS').classList.contains('active')?doSignup():doLogin();}
+function doSignup(){const first=document.getElementById('sFirst').value.trim(),last=document.getElementById('sLast').value.trim(),username=document.getElementById('sUser').value.trim(),email=document.getElementById('sEmail').value.trim(),role=document.getElementById('sRole').value,password=document.getElementById('sPwd').value;let ok=true;if(!username||users.find(u=>u.username===username)){document.getElementById('eUser').classList.add('show');ok=false;}if(!email||!email.includes('@')){document.getElementById('eEmail').classList.add('show');ok=false;}if(!role){document.getElementById('eRole').classList.add('show');ok=false;}if(password.length<6){document.getElementById('ePwd').classList.add('show');ok=false;}if(!ok)return;const u={firstName:first,lastName:last,username,email,password,role,color:AVCOLORS[users.length%AVCOLORS.length]};users.push(u);loginUser(u,true);}
+function doLogin(){const ident=document.getElementById('lIdent').value.trim(),password=document.getElementById('lPwd').value;const u=users.find(u=>(u.username===ident||u.email===ident)&&u.password===password);if(!u){document.getElementById('eLogin').classList.add('show');return;}loginUser(u,false);}
+function loginUser(u,isNew){currentUser=u;userRole=u.role;const r=ROLES.find(x=>x.id===u.role);document.getElementById('headerRole').textContent=r?r.name:u.role;document.getElementById('panelS').style.display='none';document.getElementById('panelL').style.display='none';document.getElementById('authFooter').style.display='none';document.getElementById('authOK').style.display='block';document.getElementById('okTitle').textContent=isNew?'Welcome, '+(u.firstName||u.username)+'! 🎉':'Back on the floor, '+(u.firstName||u.username)+'!';document.getElementById('okSub').textContent=isNew?'Your account is live. Start sharing tips with fellow CC folks!':'The queue missed you. (The hold music did too.)';document.getElementById('authBtns').style.display='none';document.getElementById('userWrap').style.display='block';document.getElementById('newPostBtn').style.display='block';const av=document.getElementById('hAvatar');av.textContent=((u.firstName&&u.firstName[0]||'')+(u.lastName&&u.lastName[0]||u.username&&u.username[0]||'')).toUpperCase();av.style.background=u.color;document.getElementById('hUsername').textContent=u.username;document.getElementById('ddName').textContent=(u.firstName||'')+' '+(u.lastName||'');document.getElementById('ddRole').textContent=r?r.icon+' '+r.name:'';setTimeout(closeAuth,2000);setTimeout(updateMobAuth,2100);}
 function logout(){currentUser=null;userRole=null;document.getElementById('authBtns').style.display='flex';document.getElementById('userWrap').style.display='none';document.getElementById('newPostBtn').style.display='none';document.getElementById('userDD').classList.remove('open');document.getElementById('headerRole').textContent='Pick your role';}
 function toggleDD(){document.getElementById('userDD').classList.toggle('open');}
 
-/* GAME */
-let gs={};
-function startGame(diff){
-  const tm={easy:45,normal:30,hard:18};
-  gs={diff,tt:tm[diff],tickets:[...TICKETS].sort(()=>Math.random()-.5),cur:0,score:0,correct:0,totalTime:0,timeLeft:0,timer:null,answered:false,streak:0};
-  document.getElementById('gameStart').style.display='none';document.getElementById('gamePlaying').style.display='block';document.getElementById('gameOver').style.display='none';
-  loadTicket();
-}
-function resetGame(){document.getElementById('gameOver').style.display='none';document.getElementById('gameStart').style.display='block';}
-function loadTicket(){
-  if(gs.cur>=gs.tickets.length){endGame();return;}
-  const t=gs.tickets[gs.cur];gs.answered=false;gs.timeLeft=gs.tt;
-  document.getElementById('hudTicket').textContent=`${gs.cur+1}/${gs.tickets.length}`;
-  document.getElementById('hudScore').textContent=gs.score;
-  document.getElementById('hudStreak').textContent=`${gs.streak}🔥`;
-  document.getElementById('tktCaller').textContent=`📞 ${t.caller}`;
-  const ae=document.getElementById('tktAnger');
-  ae.textContent=t.anger==='low'?'😊 Calm':t.anger==='med'?'😤 Annoyed':'😡 Furious';
-  ae.className=`tkt-anger ${t.anger==='low'?'al':t.anger==='med'?'am':'ah'}`;
-  document.getElementById('tktIssue').textContent=t.issue;
-  document.getElementById('tktQ').textContent=t.q;
-  document.getElementById('tktFb').className='tkt-fb';document.getElementById('tktFb').textContent='';
-  document.getElementById('tktNext').className='tkt-next';
-  document.getElementById('tktOpts').innerHTML=t.opts.map((o,i)=>`<button class="tkt-opt" onclick="answerTicket(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('');
-  clearInterval(gs.timer);updateTimer();gs.timer=setInterval(tickTimer,100);
-}
-function tickTimer(){gs.timeLeft-=0.1;updateTimer();if(gs.timeLeft<=0){gs.timeLeft=0;clearInterval(gs.timer);if(!gs.answered)timeout();}}
-function updateTimer(){
-  const pct=Math.max(0,(gs.timeLeft/gs.tt)*100);
-  const f=document.getElementById('timerFill');
-  f.style.width=pct+'%';f.style.background=pct>60?'var(--green)':pct>30?'var(--yellow)':'var(--red)';
-  document.getElementById('timerLeft').textContent=Math.ceil(gs.timeLeft)+'s';
-  const avg=gs.cur>0?Math.round(gs.totalTime/gs.cur):0;
-  const el=document.getElementById('hudAHT');el.textContent=avg+'s';
-  el.className='hud-val '+(avg<20?'g':avg<35?'w':'d');
-}
-function answerTicket(idx){
-  if(gs.answered)return;gs.answered=true;clearInterval(gs.timer);
-  const t=gs.tickets[gs.cur];const taken=gs.tt-gs.timeLeft;gs.totalTime+=taken;
-  const ok=idx===t.correct;
-  document.querySelectorAll('.tkt-opt').forEach((b,i)=>{b.disabled=true;if(i===t.correct)b.classList.add('correct');else if(i===idx&&!ok)b.classList.add('wrong');});
-  const fb=document.getElementById('tktFb');
-  if(ok){const tb=Math.round((gs.tt-taken)*3),pts=100+tb+gs.streak*15;gs.score+=pts;gs.correct++;gs.streak++;fb.className='tkt-fb good show';fb.innerHTML=`✅ Correct! <strong>+${pts} pts</strong> (time bonus: +${tb}) · ${t.fb}`;}
-  else{gs.score=Math.max(0,gs.score-30);gs.streak=0;fb.className='tkt-fb bad show';fb.innerHTML=`❌ Not quite. -30 pts · ${t.fb}`;}
-  document.getElementById('hudScore').textContent=gs.score;document.getElementById('hudStreak').textContent=`${gs.streak}🔥`;
-  document.getElementById('tktNext').className='tkt-next show';
-}
-function timeout(){
-  gs.answered=true;gs.totalTime+=gs.tt;gs.score=Math.max(0,gs.score-50);gs.streak=0;
-  const t=gs.tickets[gs.cur];
-  document.querySelectorAll('.tkt-opt').forEach((b,i)=>{b.disabled=true;if(i===t.correct)b.classList.add('correct');});
-  const fb=document.getElementById('tktFb');fb.className='tkt-fb bad show';fb.innerHTML=`⏰ Time's up! -50 pts · ${t.fb}`;
-  document.getElementById('hudScore').textContent=gs.score;document.getElementById('hudStreak').textContent='0🔥';
-  document.getElementById('tktNext').className='tkt-next show';
-}
-function nextTicket(){gs.cur++;if(gs.cur>=gs.tickets.length)endGame();else loadTicket();}
-function endGame(){
-  clearInterval(gs.timer);document.getElementById('gamePlaying').style.display='none';document.getElementById('gameOver').style.display='block';
-  const avg=Math.round(gs.totalTime/gs.tickets.length),acc=Math.round((gs.correct/gs.tickets.length)*100);
-  document.getElementById('goScore').textContent=gs.score;document.getElementById('goAHT').textContent=avg+'s';document.getElementById('goAcc').textContent=acc+'%';
-  let ic,ti,su;
-  if(acc>=90&&avg<15){ic='🏆';ti='Call Center Legend!';su='Your AHT would make any WFM analyst weep with joy. The queue feared you today.';}
-  else if(acc>=70){ic='🎉';ti='Solid Shift!';su='Good resolution skills. Work on speed and you\'ll be untouchable.';}
-  else if(acc>=50){ic='📋';ti='Needs Coaching';su='Right instincts but calls are running long. Shadow a senior agent.';}
-  else{ic='😅';ti='Back to Training';su='We\'ve all been there. Review feedback on each call and try again.';}
-  document.getElementById('goIcon').textContent=ic;document.getElementById('goTitle').textContent=ti;document.getElementById('goSub').textContent=su;
-}
-
-
-/* ── TEMPLATES ── */
-const CAT_META={
-  apology:{label:'Apology',color:'rgba(255,107,107,.15)',text:'#ff6b6b',emoji:'😔'},
-  info:{label:'Ask for Info',color:'rgba(79,158,255,.15)',text:'#4f9eff',emoji:'❓'},
-  escalation:{label:'Escalation',color:'rgba(251,191,36,.15)',text:'#fbbf24',emoji:'🚨'},
-  followup:{label:'Follow-up',color:'rgba(61,220,132,.15)',text:'#3ddc84',emoji:'🔁'},
-  closing:{label:'Closing',color:'rgba(167,139,250,.15)',text:'#a78bfa',emoji:'✅'},
-  hold:{label:'Hold / Transfer',color:'rgba(100,200,200,.15)',text:'#5dd6d6',emoji:'⏸'},
-  custom:{label:'Custom',color:'rgba(255,95,31,.15)',text:'#ff8c55',emoji:'🏷'},
-};
-
-let templates=[
-  {id:1,name:'Sincere Billing Apology',cat:'apology',channels:{email:true,phone:true,chat:true},tags:['billing','refund'],body:`Dear [Customer Name],
-
-I want to sincerely apologize for the billing error on your account. I completely understand how frustrating this must be, and I want you to know that this is not the standard of service we hold ourselves to.
-
-I have reviewed your account and I can confirm [Issue]. I have taken immediate steps to resolve this: [Resolution Steps].
-
-You should see the correction reflected within 3–5 business days. If you have any further questions or concerns, please don't hesitate to reach out.
-
-Thank you for your patience and for giving us the opportunity to make this right.
-
-Warm regards,
-[Agent Name]`},
-  {id:2,name:'Request for Additional Information',cat:'info',channels:{email:true,phone:false,chat:true},tags:['info','verification'],body:`Dear [Customer Name],
-
-Thank you for contacting us regarding [Issue].
-
-To best assist you and process your request, I kindly need a few additional details from you:
-
-1. [Information Needed 1]
-2. [Information Needed 2]
-3. [Information Needed 3]
-
-Once I have this information, I'll be able to move forward quickly. Please reply to this email at your earliest convenience.
-
-Thank you for your cooperation.
-
-Best regards,
-[Agent Name]`},
-  {id:3,name:'Escalation Handover',cat:'escalation',channels:{email:true,phone:false,chat:false},tags:['escalation','handover'],body:`Dear [Customer Name],
-
-Thank you for your patience while we worked on your case.
-
-After reviewing your situation in detail, I am escalating your case to our specialist team who are best equipped to resolve [Issue]. Your case reference number is [Reference Number].
-
-A member of our specialist team will be in touch within [Timeframe] to assist you further. You will not need to re-explain your situation — all details have been documented and passed along.
-
-We sincerely appreciate your patience and take full responsibility for ensuring this is resolved.
-
-Kind regards,
-[Agent Name]`},
-  {id:4,name:'Follow-up Check-in',cat:'followup',channels:{email:true,phone:true,chat:false},tags:['follow-up','satisfaction'],body:`Dear [Customer Name],
-
-I'm reaching out to follow up on your recent case regarding [Issue], which was resolved on [Date].
-
-We wanted to ensure that the solution has been working as expected and that you're fully satisfied with the outcome.
-
-If you're experiencing any further issues or have questions, please don't hesitate to get in touch — I'm here to help.
-
-Thank you for choosing us, and we appreciate your continued trust.
-
-Kind regards,
-[Agent Name]`},
-  {id:5,name:'Professional Call Closing',cat:'closing',channels:{email:false,phone:true,chat:true},tags:['closing','satisfaction'],body:`Before I let you go, [Customer Name], I just want to quickly recap what we've done today:
-
-[Summary of actions taken]
-
-Is there anything else I can help you with today?
-
-[Pause for response]
-
-It was a pleasure speaking with you. Thank you for contacting us and have a wonderful [day/evening]. Goodbye!`},
-  {id:6,name:'Hold Acknowledgment',cat:'hold',channels:{email:false,phone:true,chat:false},tags:['hold','wait time'],body:`[Customer Name], I have everything I need to look into this for you. I'm going to place you on a brief hold — no longer than [Hold Time] — while I pull up your account and check on this.
-
-Is that okay with you?
-
-[Wait for confirmation]
-
-Thank you. I'll be right back.
-
-[After hold]
-
-Thank you so much for your patience, [Customer Name]. I've had a chance to review your account and here's what I found: [Finding/Update].`},
-  {id:7,name:'Service Outage Apology',cat:'apology',channels:{email:true,phone:true,chat:true},tags:['outage','service'],body:`Dear [Customer Name],
-
-I want to sincerely apologize for the service disruption you experienced on [Date/Time]. We fully understand the impact this has had on you, and we take complete responsibility.
-
-Our technical team identified and resolved the root cause at [Resolution Time]. The issue was: [Brief Explanation].
-
-To prevent this from happening again, we have implemented [Preventive Measures].
-
-As a gesture of goodwill, we would like to offer you [Compensation/Credit]. This will be applied to your account within [Timeframe].
-
-We value your business greatly and are committed to delivering the reliable service you deserve.
-
-Sincerely,
-[Agent Name]`},
-  {id:8,name:'Chat Warm Transfer',cat:'hold',channels:{email:false,phone:false,chat:true},tags:['transfer','handover'],body:`Hi [Customer Name]! I want to let you know that I'm going to transfer you to my colleague [Colleague Name] from our [Department] team — they're best placed to help with [Issue] and will be able to sort this out for you right away.
-
-I've already shared all the details of our conversation so you won't have to repeat yourself. 😊
-
-One moment while I connect you!`},
-];
-let tplFilter='all',tplChannel='email',tplEditId=null,activeTplId=null;
-
-function filterTpls(cat,el){
-  tplFilter=cat;
-  document.querySelectorAll('.tpl-cat').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');
-  renderTemplates();
-}
-function setChannel(ch,btn){
-  tplChannel=ch;
-  document.querySelectorAll('.tch-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  renderTemplates();
-}
-function renderTemplates(){
-  const q=(document.getElementById('tplSearchInput')?.value||'').trim().toLowerCase();
-  let filtered=templates.filter(t=>{
-    if(tplFilter==='all'){}
-    else if(tplFilter==='custom'){if(t.cat!=='custom'&&!t.userCreated)return false;}
-    else if(t.cat!==tplFilter)return false;
-    if(!t.channels[tplChannel])return false;
-    if(q&&!t.name.toLowerCase().includes(q)&&!t.body.toLowerCase().includes(q)&&!t.tags.some(tg=>tg.toLowerCase().includes(q)))return false;
-    return true;
-  });
-  document.getElementById('tplCount').textContent=`${filtered.length} template${filtered.length!==1?'s':''}`;
-  const grid=document.getElementById('tplGrid');
-  if(!filtered.length){
-    grid.innerHTML=`<div class="tpl-empty"><div class="tpl-empty-icon">📭</div><p>No templates found.<br><span style="color:var(--accent);cursor:pointer" onclick="openTplModal()">Create one!</span></p></div>`;
-    grid.className='';return;
-  }
-  grid.className='tpl-grid';
-  grid.innerHTML=filtered.map((t,i)=>{
-    const cm=CAT_META[t.cat]||CAT_META.custom;
-    const tags=t.tags.map(tg=>`<span class="tpl-tag">${tg}</span>`).join('');
-    const chIcons=['email','phone','chat'].map(ch=>`<span class="tch-icon ${t.channels[ch]?'on':''}">${ch==='email'?'✉':ch==='phone'?'📞':'💬'}</span>`).join('');
-    const preview=t.body.replace(/\[.*?\]/g,'…').substring(0,120)+'…';
-    return`<div class="tpl-card" style="animation-delay:${i*.05}s">
-      <div class="tpl-card-head">
-        <div class="tpl-card-name">${t.name}</div>
-        <span class="tpl-card-badge" style="background:${cm.color};color:${cm.text}">${cm.emoji} ${cm.label}</span>
-      </div>
-      <div class="tpl-card-body">${preview}</div>
-      <div class="tpl-card-footer">${tags}<div class="tpl-channels">${chIcons}</div></div>
-      <div class="tpl-actions">
-        <button class="tpl-btn" onclick="editTpl(${t.id})">✏️ Edit</button>
-        <button class="tpl-btn" onclick="quickCopy(${t.id})">📋 Copy</button>
-        <button class="tpl-btn primary" onclick="useTpl(${t.id})">Use Template →</button>
-      </div>
-    </div>`;
-  }).join('');
-}
-function openTplModal(id=null){
-  tplEditId=id;
-  const t=id?templates.find(x=>x.id===id):null;
-  document.getElementById('tplModalTitle').textContent=t?'Edit Template':'New Template';
-  document.getElementById('tplName').value=t?t.name:'';
-  document.getElementById('tplCat').value=t?t.cat:'apology';
-  document.getElementById('tplBody').value=t?t.body:'';
-  document.getElementById('tplTags').value=t?t.tags.join(', '):'';
-  document.getElementById('chkEmail').checked=t?t.channels.email:true;
-  document.getElementById('chkPhone').checked=t?t.channels.phone:false;
-  document.getElementById('chkChat').checked=t?t.channels.chat:false;
-  document.getElementById('tplModal').classList.add('open');
-}
+// ═══ TEMPLATES ═══
+function filterTpls(cat,el){tplFilter=cat;document.querySelectorAll('.tpl-cat').forEach(c=>c.classList.remove('active'));el.classList.add('active');renderTemplates();}
+function setChannel(ch,btn){tplChannel=ch;document.querySelectorAll('.tch-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderTemplates();}
+function renderTemplates(){const q=(document.getElementById('tplSearchInput')&&document.getElementById('tplSearchInput').value||'').trim().toLowerCase();let filtered=templates.filter(t=>{if(tplFilter==='all'){}else if(tplFilter==='custom'){if(t.cat!=='custom'&&!t.userCreated)return false;}else if(t.cat!==tplFilter)return false;if(!t.channels[tplChannel])return false;if(q&&!t.name.toLowerCase().includes(q)&&!t.body.toLowerCase().includes(q)&&!t.tags.some(tg=>tg.toLowerCase().includes(q)))return false;return true;});document.getElementById('tplCount').textContent=filtered.length+' template'+(filtered.length!==1?'s':'');const grid=document.getElementById('tplGrid');if(!filtered.length){grid.innerHTML='<div class="tpl-empty"><div class="tpl-empty-icon">📭</div><p>No templates here.<br><span style="color:var(--accent);cursor:pointer" onclick="openTplModal()">Create one!</span></p></div>';grid.className='';return;}grid.className='tpl-grid';grid.innerHTML=filtered.map((t,i)=>{const cm=CAT_META[t.cat]||CAT_META.custom;const tags=t.tags.map(tg=>`<span class="tpl-tag">${tg}</span>`).join('');const chIcons=['email','phone','chat'].map(ch=>`<span class="tch-icon ${t.channels[ch]?'on':''}">${ch==='email'?'✉':ch==='phone'?'📞':'💬'}</span>`).join('');const preview=t.body.replace(/\[.*?\]/g,'…').substring(0,120)+'…';return`<div class="tpl-card" style="animation-delay:${i*.05}s"><div class="tpl-card-head"><div class="tpl-card-name">${t.name}</div><span class="tpl-card-badge" style="background:${cm.color};color:${cm.text}">${cm.emoji} ${cm.label}</span></div><div class="tpl-card-body">${preview}</div><div class="tpl-card-footer">${tags}<div class="tpl-channels">${chIcons}</div></div><div class="tpl-actions"><button class="tpl-btn" onclick="openTplModal(${t.id})">✏️ Edit</button><button class="tpl-btn" onclick="quickCopy(${t.id})">📋 Copy</button><button class="tpl-btn primary" onclick="useTpl(${t.id})">Use →</button></div></div>`;}).join('');}
+function openTplModal(id){tplEditId=id||null;const t=id?templates.find(x=>x.id===id):null;document.getElementById('tplModalTitle').textContent=t?'Edit Template':'New Template';document.getElementById('tplName').value=t?t.name:'';document.getElementById('tplCat').value=t?t.cat:'apology';document.getElementById('tplBody').value=t?t.body:'';document.getElementById('tplTags').value=t?t.tags.join(', '):'';document.getElementById('chkEmail').checked=t?t.channels.email:true;document.getElementById('chkPhone').checked=t?t.channels.phone:false;document.getElementById('chkChat').checked=t?t.channels.chat:false;document.getElementById('tplModal').classList.add('open');}
 function closeTplModal(){document.getElementById('tplModal').classList.remove('open');}
-function editTpl(id){openTplModal(id);}
-function saveTpl(){
-  const name=document.getElementById('tplName').value.trim();
-  const body=document.getElementById('tplBody').value.trim();
-  if(!name||!body){alert('Please add a name and body.');return;}
-  const tpl={
-    id:tplEditId||Date.now(),name,cat:document.getElementById('tplCat').value,
-    channels:{email:document.getElementById('chkEmail').checked,phone:document.getElementById('chkPhone').checked,chat:document.getElementById('chkChat').checked},
-    tags:document.getElementById('tplTags').value.split(',').map(t=>t.trim()).filter(Boolean),
-    body,userCreated:true
-  };
-  if(tplEditId){const idx=templates.findIndex(t=>t.id===tplEditId);templates[idx]=tpl;}
-  else templates.unshift(tpl);
-  closeTplModal();renderTemplates();showToast('Template saved! 💾');
-}
-function quickCopy(id){
-  const t=templates.find(x=>x.id===id);if(!t)return;
-  navigator.clipboard.writeText(t.body).then(()=>showToast('Copied to clipboard! 📋'));
-}
-function useTpl(id){
-  const t=templates.find(x=>x.id===id);if(!t)return;
-  activeTplId=id;
-  document.getElementById('tplUseName').textContent=t.name;
-  // Find placeholders like [Customer Name]
-  const phs=[...new Set([...t.body.matchAll(/\[([^\]]+)\]/g)].map(m=>m[1]))];
-  const fields=document.getElementById('tplPlaceholderFields');
-  if(phs.length){
-    fields.style.display='block';
-    fields.innerHTML=`<div class="fl" style="margin-bottom:10px">Fill in the blanks</div>`+phs.map(ph=>`
-      <div class="ph-field">
-        <label class="ph-label">[${ph}]</label>
-        <input class="fi" id="ph-${ph.replace(/\s+/g,'_')}" placeholder="${ph}" oninput="updatePreview()"/>
-      </div>`).join('');
-  }else{fields.style.display='none';fields.innerHTML='';}
-  updatePreview();
-  document.getElementById('tplUseModal').classList.add('open');
-}
-function updatePreview(){
-  const t=templates.find(x=>x.id===activeTplId);if(!t)return;
-  let text=t.body;
-  const phs=[...new Set([...t.body.matchAll(/\[([^\]]+)\]/g)].map(m=>m[1]))];
-  phs.forEach(ph=>{
-    const val=document.getElementById('ph-'+ph.replace(/\s+/g,'_'))?.value||'';
-    if(val)text=text.replaceAll('['+ph+']',val);
-  });
-  document.getElementById('tplPreview').value=text;
-}
+function saveTpl(){const name=document.getElementById('tplName').value.trim(),body=document.getElementById('tplBody').value.trim();if(!name||!body){alert('Please add a name and body.');return;}const tpl={id:tplEditId||Date.now(),name,cat:document.getElementById('tplCat').value,channels:{email:document.getElementById('chkEmail').checked,phone:document.getElementById('chkPhone').checked,chat:document.getElementById('chkChat').checked},tags:document.getElementById('tplTags').value.split(',').map(t=>t.trim()).filter(Boolean),body,userCreated:true};if(tplEditId){const idx=templates.findIndex(t=>t.id===tplEditId);templates[idx]=tpl;}else templates.unshift(tpl);closeTplModal();renderTemplates();showToast('Template saved! 💾');}
+function quickCopy(id){const t=templates.find(x=>x.id===id);if(!t)return;navigator.clipboard.writeText(t.body).then(()=>showToast('Copied! 📋'));}
+function useTpl(id){const t=templates.find(x=>x.id===id);if(!t)return;activeTplId=id;document.getElementById('tplUseName').textContent=t.name;const phs=[...new Set([...t.body.matchAll(/\[([^\]]+)\]/g)].map(m=>m[1]))];const fields=document.getElementById('tplPlaceholderFields');if(phs.length){fields.style.display='block';fields.innerHTML='<div class="fl" style="margin-bottom:10px">Fill in the blanks</div>'+phs.map(ph=>`<div class="ph-field" style="margin-bottom:12px"><label style="font-size:12px;color:var(--accent2);font-family:\'JetBrains Mono\',monospace;margin-bottom:5px;display:block">[${ph}]</label><input class="fi" id="ph-${ph.replace(/\s+/g,'_')}" placeholder="${ph}" oninput="updatePreview()"/></div>`).join('');}else{fields.style.display='none';fields.innerHTML='';}updatePreview();document.getElementById('tplUseModal').classList.add('open');}
+function updatePreview(){const t=templates.find(x=>x.id===activeTplId);if(!t)return;let text=t.body;const phs=[...new Set([...t.body.matchAll(/\[([^\]]+)\]/g)].map(m=>m[1]))];phs.forEach(ph=>{const val=(document.getElementById('ph-'+ph.replace(/\s+/g,'_'))||{}).value||'';if(val)text=text.split('['+ph+']').join(val);});document.getElementById('tplPreview').value=text;}
 function closeTplUse(){document.getElementById('tplUseModal').classList.remove('open');activeTplId=null;}
-function copyTpl(andClose=false){
-  const text=document.getElementById('tplPreview').value;
-  navigator.clipboard.writeText(text).then(()=>{showToast('Copied to clipboard! 📋');if(andClose)closeTplUse();});
-}
-function showToast(msg){
-  const t=document.createElement('div');t.className='copy-toast';t.textContent=msg;
-  document.body.appendChild(t);setTimeout(()=>t.remove(),2200);
-}
+function copyTpl(andClose){const text=document.getElementById('tplPreview').value;navigator.clipboard.writeText(text).then(()=>{showToast('Copied! 📋');if(andClose)closeTplUse();});}
+function showToast(msg){const t=document.createElement('div');t.className='copy-toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2200);}
 
+// ═══ NEWS ═══
+function renderTip(){const t=TIPS[tipIdx];document.getElementById('tipText').textContent=t.text;document.getElementById('tipAuthor').textContent=t.author;}
+function nextTip(){tipIdx=(tipIdx+1)%TIPS.length;renderTip();}
+async function fetchNews(){try{const apiUrl='https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent('https://www.cxtoday.com/feed/')+'&count=8';const resp=await fetch(apiUrl,{signal:AbortSignal.timeout(6000)});if(!resp.ok)throw new Error('fail');const data=await resp.json();if(data.status==='ok'&&data.items&&data.items.length){newsItems=[...data.items.map(item=>({title:item.title,desc:(item.description||'').replace(/<[^>]*>/g,'').substring(0,200)+'…',source:'CX Today',cat:'cx',date:new Date(item.pubDate).toLocaleDateString('en-US',{month:'short',year:'numeric'}),url:item.link})),...FALLBACK_NEWS.slice(0,5)];}}catch(e){}newsLoaded=true;const lu=document.getElementById('newsLastUpdated');if(lu)lu.textContent='Updated '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});const loader=document.getElementById('newsLoader');if(loader)loader.style.display='none';renderNews();}
+function filterNews(cat,btn){newsFilter=cat;document.querySelectorAll('.news-filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderNews();}
+function renderNews(){const grid=document.getElementById('newsGrid');if(!grid)return;const filtered=newsFilter==='all'?newsItems:newsItems.filter(n=>n.cat===newsFilter);const catCls={ai:'news-cat-ai',cx:'news-cat-cx',ops:'news-cat-ops',industry:'news-cat-industry'};const catLabel={ai:'🤖 AI & Tech',cx:'💬 CX',ops:'⚙️ Ops',industry:'🏢 Industry'};grid.innerHTML=filtered.length?filtered.map((n,i)=>`<div class="news-card" style="animation-delay:${i*.05}s" onclick="window.open('${n.url}','_blank')"><div class="news-card-top"><span class="news-source">${n.source}</span><span class="news-cat-badge ${catCls[n.cat]||'news-cat-industry'}">${catLabel[n.cat]||n.cat}</span><span class="news-date">${n.date}</span></div><div class="news-title">${n.title}</div><div class="news-desc">${n.desc}</div><button class="news-read-btn">Read full article ↗</button></div>`).join(''):'<div style="text-align:center;padding:30px;color:var(--text3)">No news in this category yet.</div>';}
+function initNews(){renderTip();renderNews();renderWellbeing();if(!newsLoaded)fetchNews();else{const lu=document.getElementById('newsLastUpdated');if(lu)lu.textContent='Updated '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}}
 
-/* ── TIPS OF THE DAY ── */
-const TIPS = [
-  {text:"Always start with the customer's name. It's the most personal word in any language.",author:"— Inbound Veteran, 8 years"},
-  {text:"Silence is a tool. After acknowledging a complaint, pause for 2 seconds. It signals you're actually thinking.",author:"— QA Lead, CC community"},
-  {text:"'Let me look into that for you' buys time without sounding dismissive. Master it.",author:"— Escalation Specialist"},
-  {text:"Write your closing before your opening in emails. Know where you're going first.",author:"— Trainer Tip"},
-  {text:"If a customer asks for a manager, try: 'I'm the specialist for this — let me see what I can do.' 60% won't escalate.",author:"— Team Lead, 5 years"},
-  {text:"AHT is a metric, not a target. Agents who care about resolution naturally reduce it.",author:"— Ops Manager insight"},
-  {text:"On a silent call: stay on. Say 'If you can hear me, press any key.' Never hang up first.",author:"— Safety Protocol"},
-  {text:"Mirror the customer's energy DOWN, not up. If they're loud, be calm. If rushed, be measured.",author:"— De-escalation master"},
-  {text:"The best script is no script. Know the principles. Empathy, ownership, resolution.",author:"— Principles-based training"},
-  {text:"Your tone carries more weight than your words. Smile when you talk — it physically changes how you sound.",author:"— Trainer classic"},
-  {text:"FCR (First Call Resolution) matters more than AHT. One thorough call beats three rushed ones.",author:"— WFM Analyst"},
-  {text:"After a hard call, do 90 seconds of 'shake it off' — literally stand up, breathe, reset.",author:"— Wellbeing tip"},
-];
-let tipIdx = Math.floor(Math.random() * TIPS.length);
-function renderTip(){
-  const t = TIPS[tipIdx];
-  document.getElementById('tipText').textContent = t.text;
-  document.getElementById('tipAuthor').textContent = t.author;
-}
-function nextTip(){
-  tipIdx = (tipIdx + 1) % TIPS.length;
-  renderTip();
-}
+// ═══ WELLBEING ═══
+function setMood(mood,btn){document.querySelectorAll('.wb-mood').forEach(b=>b.classList.remove('selected'));btn.classList.add('selected');moodHistory[6]=mood;const el=document.getElementById('wbResponse');el.style.display='block';el.textContent=MOOD_RESPONSES[mood].msg;renderWbHistory();}
+function renderWellbeing(){renderWbHistory();renderTeamBars();}
+function renderWbHistory(){const h=document.getElementById('wbHistory');if(!h)return;const moodEmoji={great:'😄',good:'🙂',meh:'😐',tough:'😔',burnout:'🔥','':'·'};h.innerHTML=moodHistory.map(m=>`<div class="wb-day">${moodEmoji[m]||'·'}</div>`).join('');}
+function renderTeamBars(){const el=document.getElementById('wbTeamBars');if(!el)return;const total=Object.values(TEAM_MOOD).reduce((a,b)=>a+b,0);const items=[{label:'😄 Great',key:'great',color:'var(--green)'},{label:'🙂 Good',key:'good',color:'var(--blue)'},{label:'😐 Meh',key:'meh',color:'var(--yellow)'},{label:'😔 Tough',key:'tough',color:'var(--accent2)'},{label:'🔥 Burned',key:'burnout',color:'var(--red)'}];el.innerHTML=items.map(it=>{const pct=Math.round((TEAM_MOOD[it.key]/total)*100);return`<div class="wb-bar-row"><div class="wb-bar-label">${it.label}</div><div class="wb-bar-track"><div class="wb-bar-fill" style="width:${pct}%;background:${it.color}"></div></div><div class="wb-bar-val">${pct}%</div></div>`;}).join('');}
 
-/* ── LIVE NEWS (RSS via rss2json proxy) ── */
-const NEWS_SOURCES = [
-  {url:'https://www.cxtoday.com/feed/', label:'CX Today', cat:'cx'},
-  {url:'https://callminer.com/blog/feed/', label:'CallMiner', cat:'ai'},
-  {url:'https://www.callcentrehelper.com/feed', label:'CC Helper', cat:'ops'},
-];
-// Curated fallback news (shown if API fails or while loading)
-const FALLBACK_NEWS = [
-  {title:'Gartner: AI Will Handle 50% of Contact Center Interactions by 2027',desc:'New Gartner research projects that conversational AI adoption in contact centers will double over the next 18 months, fundamentally reshaping agent roles from call handlers to complex problem solvers.',source:'Gartner',cat:'ai',date:'Mar 2026',url:'#'},
-  {title:'Agent Burnout Reaches 5-Year High — New Study Reveals Root Causes',desc:'A comprehensive industry survey of 12,000 contact center agents across 40 countries found that unrealistic AHT targets and lack of manager empathy are the top two drivers of burnout in 2026.',source:'CX Network',cat:'industry',url:'#',date:'Mar 2026'},
-  {title:'Why Talkdesk Says CCaaS Is Dead — And What Comes Next',desc:'The contact center software giant argues that the era of standalone CCaaS platforms is ending, replaced by customer experience automation ecosystems that blend AI, CRM, and workforce management.',source:'CX Today',cat:'ai',url:'#',date:'Mar 2026'},
-  {title:'76% of Customers Still Prefer Phone Support — Despite AI Push',desc:'Despite massive investment in chatbots and digital deflection, new research confirms that phone remains the dominant channel for complex customer issues, with CSAT scores 34% higher than chat.',source:'CallMiner',cat:'cx',url:'#',date:'Feb 2026'},
-  {title:'PolyAI Raises $86M to Transform Enterprise Voice AI',desc:'The London-based conversational AI company secured $86 million in Series C funding to expand its autonomous voice agent platform, which it claims can handle 70% of inbound calls without human intervention.',source:'TechCrunch',cat:'ai',url:'#',date:'Feb 2026'},
-  {title:'The BPO Wake-Up Call: A Complete Guide for CX Leaders',desc:'As AI threatens to automate up to 40% of BPO work by 2028, outsourcing leaders are under pressure to redefine their value proposition. This comprehensive guide covers the strategic shifts already underway.',source:'CX Today',cat:'industry',url:'#',date:'Feb 2026'},
-  {title:'Call Center Work-From-Home: 62% of Centers Now Fully Remote or Hybrid',desc:'New workforce data shows that remote and hybrid contact center models have become the new normal post-pandemic, with companies reporting 18% lower attrition and 12% higher CSAT in distributed teams.',source:'CC Helper',cat:'ops',url:'#',date:'Jan 2026'},
-  {title:'Severe Winter Storms Cause Home Services Call Volume to Spike 340%',desc:'Utility and home services contact centers across the US Midwest reported unprecedented call volumes following severe winter storms, with some centers activating emergency overflow protocols for the first time.',source:'Customer Service Management',cat:'ops',url:'#',date:'Mar 2026'},
-  {title:'2026 CX Trends: What Every Contact Center Leader Should Act On Now',desc:'From AI-assisted coaching to real-time sentiment analysis and predictive churn detection, this year\'s biggest trends are reshaping how contact center leaders think about performance, wellbeing, and technology.',source:'CX Today',cat:'cx',url:'#',date:'Jan 2026'},
-  {title:'Speech Analytics Now Used in 71% of Enterprise Contact Centers',desc:'Adoption of real-time speech analytics has surged, with enterprise contact centers using AI-powered tools to monitor 100% of calls for compliance, coaching opportunities, and customer sentiment.',source:'CallMiner',cat:'ai',url:'#',date:'Jan 2026'},
-];
-let newsFilter = 'all';
-let newsItems = [...FALLBACK_NEWS];
-let newsLoaded = false;
+// ═══ GAME ═══
+let gs={};
+function startGame(diff){const tm={easy:45,normal:30,hard:18};gs={diff,tt:tm[diff],tickets:[...TICKETS].sort(()=>Math.random()-.5),cur:0,score:0,correct:0,totalTime:0,timeLeft:0,timer:null,answered:false,streak:0};document.getElementById('gameStart').style.display='none';document.getElementById('gamePlaying').style.display='block';document.getElementById('gameOver').style.display='none';loadTicket();}
+function resetGame(){document.getElementById('gameOver').style.display='none';document.getElementById('gameStart').style.display='block';}
+function loadTicket(){if(gs.cur>=gs.tickets.length){endGame();return;}const t=gs.tickets[gs.cur];gs.answered=false;gs.timeLeft=gs.tt;document.getElementById('hudTicket').textContent=(gs.cur+1)+'/'+gs.tickets.length;document.getElementById('hudScore').textContent=gs.score;document.getElementById('hudStreak').textContent=gs.streak+'🔥';document.getElementById('tktCaller').textContent='📞 '+t.caller;const ae=document.getElementById('tktAnger');ae.textContent=t.anger==='low'?'😊 Calm':t.anger==='med'?'😤 Annoyed':'😡 Furious';ae.className='tkt-anger '+(t.anger==='low'?'al':t.anger==='med'?'am':'ah');document.getElementById('tktIssue').textContent=t.issue;document.getElementById('tktQ').textContent=t.q;document.getElementById('tktFb').className='tkt-fb';document.getElementById('tktFb').textContent='';document.getElementById('tktNext').className='tkt-next';document.getElementById('tktOpts').innerHTML=t.opts.map((o,i)=>`<button class="tkt-opt" onclick="answerTicket(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('');clearInterval(gs.timer);updateTimer();gs.timer=setInterval(tickTimer,100);}
+function tickTimer(){gs.timeLeft-=0.1;updateTimer();if(gs.timeLeft<=0){gs.timeLeft=0;clearInterval(gs.timer);if(!gs.answered)timeout();}}
+function updateTimer(){const pct=Math.max(0,(gs.timeLeft/gs.tt)*100);const f=document.getElementById('timerFill');f.style.width=pct+'%';f.style.background=pct>60?'var(--green)':pct>30?'var(--yellow)':'var(--red)';document.getElementById('timerLeft').textContent=Math.ceil(gs.timeLeft)+'s';const avg=gs.cur>0?Math.round(gs.totalTime/gs.cur):0;const el=document.getElementById('hudAHT');el.textContent=avg+'s';el.className='hud-val '+(avg<20?'g':avg<35?'w':'d');}
+function answerTicket(idx){if(gs.answered)return;gs.answered=true;clearInterval(gs.timer);const t=gs.tickets[gs.cur];const taken=gs.tt-gs.timeLeft;gs.totalTime+=taken;const ok=idx===t.correct;document.querySelectorAll('.tkt-opt').forEach((b,i)=>{b.disabled=true;if(i===t.correct)b.classList.add('correct');else if(i===idx&&!ok)b.classList.add('wrong');});const fb=document.getElementById('tktFb');if(ok){const tb=Math.round((gs.tt-taken)*3),pts=100+tb+gs.streak*15;gs.score+=pts;gs.correct++;gs.streak++;fb.className='tkt-fb good show';fb.innerHTML='✅ Correct! <strong>+'+pts+' pts</strong> (time bonus: +'+tb+') · '+t.fb;}else{gs.score=Math.max(0,gs.score-30);gs.streak=0;fb.className='tkt-fb bad show';fb.innerHTML='❌ Not quite. -30 pts · '+t.fb;}document.getElementById('hudScore').textContent=gs.score;document.getElementById('hudStreak').textContent=gs.streak+'🔥';document.getElementById('tktNext').className='tkt-next show';}
+function timeout(){gs.answered=true;gs.totalTime+=gs.tt;gs.score=Math.max(0,gs.score-50);gs.streak=0;const t=gs.tickets[gs.cur];document.querySelectorAll('.tkt-opt').forEach((b,i)=>{b.disabled=true;if(i===t.correct)b.classList.add('correct');});const fb=document.getElementById('tktFb');fb.className='tkt-fb bad show';fb.innerHTML="⏰ Time's up! -50 pts · "+t.fb;document.getElementById('hudScore').textContent=gs.score;document.getElementById('hudStreak').textContent='0🔥';document.getElementById('tktNext').className='tkt-next show';}
+function nextTicket(){gs.cur++;if(gs.cur>=gs.tickets.length)endGame();else loadTicket();}
+function endGame(){clearInterval(gs.timer);document.getElementById('gamePlaying').style.display='none';document.getElementById('gameOver').style.display='block';const avg=Math.round(gs.totalTime/gs.tickets.length),acc=Math.round((gs.correct/gs.tickets.length)*100);document.getElementById('goScore').textContent=gs.score;document.getElementById('goAHT').textContent=avg+'s';document.getElementById('goAcc').textContent=acc+'%';let ic,ti,su;if(acc>=90&&avg<15){ic='🏆';ti='Call Center Legend!';su='Your AHT would make any WFM analyst weep with joy. The queue feared you today.';}else if(acc>=70){ic='🎉';ti='Solid Shift!';su="Good resolution skills. Work on speed and you'll be untouchable.";}else if(acc>=50){ic='📋';ti='Needs Coaching';su='Right instincts but calls run long. Shadow a senior agent.';}else{ic='😅';ti='Back to Training';su="We've all been there. Review feedback and try again.";}document.getElementById('goIcon').textContent=ic;document.getElementById('goTitle').textContent=ti;document.getElementById('goSub').textContent=su;}
 
-async function fetchNews(){
-  const loader = document.getElementById('newsLoader');
-  try {
-    // Try fetching from rss2json (free, CORS-friendly RSS proxy)
-    const feed = NEWS_SOURCES[0];
-    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}&count=8`;
-    const resp = await fetch(apiUrl, {signal: AbortSignal.timeout(5000)});
-    if(!resp.ok) throw new Error('fetch failed');
-    const data = await resp.json();
-    if(data.status === 'ok' && data.items?.length) {
-      const fresh = data.items.map(item => ({
-        title: item.title,
-        desc: item.description?.replace(/<[^>]*>/g,'').substring(0,200) + '…',
-        source: data.feed.title || feed.label,
-        cat: feed.cat,
-        date: new Date(item.pubDate).toLocaleDateString('en-US',{month:'short',year:'numeric'}),
-        url: item.link,
-      }));
-      newsItems = [...fresh, ...FALLBACK_NEWS.slice(0,6)];
-    }
-  } catch(e) {
-    // silent fail — fallback news already loaded
-  }
-  newsLoaded = true;
-  if(loader) loader.style.display = 'none';
-  const lu=document.getElementById('newsLastUpdated');
-  if(lu)lu.textContent='Updated '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-  renderNews();
-}
+// ═══ EVENTS ═══
+document.getElementById('authModal').addEventListener('click',function(e){if(e.target===this)closeAuth();});
+document.getElementById('postModal').addEventListener('click',function(e){if(e.target===this)closePostModal();});
+document.getElementById('roleModal').addEventListener('click',function(e){if(e.target===this)closeRolePicker();});
+document.getElementById('tplModal').addEventListener('click',function(e){if(e.target===this)closeTplModal();});
+document.getElementById('tplUseModal').addEventListener('click',function(e){if(e.target===this)closeTplUse();});
+document.addEventListener('click',function(e){const w=document.getElementById('userWrap');if(w&&!w.contains(e.target))document.getElementById('userDD').classList.remove('open');});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeLB();closeAuth();closePostModal();}});
 
-function filterNews(cat, btn) {
-  newsFilter = cat;
-  document.querySelectorAll('.news-filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderNews();
-}
-
-function renderNews(){
-  const grid = document.getElementById('newsGrid');
-  if(!grid) return;
-  const filtered = newsFilter === 'all' ? newsItems : newsItems.filter(n => n.cat === newsFilter);
-  if(!filtered.length){
-    grid.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text3)">No news in this category yet.</div>';
-    return;
-  }
-  const catCls = {ai:'news-cat-ai',cx:'news-cat-cx',ops:'news-cat-ops',industry:'news-cat-industry'};
-  const catLabel = {ai:'🤖 AI & Tech',cx:'💬 CX',ops:'⚙️ Operations',industry:'🏢 Industry'};
-  grid.className = 'news-grid';
-  grid.innerHTML = filtered.map((n,i) => `
-    <div class="news-card" style="animation-delay:${i*.05}s" onclick="window.open('${n.url}','_blank')">
-      <div class="news-card-top">
-        <span class="news-source">${n.source}</span>
-        <span class="news-cat-badge ${catCls[n.cat]||'news-cat-industry'}">${catLabel[n.cat]||n.cat}</span>
-        <span class="news-date">${n.date}</span>
-      </div>
-      <div class="news-title">${n.title}</div>
-      <div class="news-desc">${n.desc}</div>
-      <div class="news-footer">
-        <button class="news-read-btn">Read full article ↗</button>
-      </div>
-    </div>`).join('');
-}
-
-function initNews(){
-  renderTip();
-  const lu=document.getElementById('newsLastUpdated');
-  if(lu)lu.textContent='fetching…';
-  renderNews();
-  renderWellbeing();
-  if(!newsLoaded) fetchNews();
-  else{if(lu)lu.textContent='Updated '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
-}
-
-/* ── WELLBEING TRACKER ── */
-const MOOD_RESPONSES = {
-  great:{emoji:'😄',msg:"That's amazing! Keep that energy — spread some of it to your team today. You're a vibe."},
-  good:{emoji:'🙂',msg:"Solid day. Stay hydrated, take your breaks, and keep doing what you're doing."},
-  meh:{emoji:'😐',msg:"Meh days happen to everyone. Go easy on yourself today. One call at a time."},
-  tough:{emoji:'😔',msg:"Sorry to hear that. Remember: you don't have to carry it alone. Talk to someone — a colleague, your TL, or anyone you trust."},
-  burnout:{emoji:'🔥',msg:"That's a signal worth taking seriously. Please take your breaks today. If it persists, speak to your supervisor or HR. You matter more than your metrics."},
-};
-const TEAM_MOOD = {great:14,good:31,meh:24,tough:18,burnout:13};
-let moodHistory = ['good','great','meh','good','good','great',''];
-let todayMood = null;
-
-function setMood(mood, btn){
-  todayMood = mood;
-  moodHistory[6] = mood;
-  document.querySelectorAll('.wb-mood').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  const resp = MOOD_RESPONSES[mood];
-  const el = document.getElementById('wbResponse');
-  el.style.display = 'block';
-  el.className = 'wb-response';
-  el.innerHTML = `<strong>${resp.emoji}</strong> ${resp.msg}`;
-  renderWbHistory();
-}
-
-function renderWellbeing(){
-  renderWbHistory();
-  renderTeamBars();
-}
-
-function renderWbHistory(){
-  const h = document.getElementById('wbHistory');
-  if(!h) return;
-  const moodEmoji = {great:'😄',good:'🙂',meh:'😐',tough:'😔',burnout:'🔥','':'—'};
-  const days = ['M','T','W','T','F','S','T'];
-  h.innerHTML = moodHistory.map((m,i) => `
-    <div class="wb-day" title="${days[i]}" style="border-color:${m?'var(--border)':'transparent'}">${moodEmoji[m]||'·'}</div>`
-  ).join('');
-}
-
-function renderTeamBars(){
-  const el = document.getElementById('wbTeamBars');
-  if(!el) return;
-  const total = Object.values(TEAM_MOOD).reduce((a,b)=>a+b,0);
-  const items = [
-    {label:'😄 Great', key:'great', color:'var(--green)'},
-    {label:'🙂 Good', key:'good', color:'var(--blue)'},
-    {label:'😐 Meh', key:'meh', color:'var(--yellow)'},
-    {label:'😔 Tough', key:'tough', color:'var(--accent2)'},
-    {label:'🔥 Burned', key:'burnout', color:'var(--red)'},
-  ];
-  el.innerHTML = items.map(it => {
-    const pct = Math.round((TEAM_MOOD[it.key]/total)*100);
-    return `<div class="wb-bar-row">
-      <div class="wb-bar-label">${it.label}</div>
-      <div class="wb-bar-track"><div class="wb-bar-fill" style="width:${pct}%;background:${it.color}"></div></div>
-      <div class="wb-bar-val">${pct}%</div>
-    </div>`;
-  }).join('');
-}
-
-/* ── NOTIFICATIONS ── */
-  {id:2,icon:'▲',msg:'<strong>gradeAGrammar</strong> upvoted your post',time:'12m ago',unread:true},
-  {id:3,icon:'💬',msg:'<strong>holdMusicHero</strong> replied to your comment',time:'1h ago',unread:true},
-  {id:4,icon:'🏆',msg:'You\'ve been mentioned in the <strong>Leaderboard</strong> top 10!',time:'2h ago',unread:false},
-  {id:5,icon:'📰',msg:'New CC industry news: <strong>PolyAI raises $86M</strong>',time:'3h ago',unread:false},
-];
-
-/* EVENTS */
-document.getElementById('authModal').addEventListener('click',e=>{if(e.target.id==='authModal')closeAuth();});
-document.getElementById('tplModal').addEventListener('click',e=>{if(e.target.id==='tplModal')closeTplModal();});
-document.getElementById('tplUseModal').addEventListener('click',e=>{if(e.target.id==='tplUseModal')closeTplUse();});
-document.getElementById('postModal').addEventListener('click',e=>{if(e.target.id==='postModal')closePostModal();});
-document.getElementById('roleModal').addEventListener('click',e=>{if(e.target.id==='roleModal')closeRolePicker();});
-document.addEventListener('click',e=>{const w=document.getElementById('userWrap');if(w&&!w.contains(e.target))document.getElementById('userDD').classList.remove('open');});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeLB();closeAuth();closePostModal();}});
-
-
-function setMobNav(id){
-  document.querySelectorAll('.mob-nav-btn').forEach(b=>b.classList.remove('active'));
-  const el=document.getElementById(id);
-  if(el)el.classList.add('active');
-}
-function handleMobAuth(){
-  if(currentUser){toggleDD();}
-  else{openAuth('signup');}
-}
-function updateMobAuth(){
-  if(!currentUser)return;
-  const icon=document.getElementById('mnAuthIcon');
-  const label=document.getElementById('mnAuthLabel');
-  if(icon)icon.textContent=currentUser.username.slice(0,1).toUpperCase();
-  if(label)label.textContent=currentUser.username.slice(0,8);
-}
-
-/* INIT */
-document.addEventListener('DOMContentLoaded', function(){
-  document.getElementById('jokeText').textContent=JOKES[0];
-  buildRoleFilter();buildTrending();buildFeed();
-  setInterval(nextJoke,20000);
-  setTimeout(()=>openAuth('signup'),700);
-});
+// ═══ INIT ═══
+document.getElementById('jokeText').textContent=JOKES[0];
+buildRoleFilter();
+buildTrending();
+buildFeed();
+setInterval(nextJoke,20000);
+setTimeout(function(){openAuth('signup');},700);
 </script>
-
-<!-- MOBILE BOTTOM NAV -->
-<nav class="mobile-nav" id="mobileNav">
-  <button class="mob-nav-btn active" id="mnFeed" onclick="showPage('feed');setMobNav('mnFeed')">
-    <span>📰</span><span>Feed</span>
-  </button>
-  <button class="mob-nav-btn" id="mnTemplates" onclick="showPage('templates');setMobNav('mnTemplates')">
-    <span>📝</span><span>Templates</span>
-  </button>
-  <button class="mob-nav-btn" id="mnNews" onclick="showPage('news');setMobNav('mnNews')">
-    <span>📰</span><span>News</span>
-  </button>
-  <button class="mob-nav-btn" id="mnGame" onclick="showPage('game');setMobNav('mnGame')">
-    <span>🎮</span><span>AHT Run</span>
-  </button>
-  <button class="mob-nav-btn" id="mnAuth" onclick="handleMobAuth()">
-    <span id="mnAuthIcon">👤</span><span id="mnAuthLabel">Sign In</span>
-  </button>
-</nav>
-
 </body>
 </html>
