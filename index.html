@@ -247,7 +247,169 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 ::-webkit-scrollbar{width:5px;}
 ::-webkit-scrollbar-track{background:var(--bg);}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
-@media(max-width:768px){.layout{grid-template-columns:1fr;}.sidebar{display:none;}.hud{grid-template-columns:1fr 1fr;}.frow{grid-template-columns:1fr;}.search-wrap{max-width:180px;}}
+
+/* ─── MOBILE RESPONSIVE ─── */
+
+/* Tablet: 768px and below */
+@media(max-width:768px){
+  /* Header: stack search below on small tablets */
+  header{flex-wrap:wrap;height:auto;padding:10px 16px;gap:8px;}
+  .search-wrap{order:3;max-width:100%;flex:1 1 100%;}
+  .header-right{gap:6px;}
+  .role-badge{padding:5px 9px;font-size:12px;}
+  .btn-outline,.btn-primary{padding:6px 10px;font-size:12px;}
+  .user-name-sm{display:none;}
+  .nav-btn{padding:5px 9px;font-size:12px;}
+
+  /* Layout: single column */
+  .layout{grid-template-columns:1fr;padding:16px;}
+  .sidebar{display:none;}
+
+  /* Templates */
+  .tpl-layout{grid-template-columns:1fr;padding:16px;gap:14px;}
+  .tpl-sidebar{position:static;display:flex;flex-direction:column;gap:0;}
+  .tpl-cats{display:flex;flex-direction:row;flex-wrap:wrap;gap:6px;margin-top:10px;}
+  .tpl-cat{padding:5px 10px;font-size:12px;}
+  .tpl-topbar{flex-direction:column;align-items:stretch;gap:10px;}
+  .tpl-grid{grid-template-columns:1fr;}
+  .tpl-channel-toggle{justify-content:flex-start;}
+
+  /* Game */
+  .hud{grid-template-columns:1fr 1fr;}
+  .game-wrap{padding:16px;}
+  .game-title{font-size:24px;}
+  .diff-btns{flex-direction:column;align-items:center;}
+  .diff-btn{width:100%;max-width:300px;}
+
+  /* Forms */
+  .frow{grid-template-columns:1fr;}
+
+  /* Modals */
+  .modal-overlay{padding:12px;}
+  .modal{max-height:95vh;}
+  .modal-body{padding:14px 16px;gap:11px;}
+  .modal-hdr{padding:13px 16px;}
+  .modal-footer{padding:11px 16px;}
+}
+
+/* Mobile: 480px and below */
+@media(max-width:480px){
+  /* Header: compact icon-only nav */
+  header{padding:8px 12px;gap:6px;}
+  .logo{font-size:18px;}
+  .logo-icon{width:26px;height:26px;font-size:13px;}
+  .search-wrap{order:3;flex:1 1 100%;}
+  .header-right{gap:5px;}
+
+  /* Hide text labels on nav buttons, show icons only */
+  .nav-btn{font-size:0;padding:6px 8px;border-radius:7px;}
+  .nav-btn::before{font-size:15px;}
+  #navFeed::before{content:'📰';}
+  #navGame::before{content:'🎮';}
+  #navTemplates::before{content:'📝';}
+
+  /* Role badge: compact */
+  .role-badge span{display:none;}
+  .role-badge{padding:6px 8px;border-radius:8px;}
+
+  /* Auth buttons */
+  .btn-outline{display:none;}
+  #newPostBtn{padding:6px 10px;font-size:12px;}
+
+  /* Joke bar */
+  .joke-bar{padding:7px 12px;gap:8px;}
+  .joke-label{display:none;}
+  .joke-text{font-size:12.5px;}
+
+  /* Feed */
+  .layout{padding:10px 12px;}
+  .feed-header{flex-direction:column;align-items:flex-start;gap:10px;}
+  .sort-tabs{width:100%;}
+  .sort-tab{flex:1;text-align:center;}
+  .post-card{padding:11px 12px;}
+  .post-title{font-size:14px;}
+  .post-preview{font-size:13px;}
+  .post-footer{gap:8px;}
+  .post-action{font-size:11.5px;padding:3px 4px;}
+  .post-image-thumb{max-height:180px;}
+
+  /* Comments */
+  .comment-bubble{padding:7px 10px;}
+  .comment-text{font-size:13px;}
+
+  /* Vote column */
+  .vote-col{min-width:28px;}
+  .vote-btn{font-size:13px;}
+  .vote-count{font-size:11px;}
+
+  /* Sidebar stat cards (show as horizontal strip when visible) */
+  .stats-grid{grid-template-columns:repeat(4,1fr);}
+  .stat-num{font-size:15px;}
+
+  /* Game */
+  .hud{grid-template-columns:1fr 1fr;gap:8px;}
+  .hud-card{padding:9px 8px;}
+  .hud-val{font-size:18px;}
+  .hud-lbl{font-size:9px;}
+  .game-title{font-size:22px;}
+  .gs-title{font-size:20px;}
+  .result-grid{grid-template-columns:1fr 1fr 1fr;gap:8px;}
+  .result-num{font-size:20px;}
+  .tkt-card{padding:14px 12px;}
+  .tkt-issue{padding:9px 11px;font-size:13px;}
+  .tkt-opt{padding:9px 12px;font-size:13px;}
+  .diff-btn{min-width:unset;width:100%;}
+
+  /* Templates page */
+  .tpl-layout{padding:10px 12px;}
+  .tpl-sidebar-header{margin-bottom:8px;}
+  .tpl-cats{gap:5px;}
+  .tpl-cat{font-size:11.5px;padding:4px 8px;}
+  .tpl-card{padding:13px;}
+  .tpl-actions{flex-direction:column;gap:6px;}
+  .tpl-btn{width:100%;}
+  .tpl-channel-toggle{flex-wrap:wrap;}
+
+  /* Modals */
+  .modal-overlay{padding:8px;}
+  .modal{border-radius:12px;}
+  .rpg{grid-template-columns:1fr;}
+  .auth-tabs{margin:-14px -16px 0;}
+  .frow{grid-template-columns:1fr;}
+  .modal-body{padding:12px 14px;}
+
+  /* Filter bar */
+  .filter-bar{font-size:12px;padding:6px 10px;}
+}
+
+/* Bottom nav for mobile — fixed navigation bar */
+@media(max-width:480px){
+  .mobile-nav{display:flex;}
+}
+.mobile-nav{
+  display:none;
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(22,24,31,.97);
+  backdrop-filter:blur(16px);
+  border-top:1px solid var(--border);
+  z-index:150;
+  padding:8px 0 calc(8px + env(safe-area-inset-bottom));
+  justify-content:space-around;
+}
+.mob-nav-btn{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  background:none;border:none;color:var(--text3);cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-size:10px;padding:4px 12px;
+  border-radius:8px;transition:color .15s;
+}
+.mob-nav-btn.active{color:var(--accent);}
+.mob-nav-btn span:first-child{font-size:20px;}
+
+/* Push page content above bottom nav on mobile */
+@media(max-width:480px){
+  #pageFeed,#pageGame,#pageTemplates{padding-bottom:72px;}
+}
+
 
 /* ── TEMPLATES ── */
 .tpl-layout{max-width:1120px;margin:0 auto;padding:24px 20px;display:grid;grid-template-columns:220px 1fr;gap:22px;position:relative;z-index:1;min-height:calc(100vh - 110px);}
@@ -686,6 +848,9 @@ function showPage(name){
   document.getElementById('navTemplates').style.display=name==='templates'?'none':'block';
   if(name==='feed'){buildFeed();buildRoleFilter();buildTrending();}
   if(name==='templates'){renderTemplates();}
+  // sync mobile nav
+  const mobMap={feed:'mnFeed',templates:'mnTemplates',game:'mnGame'};
+  if(mobMap[name])setMobNav(mobMap[name]);
 }
 function nextJoke(){
   jokeIdx=(jokeIdx+1)%JOKES.length;
@@ -876,7 +1041,7 @@ function loginUser(u,isNew){
   document.getElementById('hUsername').textContent=u.username;
   document.getElementById('ddName').textContent=`${u.firstName||''} ${u.lastName||''}`.trim()||u.username;
   document.getElementById('ddRole').textContent=r?`${r.icon} ${r.name}`:'';
-  setTimeout(closeAuth,2000);
+  setTimeout(closeAuth,2000);updateMobAuth();
 }
 function logout(){currentUser=null;userRole=null;document.getElementById('authBtns').style.display='flex';document.getElementById('userWrap').style.display='none';document.getElementById('newPostBtn').style.display='none';document.getElementById('userDD').classList.remove('open');document.getElementById('headerRole').textContent='Pick your role';}
 function toggleDD(){document.getElementById('userDD').classList.toggle('open');}
@@ -1191,5 +1356,22 @@ buildRoleFilter();buildTrending();buildFeed();
 setInterval(nextJoke,20000);
 setTimeout(()=>openAuth('signup'),700);
 </script>
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mobile-nav" id="mobileNav">
+  <button class="mob-nav-btn active" id="mnFeed" onclick="showPage('feed');setMobNav('mnFeed')">
+    <span>📰</span><span>Feed</span>
+  </button>
+  <button class="mob-nav-btn" id="mnTemplates" onclick="showPage('templates');setMobNav('mnTemplates')">
+    <span>📝</span><span>Templates</span>
+  </button>
+  <button class="mob-nav-btn" id="mnGame" onclick="showPage('game');setMobNav('mnGame')">
+    <span>🎮</span><span>AHT Run</span>
+  </button>
+  <button class="mob-nav-btn" id="mnAuth" onclick="handleMobAuth()">
+    <span id="mnAuthIcon">👤</span><span id="mnAuthLabel">Sign In</span>
+  </button>
+</nav>
+
 </body>
 </html>
