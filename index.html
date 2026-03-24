@@ -248,6 +248,45 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 ::-webkit-scrollbar-track{background:var(--bg);}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 @media(max-width:768px){.layout{grid-template-columns:1fr;}.sidebar{display:none;}.hud{grid-template-columns:1fr 1fr;}.frow{grid-template-columns:1fr;}.search-wrap{max-width:180px;}}
+
+/* ── TEMPLATES ── */
+.tpl-layout{max-width:1120px;margin:0 auto;padding:24px 20px;display:grid;grid-template-columns:220px 1fr;gap:22px;position:relative;z-index:1;min-height:calc(100vh - 110px);}
+.tpl-sidebar{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;height:fit-content;position:sticky;top:76px;}
+.tpl-sidebar-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.tpl-sidebar-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;}
+.tpl-cats{display:flex;flex-direction:column;gap:4px;}
+.tpl-cat{padding:8px 10px;border-radius:8px;cursor:pointer;font-size:13.5px;color:var(--text2);transition:background .15s,color .15s;border:1px solid transparent;}
+.tpl-cat:hover{background:var(--bg3);color:var(--text);}
+.tpl-cat.active{background:var(--accent-dim);border-color:rgba(255,95,31,.25);color:var(--accent);}
+.tpl-main{min-width:0;}
+.tpl-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap;}
+.tpl-search-wrap{position:relative;flex:1;min-width:180px;}
+.tpl-channel-toggle{display:flex;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:3px;gap:3px;}
+.tch-btn{background:none;border:none;color:var(--text2);border-radius:5px;padding:5px 10px;font-size:12.5px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s,color .15s;white-space:nowrap;}
+.tch-btn.active{background:var(--bg3);color:var(--text);}
+.tpl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;}
+.tpl-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;transition:border-color .2s,transform .15s;animation:fadeUp .35s ease both;display:flex;flex-direction:column;gap:10px;}
+.tpl-card:hover{border-color:#3e4155;transform:translateY(-1px);}
+.tpl-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.tpl-card-name{font-family:'Syne',sans-serif;font-weight:700;font-size:14.5px;line-height:1.3;}
+.tpl-card-badge{font-size:11px;padding:2px 8px;border-radius:12px;white-space:nowrap;font-weight:600;flex-shrink:0;}
+.tpl-card-body{font-size:13px;color:var(--text2);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.tpl-card-footer{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:auto;}
+.tpl-tag{background:var(--bg3);color:var(--text3);border-radius:4px;padding:2px 7px;font-size:11px;font-family:'JetBrains Mono',monospace;}
+.tpl-channels{display:flex;gap:4px;margin-left:auto;}
+.tch-icon{font-size:14px;opacity:.5;}
+.tch-icon.on{opacity:1;}
+.tpl-actions{display:flex;gap:7px;margin-top:4px;}
+.tpl-btn{flex:1;padding:7px;border-radius:7px;font-size:12.5px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s,color .15s;border:1px solid var(--border);background:var(--bg3);color:var(--text2);}
+.tpl-btn:hover{border-color:var(--accent);color:var(--accent);}
+.tpl-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;}
+.tpl-btn.primary:hover{background:var(--accent2);border-color:var(--accent2);}
+.tpl-empty{grid-column:1/-1;text-align:center;padding:48px 20px;color:var(--text3);}
+.tpl-empty-icon{font-size:40px;margin-bottom:12px;}
+.ph-field{margin-bottom:12px;}
+.ph-label{font-size:12px;color:var(--accent2);font-family:'JetBrains Mono',monospace;margin-bottom:5px;display:block;}
+.copy-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1e2029;border:1px solid var(--green);color:var(--green);padding:10px 20px;border-radius:8px;font-size:13.5px;z-index:999;animation:fadeUp .25s ease;pointer-events:none;}
+
 </style>
 </head>
 <body>
@@ -262,6 +301,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
   <div class="header-right">
     <button class="nav-btn" id="navFeed" onclick="showPage('feed')" style="display:none">📰 Feed</button>
     <button class="nav-btn" id="navGame" onclick="showPage('game')">🎮 AHT Runner</button>
+    <button class="nav-btn" id="navTemplates" onclick="showPage('templates')">📝 Templates</button>
     <div class="role-badge" onclick="openRolePicker()"><div class="role-dot"></div><span id="headerRole">Pick your role</span></div>
     <div id="authBtns" style="display:flex;gap:7px;align-items:center">
       <button class="btn-outline" onclick="openAuth('login')">Log In</button>
@@ -385,6 +425,113 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
     </div>
   </div>
 </div>
+</div>
+
+
+<!-- TEMPLATES PAGE -->
+<div class="page" id="pageTemplates">
+<div class="tpl-layout">
+  <div class="tpl-sidebar">
+    <div class="tpl-sidebar-header">
+      <div class="tpl-sidebar-title">📝 Script Templates</div>
+      <button class="btn-primary" onclick="openTplModal()" style="font-size:12px;padding:6px 12px">+ New</button>
+    </div>
+    <div class="tpl-cats">
+      <div class="tpl-cat active" onclick="filterTpls('all',this)">🌐 All Templates</div>
+      <div class="tpl-cat" onclick="filterTpls('apology',this)">😔 Apology</div>
+      <div class="tpl-cat" onclick="filterTpls('info',this)">❓ Ask for Info</div>
+      <div class="tpl-cat" onclick="filterTpls('escalation',this)">🚨 Escalation</div>
+      <div class="tpl-cat" onclick="filterTpls('followup',this)">🔁 Follow-up</div>
+      <div class="tpl-cat" onclick="filterTpls('closing',this)">✅ Closing</div>
+      <div class="tpl-cat" onclick="filterTpls('hold',this)">⏸ Hold / Transfer</div>
+      <div class="tpl-cat" onclick="filterTpls('custom',this)">🏷 My Templates</div>
+    </div>
+  </div>
+  <div class="tpl-main">
+    <div class="tpl-topbar">
+      <div class="tpl-search-wrap">
+        <span class="search-icon" style="font-size:13px">🔍</span>
+        <input class="search-input" id="tplSearchInput" placeholder="Search templates…" oninput="renderTemplates()" style="padding-left:32px"/>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span style="font-size:12px;color:var(--text3)" id="tplCount"></span>
+        <div class="tpl-channel-toggle">
+          <button class="tch-btn active" id="tchEmail" onclick="setChannel('email',this)">✉ Email</button>
+          <button class="tch-btn" id="tchPhone" onclick="setChannel('phone',this)">📞 Phone</button>
+          <button class="tch-btn" id="tchChat" onclick="setChannel('chat',this)">💬 Chat</button>
+        </div>
+      </div>
+    </div>
+    <div id="tplGrid"></div>
+  </div>
+</div>
+</div>
+
+<!-- TPL CREATE/EDIT MODAL -->
+<div class="modal-overlay" id="tplModal">
+  <div class="modal" style="max-width:640px">
+    <div class="modal-hdr">
+      <div class="modal-hdr-title" id="tplModalTitle">New Template</div>
+      <button class="modal-x" onclick="closeTplModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="frow">
+        <div><div class="fl">Template Name</div><input class="fi" id="tplName" placeholder="e.g. Billing Apology"/></div>
+        <div><div class="fl">Category</div>
+          <select class="fsel" id="tplCat">
+            <option value="apology">😔 Apology</option>
+            <option value="info">❓ Ask for Info</option>
+            <option value="escalation">🚨 Escalation</option>
+            <option value="followup">🔁 Follow-up</option>
+            <option value="closing">✅ Closing</option>
+            <option value="hold">⏸ Hold / Transfer</option>
+            <option value="custom">🏷 Custom</option>
+          </select>
+        </div>
+      </div>
+      <div><div class="fl">Channel</div>
+        <div style="display:flex;gap:8px">
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px"><input type="checkbox" id="chkEmail" checked style="accent-color:var(--accent)"/> ✉ Email</label>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px"><input type="checkbox" id="chkPhone" style="accent-color:var(--accent)"/> 📞 Phone Script</label>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px"><input type="checkbox" id="chkChat" style="accent-color:var(--accent)"/> 💬 Chat</label>
+        </div>
+      </div>
+      <div>
+        <div class="fl">Template Body</div>
+        <div style="font-size:12px;color:var(--text3);margin-bottom:6px">Use <code style="background:var(--bg3);padding:1px 5px;border-radius:3px;color:var(--accent2)">[Customer Name]</code>, <code style="background:var(--bg3);padding:1px 5px;border-radius:3px;color:var(--accent2)">[Issue]</code>, <code style="background:var(--bg3);padding:1px 5px;border-radius:3px;color:var(--accent2)">[Agent Name]</code> as placeholders</div>
+        <textarea class="fta" id="tplBody" placeholder="Write your template here…" style="min-height:160px"></textarea>
+      </div>
+      <div><div class="fl">Tags <span style="color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">(comma separated)</span></div><input class="fi" id="tplTags" placeholder="e.g. billing, refund, empathy"/></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeTplModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveTpl()">Save Template 💾</button>
+    </div>
+  </div>
+</div>
+
+<!-- TPL USE MODAL (fill in placeholders) -->
+<div class="modal-overlay" id="tplUseModal">
+  <div class="modal" style="max-width:620px">
+    <div class="modal-hdr">
+      <div class="modal-hdr-title" id="tplUseName">Use Template</div>
+      <button class="modal-x" onclick="closeTplUse()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="tplPlaceholderFields"></div>
+      <div>
+        <div class="fl">Preview</div>
+        <textarea class="fta" id="tplPreview" style="min-height:160px;font-family:'DM Sans',sans-serif;font-size:13.5px;line-height:1.65"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer" style="justify-content:space-between">
+      <button class="btn-ghost" onclick="closeTplUse()">Cancel</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn-ghost" onclick="copyTpl()">📋 Copy</button>
+        <button class="btn-primary" onclick="copyTpl(true)">📋 Copy & Close</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- POST MODAL -->
@@ -533,9 +680,12 @@ let openComments=new Set(),pendingImg=null,users=[];
 function showPage(name){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page'+name.charAt(0).toUpperCase()+name.slice(1)).classList.add('active');
-  document.getElementById('navFeed').style.display=name==='game'?'block':'none';
+  const notFeed=name!=='feed';
+  document.getElementById('navFeed').style.display=notFeed?'block':'none';
   document.getElementById('navGame').style.display=name==='game'?'none':'block';
+  document.getElementById('navTemplates').style.display=name==='templates'?'none':'block';
   if(name==='feed'){buildFeed();buildRoleFilter();buildTrending();}
+  if(name==='templates'){renderTemplates();}
 }
 function nextJoke(){
   jokeIdx=(jokeIdx+1)%JOKES.length;
@@ -799,8 +949,237 @@ function endGame(){
   document.getElementById('goIcon').textContent=ic;document.getElementById('goTitle').textContent=ti;document.getElementById('goSub').textContent=su;
 }
 
+
+/* ── TEMPLATES ── */
+const CAT_META={
+  apology:{label:'Apology',color:'rgba(255,107,107,.15)',text:'#ff6b6b',emoji:'😔'},
+  info:{label:'Ask for Info',color:'rgba(79,158,255,.15)',text:'#4f9eff',emoji:'❓'},
+  escalation:{label:'Escalation',color:'rgba(251,191,36,.15)',text:'#fbbf24',emoji:'🚨'},
+  followup:{label:'Follow-up',color:'rgba(61,220,132,.15)',text:'#3ddc84',emoji:'🔁'},
+  closing:{label:'Closing',color:'rgba(167,139,250,.15)',text:'#a78bfa',emoji:'✅'},
+  hold:{label:'Hold / Transfer',color:'rgba(100,200,200,.15)',text:'#5dd6d6',emoji:'⏸'},
+  custom:{label:'Custom',color:'rgba(255,95,31,.15)',text:'#ff8c55',emoji:'🏷'},
+};
+
+let templates=[
+  {id:1,name:'Sincere Billing Apology',cat:'apology',channels:{email:true,phone:true,chat:true},tags:['billing','refund'],body:`Dear [Customer Name],
+
+I want to sincerely apologize for the billing error on your account. I completely understand how frustrating this must be, and I want you to know that this is not the standard of service we hold ourselves to.
+
+I have reviewed your account and I can confirm [Issue]. I have taken immediate steps to resolve this: [Resolution Steps].
+
+You should see the correction reflected within 3–5 business days. If you have any further questions or concerns, please don't hesitate to reach out.
+
+Thank you for your patience and for giving us the opportunity to make this right.
+
+Warm regards,
+[Agent Name]`},
+  {id:2,name:'Request for Additional Information',cat:'info',channels:{email:true,phone:false,chat:true},tags:['info','verification'],body:`Dear [Customer Name],
+
+Thank you for contacting us regarding [Issue].
+
+To best assist you and process your request, I kindly need a few additional details from you:
+
+1. [Information Needed 1]
+2. [Information Needed 2]
+3. [Information Needed 3]
+
+Once I have this information, I'll be able to move forward quickly. Please reply to this email at your earliest convenience.
+
+Thank you for your cooperation.
+
+Best regards,
+[Agent Name]`},
+  {id:3,name:'Escalation Handover',cat:'escalation',channels:{email:true,phone:false,chat:false},tags:['escalation','handover'],body:`Dear [Customer Name],
+
+Thank you for your patience while we worked on your case.
+
+After reviewing your situation in detail, I am escalating your case to our specialist team who are best equipped to resolve [Issue]. Your case reference number is [Reference Number].
+
+A member of our specialist team will be in touch within [Timeframe] to assist you further. You will not need to re-explain your situation — all details have been documented and passed along.
+
+We sincerely appreciate your patience and take full responsibility for ensuring this is resolved.
+
+Kind regards,
+[Agent Name]`},
+  {id:4,name:'Follow-up Check-in',cat:'followup',channels:{email:true,phone:true,chat:false},tags:['follow-up','satisfaction'],body:`Dear [Customer Name],
+
+I'm reaching out to follow up on your recent case regarding [Issue], which was resolved on [Date].
+
+We wanted to ensure that the solution has been working as expected and that you're fully satisfied with the outcome.
+
+If you're experiencing any further issues or have questions, please don't hesitate to get in touch — I'm here to help.
+
+Thank you for choosing us, and we appreciate your continued trust.
+
+Kind regards,
+[Agent Name]`},
+  {id:5,name:'Professional Call Closing',cat:'closing',channels:{email:false,phone:true,chat:true},tags:['closing','satisfaction'],body:`Before I let you go, [Customer Name], I just want to quickly recap what we've done today:
+
+[Summary of actions taken]
+
+Is there anything else I can help you with today?
+
+[Pause for response]
+
+It was a pleasure speaking with you. Thank you for contacting us and have a wonderful [day/evening]. Goodbye!`},
+  {id:6,name:'Hold Acknowledgment',cat:'hold',channels:{email:false,phone:true,chat:false},tags:['hold','wait time'],body:`[Customer Name], I have everything I need to look into this for you. I'm going to place you on a brief hold — no longer than [Hold Time] — while I pull up your account and check on this.
+
+Is that okay with you?
+
+[Wait for confirmation]
+
+Thank you. I'll be right back.
+
+[After hold]
+
+Thank you so much for your patience, [Customer Name]. I've had a chance to review your account and here's what I found: [Finding/Update].`},
+  {id:7,name:'Service Outage Apology',cat:'apology',channels:{email:true,phone:true,chat:true},tags:['outage','service'],body:`Dear [Customer Name],
+
+I want to sincerely apologize for the service disruption you experienced on [Date/Time]. We fully understand the impact this has had on you, and we take complete responsibility.
+
+Our technical team identified and resolved the root cause at [Resolution Time]. The issue was: [Brief Explanation].
+
+To prevent this from happening again, we have implemented [Preventive Measures].
+
+As a gesture of goodwill, we would like to offer you [Compensation/Credit]. This will be applied to your account within [Timeframe].
+
+We value your business greatly and are committed to delivering the reliable service you deserve.
+
+Sincerely,
+[Agent Name]`},
+  {id:8,name:'Chat Warm Transfer',cat:'hold',channels:{email:false,phone:false,chat:true},tags:['transfer','handover'],body:`Hi [Customer Name]! I want to let you know that I'm going to transfer you to my colleague [Colleague Name] from our [Department] team — they're best placed to help with [Issue] and will be able to sort this out for you right away.
+
+I've already shared all the details of our conversation so you won't have to repeat yourself. 😊
+
+One moment while I connect you!`},
+];
+let tplFilter='all',tplChannel='email',tplEditId=null,activeTplId=null;
+
+function filterTpls(cat,el){
+  tplFilter=cat;
+  document.querySelectorAll('.tpl-cat').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  renderTemplates();
+}
+function setChannel(ch,btn){
+  tplChannel=ch;
+  document.querySelectorAll('.tch-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTemplates();
+}
+function renderTemplates(){
+  const q=(document.getElementById('tplSearchInput')?.value||'').trim().toLowerCase();
+  let filtered=templates.filter(t=>{
+    if(tplFilter==='all'){}
+    else if(tplFilter==='custom'){if(t.cat!=='custom'&&!t.userCreated)return false;}
+    else if(t.cat!==tplFilter)return false;
+    if(!t.channels[tplChannel])return false;
+    if(q&&!t.name.toLowerCase().includes(q)&&!t.body.toLowerCase().includes(q)&&!t.tags.some(tg=>tg.toLowerCase().includes(q)))return false;
+    return true;
+  });
+  document.getElementById('tplCount').textContent=`${filtered.length} template${filtered.length!==1?'s':''}`;
+  const grid=document.getElementById('tplGrid');
+  if(!filtered.length){
+    grid.innerHTML=`<div class="tpl-empty"><div class="tpl-empty-icon">📭</div><p>No templates found.<br><span style="color:var(--accent);cursor:pointer" onclick="openTplModal()">Create one!</span></p></div>`;
+    grid.className='';return;
+  }
+  grid.className='tpl-grid';
+  grid.innerHTML=filtered.map((t,i)=>{
+    const cm=CAT_META[t.cat]||CAT_META.custom;
+    const tags=t.tags.map(tg=>`<span class="tpl-tag">${tg}</span>`).join('');
+    const chIcons=['email','phone','chat'].map(ch=>`<span class="tch-icon ${t.channels[ch]?'on':''}">${ch==='email'?'✉':ch==='phone'?'📞':'💬'}</span>`).join('');
+    const preview=t.body.replace(/\[.*?\]/g,'…').substring(0,120)+'…';
+    return`<div class="tpl-card" style="animation-delay:${i*.05}s">
+      <div class="tpl-card-head">
+        <div class="tpl-card-name">${t.name}</div>
+        <span class="tpl-card-badge" style="background:${cm.color};color:${cm.text}">${cm.emoji} ${cm.label}</span>
+      </div>
+      <div class="tpl-card-body">${preview}</div>
+      <div class="tpl-card-footer">${tags}<div class="tpl-channels">${chIcons}</div></div>
+      <div class="tpl-actions">
+        <button class="tpl-btn" onclick="editTpl(${t.id})">✏️ Edit</button>
+        <button class="tpl-btn" onclick="quickCopy(${t.id})">📋 Copy</button>
+        <button class="tpl-btn primary" onclick="useTpl(${t.id})">Use Template →</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+function openTplModal(id=null){
+  tplEditId=id;
+  const t=id?templates.find(x=>x.id===id):null;
+  document.getElementById('tplModalTitle').textContent=t?'Edit Template':'New Template';
+  document.getElementById('tplName').value=t?t.name:'';
+  document.getElementById('tplCat').value=t?t.cat:'apology';
+  document.getElementById('tplBody').value=t?t.body:'';
+  document.getElementById('tplTags').value=t?t.tags.join(', '):'';
+  document.getElementById('chkEmail').checked=t?t.channels.email:true;
+  document.getElementById('chkPhone').checked=t?t.channels.phone:false;
+  document.getElementById('chkChat').checked=t?t.channels.chat:false;
+  document.getElementById('tplModal').classList.add('open');
+}
+function closeTplModal(){document.getElementById('tplModal').classList.remove('open');}
+function editTpl(id){openTplModal(id);}
+function saveTpl(){
+  const name=document.getElementById('tplName').value.trim();
+  const body=document.getElementById('tplBody').value.trim();
+  if(!name||!body){alert('Please add a name and body.');return;}
+  const tpl={
+    id:tplEditId||Date.now(),name,cat:document.getElementById('tplCat').value,
+    channels:{email:document.getElementById('chkEmail').checked,phone:document.getElementById('chkPhone').checked,chat:document.getElementById('chkChat').checked},
+    tags:document.getElementById('tplTags').value.split(',').map(t=>t.trim()).filter(Boolean),
+    body,userCreated:true
+  };
+  if(tplEditId){const idx=templates.findIndex(t=>t.id===tplEditId);templates[idx]=tpl;}
+  else templates.unshift(tpl);
+  closeTplModal();renderTemplates();showToast('Template saved! 💾');
+}
+function quickCopy(id){
+  const t=templates.find(x=>x.id===id);if(!t)return;
+  navigator.clipboard.writeText(t.body).then(()=>showToast('Copied to clipboard! 📋'));
+}
+function useTpl(id){
+  const t=templates.find(x=>x.id===id);if(!t)return;
+  activeTplId=id;
+  document.getElementById('tplUseName').textContent=t.name;
+  // Find placeholders like [Customer Name]
+  const phs=[...new Set([...t.body.matchAll(/\[([^\]]+)\]/g)].map(m=>m[1]))];
+  const fields=document.getElementById('tplPlaceholderFields');
+  if(phs.length){
+    fields.style.display='block';
+    fields.innerHTML=`<div class="fl" style="margin-bottom:10px">Fill in the blanks</div>`+phs.map(ph=>`
+      <div class="ph-field">
+        <label class="ph-label">[${ph}]</label>
+        <input class="fi" id="ph-${ph.replace(/\s+/g,'_')}" placeholder="${ph}" oninput="updatePreview()"/>
+      </div>`).join('');
+  }else{fields.style.display='none';fields.innerHTML='';}
+  updatePreview();
+  document.getElementById('tplUseModal').classList.add('open');
+}
+function updatePreview(){
+  const t=templates.find(x=>x.id===activeTplId);if(!t)return;
+  let text=t.body;
+  const phs=[...new Set([...t.body.matchAll(/\[([^\]]+)\]/g)].map(m=>m[1]))];
+  phs.forEach(ph=>{
+    const val=document.getElementById('ph-'+ph.replace(/\s+/g,'_'))?.value||'';
+    if(val)text=text.replaceAll('['+ph+']',val);
+  });
+  document.getElementById('tplPreview').value=text;
+}
+function closeTplUse(){document.getElementById('tplUseModal').classList.remove('open');activeTplId=null;}
+function copyTpl(andClose=false){
+  const text=document.getElementById('tplPreview').value;
+  navigator.clipboard.writeText(text).then(()=>{showToast('Copied to clipboard! 📋');if(andClose)closeTplUse();});
+}
+function showToast(msg){
+  const t=document.createElement('div');t.className='copy-toast';t.textContent=msg;
+  document.body.appendChild(t);setTimeout(()=>t.remove(),2200);
+}
+
 /* EVENTS */
 document.getElementById('authModal').addEventListener('click',e=>{if(e.target.id==='authModal')closeAuth();});
+document.getElementById('tplModal').addEventListener('click',e=>{if(e.target.id==='tplModal')closeTplModal();});
+document.getElementById('tplUseModal').addEventListener('click',e=>{if(e.target.id==='tplUseModal')closeTplUse();});
 document.getElementById('postModal').addEventListener('click',e=>{if(e.target.id==='postModal')closePostModal();});
 document.getElementById('roleModal').addEventListener('click',e=>{if(e.target.id==='roleModal')closeRolePicker();});
 document.addEventListener('click',e=>{const w=document.getElementById('userWrap');if(w&&!w.contains(e.target))document.getElementById('userDD').classList.remove('open');});
