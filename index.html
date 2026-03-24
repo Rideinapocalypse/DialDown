@@ -652,6 +652,104 @@
 
   .header-user-wrap { position: relative; }
 
+  /* POST IMAGE */
+  .post-image {
+    width: 100%;
+    max-height: 320px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 10px;
+    display: block;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .post-image:hover { opacity: 0.92; }
+
+  .post-image-thumb {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 10px;
+    display: block;
+    border: 1px solid var(--border);
+    cursor: zoom-in;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .post-image-thumb:hover { opacity: 0.9; transform: scale(1.005); }
+
+  /* IMAGE UPLOAD AREA */
+  .image-upload-area {
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+  }
+  .image-upload-area:hover { border-color: var(--accent); background: rgba(255,95,31,0.04); }
+  .image-upload-area.has-image { border-style: solid; border-color: var(--accent); padding: 8px; }
+  .image-upload-area input[type="file"] { display: none; }
+  .upload-icon { font-size: 26px; margin-bottom: 6px; }
+  .upload-label { font-size: 13px; color: var(--text2); }
+  .upload-hint { font-size: 11.5px; color: var(--text3); margin-top: 4px; }
+  .upload-preview {
+    width: 100%;
+    max-height: 180px;
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
+  }
+  .upload-remove {
+    position: absolute;
+    top: 6px; right: 6px;
+    background: rgba(0,0,0,0.6);
+    border: none;
+    color: #fff;
+    border-radius: 50%;
+    width: 24px; height: 24px;
+    cursor: pointer;
+    font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .upload-remove:hover { background: rgba(255,95,31,0.8); }
+
+  /* IMAGE LIGHTBOX */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    animation: modalIn 0.2s ease;
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 20px; right: 24px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 28px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+  }
+  .lightbox-close:hover { opacity: 1; }
+
   /* MODAL OVERLAY */
   .modal-overlay {
     display: none;
@@ -936,12 +1034,31 @@
         <div class="form-label">Body</div>
         <textarea class="form-textarea" id="postBody" placeholder="Share the full story or know-how..."></textarea>
       </div>
+      <div>
+        <div class="form-label">Image <span style="color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></div>
+        <div class="image-upload-area" id="uploadArea" onclick="document.getElementById('postImageInput').click()">
+          <input type="file" id="postImageInput" accept="image/*" onchange="handleImageUpload(event)"/>
+          <div id="uploadPlaceholder">
+            <div class="upload-icon">🖼</div>
+            <div class="upload-label">Click to upload an image</div>
+            <div class="upload-hint">PNG, JPG, GIF — max 5MB</div>
+          </div>
+          <img id="uploadPreview" class="upload-preview" style="display:none"/>
+          <button class="upload-remove" id="uploadRemove" style="display:none" onclick="removeImage(event)">✕</button>
+        </div>
+      </div>
     </div>
     <div class="modal-footer">
       <button class="btn-ghost" onclick="closePostModal()">Cancel</button>
       <button class="btn-primary" onclick="submitPost()">Post It 🚀</button>
     </div>
   </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt=""/>
 </div>
 
 <!-- ROLE PICKER MODAL -->
@@ -1075,21 +1192,21 @@ const TRENDING_TAGS = [
 ];
 
 const SEED_POSTS = [
-  { id: 1,  role: 'agent-inbound',  author: 'queenOfHolds',     tags: ['AHTsurvivor'],   title: 'My proven trick to de-escalate an irate customer in under 60 seconds', body: 'After 6 years of inbound I figured out one thing: let them finish. Fully. Don\'t interrupt. Most people just want to feel heard. Then mirror their words back and they instantly calm down. Works 80% of the time.', votes: 312, comments: 47, time: '2h ago' },
+  { id: 1,  role: 'agent-inbound',  author: 'queenOfHolds',     tags: ['AHTsurvivor'],   image: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80', title: 'My proven trick to de-escalate an irate customer in under 60 seconds', body: 'After 6 years of inbound I figured out one thing: let them finish. Fully. Don\'t interrupt. Most people just want to feel heard. Then mirror their words back and they instantly calm down. Works 80% of the time.', votes: 312, comments: 47, time: '2h ago' },
   { id: 2,  role: 'qa',             author: 'gradeAGrammar',    tags: ['QAfeedback'],    title: 'Stop writing "I understand your frustration" — here\'s what actually scores better', body: 'QA perspective: that phrase is so overused it reads as scripted. Try "That sounds genuinely stressful — let me look into this right now" instead. Specificity > sympathy clichés.', votes: 278, comments: 63, time: '4h ago' },
-  { id: 3,  role: 'wfm',            author: 'scheduleGod',      tags: ['WFMwoes'],       title: 'How I built a shrinkage buffer that my TLs actually believe in', body: 'Spent 3 months tracking unplanned aux vs planned. Built a simple Excel model that shows the gap visually. Once leadership could SEE the data it went from "you\'re overstaffing" to "can we do this monthly?"', votes: 189, comments: 29, time: '5h ago' },
+  { id: 3,  role: 'wfm',            author: 'scheduleGod',      tags: ['WFMwoes'],       image: 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&q=80', title: 'How I built a shrinkage buffer that my TLs actually believe in', body: 'Spent 3 months tracking unplanned aux vs planned. Built a simple Excel model that shows the gap visually. Once leadership could SEE the data it went from "you\'re overstaffing" to "can we do this monthly?"', votes: 189, comments: 29, time: '5h ago' },
   { id: 4,  role: 'team-lead',      author: 'burnoutTL',        tags: ['AHTsurvivor','QAfeedback'], title: 'How do you handle an agent whose CSAT is great but AHT is through the roof?', body: 'One of my best agents gets consistently 4.8+ CSAT but her AHT is 2x the team average. Customers love her. Numbers hate her. Management is on my case. Anyone been here?', votes: 156, comments: 88, time: '6h ago' },
-  { id: 5,  role: 'trainer',        author: 'slidedecksurvivor',tags: ['ScriptKiller'],  title: '5 onboarding modules I ditched and what I replaced them with', body: 'The traditional 3-day product knowledge dump is dead on arrival. New agents retain maybe 20%. I switched to scenario-based learning on day 1 and live call listening from day 2. Retention jumped.', votes: 241, comments: 34, time: '8h ago' },
+  { id: 5,  role: 'trainer',        author: 'slidedecksurvivor',tags: ['ScriptKiller'],  image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80', title: '5 onboarding modules I ditched and what I replaced them with', body: 'The traditional 3-day product knowledge dump is dead on arrival. New agents retain maybe 20%. I switched to scenario-based learning on day 1 and live call listening from day 2. Retention jumped.', votes: 241, comments: 34, time: '8h ago' },
   { id: 6,  role: 'escalation',     author: 'lastResort99',     tags: ['ScriptKiller'],  title: 'The exact words I use when a customer demands a manager and there is no manager', body: 'I am the escalation desk. When customers ask for "someone above you" I say: "I\'m the specialist team your call was escalated to — let me see what I can resolve for you today." Reframes it completely.', votes: 334, comments: 71, time: '10h ago' },
   { id: 7,  role: 'agent-outbound', author: 'dialerDreams',     tags: ['ScriptKiller'],  title: 'Outbound warm-up script that gets past gatekeepers without lying', body: 'Gatekeepers are doing their job. Don\'t trick them. I say "Hi, I\'m [name] calling for [first name only] — is this a good time?" Short, professional, personal. Gets through ~60% of the time.', votes: 175, comments: 42, time: '12h ago' },
-  { id: 8,  role: 'it-support',     author: 'ctrl_alt_despair', tags: ['SilentCalls'],   title: 'CC-specific IT issues nobody documents (thread)', body: 'Starting a thread: softphone audio cutting out on Windows 11 after sleep mode. Fix: disable USB selective suspend in power settings. You\'re welcome.', votes: 290, comments: 115, time: '1d ago' },
-  { id: 9,  role: 'agent-inbound',  author: 'holdQueen',        tags: ['HoldMusicPTSD'], title: 'I now hear our hold music in my dreams. Not a joke.', body: 'Three years of Vivaldi\'s Four Seasons on a 45-second loop. I hum it involuntarily at the supermarket. My therapist says it\'s a conditioned response. My supervisor says I need to improve my hold usage rate. Both are correct.', votes: 401, comments: 134, time: '1d ago' },
+  { id: 8,  role: 'it-support',     author: 'ctrl_alt_despair', tags: ['SilentCalls'],   image: 'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800&q=80', title: 'CC-specific IT issues nobody documents (thread)', body: 'Starting a thread: softphone audio cutting out on Windows 11 after sleep mode. Fix: disable USB selective suspend in power settings. You\'re welcome.', votes: 290, comments: 115, time: '1d ago' },
+  { id: 9,  role: 'agent-inbound',  author: 'holdQueen',        tags: ['HoldMusicPTSD'], image: 'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800&q=80', title: 'I now hear our hold music in my dreams. Not a joke.', body: 'Three years of Vivaldi\'s Four Seasons on a 45-second loop. I hum it involuntarily at the supermarket. My therapist says it\'s a conditioned response. My supervisor says I need to improve my hold usage rate. Both are correct.', votes: 401, comments: 134, time: '1d ago' },
   { id: 10, role: 'wfm',            author: 'rosterNinja',      tags: ['WFMwoes'],       title: 'Why agents hate WFM (and what we can actually do about it)', body: 'I get it. From the agent side, WFM looks like a faceless machine that denies your leave and micro-tracks your aux. So I started doing monthly "WFM explains itself" sessions on the floor. Trust went up, unplanned absences went down by 18%.', votes: 223, comments: 57, time: '1d ago' },
-  { id: 11, role: 'qa',             author: 'calibrationQueen', tags: ['QAfeedback'],    title: 'Calibration sessions are broken — here is how to fix them', body: 'If your calibration sessions end with everyone still disagreeing and no documented outcome, you don\'t have a calibration process, you have a meeting. Here\'s the 3-step framework I use that actually closes gaps between evaluators.', votes: 188, comments: 43, time: '2d ago' },
+  { id: 11, role: 'qa',             author: 'calibrationQueen', tags: ['QAfeedback'],    image: 'https://images.unsplash.com/photo-1606857521015-7f9fcf423740?w=800&q=80', title: 'Calibration sessions are broken — here is how to fix them', body: 'If your calibration sessions end with everyone still disagreeing and no documented outcome, you don\'t have a calibration process, you have a meeting. Here\'s the 3-step framework I use that actually closes gaps between evaluators.', votes: 188, comments: 43, time: '2d ago' },
   { id: 12, role: 'agent-inbound',  author: 'auxCodePoet',      tags: ['SilentCalls'],   title: 'The art of handling a completely silent call', body: 'Silent calls are not always dead air. Sometimes it\'s someone in crisis who can\'t speak. Protocol: announce yourself twice, stay on, say "if you can hear me, press any key or stay on the line." I\'ve had 3 cases where staying on made a real difference.', votes: 567, comments: 201, time: '2d ago' },
-  { id: 13, role: 'supervisor',     author: 'quietSupervisor',  tags: ['AHTsurvivor'],   title: 'Stopped pushing AHT for one month. Here\'s what happened.', body: 'Experiment: removed AHT from our daily coaching focus for 30 days. Focused only on resolution and CSAT. Result: AHT actually dropped by 4%. Turns out when agents aren\'t rushing, they resolve faster. Coaching culture matters more than metric pressure.', votes: 445, comments: 97, time: '2d ago' },
+  { id: 13, role: 'supervisor',     author: 'quietSupervisor',  tags: ['AHTsurvivor'],   image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=800&q=80', title: 'Stopped pushing AHT for one month. Here\'s what happened.', body: 'Experiment: removed AHT from our daily coaching focus for 30 days. Focused only on resolution and CSAT. Result: AHT actually dropped by 4%. Turns out when agents aren\'t rushing, they resolve faster. Coaching culture matters more than metric pressure.', votes: 445, comments: 97, time: '2d ago' },
   { id: 14, role: 'trainer',        author: 'roleplayRuler',    tags: ['ScriptKiller'],  title: 'I replaced our entire script with 7 principles. Scores went up.', body: 'Scripts are training wheels. They work for week 1. After that, agents who rely on them sound robotic and perform worse under stress. I built a principles-based approach: empathy, ownership, clarity, urgency, resolution, recap, close. Agents internalize it in days.', votes: 312, comments: 88, time: '3d ago' },
-  { id: 15, role: 'agent-inbound',  author: 'holdMusicHero',    tags: ['HoldMusicPTSD'], title: 'Customer asked me to "put on the music again." I nearly cried.', body: 'I had a customer — older gentleman — who said he actually enjoyed being on hold because the music reminded him of his late wife\'s favourite composer. He asked me to put him back on hold for a moment. I sat there not knowing whether to laugh or cry.', votes: 892, comments: 267, time: '3d ago' },
+  { id: 15, role: 'agent-inbound',  author: 'holdMusicHero',    tags: ['HoldMusicPTSD'], image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80', title: 'Customer asked me to "put on the music again." I nearly cried.', body: 'I had a customer — older gentleman — who said he actually enjoyed being on hold because the music reminded him of his late wife\'s favourite composer. He asked me to put him back on hold for a moment. I sat there not knowing whether to laugh or cry.', votes: 892, comments: 267, time: '3d ago' },
 ];
 
 // ── STATE ─────────────────────────────────────────────────────────────────
@@ -1210,6 +1327,9 @@ function buildFeed() {
     const tagChips = (p.tags || []).map(t =>
       `<span class="tag-chip" onclick="setTagFilter('${t}')">#${t}</span>`
     ).join('');
+    const imageHTML = p.image
+      ? `<img class="post-image-thumb" src="${p.image}" alt="Post image" onclick="openLightbox(event,'${p.image}')" loading="lazy"/>`
+      : '';
     return `
       <div class="post-card" style="animation-delay:${i * 0.05}s">
         <div class="vote-col">
@@ -1225,6 +1345,7 @@ function buildFeed() {
           </div>
           <div class="post-title">${p.title}</div>
           <div class="post-preview">${p.body}</div>
+          ${imageHTML}
           <div class="post-footer">
             <span class="post-action">💬 ${p.comments} comments</span>
             <span class="post-action">🔗 Share</span>
@@ -1282,6 +1403,55 @@ function setSort(btn, mode) {
   buildFeed();
 }
 
+// ── IMAGE UPLOAD ──────────────────────────────────────────────────────────
+let pendingImageDataUrl = null;
+
+function handleImageUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { alert('Image must be under 5MB.'); return; }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    pendingImageDataUrl = e.target.result;
+    const area = document.getElementById('uploadArea');
+    const preview = document.getElementById('uploadPreview');
+    const placeholder = document.getElementById('uploadPlaceholder');
+    const removeBtn = document.getElementById('uploadRemove');
+    preview.src = pendingImageDataUrl;
+    preview.style.display = 'block';
+    placeholder.style.display = 'none';
+    removeBtn.style.display = 'flex';
+    area.classList.add('has-image');
+    area.onclick = null; // disable re-click on area when image shown
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeImage(e) {
+  e.stopPropagation();
+  pendingImageDataUrl = null;
+  const area = document.getElementById('uploadArea');
+  document.getElementById('uploadPreview').style.display = 'none';
+  document.getElementById('uploadPreview').src = '';
+  document.getElementById('uploadPlaceholder').style.display = 'block';
+  document.getElementById('uploadRemove').style.display = 'none';
+  document.getElementById('postImageInput').value = '';
+  area.classList.remove('has-image');
+  area.onclick = () => document.getElementById('postImageInput').click();
+}
+
+function openLightbox(e, src) {
+  e.stopPropagation();
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
 // ── POST MODAL ────────────────────────────────────────────────────────────
 function openPostModal() {
   populatePostRoleSelect();
@@ -1292,6 +1462,7 @@ function closePostModal() {
   document.getElementById('postModal').classList.remove('open');
   document.getElementById('postTitle').value = '';
   document.getElementById('postBody').value = '';
+  removeImage({ stopPropagation: () => {} });
 }
 
 function submitPost() {
@@ -1302,9 +1473,11 @@ function submitPost() {
   const newPost = {
     id: Date.now(),
     role,
-    author: userRole ? 'you' : 'anon',
+    author: currentUser ? currentUser.username : 'anon',
     title,
     body: body || '',
+    image: pendingImageDataUrl || null,
+    tags: [],
     votes: 1,
     comments: 0,
     time: 'just now'
