@@ -1183,7 +1183,8 @@ function loginUser(u,isNew){
   document.getElementById('hUsername').textContent=u.username;
   document.getElementById('ddName').textContent=`${u.firstName||''} ${u.lastName||''}`.trim()||u.username;
   document.getElementById('ddRole').textContent=r?`${r.icon} ${r.name}`:'';
-  setTimeout(closeAuth,2000);updateMobAuth();
+  setTimeout(closeAuth,2000);
+  setTimeout(updateMobAuth,2100);
 }
 function logout(){currentUser=null;userRole=null;document.getElementById('authBtns').style.display='flex';document.getElementById('userWrap').style.display='none';document.getElementById('newPostBtn').style.display='none';document.getElementById('userDD').classList.remove('open');document.getElementById('headerRole').textContent='Pick your role';}
 function toggleDD(){document.getElementById('userDD').classList.toggle('open');}
@@ -1683,11 +1684,31 @@ document.getElementById('roleModal').addEventListener('click',e=>{if(e.target.id
 document.addEventListener('click',e=>{const w=document.getElementById('userWrap');if(w&&!w.contains(e.target))document.getElementById('userDD').classList.remove('open');});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeLB();closeAuth();closePostModal();}});
 
+
+function setMobNav(id){
+  document.querySelectorAll('.mob-nav-btn').forEach(b=>b.classList.remove('active'));
+  const el=document.getElementById(id);
+  if(el)el.classList.add('active');
+}
+function handleMobAuth(){
+  if(currentUser){toggleDD();}
+  else{openAuth('signup');}
+}
+function updateMobAuth(){
+  if(!currentUser)return;
+  const icon=document.getElementById('mnAuthIcon');
+  const label=document.getElementById('mnAuthLabel');
+  if(icon)icon.textContent=currentUser.username.slice(0,1).toUpperCase();
+  if(label)label.textContent=currentUser.username.slice(0,8);
+}
+
 /* INIT */
-document.getElementById('jokeText').textContent=JOKES[0];
-buildRoleFilter();buildTrending();buildFeed();
-setInterval(nextJoke,20000);
-setTimeout(()=>openAuth('signup'),700);
+document.addEventListener('DOMContentLoaded', function(){
+  document.getElementById('jokeText').textContent=JOKES[0];
+  buildRoleFilter();buildTrending();buildFeed();
+  setInterval(nextJoke,20000);
+  setTimeout(()=>openAuth('signup'),700);
+});
 </script>
 
 <!-- MOBILE BOTTOM NAV -->
