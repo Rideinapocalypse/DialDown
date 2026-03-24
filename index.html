@@ -443,18 +443,61 @@
     padding: 7px 8px;
     border-radius: 6px;
     cursor: pointer;
-    transition: background 0.15s;
+    transition: background 0.15s, color 0.15s;
     font-size: 13px;
     color: var(--text2);
+    border: 1px solid transparent;
   }
 
   .trending-item:hover { background: var(--bg3); color: var(--text); }
+  .trending-item.active { background: rgba(255,95,31,0.08); border-color: rgba(255,95,31,0.3); color: var(--accent2); }
   .trending-num {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
     color: var(--text3);
     min-width: 16px;
   }
+
+  /* ACTIVE FILTER BAR */
+  .filter-bar {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,95,31,0.07);
+    border: 1px solid rgba(255,95,31,0.2);
+    border-radius: 8px;
+    padding: 8px 14px;
+    margin-bottom: 14px;
+    font-size: 13px;
+    color: var(--accent2);
+  }
+  .filter-bar.visible { display: flex; }
+  .filter-bar-tag { font-weight: 600; }
+  .filter-bar-clear {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: var(--text3);
+    cursor: pointer;
+    font-size: 13px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: color 0.15s, background 0.15s;
+  }
+  .filter-bar-clear:hover { color: var(--text); background: var(--bg3); }
+
+  .tag-chip {
+    display: inline-block;
+    background: rgba(255,95,31,0.12);
+    color: var(--accent2);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    margin-right: 4px;
+    cursor: pointer;
+  }
+  .tag-chip:hover { background: rgba(255,95,31,0.22); }
 
   /* MODAL OVERLAY */
   .modal-overlay {
@@ -645,12 +688,18 @@
   <!-- FEED -->
   <main>
     <div class="feed-header">
-      <div class="feed-title">Community Feed</div>
+      <div class="feed-title" id="feedTitle">Community Feed</div>
       <div class="sort-tabs">
         <button class="sort-tab active" onclick="setSort(this,'hot')">🔥 Hot</button>
         <button class="sort-tab" onclick="setSort(this,'new')">✨ New</button>
         <button class="sort-tab" onclick="setSort(this,'top')">👑 Top</button>
       </div>
+    </div>
+
+    <div class="filter-bar" id="filterBar">
+      <span>📌 Showing posts tagged</span>
+      <span class="filter-bar-tag" id="filterBarTag"></span>
+      <button class="filter-bar-clear" onclick="clearTagFilter()">✕ Clear filter</button>
     </div>
 
     <div id="feed"></div>
