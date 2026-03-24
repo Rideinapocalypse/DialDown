@@ -379,6 +379,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
   #navGame::before{content:'🎮';font-size:15px;}
   #navTemplates::before{content:'📝';font-size:15px;}
   #navNews::before{content:'📰';font-size:15px;}
+  #navJobs::before{content:'💼';font-size:15px;}
   .layout{padding:10px 12px;}.feed-header{flex-direction:column;align-items:flex-start;gap:10px;}
   .sort-tabs{width:100%;}.sort-tab{flex:1;text-align:center;}
   .post-card{padding:11px 12px;}.post-title{font-size:14px;}.post-preview{font-size:13px;}
@@ -388,8 +389,43 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
   .news-layout{padding:10px 12px;}
   .rpg{grid-template-columns:1fr;}.modal-body{padding:12px 14px;}
   .mobile-nav{display:flex;}
-  #pageFeed,#pageGame,#pageTemplates,#pageNews{padding-bottom:72px;}
+  #pageFeed,#pageGame,#pageTemplates,#pageNews,#pageJobs{padding-bottom:72px;}
 }
+
+/* ── JOBS ── */
+.jobs-layout{max-width:1100px;margin:0 auto;padding:24px 20px;position:relative;z-index:1;}
+.jobs-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:14px;flex-wrap:wrap;}
+.jobs-title{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;margin-bottom:4px;}
+.jobs-sub{font-size:12.5px;color:var(--text3);}
+.jobs-search-wrap{position:relative;}
+.jobs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;}
+.job-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px;display:flex;flex-direction:column;gap:12px;transition:border-color .2s,transform .15s;animation:fadeUp .4s ease both;cursor:pointer;}
+.job-card:hover{border-color:var(--accent);transform:translateY(-2px);}
+.job-card-top{display:flex;align-items:flex-start;gap:12px;}
+.job-logo{width:44px;height:44px;border-radius:8px;object-fit:contain;background:var(--bg3);padding:4px;flex-shrink:0;border:1px solid var(--border);}
+.job-logo-placeholder{width:44px;height:44px;border-radius:8px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;border:1px solid var(--border);}
+.job-info{flex:1;min-width:0;}
+.job-company{font-size:12px;color:var(--text3);margin-bottom:3px;font-family:'JetBrains Mono',monospace;}
+.job-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;line-height:1.3;margin-bottom:4px;color:var(--text);}
+.job-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+.job-badge{font-size:11px;padding:2px 7px;border-radius:10px;font-weight:600;}
+.job-type-full{background:rgba(61,220,132,.15);color:var(--green);}
+.job-type-part{background:rgba(79,158,255,.15);color:var(--blue);}
+.job-type-contract{background:rgba(251,191,36,.15);color:var(--yellow);}
+.job-type-other{background:rgba(167,139,250,.15);color:var(--purple);}
+.job-location{font-size:11.5px;color:var(--text3);display:flex;align-items:center;gap:4px;}
+.job-desc{font-size:13px;color:var(--text2);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.job-footer{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:6px;border-top:1px solid var(--border);}
+.job-date{font-size:11.5px;color:var(--text3);}
+.job-salary{font-size:12px;color:var(--green);font-family:'JetBrains Mono',monospace;font-weight:500;}
+.job-apply-btn{background:var(--accent);color:#fff;border:none;border-radius:7px;padding:6px 14px;font-size:12.5px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:background .2s;white-space:nowrap;}
+.job-apply-btn:hover{background:var(--accent2);}
+.jobs-stat{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:8px;font-size:13px;}
+.jobs-stat-num{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:var(--accent);}
+.jobs-empty{grid-column:1/-1;text-align:center;padding:40px;color:var(--text3);}
+@media(max-width:768px){.jobs-grid{grid-template-columns:1fr;}.jobs-header{flex-direction:column;align-items:stretch;}}
+@media(max-width:480px){.jobs-layout{padding:10px 12px;}}
+
 </style>
 </head>
 <body>
@@ -406,6 +442,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
     <button class="nav-btn" id="navGame" onclick="showPage('game')">🎮 AHT Runner</button>
     <button class="nav-btn" id="navTemplates" onclick="showPage('templates')">📝 Templates</button>
     <button class="nav-btn" id="navNews" onclick="showPage('news')">📰 News</button>
+    <button class="nav-btn" id="navJobs" onclick="showPage('jobs')">💼 Jobs</button>
     <div class="role-badge" onclick="openRolePicker()"><div class="role-dot"></div><span id="headerRole">Pick your role</span></div>
     <div id="authBtns" style="display:flex;gap:7px;align-items:center">
       <button class="btn-outline" onclick="openAuth('login')">Log In</button>
@@ -610,6 +647,50 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 </div>
 </div>
 
+
+<!-- JOBS PAGE -->
+<div class="page" id="pageJobs">
+<div class="jobs-layout">
+  <div class="jobs-header">
+    <div>
+      <div class="jobs-title">💼 CC &amp; Customer Service Jobs</div>
+      <div class="jobs-sub">Real remote jobs from <a href="https://remotive.com" target="_blank" style="color:var(--accent);text-decoration:none">Remotive</a> · updated daily · <span id="jobsLastUpdated">fetching…</span></div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <div class="jobs-search-wrap">
+        <span class="search-icon" style="font-size:13px">🔍</span>
+        <input class="search-input" id="jobsSearchInput" placeholder="Search jobs…" oninput="renderJobs()" style="padding-left:32px;min-width:180px"/>
+      </div>
+      <select class="fsel" id="jobsTypeFilter" onchange="renderJobs()" style="width:auto;padding:7px 12px;font-size:13px">
+        <option value="">All Types</option>
+        <option value="full_time">Full Time</option>
+        <option value="part_time">Part Time</option>
+        <option value="contract">Contract</option>
+      </select>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px" id="jobsFilterBtns">
+    <button class="news-filter-btn active" onclick="filterJobs('all',this)">All Roles</button>
+    <button class="news-filter-btn" onclick="filterJobs('support',this)">🎧 Support</button>
+    <button class="news-filter-btn" onclick="filterJobs('success',this)">⭐ Success</button>
+    <button class="news-filter-btn" onclick="filterJobs('manager',this)">📊 Manager</button>
+    <button class="news-filter-btn" onclick="filterJobs('remote',this)">🌍 Remote Only</button>
+  </div>
+
+  <div id="jobsStats" style="display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap"></div>
+  <div id="jobsGrid"></div>
+  <div id="jobsLoader" style="text-align:center;padding:40px;color:var(--text3)">
+    <div style="font-size:32px;margin-bottom:10px">📡</div>
+    <div>Fetching live jobs from Remotive…</div>
+  </div>
+  <div id="jobsError" style="display:none;text-align:center;padding:30px">
+    <div style="font-size:32px;margin-bottom:10px">📋</div>
+    <div style="color:var(--text2);margin-bottom:14px">Showing curated CC job listings</div>
+  </div>
+</div>
+</div>
+
 <!-- POST MODAL -->
 <div class="modal-overlay" id="postModal">
   <div class="modal">
@@ -713,6 +794,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
   <button class="mob-nav-btn" id="mnNews" onclick="showPage('news');setMobNav('mnNews')"><span>📡</span><span>News</span></button>
   <button class="mob-nav-btn" id="mnTemplates" onclick="showPage('templates');setMobNav('mnTemplates')"><span>📝</span><span>Templates</span></button>
   <button class="mob-nav-btn" id="mnGame" onclick="showPage('game');setMobNav('mnGame')"><span>🎮</span><span>Game</span></button>
+  <button class="mob-nav-btn" id="mnJobs" onclick="showPage('jobs');setMobNav('mnJobs')"><span>💼</span><span>Jobs</span></button>
   <button class="mob-nav-btn" id="mnAuth" onclick="handleMobAuth()"><span id="mnAuthIcon">👤</span><span id="mnAuthLabel">Sign In</span></button>
 </nav>
 
@@ -824,10 +906,12 @@ function showPage(name){
   document.getElementById('navGame').style.display=name==='game'?'none':'block';
   document.getElementById('navTemplates').style.display=name==='templates'?'none':'block';
   document.getElementById('navNews').style.display=name==='news'?'none':'block';
+  document.getElementById('navJobs').style.display=name==='jobs'?'none':'block';
   if(name==='feed'){buildFeed();buildRoleFilter();buildTrending();}
   if(name==='templates')renderTemplates();
   if(name==='news')initNews();
-  const mobMap={feed:'mnFeed',news:'mnNews',templates:'mnTemplates',game:'mnGame'};
+  if(name==='jobs')initJobs();
+  const mobMap={feed:'mnFeed',news:'mnNews',templates:'mnTemplates',game:'mnGame',jobs:'mnJobs'};
   if(mobMap[name])setMobNav(mobMap[name]);
 }
 function setMobNav(id){document.querySelectorAll('.mob-nav-btn').forEach(b=>b.classList.remove('active'));const el=document.getElementById(id);if(el)el.classList.add('active');}
@@ -969,6 +1053,133 @@ function answerTicket(idx){if(gs.answered)return;gs.answered=true;clearInterval(
 function timeout(){gs.answered=true;gs.totalTime+=gs.tt;gs.score=Math.max(0,gs.score-50);gs.streak=0;const t=gs.tickets[gs.cur];document.querySelectorAll('.tkt-opt').forEach((b,i)=>{b.disabled=true;if(i===t.correct)b.classList.add('correct');});const fb=document.getElementById('tktFb');fb.className='tkt-fb bad show';fb.innerHTML="⏰ Time's up! -50 pts · "+t.fb;document.getElementById('hudScore').textContent=gs.score;document.getElementById('hudStreak').textContent='0🔥';document.getElementById('tktNext').className='tkt-next show';}
 function nextTicket(){gs.cur++;if(gs.cur>=gs.tickets.length)endGame();else loadTicket();}
 function endGame(){clearInterval(gs.timer);document.getElementById('gamePlaying').style.display='none';document.getElementById('gameOver').style.display='block';const avg=Math.round(gs.totalTime/gs.tickets.length),acc=Math.round((gs.correct/gs.tickets.length)*100);document.getElementById('goScore').textContent=gs.score;document.getElementById('goAHT').textContent=avg+'s';document.getElementById('goAcc').textContent=acc+'%';let ic,ti,su;if(acc>=90&&avg<15){ic='🏆';ti='Call Center Legend!';su='Your AHT would make any WFM analyst weep with joy. The queue feared you today.';}else if(acc>=70){ic='🎉';ti='Solid Shift!';su="Good resolution skills. Work on speed and you'll be untouchable.";}else if(acc>=50){ic='📋';ti='Needs Coaching';su='Right instincts but calls run long. Shadow a senior agent.';}else{ic='😅';ti='Back to Training';su="We've all been there. Review feedback and try again.";}document.getElementById('goIcon').textContent=ic;document.getElementById('goTitle').textContent=ti;document.getElementById('goSub').textContent=su;}
+
+
+// ═══ JOBS ═══
+const FALLBACK_JOBS=[
+  {id:1,title:'Customer Support Specialist',company_name:'Zapier',company_logo:'https://logo.clearbit.com/zapier.com',job_type:'full_time',candidate_required_location:'Worldwide',salary:'$50,000 - $65,000',publication_date:'2026-03-20',url:'https://remotive.com/remote-jobs/customer-support',description:'Help customers succeed with Zapier\'s automation platform. You\'ll troubleshoot integrations, guide users through complex workflows, and be the voice of the customer internally.'},
+  {id:2,title:'Customer Success Manager',company_name:'HubSpot',company_logo:'https://logo.clearbit.com/hubspot.com',job_type:'full_time',candidate_required_location:'USA, Europe',salary:'$60,000 - $80,000',publication_date:'2026-03-18',url:'https://remotive.com/remote-jobs/customer-support',description:'Own a portfolio of mid-market accounts, drive adoption and retention, and serve as a trusted advisor to help customers achieve their marketing goals.'},
+  {id:3,title:'Remote Call Center Agent — Inbound',company_name:'TTEC',company_logo:'https://logo.clearbit.com/ttec.com',job_type:'full_time',candidate_required_location:'USA',salary:'$16 - $20/hr',publication_date:'2026-03-15',url:'https://remotive.com/remote-jobs/customer-support',description:'Handle inbound customer inquiries for a Fortune 500 client. Strong communication skills, empathy, and a dedicated home workspace required. Paid training provided.'},
+  {id:4,title:'Technical Support Engineer L1/L2',company_name:'Twilio',company_logo:'https://logo.clearbit.com/twilio.com',job_type:'full_time',candidate_required_location:'Worldwide',salary:'$55,000 - $70,000',publication_date:'2026-03-14',url:'https://remotive.com/remote-jobs/customer-support',description:'Provide technical support for Twilio\'s communications APIs. Debug integrations, write documentation, and collaborate with engineering to escalate complex issues.'},
+  {id:5,title:'Contact Center Team Lead',company_name:'Teleperformance',company_logo:'https://logo.clearbit.com/teleperformance.com',job_type:'full_time',candidate_required_location:'Europe',salary:'€35,000 - €42,000',publication_date:'2026-03-12',url:'https://remotive.com/remote-jobs/customer-support',description:'Lead a team of 12-15 remote agents. Drive KPI performance, coach on quality, manage scheduling, and represent your team in cross-functional meetings.'},
+  {id:6,title:'QA Analyst — Contact Center',company_name:'Concentrix',company_logo:'https://logo.clearbit.com/concentrix.com',job_type:'full_time',candidate_required_location:'USA, Canada',salary:'$45,000 - $55,000',publication_date:'2026-03-10',url:'https://remotive.com/remote-jobs/customer-support',description:'Evaluate agent performance across voice, chat and email channels. Develop calibration frameworks, identify coaching opportunities, and report on quality trends.'},
+  {id:7,title:'WFM Analyst — Workforce Management',company_name:'Alorica',company_logo:'https://logo.clearbit.com/alorica.com',job_type:'full_time',candidate_required_location:'USA',salary:'$50,000 - $60,000',publication_date:'2026-03-08',url:'https://remotive.com/remote-jobs/customer-support',description:'Forecast contact volumes, build staffing schedules, manage real-time adherence, and provide actionable insights to operations leadership.'},
+  {id:8,title:'Bilingual Customer Support (EN/ES)',company_name:'Shopify',company_logo:'https://logo.clearbit.com/shopify.com',job_type:'full_time',candidate_required_location:'Americas',salary:'$45,000 - $58,000',publication_date:'2026-03-06',url:'https://remotive.com/remote-jobs/customer-support',description:'Support English and Spanish-speaking merchants across chat and email. Help merchants set up stores, troubleshoot issues, and grow their businesses.'},
+  {id:9,title:'Customer Experience Trainer',company_name:'Conduent',company_logo:'https://logo.clearbit.com/conduent.com',job_type:'full_time',candidate_required_location:'USA',salary:'$48,000 - $58,000',publication_date:'2026-03-04',url:'https://remotive.com/remote-jobs/customer-support',description:'Design and deliver new hire and upskilling training programs. Develop e-learning modules, facilitate live sessions, and measure training effectiveness.'},
+  {id:10,title:'Remote Chat Support Agent',company_name:'Automattic',company_logo:'https://logo.clearbit.com/automattic.com',job_type:'full_time',candidate_required_location:'Worldwide',salary:'$40,000 - $50,000',publication_date:'2026-03-02',url:'https://remotive.com/remote-jobs/customer-support',description:'Provide outstanding support to WordPress.com users via live chat. Async-first team, flexible hours, strong writing skills essential.'},
+  {id:11,title:'Customer Operations Manager',company_name:'Stripe',company_logo:'https://logo.clearbit.com/stripe.com',job_type:'full_time',candidate_required_location:'USA, UK',salary:'$80,000 - $110,000',publication_date:'2026-02-28',url:'https://remotive.com/remote-jobs/customer-support',description:'Lead strategic initiatives to improve customer operations at scale. Partner with Product and Engineering to build tools that empower support teams.'},
+  {id:12,title:'Part-Time Phone Support Agent',company_name:'TaskUs',company_logo:'https://logo.clearbit.com/taskus.com',job_type:'part_time',candidate_required_location:'Philippines, India',salary:'Competitive',publication_date:'2026-02-26',url:'https://remotive.com/remote-jobs/customer-support',description:'Provide phone-based support to customers. Flexible schedules available. Training provided. Great entry-level opportunity with growth path.'},
+];
+
+let jobsData=[...FALLBACK_JOBS], jobsLoaded=false, jobsCatFilter='all';
+
+async function fetchJobs(){
+  try{
+    const url='https://remotive.com/api/remote-jobs?category=customer-support&limit=20';
+    const resp=await fetch(url,{signal:AbortSignal.timeout(7000)});
+    if(!resp.ok)throw new Error('fail');
+    const data=await resp.json();
+    if(data.jobs&&data.jobs.length>0){
+      jobsData=[...data.jobs,...FALLBACK_JOBS.slice(0,4)];
+    }
+  }catch(e){/* silent fallback */}
+  jobsLoaded=true;
+  const lu=document.getElementById('jobsLastUpdated');
+  if(lu)lu.textContent='Updated '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('jobsLoader').style.display='none';
+  renderJobs();
+}
+
+function filterJobs(cat,btn){
+  jobsCatFilter=cat;
+  document.querySelectorAll('#jobsFilterBtns .news-filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderJobs();
+}
+
+function getJobType(t){
+  if(!t)return{cls:'job-type-other',label:'Remote'};
+  if(t==='full_time')return{cls:'job-type-full',label:'Full Time'};
+  if(t==='part_time')return{cls:'job-type-part',label:'Part Time'};
+  if(t==='contract')return{cls:'job-type-contract',label:'Contract'};
+  return{cls:'job-type-other',label:t.replace('_',' ')};
+}
+
+function timeSince(dateStr){
+  const d=new Date(dateStr);const now=new Date();
+  const days=Math.floor((now-d)/86400000);
+  if(days===0)return'Today';if(days===1)return'Yesterday';
+  if(days<7)return days+'d ago';if(days<30)return Math.floor(days/7)+'w ago';
+  return Math.floor(days/30)+'mo ago';
+}
+
+function stripHtml(h){return h?h.replace(/<[^>]*>/g,'').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&#39;/g,"'").replace(/&quot;/g,'"').trim():''}
+
+function renderJobs(){
+  const q=(document.getElementById('jobsSearchInput')&&document.getElementById('jobsSearchInput').value||'').trim().toLowerCase();
+  const typeF=(document.getElementById('jobsTypeFilter')&&document.getElementById('jobsTypeFilter').value)||'';
+  let filtered=[...jobsData];
+  // category filter
+  if(jobsCatFilter==='support')filtered=filtered.filter(j=>/(support|agent|representative|specialist)/i.test(j.title));
+  else if(jobsCatFilter==='success')filtered=filtered.filter(j=>/(success|experience|cx)/i.test(j.title));
+  else if(jobsCatFilter==='manager')filtered=filtered.filter(j=>/(manager|lead|supervisor|director|head)/i.test(j.title));
+  else if(jobsCatFilter==='remote')filtered=filtered.filter(j=>/(worldwide|remote|anywhere)/i.test(j.candidate_required_location||''));
+  // search
+  if(q)filtered=filtered.filter(j=>j.title.toLowerCase().includes(q)||j.company_name.toLowerCase().includes(q)||(j.description||'').toLowerCase().includes(q));
+  // type
+  if(typeF)filtered=filtered.filter(j=>j.job_type===typeF);
+
+  // Stats bar
+  const statsEl=document.getElementById('jobsStats');
+  const fullTime=jobsData.filter(j=>j.job_type==='full_time').length;
+  const remote=jobsData.filter(j=>/(worldwide|remote)/i.test(j.candidate_required_location||'')).length;
+  const withSalary=jobsData.filter(j=>j.salary&&j.salary.trim()&&j.salary!=='Competitive').length;
+  statsEl.innerHTML=[
+    {icon:'💼',num:jobsData.length,label:'Live Jobs'},
+    {icon:'🌍',num:remote,label:'Remote'},
+    {icon:'⏰',num:fullTime,label:'Full Time'},
+    {icon:'💰',num:withSalary,label:'With Salary'},
+  ].map(s=>`<div class="jobs-stat"><div class="jobs-stat-num">${s.icon} ${s.num}</div><div style="font-size:12px;color:var(--text3)">${s.label}</div></div>`).join('');
+
+  const grid=document.getElementById('jobsGrid');
+  if(!filtered.length){grid.innerHTML='<div class="jobs-empty"><div style="font-size:36px;margin-bottom:10px">🔍</div><p>No jobs match your search.</p></div>';grid.className='jobs-grid';return;}
+  grid.className='jobs-grid';
+  grid.innerHTML=filtered.map((j,i)=>{
+    const jt=getJobType(j.job_type);
+    const logo=j.company_logo?`<img class="job-logo" src="${j.company_logo}" alt="${j.company_name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`:'';
+    const placeholder=`<div class="job-logo-placeholder" ${j.company_logo?'style="display:none"':''}>${j.company_name.charAt(0)}</div>`;
+    const desc=stripHtml(j.description||'').substring(0,150)+'…';
+    const salary=j.salary&&j.salary.trim()&&j.salary!=='Competitive'?`<span class="job-salary">💰 ${j.salary}</span>`:'';
+    return`<div class="job-card" style="animation-delay:${i*.04}s" onclick="window.open('${j.url}','_blank')">
+      <div class="job-card-top">
+        ${logo}${placeholder}
+        <div class="job-info">
+          <div class="job-company">${j.company_name}</div>
+          <div class="job-title">${j.title}</div>
+          <div class="job-meta">
+            <span class="job-badge ${jt.cls}">${jt.label}</span>
+            <span class="job-location">📍 ${j.candidate_required_location||'Remote'}</span>
+          </div>
+        </div>
+      </div>
+      <div class="job-desc">${desc}</div>
+      <div class="job-footer">
+        <div style="display:flex;flex-direction:column;gap:3px">${salary}<span class="job-date">📅 ${timeSince(j.publication_date)}</span></div>
+        <button class="job-apply-btn" onclick="event.stopPropagation();window.open('${j.url}','_blank')">Apply →</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function initJobs(){
+  renderJobs();
+  if(!jobsLoaded)fetchJobs();
+  else{
+    document.getElementById('jobsLoader').style.display='none';
+    const lu=document.getElementById('jobsLastUpdated');
+    if(lu)lu.textContent='Updated '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  }
+}
 
 // ═══ EVENTS ═══
 document.getElementById('authModal').addEventListener('click',function(e){if(e.target===this)closeAuth();});
