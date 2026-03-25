@@ -636,9 +636,9 @@ function buildFeed(){
     return'<div class="post-card" style="animation-delay:'+i*.04+'s" data-pid="'+p.id+'">'+
       '<div class="post-inner">'+
         '<div class="vote-col">'+
-          '<button class="csat-btn'+(mv==='up'?' csat-on':'')+'" onclick="vote(event,'+p.id+','up')" title="CSAT — This helped me!">😊 <span>'+((p.csat||0)+(mv==='up'?1:0))+'</span></button>'+
+          '<button class="csat-btn'+(mv==='up'?' csat-on':'')+'" onclick="voteUp(event,'+p.id+')" title="CSAT — This helped me!">😊 <span>'+((p.csat||0)+(mv==='up'?1:0))+'</span></button>'+
           '<div class="csat-score '+scClass+'">'+scText+'<br><span style="font-size:9px;opacity:.6">CSAT</span></div>'+
-          '<button class="csat-btn'+(mv==='down'?' dsat-on':'')+'" onclick="vote(event,'+p.id+','down')" title="DSAT — Not helpful">😤 <span>'+((p.dsat||0)+(mv==='down'?1:0))+'</span></button>'+
+          '<button class="csat-btn'+(mv==='down'?' dsat-on':'')+'" onclick="voteDn(event,'+p.id+')" title="DSAT — Not helpful">😤 <span>'+((p.dsat||0)+(mv==='down'?1:0))+'</span></button>'+
         '</div>'+
         '<div class="post-body">'+
           '<div class="post-meta">'+
@@ -672,6 +672,8 @@ function buildTrending(){document.getElementById('trendingList').innerHTML=TTAGS
 function setTagFilter(tag){filterTag=filterTag===tag?null:tag;buildFeed();buildTrending();var m=document.querySelector('main');if(m)m.scrollIntoView({behavior:'smooth',block:'start'});}
 function clearTagFilter(){filterTag=null;buildFeed();buildTrending();}
 function vote(e,id,dir){e.stopPropagation();voteMap[id]=voteMap[id]===dir?null:dir;buildFeed();}
+function voteUp(e,id){vote(e,id,'up');}
+function voteDn(e,id){vote(e,id,'down');}
 function setSort(btn,mode){document.querySelectorAll('.sort-tab').forEach(function(t){t.classList.remove('active');});btn.classList.add('active');sortMode=mode;buildFeed();}
 
 // ═══ POST MODAL ═══
