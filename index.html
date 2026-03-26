@@ -481,6 +481,76 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 
 /* floating buddy btn removed */
 
+
+/* ══ WEEKLY CHALLENGE ══ */
+.challenge-banner{background:linear-gradient(135deg,#1a0a2e,#1e0d35);border:1px solid rgba(167,139,250,.3);border-radius:var(--radius-lg);padding:18px 20px;margin-bottom:18px;position:relative;overflow:hidden;}
+.challenge-banner::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;background:rgba(167,139,250,.08);border-radius:50%;}
+.challenge-week{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--purple);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.challenge-title{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;color:var(--text);margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.challenge-prompt{font-size:13.5px;color:var(--text2);line-height:1.6;margin-bottom:14px;}
+.challenge-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.challenge-post-btn{background:var(--purple);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s;}
+.challenge-post-btn:hover{background:#8b6de0;}
+.challenge-tag{font-size:11.5px;color:var(--purple);background:rgba(167,139,250,.1);border-radius:4px;padding:2px 8px;font-family:'JetBrains Mono',monospace;}
+.challenge-participants{font-size:12px;color:var(--text3);margin-left:auto;}
+
+/* ══ SAVED POSTS ══ */
+.save-btn{background:none;border:none;cursor:pointer;font-size:16px;padding:2px 6px;border-radius:5px;transition:transform .15s,opacity .2s;opacity:.5;line-height:1;}
+.save-btn:hover{opacity:1;transform:scale(1.2);}
+.save-btn.saved{opacity:1;filter:drop-shadow(0 0 4px rgba(251,191,36,.6));}
+.saves-empty{text-align:center;padding:40px 20px;color:var(--text3);}
+.saves-empty-icon{font-size:40px;margin-bottom:12px;}
+
+/* ══ COMPANY REVIEWS ══ */
+.review-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;margin-bottom:14px;transition:border-color .2s;animation:fadeUp .3s ease both;}
+.review-card:hover{border-color:#3e4155;}
+.review-header{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px;}
+.review-company-av{width:44px;height:44px;border-radius:10px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:var(--accent);flex-shrink:0;border:1px solid var(--border);}
+.review-company-info{flex:1;}
+.review-company-name{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;margin-bottom:2px;}
+.review-meta{font-size:12px;color:var(--text3);display:flex;gap:10px;flex-wrap:wrap;}
+.review-overall{margin-left:auto;text-align:center;}
+.review-overall-num{font-family:'Syne',sans-serif;font-weight:700;font-size:26px;color:var(--accent);line-height:1;}
+.review-overall-stars{font-size:13px;color:var(--yellow);}
+.review-scores{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px;}
+.review-score-item{background:var(--bg3);border-radius:7px;padding:8px 6px;text-align:center;}
+.review-score-num{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--accent);}
+.review-score-lbl{font-size:10px;color:var(--text3);margin-top:2px;line-height:1.2;}
+.review-body{margin-bottom:12px;}
+.review-pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+.review-pro,.review-con{background:var(--bg3);border-radius:7px;padding:10px 12px;font-size:12.5px;line-height:1.6;color:var(--text2);}
+.review-pro::before{content:'👍 ';font-size:12px;}
+.review-con::before{content:'👎 ';font-size:12px;}
+.review-footer{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.review-recommend{font-size:12px;padding:3px 10px;border-radius:12px;font-family:'JetBrains Mono',monospace;}
+.review-recommend.yes{background:rgba(61,220,132,.12);color:var(--green);}
+.review-recommend.no{background:rgba(255,107,107,.12);color:var(--red);}
+.review-date{font-size:12px;color:var(--text3);margin-left:auto;}
+.review-write-btn{background:var(--purple);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s;}
+.review-write-btn:hover{background:#8b6de0;}
+.reviews-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
+.reviews-filter-btn{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:5px 13px;font-size:12.5px;cursor:pointer;color:var(--text2);transition:all .2s;font-family:'DM Sans',sans-serif;}
+.reviews-filter-btn.active{background:var(--purple);border-color:var(--purple);color:#fff;}
+.review-form-modal{max-width:560px;}
+.review-stars-input{display:flex;gap:6px;font-size:24px;cursor:pointer;margin-bottom:4px;}
+.review-stars-input span{transition:transform .1s;}
+.review-stars-input span:hover{transform:scale(1.2);}
+.score-slider-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.score-slider-lbl{font-size:12.5px;color:var(--text2);width:110px;flex-shrink:0;}
+.score-slider-val{font-size:13px;font-weight:700;color:var(--accent);width:24px;text-align:right;}
+.stars-display{color:var(--yellow);font-size:12px;letter-spacing:1px;}
+.rev-summary-bar{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.rev-summary-bar-fill{height:6px;border-radius:3px;background:var(--purple);transition:width .4s;}
+.rev-summary-bar-track{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;}
+@media(max-width:768px){
+  .review-scores{grid-template-columns:repeat(3,1fr);}
+  .review-pros-cons{grid-template-columns:1fr;}
+}
+@media(max-width:480px){
+  .review-scores{grid-template-columns:repeat(2,1fr);}
+  .challenge-banner{padding:14px;}
+}
+
 </style>
 </head>
 <body>
@@ -493,6 +563,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
     <button class="nav-btn" id="navTemplates" onclick="showPage('templates')">📝 Templates</button>
     <button class="nav-btn" id="navNews" onclick="showPage('news')">📰 News</button>
     <button class="nav-btn" id="navJobs" onclick="showPage('jobs')">💼 Jobs</button>
+    <button class="nav-btn" id="navReviews" onclick="showPage('reviews')">🏢 Reviews</button>
     <div class="role-badge" onclick="openRolePicker()"><div class="role-dot"></div><span id="headerRole">Pick your role</span></div>
     <div id="authBtns" style="display:flex;gap:7px;align-items:center">
       <button class="btn-outline" onclick="openAuth('login')">Log In</button>
@@ -521,6 +592,19 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
     </div>
 
 <!-- MOBILE BUDDY STRIP (visible only on mobile) -->
+
+<!-- WEEKLY CHALLENGE BANNER -->
+<div class="challenge-banner" id="challengeBanner" style="display:none">
+  <div class="challenge-week" id="challengeWeekLabel"></div>
+  <div class="challenge-title"><span id="challengeEmoji"></span><span id="challengeTitle"></span></div>
+  <div class="challenge-prompt" id="challengePrompt"></div>
+  <div class="challenge-actions">
+    <button class="challenge-post-btn" id="challengePostBtn">✍️ Share your answer</button>
+    <span class="challenge-tag" id="challengeTag"></span>
+    <span class="challenge-participants" id="challengeParticipants"></span>
+  </div>
+</div>
+
 <div id="mobileBuddyStrip" style="display:none;gap:8px;flex-wrap:wrap;margin-bottom:12px;padding:10px 14px;background:linear-gradient(135deg,#0d1a1a,#111f1f);border:1px solid #1a3a3a;border-radius:var(--radius);">
   <span style="font-size:13px;color:var(--text2);flex:1">Find a CC peer who can help with your challenges</span>
   <button class="buddy-btn" onclick="openBuddyModalMob()" style="justify-content:center">🤝 Find Buddy</button>
@@ -612,9 +696,11 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
   <div class="profile-tabs">
     <button class="profile-tab active" id="ptabPosts" onclick="switchProfileTab('posts',this)">&#128221; Posts</button>
     <button class="profile-tab" id="ptabBadges" onclick="switchProfileTab('badges',this)">&#127942; Badges</button>
+    <button class="profile-tab" id="ptabSaves" onclick="switchProfileTab('saves',this)">&#128278; Saved</button>
   </div>
   <div id="profilePostsFeed"></div>
   <div id="profileBadgesGrid" style="display:none"></div>
+  <div id="profileSavesFeed" style="display:none"></div>
 </div>
 </div>
 
@@ -649,6 +735,85 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
       <button class="modal-x" onclick="closeReferralModal()">&#10005;</button>
     </div>
     <div class="modal-body" id="referralModalBody"></div>
+  </div>
+</div>
+
+
+<!-- COMPANY REVIEWS PAGE -->
+<div class="page" id="pageReviews">
+<div style="max-width:860px;margin:0 auto;padding:24px 20px">
+
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px">
+    <div>
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:22px;margin-bottom:4px">🏢 Company Reviews</div>
+      <div style="font-size:13px;color:var(--text3)">Anonymous reviews from real CC workers. No filters, no fluff.</div>
+    </div>
+    <button class="review-write-btn" onclick="openWriteReview()">✏️ Write a Review</button>
+  </div>
+
+  <!-- Summary stats -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px" id="reviewsSummary"></div>
+
+  <!-- Filters -->
+  <div class="reviews-filter" id="reviewsFilterBar">
+    <button class="reviews-filter-btn active" onclick="filterReviews('all',this)">All Companies</button>
+  </div>
+
+  <!-- Reviews grid -->
+  <div id="reviewsGrid"></div>
+
+</div>
+</div>
+
+<!-- WRITE REVIEW MODAL -->
+<div class="modal-overlay" id="writeReviewModal">
+  <div class="modal review-form-modal">
+    <div class="modal-hdr">
+      <div class="modal-hdr-title">✏️ Write a Review</div>
+      <button class="modal-x" onclick="closeWriteReview()">✕</button>
+    </div>
+    <div class="modal-body" style="padding:20px">
+      <div class="fl" style="margin-bottom:6px">Company name</div>
+      <input class="fi" id="rvCompany" placeholder="e.g. Concentrix, Teleperformance..." style="margin-bottom:14px"/>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+        <div>
+          <div class="fl" style="margin-bottom:6px">Your role</div>
+          <input class="fi" id="rvRole" placeholder="e.g. Inbound Agent"/>
+        </div>
+        <div>
+          <div class="fl" style="margin-bottom:6px">Location</div>
+          <input class="fi" id="rvLocation" placeholder="e.g. Istanbul, TR"/>
+        </div>
+      </div>
+      <div class="fl" style="margin-bottom:6px">Overall rating</div>
+      <div class="review-stars-input" id="rvStarsInput">
+        <span onclick="setRvStar(1)" data-star="1">☆</span>
+        <span onclick="setRvStar(2)" data-star="2">☆</span>
+        <span onclick="setRvStar(3)" data-star="3">☆</span>
+        <span onclick="setRvStar(4)" data-star="4">☆</span>
+        <span onclick="setRvStar(5)" data-star="5">☆</span>
+      </div>
+      <div style="margin:14px 0">
+        <div class="fl" style="margin-bottom:10px">Rate each area</div>
+        <div class="score-slider-row"><span class="score-slider-lbl">Management</span><input type="range" min="1" max="5" step="0.5" value="3" id="slMgt" oninput="el('vlMgt').textContent=this.value" style="flex:1"/><span class="score-slider-val" id="vlMgt">3</span></div>
+        <div class="score-slider-row"><span class="score-slider-lbl">Salary & Pay</span><input type="range" min="1" max="5" step="0.5" value="3" id="slSal" oninput="el('vlSal').textContent=this.value" style="flex:1"/><span class="score-slider-val" id="vlSal">3</span></div>
+        <div class="score-slider-row"><span class="score-slider-lbl">Remote / WFH</span><input type="range" min="1" max="5" step="0.5" value="3" id="slRem" oninput="el('vlRem').textContent=this.value" style="flex:1"/><span class="score-slider-val" id="vlRem">3</span></div>
+        <div class="score-slider-row"><span class="score-slider-lbl">Work-Life Balance</span><input type="range" min="1" max="5" step="0.5" value="3" id="slWlb" oninput="el('vlWlb').textContent=this.value" style="flex:1"/><span class="score-slider-val" id="vlWlb">3</span></div>
+        <div class="score-slider-row"><span class="score-slider-lbl">Growth</span><input type="range" min="1" max="5" step="0.5" value="3" id="slGrw" oninput="el('vlGrw').textContent=this.value" style="flex:1"/><span class="score-slider-val" id="vlGrw">3</span></div>
+      </div>
+      <div class="fl" style="margin-bottom:6px">What do you like? (Pros)</div>
+      <textarea class="need-textarea" id="rvPros" placeholder="The things that make this place worth working at..." style="min-height:70px;margin-bottom:12px"></textarea>
+      <div class="fl" style="margin-bottom:6px">What could be better? (Cons)</div>
+      <textarea class="need-textarea" id="rvCons" placeholder="Be honest — future colleagues need to know..." style="min-height:70px;margin-bottom:12px"></textarea>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+        <input type="checkbox" id="rvRecommend" style="width:16px;height:16px;accent-color:var(--green)"/>
+        <label for="rvRecommend" style="font-size:13px;color:var(--text2);cursor:pointer">I would recommend this company to a fellow CC professional</label>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn-primary" onclick="submitReview()">Submit Review</button>
+        <button class="btn-ghost" onclick="closeWriteReview()">Cancel</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -740,10 +905,11 @@ function showPage(name){
   el('navTemplates').style.display=name==='templates'?'none':'block';
   el('navNews').style.display=name==='news'?'none':'block';
   el('navJobs').style.display=name==='jobs'?'none':'block';
-  if(name==='feed'){buildFeed();buildRoleFilter();buildTrending();}
+  if(name==='feed'){buildFeed();buildRoleFilter();buildTrending();initChallenge();}
   if(name==='templates')renderTemplates();
   if(name==='news')initNews();
   if(name==='jobs')initJobs();
+  if(name==='reviews')initReviews();
   if(name==='profile'){el('navFeed').style.display='block';el('navGame').style.display='block';el('navTemplates').style.display='block';el('navNews').style.display='block';el('navJobs').style.display='block';}
   var mob={feed:'mnFeed',news:'mnNews',templates:'mnTemplates',game:'mnGame',jobs:'mnJobs'};
   if(mob[name])setMobNav(mob[name]);
@@ -951,6 +1117,12 @@ function buildFeed(){
     commentsBtn.innerHTML='💬 '+p.comments.length+' comment'+(p.comments.length!==1?'s':'');
     commentsBtn.addEventListener('click',(function(pid){return function(){toggleComments(pid);};})(p.id));
 
+    var saveBtn=document.createElement('button');
+    saveBtn.className='save-btn'+(savedPosts.has(p.id)?' saved':'');
+    saveBtn.textContent='🔖';
+    saveBtn.title=savedPosts.has(p.id)?'Saved!':'Save post';
+    saveBtn.addEventListener('click',(function(pid,btn){return function(e){e.stopPropagation();toggleSave(pid,btn);};})(p.id,saveBtn));
+
     var share=document.createElement('span');
     share.className='post-action';
     share.innerHTML='🔗 Share';
@@ -970,6 +1142,7 @@ function buildFeed(){
     });
 
     footer.appendChild(commentsBtn);
+    footer.appendChild(saveBtn);
     footer.appendChild(share);
     footer.appendChild(save);
     footer.appendChild(tagWrap);
@@ -1359,8 +1532,10 @@ function switchProfileTab(tab,btn){
   btn.classList.add('active');
   el('profilePostsFeed').style.display=tab==='posts'?'block':'none';
   el('profileBadgesGrid').style.display=tab==='badges'?'grid':'none';
+  el('profileSavesFeed').style.display=tab==='saves'?'block':'none';
   if(tab==='posts')renderProfilePosts();
-  else renderProfileBadges();
+  else if(tab==='badges')renderProfileBadges();
+  else if(tab==='saves')renderProfileSaves();
 }
 function renderProfilePosts(){
   var up=posts.filter(function(p){return p.author===currentProfileUser;});
@@ -1674,6 +1849,240 @@ function openBuddyModalMob(){
   }
 }
 
+
+// ═══════════════════════════════════════════════════════
+// WEEKLY CHALLENGE
+// ═══════════════════════════════════════════════════════
+var WEEKLY_CHALLENGES = JSON.parse("[{\"week\": 1, \"emoji\": \"\ud83d\udd25\", \"title\": \"De-escalation of the week\", \"prompt\": \"Share the one phrase or technique that saved your most difficult call this week. What did you say that actually worked?\", \"tag\": \"AHTsurvivor\"}, {\"week\": 2, \"emoji\": \"\ud83d\udccb\", \"title\": \"Template of the week\", \"prompt\": \"What is the one response template you could not live without? Share the exact wording and explain why it works.\", \"tag\": \"ScriptKiller\"}, {\"week\": 3, \"emoji\": \"\ud83d\udd07\", \"title\": \"Silent call story\", \"prompt\": \"Have you ever stayed on the line for a customer who could not speak? Tell us what happened and what you did.\", \"tag\": \"SilentCalls\"}, {\"week\": 4, \"emoji\": \"\ud83c\udfb5\", \"title\": \"Hold music confession\", \"prompt\": \"What song or sound has your CC conditioned you to have a physical reaction to? Bonus points for recreating it in text.\", \"tag\": \"HoldMusicPTSD\"}, {\"week\": 5, \"emoji\": \"\ud83d\udcc5\", \"title\": \"WFM survival tip\", \"prompt\": \"What is your best trick for surviving a broken schedule, last-minute shift change, or impossible shrinkage target?\", \"tag\": \"WFMwoes\"}, {\"week\": 6, \"emoji\": \"\ud83d\udd0d\", \"title\": \"QA hot take\", \"prompt\": \"What is the most controversial thing you believe about call quality scoring? Share your honest opinion.\", \"tag\": \"QAfeedback\"}, {\"week\": 7, \"emoji\": \"\ud83c\udf31\", \"title\": \"Advice to your first-day self\", \"prompt\": \"What is the one thing you wish someone had told you on your first day in a call center? New agents need to hear this.\", \"tag\": \"AHTsurvivor\"}, {\"week\": 8, \"emoji\": \"\ud83c\udfc6\", \"title\": \"Your best call ever\", \"prompt\": \"Describe the call you are most proud of in your CC career. What happened and why does it still matter to you?\", \"tag\": \"SilentCalls\"}]");
+
+function getCurrentChallenge(){
+  // Rotate weekly based on current week number
+  var now = new Date();
+  var weekNum = Math.floor((now - new Date(now.getFullYear(),0,1)) / 604800000);
+  return WEEKLY_CHALLENGES[weekNum % WEEKLY_CHALLENGES.length];
+}
+
+function initChallenge(){
+  var ch = getCurrentChallenge();
+  var banner = el('challengeBanner');
+  if(!banner) return;
+  banner.style.display = 'block';
+  el('challengeWeekLabel').textContent = 'Week ' + ch.week + ' Challenge';
+  el('challengeEmoji').textContent = ch.emoji;
+  el('challengeTitle').textContent = ch.title;
+  el('challengePrompt').textContent = ch.prompt;
+  el('challengeTag').textContent = '#' + ch.tag;
+  // Count posts with this tag as "participants"
+  var count = posts.filter(function(p){ return p.tags && p.tags.indexOf(ch.tag) >= 0; }).length;
+  el('challengeParticipants').textContent = count + ' post' + (count!==1?'s':'') + ' this week';
+  // Wire up post button
+  el('challengePostBtn').onclick = function(){
+    if(!currentUser){ openAuth('signup'); return; }
+    openPostModal();
+    // Pre-fill the role if known
+    setTimeout(function(){
+      var ta = el('postBody');
+      if(ta && !ta.value) ta.focus();
+    }, 300);
+  };
+}
+
+// ═══════════════════════════════════════════════════════
+// SAVED POSTS
+// ═══════════════════════════════════════════════════════
+var savedPosts = new Set();
+
+function toggleSave(postId, btn){
+  if(!currentUser){ showToast('Sign in to save posts!'); return; }
+  if(savedPosts.has(postId)){
+    savedPosts.delete(postId);
+    if(btn){ btn.textContent = '🔖'; btn.classList.remove('saved'); btn.title = 'Save post'; }
+    showToast('Removed from saves');
+  } else {
+    savedPosts.add(postId);
+    if(btn){ btn.textContent = '🔖'; btn.classList.add('saved'); btn.title = 'Saved!'; }
+    showToast('🔖 Post saved!');
+  }
+  // Update profile saves tab if open
+  if(currentProfileUser === currentUser.username) renderProfileSaves();
+}
+
+function renderProfileSaves(){
+  var container = el('profileSavesFeed');
+  if(!container) return;
+  var saved = posts.filter(function(p){ return savedPosts.has(p.id); });
+  if(!saved.length){
+    container.innerHTML = '<div class="saves-empty"><div class="saves-empty-icon">🔖</div><p>No saved posts yet.<br>Tap the bookmark icon on any post to save it.</p></div>';
+    return;
+  }
+  container.innerHTML = '';
+  saved.forEach(function(p, i){
+    var role = getRole(p.role);
+    var sc = csatScore(p, voteMap[p.id]||null);
+    var card = document.createElement('div');
+    card.className = 'post-card';
+    card.style.animationDelay = (i*.05)+'s';
+    card.style.cursor = 'pointer';
+    card.innerHTML = '<div class="post-inner"><div class="vote-col"><div class="csat-score '+(sc!==null?sc>=75?'score-high':sc>=50?'score-mid':'score-low':'')+'">'+(sc!==null?sc+'%':'—')+'<br><span style="font-size:9px;opacity:.6">CSAT</span></div></div><div class="post-body"><div class="post-meta"><span class="role-tag '+role.cls+'">'+role.icon+' '+role.name+'</span><span class="post-time">'+p.time+'</span></div><div class="post-title">'+p.title+'</div><div class="post-preview">'+p.body+'</div></div></div>';
+    card.addEventListener('click', function(){
+      showPage('feed');
+      setTimeout(function(){
+        openComments.add(p.id);
+        buildFeed();
+        setTimeout(function(){ var e=document.querySelector('[data-pid="'+p.id+'"]');if(e)e.scrollIntoView({behavior:'smooth',block:'center'}); }, 100);
+      }, 100);
+    });
+    container.appendChild(card);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// COMPANY REVIEWS
+// ═══════════════════════════════════════════════════════
+var COMPANY_REVIEWS = JSON.parse("[{\"id\": 1, \"company\": \"Concentrix\", \"location\": \"Istanbul, TR\", \"rating\": 3.8, \"scores\": {\"management\": 3.5, \"salary\": 3.2, \"remote\": 4.0, \"wlb\": 3.8, \"growth\": 3.5}, \"pros\": \"Good training programs. International clients give great exposure. Remote options available.\", \"cons\": \"High turnover. AHT pressure is relentless. Pay could be better for the workload.\", \"role\": \"Inbound Agent\", \"tenure\": \"2 years\", \"date\": \"Mar 2026\", \"recommended\": true, \"anonymous\": true}, {\"id\": 2, \"company\": \"Teleperformance\", \"location\": \"Ankara, TR\", \"rating\": 3.2, \"scores\": {\"management\": 2.8, \"salary\": 3.0, \"remote\": 3.5, \"wlb\": 3.0, \"growth\": 3.2}, \"pros\": \"Stable company, always hiring. Good benefits package. You learn fast under pressure.\", \"cons\": \"Management varies wildly by TL. QA scoring feels inconsistent. Burnout is real here.\", \"role\": \"Team Lead\", \"tenure\": \"3 years\", \"date\": \"Feb 2026\", \"recommended\": false, \"anonymous\": true}, {\"id\": 3, \"company\": \"Vodafone Turkey\", \"location\": \"Istanbul, TR\", \"rating\": 4.2, \"scores\": {\"management\": 4.0, \"salary\": 4.3, \"remote\": 3.8, \"wlb\": 4.0, \"growth\": 4.5}, \"pros\": \"Excellent pay for the industry. Real career progression. Management actually listens.\", \"cons\": \"High expectations. Customer escalations can be intense. Shift work is tough.\", \"role\": \"Customer Experience Specialist\", \"tenure\": \"4 years\", \"date\": \"Mar 2026\", \"recommended\": true, \"anonymous\": true}, {\"id\": 4, \"company\": \"Foundever\", \"location\": \"Remote, TR\", \"rating\": 3.5, \"scores\": {\"management\": 3.3, \"salary\": 3.0, \"remote\": 4.8, \"wlb\": 4.0, \"growth\": 3.0}, \"pros\": \"Fully remote is a genuine life upgrade. Flexible hours. Equipment provided.\", \"cons\": \"Salary lags behind on-site roles. Career growth is limited remotely. Tech issues weekly.\", \"role\": \"Remote Support Agent\", \"tenure\": \"1.5 years\", \"date\": \"Jan 2026\", \"recommended\": true, \"anonymous\": true}, {\"id\": 5, \"company\": \"TTEC\", \"location\": \"\u0130zmir, TR\", \"rating\": 3.6, \"scores\": {\"management\": 3.5, \"salary\": 3.4, \"remote\": 3.2, \"wlb\": 3.5, \"growth\": 3.8}, \"pros\": \"Good team culture on my floor. Training is thorough. Clear KPI targets.\", \"cons\": \"Building is old. Systems are slow. Weekend shifts mandatory first year.\", \"role\": \"Technical Support Agent\", \"tenure\": \"2.5 years\", \"date\": \"Feb 2026\", \"recommended\": true, \"anonymous\": true}, {\"id\": 6, \"company\": \"Trendyol\", \"location\": \"Istanbul, TR\", \"rating\": 4.5, \"scores\": {\"management\": 4.3, \"salary\": 4.6, \"remote\": 4.2, \"wlb\": 4.0, \"growth\": 4.8}, \"pros\": \"Tech company energy in a CC role. Pay is exceptional. Fast promotion track. Modern tools.\", \"cons\": \"Volume spikes are brutal during campaigns. High performance bar constantly.\", \"role\": \"CX Specialist\", \"tenure\": \"2 years\", \"date\": \"Mar 2026\", \"recommended\": true, \"anonymous\": true}]");
+var reviewsFilter = 'all';
+var rvStarRating = 0;
+
+function starsHtml(rating){
+  var full = Math.floor(rating);
+  var half = rating % 1 >= 0.5 ? 1 : 0;
+  var empty = 5 - full - half;
+  return '★'.repeat(full) + (half?'½':'') + '☆'.repeat(empty);
+}
+
+function initReviews(){
+  renderReviewsSummary();
+  renderReviewsFilters();
+  renderReviews();
+}
+
+function renderReviewsSummary(){
+  var total = COMPANY_REVIEWS.length;
+  var avgRating = total ? (COMPANY_REVIEWS.reduce(function(s,r){return s+r.rating;},0)/total).toFixed(1) : 0;
+  var recommended = COMPANY_REVIEWS.filter(function(r){return r.recommended;}).length;
+  var recPct = total ? Math.round((recommended/total)*100) : 0;
+  var companies = new Set(COMPANY_REVIEWS.map(function(r){return r.company;})).size;
+  el('reviewsSummary').innerHTML =
+    '<div class="profile-stat-card"><div class="profile-stat-num">'+total+'</div><div class="profile-stat-lbl">Reviews</div></div>'+
+    '<div class="profile-stat-card"><div class="profile-stat-num">'+avgRating+' <span style="color:var(--yellow);font-size:16px">★</span></div><div class="profile-stat-lbl">Avg Rating</div></div>'+
+    '<div class="profile-stat-card"><div class="profile-stat-num">'+recPct+'%</div><div class="profile-stat-lbl">Would Recommend</div></div>';
+}
+
+function renderReviewsFilters(){
+  var companies = [...new Set(COMPANY_REVIEWS.map(function(r){return r.company;}))];
+  var bar = el('reviewsFilterBar');
+  bar.innerHTML = '';
+  var allBtn = document.createElement('button');
+  allBtn.className = 'reviews-filter-btn' + (reviewsFilter==='all'?' active':'');
+  allBtn.textContent = 'All Companies';
+  allBtn.addEventListener('click', function(){ filterReviews('all', allBtn); });
+  bar.appendChild(allBtn);
+  companies.forEach(function(c){
+    var btn = document.createElement('button');
+    btn.className = 'reviews-filter-btn' + (reviewsFilter===c?' active':'');
+    btn.textContent = c;
+    btn.addEventListener('click', (function(co){ return function(){ filterReviews(co, this); }; })(c));
+    bar.appendChild(btn);
+  });
+}
+
+function filterReviews(val, btn){
+  reviewsFilter = val;
+  document.querySelectorAll('.reviews-filter-btn').forEach(function(b){ b.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  renderReviews();
+}
+
+function renderReviews(){
+  var filtered = reviewsFilter==='all' ? COMPANY_REVIEWS : COMPANY_REVIEWS.filter(function(r){return r.company===reviewsFilter;});
+  var grid = el('reviewsGrid');
+  if(!filtered.length){ grid.innerHTML='<div class="empty-state"><div class="empty-icon">🏢</div><p>No reviews yet for this company.<br>Be the first!</p></div>'; return; }
+  grid.innerHTML = '';
+  filtered.forEach(function(r, i){
+    var card = document.createElement('div');
+    card.className = 'review-card';
+    card.style.animationDelay = (i*.07)+'s';
+    var scoreKeys = {management:'Management',salary:'Salary',remote:'Remote/WFH',wlb:'Work-Life',growth:'Growth'};
+    var scoresHtml = Object.keys(scoreKeys).map(function(k){
+      var v = r.scores[k]||0;
+      return '<div class="review-score-item"><div class="review-score-num">'+v+'</div><div class="review-score-lbl">'+scoreKeys[k]+'</div></div>';
+    }).join('');
+    card.innerHTML =
+      '<div class="review-header">'+
+        '<div class="review-company-av">'+r.company[0]+'</div>'+
+        '<div class="review-company-info">'+
+          '<div class="review-company-name">'+r.company+'</div>'+
+          '<div class="review-meta">'+
+            '<span>'+r.role+'</span>'+
+            '<span>📍 '+r.location+'</span>'+
+            '<span>⏳ '+r.tenure+'</span>'+
+          '</div>'+
+        '</div>'+
+        '<div class="review-overall">'+
+          '<div class="review-overall-num">'+r.rating+'</div>'+
+          '<div class="review-overall-stars">'+starsHtml(r.rating)+'</div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="review-scores">'+scoresHtml+'</div>'+
+      '<div class="review-pros-cons">'+
+        '<div class="review-pro">'+r.pros+'</div>'+
+        '<div class="review-con">'+r.cons+'</div>'+
+      '</div>'+
+      '<div class="review-footer">'+
+        '<span class="review-recommend '+(r.recommended?'yes':'no')+'">'+(r.recommended?'✓ Recommends':'✗ Does not recommend')+'</span>'+
+        '<span class="review-date">'+r.date+'</span>'+
+      '</div>';
+    grid.appendChild(card);
+  });
+}
+
+function openWriteReview(){
+  if(!currentUser){ openAuth('signup'); return; }
+  rvStarRating = 0;
+  el('rvCompany').value=''; el('rvRole').value=''; el('rvLocation').value='';
+  el('rvPros').value=''; el('rvCons').value=''; el('rvRecommend').checked=false;
+  document.querySelectorAll('#rvStarsInput span').forEach(function(s){ s.textContent='☆'; });
+  ['Mgt','Sal','Rem','Wlb','Grw'].forEach(function(k){ var s=el('sl'+k);var v=el('vl'+k);if(s){s.value=3;if(v)v.textContent=3;} });
+  el('writeReviewModal').classList.add('open');
+}
+function closeWriteReview(){ el('writeReviewModal').classList.remove('open'); }
+
+function setRvStar(n){
+  rvStarRating = n;
+  document.querySelectorAll('#rvStarsInput span').forEach(function(s){
+    s.textContent = parseInt(s.dataset.star) <= n ? '★' : '☆';
+  });
+}
+
+function submitReview(){
+  var company = el('rvCompany').value.trim();
+  var role = el('rvRole').value.trim();
+  if(!company || !role){ showToast('Please fill in company and role'); return; }
+  if(!rvStarRating){ showToast('Please set an overall rating'); return; }
+  var review = {
+    id: Date.now(), company: company,
+    location: el('rvLocation').value.trim() || 'Remote',
+    rating: rvStarRating,
+    scores: {
+      management: parseFloat(el('slMgt').value),
+      salary: parseFloat(el('slSal').value),
+      remote: parseFloat(el('slRem').value),
+      wlb: parseFloat(el('slWlb').value),
+      growth: parseFloat(el('slGrw').value),
+    },
+    pros: el('rvPros').value.trim() || 'No comment provided.',
+    cons: el('rvCons').value.trim() || 'No comment provided.',
+    role: role, tenure: 'Current employee',
+    date: new Date().toLocaleDateString('en-US',{month:'short',year:'numeric'}),
+    recommended: el('rvRecommend').checked,
+    anonymous: true,
+  };
+  COMPANY_REVIEWS.unshift(review);
+  closeWriteReview();
+  showToast('🏢 Review submitted — thank you!');
+  if(el('pageReviews').classList.contains('active')){ initReviews(); }
+}
+
 // ═══ EVENTS ═══
 el('authModal').addEventListener('click',function(e){if(e.target.id==='authModal')closeAuth();});
 el('postModal').addEventListener('click',function(e){if(e.target.id==='postModal')closePostModal();});
@@ -1683,8 +2092,9 @@ el('tplUseModal').addEventListener('click',function(e){if(e.target.id==='tplUseM
 el('profileModal').addEventListener('click',function(e){if(e.target.id==='profileModal')closeProfileModal();});
 el('buddyModal').addEventListener('click',function(e){if(e.target.id==='buddyModal')closeBuddyModal();});
 el('referralModal').addEventListener('click',function(e){if(e.target.id==='referralModal')closeReferralModal();});
+el('writeReviewModal').addEventListener('click',function(e){if(e.target.id==='writeReviewModal')closeWriteReview();});
 document.addEventListener('click',function(e){var w=el('userWrap');if(w&&!w.contains(e.target))el('userDD').classList.remove('open');});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeLB();closeAuth();closePostModal();closeProfileModal();closeBuddyModal();closeReferralModal();}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeLB();closeAuth();closePostModal();closeProfileModal();closeBuddyModal();closeReferralModal();closeWriteReview();}});
 
 // ═══ INIT ═══
 seedProfileBadges();
@@ -1703,6 +2113,7 @@ el('jokeText').textContent=JOKES[0];
 buildRoleFilter();
 buildTrending();
 buildFeed();
+initChallenge();
 setInterval(nextJoke,20000);
 setTimeout(function(){openAuth('signup');},700);
 </script>
