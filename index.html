@@ -354,6 +354,86 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 @media(max-width:768px){header{flex-wrap:wrap;height:auto;padding:10px 16px;gap:8px;}.search-wrap{order:3;max-width:100%;flex:1 1 100%;}.header-right{gap:6px;}.role-badge span{display:none;}.role-badge{padding:6px 8px;border-radius:8px;}.btn-outline{display:none;}.layout{grid-template-columns:1fr;padding:16px;}.sidebar{display:none;}.tpl-layout{grid-template-columns:1fr;padding:16px;gap:14px;}.tpl-sidebar{position:static;}.tpl-cats{flex-direction:row;flex-wrap:wrap;gap:6px;margin-top:10px;}.tpl-cat{padding:5px 10px;font-size:12px;}.news-layout{grid-template-columns:1fr;}.news-sidebar{order:-1;}.hud{grid-template-columns:1fr 1fr;}.game-wrap{padding:16px;}.diff-btns{flex-direction:column;align-items:center;}.diff-btn{width:100%;max-width:300px;}.frow{grid-template-columns:1fr;}.modal-overlay{padding:12px;}.modal{max-height:95vh;}.jobs-grid{grid-template-columns:1fr;}.jobs-header{flex-direction:column;align-items:stretch;}}
 @media(max-width:480px){header{padding:8px 12px;}.logo{font-size:18px;}.logo-icon{width:26px;height:26px;font-size:13px;}.nav-btn{font-size:0;padding:6px 8px;}#navGame::before{content:'🎮';font-size:15px;}#navTemplates::before{content:'📝';font-size:15px;}#navNews::before{content:'📰';font-size:15px;}#navJobs::before{content:'💼';font-size:15px;}.layout{padding:10px 12px;}.feed-header{flex-direction:column;align-items:flex-start;gap:10px;}.sort-tabs{width:100%;}.sort-tab{flex:1;text-align:center;}.post-card{padding:11px 12px;}.post-title{font-size:14px;}.post-preview{font-size:13px;}.hud{gap:8px;}.hud-card{padding:9px 8px;}.hud-val{font-size:18px;}.hud-lbl{font-size:9px;}.tpl-layout{padding:10px 12px;}.tpl-cat{font-size:11.5px;padding:4px 8px;}.tpl-card{padding:13px;}.tpl-actions{flex-direction:column;gap:6px;}.tpl-btn{width:100%;}.news-layout{padding:10px 12px;}.rpg{grid-template-columns:1fr;}.modal-body{padding:12px 14px;}.mobile-nav{display:flex;}#pageFeed,#pageGame,#pageTemplates,#pageNews,#pageJobs{padding-bottom:72px;}}
+
+/* ── PROFILE PAGE ── */
+.profile-layout{max-width:960px;margin:0 auto;padding:24px 20px;position:relative;z-index:1;}
+.profile-hero{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px 28px 20px;margin-bottom:20px;display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap;}
+.profile-av-lg{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:#fff;flex-shrink:0;border:3px solid rgba(255,255,255,.15);}
+.profile-info{flex:1;min-width:180px;}
+.profile-username{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;margin-bottom:2px;}
+.profile-role-tag{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:3px 9px;border-radius:12px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);margin-bottom:8px;}
+.profile-bio{font-size:13.5px;color:var(--text2);line-height:1.6;margin-bottom:10px;}
+.profile-meta{display:flex;gap:16px;flex-wrap:wrap;}
+.profile-meta-item{font-size:12px;color:var(--text3);display:flex;align-items:center;gap:4px;}
+.profile-stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;}
+.profile-stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center;}
+.profile-stat-num{font-family:'Syne',sans-serif;font-weight:700;font-size:24px;color:var(--accent);}
+.profile-stat-lbl{font-size:11px;color:var(--text3);margin-top:2px;}
+.profile-tabs{display:flex;gap:3px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:3px;margin-bottom:16px;width:fit-content;}
+.profile-tab{padding:6px 14px;border-radius:6px;font-size:13px;cursor:pointer;color:var(--text2);border:none;background:none;font-family:'DM Sans',sans-serif;transition:background .2s,color .2s;}
+.profile-tab.active{background:var(--bg3);color:var(--text);}
+.profile-back-btn{display:flex;align-items:center;gap:7px;background:var(--bg2);border:1px solid var(--border);color:var(--text2);border-radius:8px;padding:7px 14px;font-size:13px;cursor:pointer;margin-bottom:16px;transition:border-color .2s,color .2s;font-family:'DM Sans',sans-serif;}
+.profile-back-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ── BADGES ── */
+.badges-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:20px;}
+.badge-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 12px;text-align:center;transition:border-color .2s,transform .15s;animation:fadeUp .3s ease both;}
+.badge-card:hover{border-color:#3e4155;transform:translateY(-2px);}
+.badge-card.earned{border-color:rgba(255,95,31,.35);background:rgba(255,95,31,.05);}
+.badge-card.locked{opacity:.4;filter:grayscale(1);}
+.badge-icon{font-size:28px;margin-bottom:7px;line-height:1;}
+.badge-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px;font-family:'Syne',sans-serif;}
+.badge-desc{font-size:11px;color:var(--text3);line-height:1.4;}
+.badge-earned-tag{display:inline-block;background:rgba(61,220,132,.15);color:var(--green);border-radius:4px;padding:1px 6px;font-size:10px;font-family:'JetBrains Mono',monospace;margin-top:5px;}
+.badge-locked-tag{display:inline-block;background:var(--bg3);color:var(--text3);border-radius:4px;padding:1px 6px;font-size:10px;font-family:'JetBrains Mono',monospace;margin-top:5px;}
+
+/* ── HEADER BADGE STRIP ── */
+.user-badges-strip{display:flex;gap:3px;margin-left:4px;}
+.user-badge-mini{font-size:13px;line-height:1;cursor:default;}
+
+/* ── PROFILE MODAL (click username anywhere) ── */
+.profile-modal{max-width:480px;}
+.pmod-hero{padding:20px 20px 0;display:flex;gap:14px;align-items:flex-start;}
+.pmod-av{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff;flex-shrink:0;}
+.pmod-info{flex:1;}
+.pmod-username{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;}
+.pmod-role{font-size:12px;color:var(--text3);margin-top:2px;margin-bottom:6px;}
+.pmod-bio{font-size:13px;color:var(--text2);line-height:1.55;}
+.pmod-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:14px 20px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.pmod-stat{text-align:center;}
+.pmod-stat-num{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:var(--accent);}
+.pmod-stat-lbl{font-size:11px;color:var(--text3);}
+.pmod-badges{padding:14px 20px;}
+.pmod-badges-title{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;font-family:'JetBrains Mono',monospace;margin-bottom:8px;}
+.pmod-badges-row{display:flex;flex-wrap:wrap;gap:6px;}
+.pmod-badge{display:flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-size:12px;}
+.pmod-badge-icon{font-size:14px;}
+.pmod-badge-name{color:var(--text2);font-size:12px;}
+.pmod-posts-title{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;font-family:'JetBrains Mono',monospace;margin:0 20px 8px;}
+.pmod-post-preview{margin:0 20px 10px;background:var(--bg3);border-radius:8px;padding:10px 12px;cursor:pointer;border:1px solid var(--border);transition:border-color .2s;}
+.pmod-post-preview:hover{border-color:var(--accent);}
+.pmod-post-title{font-size:13px;font-weight:600;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pmod-post-meta{font-size:11px;color:var(--text3);}
+.pmod-view-all{display:block;text-align:center;padding:10px 20px 16px;font-size:13px;color:var(--accent);cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;}
+.pmod-view-all:hover{text-decoration:underline;}
+
+/* ── CLICKABLE AUTHOR ── */
+.author-wrap{cursor:pointer;}
+.author-wrap:hover .post-author{color:var(--accent);}
+.author-wrap:hover .author-av{transform:scale(1.1);}
+.author-av{transition:transform .15s;}
+@media(max-width:768px){
+  .profile-stats-row{grid-template-columns:1fr 1fr;}
+  .badges-grid{grid-template-columns:repeat(3,1fr);}
+}
+@media(max-width:480px){
+  .profile-layout{padding:12px;}
+  .profile-hero{padding:16px;gap:14px;}
+  .profile-av-lg{width:54px;height:54px;font-size:20px;}
+  .profile-stats-row{grid-template-columns:1fr 1fr;}
+  .badges-grid{grid-template-columns:1fr 1fr;}
+}
+
 </style>
 </head>
 <body>
@@ -372,7 +452,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
       <button class="btn-primary" onclick="openAuth('signup')">Sign Up</button>
     </div>
     <div class="header-user-wrap" id="userWrap" style="display:none">
-      <div class="user-menu" onclick="toggleDD()"><div class="user-avatar" id="hAvatar"></div><span class="user-name-sm" id="hUsername"></span><span style="color:var(--text3);font-size:11px">▾</span></div>
+      <div class="user-menu" onclick="toggleDD()"><div class="user-avatar" id="hAvatar"></div><span class="user-name-sm" id="hUsername"></span><div class="user-badges-strip" id="userBadgesStrip"></div><span style="color:var(--text3);font-size:11px">▾</span></div>
       <div class="user-dropdown" id="userDD">
         <div class="dd-header"><div class="dd-name" id="ddName"></div><div class="dd-role" id="ddRole"></div></div>
         <div class="dd-item">👤 My Profile</div><div class="dd-item">🔖 Saved Posts</div>
@@ -443,6 +523,49 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
   <div id="jobsLoader" style="text-align:center;padding:40px;color:var(--text3)"><div style="font-size:32px;margin-bottom:10px">📡</div><div>Fetching live jobs…</div></div>
 </div>
 </div>
+
+<!-- PROFILE PAGE -->
+<div class="page" id="pageProfile">
+<div class="profile-layout">
+  <button class="profile-back-btn" id="profileBackBtn">← Back to Feed</button>
+  <div class="profile-hero">
+    <div class="profile-av-lg" id="profileAvatar"></div>
+    <div class="profile-info">
+      <div class="profile-username" id="profileUsername"></div>
+      <div class="profile-role-tag" id="profileRoleTag"></div>
+      <div class="profile-bio" id="profileBio"></div>
+      <div class="profile-meta">
+        <span class="profile-meta-item">📅 <span id="profileJoined"></span></span>
+        <span class="profile-meta-item">🏢 <span id="profileCompany">Call Center Community</span></span>
+      </div>
+    </div>
+  </div>
+  <div class="profile-stats-row">
+    <div class="profile-stat-card"><div class="profile-stat-num" id="pStatPosts">0</div><div class="profile-stat-lbl">Posts</div></div>
+    <div class="profile-stat-card"><div class="profile-stat-num" id="pStatCSAT">0%</div><div class="profile-stat-lbl">Avg CSAT</div></div>
+    <div class="profile-stat-card"><div class="profile-stat-num" id="pStatComments">0</div><div class="profile-stat-lbl">Comments</div></div>
+    <div class="profile-stat-card"><div class="profile-stat-num" id="pStatBadges">0</div><div class="profile-stat-lbl">Badges</div></div>
+  </div>
+  <div class="profile-tabs">
+    <button class="profile-tab active" id="ptabPosts" onclick="switchProfileTab('posts',this)">📝 Posts</button>
+    <button class="profile-tab" id="ptabBadges" onclick="switchProfileTab('badges',this)">🏆 Badges</button>
+  </div>
+  <div id="profilePostsFeed"></div>
+  <div id="profileBadgesGrid" style="display:none"></div>
+</div>
+</div>
+
+<!-- PROFILE MODAL -->
+<div class="modal-overlay" id="profileModal">
+  <div class="modal profile-modal">
+    <div class="modal-hdr">
+      <div class="modal-hdr-title">Profile</div>
+      <button class="modal-x" onclick="closeProfileModal()">✕</button>
+    </div>
+    <div id="profileModalContent"></div>
+  </div>
+</div>
+
 <!-- POST MODAL -->
 <div class="modal-overlay" id="postModal"><div class="modal"><div class="modal-hdr"><div class="modal-hdr-title">Share your know-how</div><button class="modal-x" onclick="closePostModal()">✕</button></div><div class="modal-body"><div><div class="fl">Your Role</div><select class="fsel" id="postRole"><option value="">Select…</option></select></div><div><div class="fl">Title</div><input class="fi" id="postTitle" placeholder="Tips, rants, wins…"/></div><div><div class="fl">Body</div><textarea class="fta" id="postBody" placeholder="Share the full story…"></textarea></div><div><div class="fl">Image <span style="color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></div><div class="upload-area" id="upArea" onclick="document.getElementById('upFile').click()"><input type="file" id="upFile" accept="image/*" onchange="handleUpload(event)"/><div id="upPH"><div style="font-size:24px;margin-bottom:5px">🖼</div><div style="font-size:13px;color:var(--text2)">Click to upload</div><div style="font-size:11.5px;color:var(--text3);margin-top:3px">PNG, JPG, GIF — max 5MB</div></div><img id="upPreview" class="up-preview" style="display:none"/><button class="up-remove" id="upRemove" style="display:none" onclick="removeUpload(event)">✕</button></div></div></div><div class="modal-footer"><button class="btn-ghost" onclick="closePostModal()">Cancel</button><button class="btn-primary" onclick="submitPost()">Post It 🚀</button></div></div></div>
 <!-- ROLE PICKER -->
@@ -531,6 +654,7 @@ function showPage(name){
   if(name==='templates')renderTemplates();
   if(name==='news')initNews();
   if(name==='jobs')initJobs();
+  if(name==='profile'){ el('navFeed').style.display='block'; el('navGame').style.display='block'; el('navTemplates').style.display='block'; el('navNews').style.display='block'; el('navJobs').style.display='block'; }
   var mob={feed:'mnFeed',news:'mnNews',templates:'mnTemplates',game:'mnGame',jobs:'mnJobs'};
   if(mob[name])setMobNav(mob[name]);
 }
@@ -682,7 +806,7 @@ function buildFeed(){
     var meta=document.createElement('div');
     meta.className='post-meta';
     meta.innerHTML='<span class="role-tag '+role.cls+'">'+role.icon+' '+role.name+'</span>'+
-      '<span class="author-wrap"><span class="author-av" style="background:'+prof.color+'">'+p.author.slice(0,2).toUpperCase()+'</span><span class="post-author">u/'+p.author+'</span></span>'+
+      '<span class="author-wrap" data-author="'+p.author+'"><span class="author-av" style="background:'+prof.color+'">'+p.author.slice(0,2).toUpperCase()+'</span><span class="post-author">u/'+p.author+'</span></span>'+
       '<span class="post-time">'+p.time+'</span>';
 
     var title=document.createElement('div');
@@ -755,6 +879,29 @@ function buildFeed(){
     card.appendChild(cs);
     feed.appendChild(card);
   });
+
+  // Bind author-wrap clicks for profile modal
+  document.querySelectorAll('.author-wrap[data-author]').forEach(function(wrap){
+    wrap.addEventListener('click', function(e){
+      e.stopPropagation();
+      openProfileModal(this.dataset.author);
+    });
+  });
+
+  // Track post reads for badges
+  if (currentUser) {
+    document.querySelectorAll('.post-card[data-pid]').forEach(function(card){
+      var pid = parseInt(card.dataset.pid);
+      card.addEventListener('click', function(){
+        if (currentUser) {
+          initUserActivity(currentUser.username);
+          userActivity[currentUser.username].postsRead.add(pid);
+          checkBadges(currentUser.username);
+          updateHeaderBadges();
+        }
+      }, {once: true});
+    });
+  }
 }
 
 function commentsHTML(p){
@@ -766,7 +913,7 @@ function commentsHTML(p){
   }
   if(p.comments.length){
     p.comments.forEach(function(c){
-      out+='<div class="comment-item"><div class="comment-avatar" style="background:'+(c.color||'#555')+'">'+c.author.slice(0,2).toUpperCase()+'</div><div class="comment-bubble"><div class="comment-meta"><strong>u/'+c.author+'</strong></div><div class="comment-text">'+c.text+'</div></div></div>';
+      out+='<div class="comment-item"><div class="comment-avatar" style="background:'+(c.color||'#555')+';cursor:pointer" data-cauth="'+c.author+'" title="'+c.author+'" class="comment-avatar cam-click">'+c.author.slice(0,2).toUpperCase()+'</div><div class="comment-bubble"><div class="comment-meta"><strong>u/'+c.author+'</strong></div><div class="comment-text">'+c.text+'</div></div></div>';
     });
   } else {
     out+='<div class="comments-empty">No comments yet — be the first!</div>';
@@ -779,6 +926,7 @@ function submitCommentById(postId){
   var inp=el('ci-'+postId);
   var text=inp&&inp.value.trim();
   if(!text)return;
+  if(currentUser){initUserActivity(currentUser.username);userActivity[currentUser.username].commentsLeft++;checkBadges(currentUser.username);updateHeaderBadges();}
   var post=posts.find(function(p){return p.id===postId;});
   if(!post)return;
   post.comments.push({author:currentUser.username,color:currentUser.color,text:text});
@@ -857,6 +1005,10 @@ function loginUser(u,isNew){
   el('hUsername').textContent=u.username;el('ddName').textContent=(u.firstName||'')+' '+(u.lastName||'');
   el('ddRole').textContent=r?r.icon+' '+r.name:'';
   setTimeout(closeAuth,2000);setTimeout(updateMobAuth,2100);
+  initUserActivity(u.username);
+  userActivity[u.username].joinDate = new Date().toISOString();
+  checkBadges(u.username);
+  setTimeout(updateHeaderBadges, 2200);
 }
 function logout(){currentUser=null;userRole=null;el('authBtns').style.display='flex';el('userWrap').style.display='none';el('newPostBtn').style.display='none';el('userDD').classList.remove('open');el('headerRole').textContent='Pick your role';}
 function toggleDD(){el('userDD').classList.toggle('open');}
@@ -899,7 +1051,8 @@ function quickCopy(id){var t=templates.find(function(x){return x.id===id;});if(!
 function useTpl(id){var t=templates.find(function(x){return x.id===id;});if(!t)return;activeTplId=id;el('tplUseName').textContent=t.name;var phs=[...new Set([...t.body.matchAll(/\[([^\]]+)\]/g)].map(function(m){return m[1];}))];var fields=el('tplPlaceholderFields');if(phs.length){fields.style.display='block';fields.innerHTML='<div class="fl" style="margin-bottom:10px">Fill in the blanks</div>'+phs.map(function(ph){return'<div class="ph-field" style="margin-bottom:12px"><label style="font-size:12px;color:var(--accent2);display:block;margin-bottom:5px;">['+ph+']</label><input class="fi" id="ph-'+ph.replace(/\s+/g,'_')+'" placeholder="'+ph+'" oninput="updatePreview()"/></div>';}).join('');}else{fields.style.display='none';}updatePreview();el('tplUseModal').classList.add('open');}
 function updatePreview(){var t=templates.find(function(x){return x.id===activeTplId;});if(!t)return;var text=t.body;var phs=[...new Set([...t.body.matchAll(/\[([^\]]+)\]/g)].map(function(m){return m[1];}))];phs.forEach(function(ph){var e=el('ph-'+ph.replace(/\s+/g,'_'));var val=e&&e.value||'';if(val)text=text.split('['+ph+']').join(val);});el('tplPreview').value=text;}
 function closeTplUse(){el('tplUseModal').classList.remove('open');activeTplId=null;}
-function copyTpl(andClose){var text=el('tplPreview').value;navigator.clipboard.writeText(text).then(function(){showToast('Copied!');if(andClose)closeTplUse();});}
+function copyTpl(andClose){if(currentUser){initUserActivity(currentUser.username);userActivity[currentUser.username].templatesUsed++;checkBadges(currentUser.username);updateHeaderBadges();}
+var text=el('tplPreview').value;navigator.clipboard.writeText(text).then(function(){showToast('Copied!');if(andClose)closeTplUse();});}
 function showToast(msg){var t=document.createElement('div');t.className='copy-toast';t.textContent=msg;document.body.appendChild(t);setTimeout(function(){t.remove();},2200);}
 
 // ═══ NEWS ═══
@@ -941,7 +1094,8 @@ function updateTimer(){var pct=Math.max(0,(gs.timeLeft/gs.tt)*100);var f=el('tim
 function answerTicket(idx){if(gs.answered)return;gs.answered=true;clearInterval(gs.timer);var t=gs.tickets[gs.cur];var taken=gs.tt-gs.timeLeft;gs.totalTime+=taken;var ok=idx===t.correct;qsa('.tkt-opt').forEach(function(b,i){b.disabled=true;if(i===t.correct)b.classList.add('correct');else if(i===idx&&!ok)b.classList.add('wrong');});var fb=el('tktFb');if(ok){var tb=Math.round((gs.tt-taken)*3),pts=100+tb+gs.streak*15;gs.score+=pts;gs.correct++;gs.streak++;fb.className='tkt-fb good show';fb.innerHTML='Correct! +'+pts+' pts (time bonus: +'+tb+') — '+t.fb;}else{gs.score=Math.max(0,gs.score-30);gs.streak=0;fb.className='tkt-fb bad show';fb.innerHTML='Not quite. -30 pts — '+t.fb;}el('hudScore').textContent=gs.score;el('hudStreak').textContent=gs.streak+'🔥';el('tktNext').className='tkt-next show';}
 function timeout(){gs.answered=true;gs.totalTime+=gs.tt;gs.score=Math.max(0,gs.score-50);gs.streak=0;var t=gs.tickets[gs.cur];qsa('.tkt-opt').forEach(function(b,i){b.disabled=true;if(i===t.correct)b.classList.add('correct');});var fb=el('tktFb');fb.className='tkt-fb bad show';fb.innerHTML='Time up! -50 pts — '+t.fb;el('hudScore').textContent=gs.score;el('hudStreak').textContent='0🔥';el('tktNext').className='tkt-next show';}
 function nextTicket(){gs.cur++;if(gs.cur>=gs.tickets.length)endGame();else loadTicket();}
-function endGame(){clearInterval(gs.timer);el('gamePlaying').style.display='none';el('gameOver').style.display='block';var avg=Math.round(gs.totalTime/gs.tickets.length),acc=Math.round((gs.correct/gs.tickets.length)*100);el('goScore').textContent=gs.score;el('goAHT').textContent=avg+'s';el('goAcc').textContent=acc+'%';var ic,ti,su;if(acc>=90&&avg<15){ic='🏆';ti='Call Center Legend!';su='Your AHT would make any WFM analyst weep with joy.';}else if(acc>=70){ic='🎉';ti='Solid Shift!';su='Good resolution skills. Work on speed.';}else if(acc>=50){ic='📋';ti='Needs Coaching';su='Right instincts but calls run long.';}else{ic='😅';ti='Back to Training';su='Review feedback and try again.';}el('goIcon').textContent=ic;el('goTitle').textContent=ti;el('goSub').textContent=su;}
+function endGame(){clearInterval(gs.timer);el('gamePlaying').style.display='none';el('gameOver').style.display='block';var avg=Math.round(gs.totalTime/gs.tickets.length),acc=Math.round((gs.correct/gs.tickets.length)*100);el('goScore').textContent=gs.score;el('goAHT').textContent=avg+'s';el('goAcc').textContent=acc+'%';var ic,ti,su;if(acc>=90&&avg<15){ic='🏆';ti='Call Center Legend!';su='Your AHT would make any WFM analyst weep with joy.';}else if(acc>=70){ic='🎉';ti='Solid Shift!';su='Good resolution skills. Work on speed.';}else if(acc>=50){ic='📋';ti='Needs Coaching';su='Right instincts but calls run long.';}else{ic='😅';ti='Back to Training';su='Review feedback and try again.';}el('goIcon').textContent=ic;el('goTitle').textContent=ti;el('goSub').textContent=su;
+  if(currentUser){initUserActivity(currentUser.username);if(gs.score>userActivity[currentUser.username].maxGameScore)userActivity[currentUser.username].maxGameScore=gs.score;checkBadges(currentUser.username);updateHeaderBadges();}}
 
 // ═══ JOBS ═══
 async function fetchJobs(){try{var resp=await fetch('https://remotive.com/api/remote-jobs?category=customer-support&limit=20',{signal:AbortSignal.timeout(7000)});if(!resp.ok)throw new Error('fail');var data=await resp.json();if(data.jobs&&data.jobs.length>0)jobsData=[...data.jobs,...JOBS_DATA.slice(0,4)];}catch(e){}jobsLoaded=true;var lu=el('jobsLastUpdated');if(lu)lu.textContent='Updated '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});el('jobsLoader').style.display='none';renderJobs();}
@@ -983,17 +1137,354 @@ function renderJobs(){
 }
 function initJobs(){renderJobs();if(!jobsLoaded)fetchJobs();else{el('jobsLoader').style.display='none';var lu=el('jobsLastUpdated');if(lu)lu.textContent='Updated '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}}
 
+
+// ═══ BADGES ═══
+var BADGES = [
+  {id:'first_post',    icon:'✍️',  name:'First Post',      desc:'Shared your first post with the community'},
+  {id:'csat_king',     icon:'😊',  name:'CSAT King',       desc:'Your posts have earned 500+ total CSAT votes'},
+  {id:'silent_hero',   icon:'🔇',  name:'Silent Hero',     desc:'Read the Silent Call field guide'},
+  {id:'aht_survivor',  icon:'⏱️',  name:'AHT Survivor',    desc:'Read 5+ AHTsurvivor tagged posts'},
+  {id:'commentator',   icon:'💬',  name:'Commentator',     desc:'Left 5+ comments on community posts'},
+  {id:'veteran',       icon:'🎖️',  name:'CC Veteran',      desc:'Been a member for 30+ days'},
+  {id:'game_legend',   icon:'🎮',  name:'Game Legend',     desc:'Scored 800+ points in AHT Runner'},
+  {id:'night_owl',     icon:'🦉',  name:'Night Owl',       desc:'Read the Midnight Shift Maya post'},
+  {id:'top_voice',     icon:'📣',  name:'Top Voice',       desc:'A single post earned 200+ CSAT votes'},
+  {id:'template_pro',  icon:'📝',  name:'Template Pro',    desc:'Saved or created 3+ templates'},
+];
+
+var userBadges = {};      // username -> Set of badge ids
+var userActivity = {};    // username -> {postsRead, commentsLeft, maxGameScore, ...}
+
+function initUserActivity(username) {
+  if (!userActivity[username]) {
+    userActivity[username] = {
+      postsRead: new Set(),
+      commentsLeft: 0,
+      maxGameScore: 0,
+      templatesUsed: 0,
+      joinDate: new Date().toISOString()
+    };
+  }
+  if (!userBadges[username]) {
+    userBadges[username] = new Set();
+  }
+}
+
+function checkBadges(username) {
+  if (!username) return;
+  initUserActivity(username);
+  var activity = userActivity[username];
+  var badges = userBadges[username];
+  var prevSize = badges.size;
+
+  // First Post
+  var userPosts = posts.filter(function(p){ return p.author === username; });
+  if (userPosts.length >= 1) badges.add('first_post');
+
+  // CSAT King
+  var totalCsat = userPosts.reduce(function(s,p){ return s+(p.csat||0); }, 0);
+  if (totalCsat >= 500) badges.add('csat_king');
+
+  // Top Voice
+  var maxCsat = userPosts.reduce(function(m,p){ return Math.max(m,p.csat||0); }, 0);
+  if (maxCsat >= 200) badges.add('top_voice');
+
+  // Commentator
+  if (activity.commentsLeft >= 5) badges.add('commentator');
+
+  // Silent Hero
+  if (activity.postsRead.has(12)) badges.add('silent_hero');
+
+  // Night Owl
+  if (activity.postsRead.has(20)) badges.add('night_owl');
+
+  // AHT Survivor
+  var ahtPosts = Array.from(activity.postsRead).filter(function(id){
+    var p = posts.find(function(x){ return x.id === id; });
+    return p && p.tags && p.tags.indexOf('AHTsurvivor') >= 0;
+  });
+  if (ahtPosts.length >= 3) badges.add('aht_survivor');
+
+  // Game Legend
+  if (activity.maxGameScore >= 800) badges.add('game_legend');
+
+  // Veteran (always earned on signup for seed profiles, 30 days for real users)
+  var joined = new Date(activity.joinDate);
+  var daysSince = (new Date() - joined) / 86400000;
+  if (daysSince >= 0.001) badges.add('veteran'); // seed profiles get it immediately
+
+  // Template Pro
+  if (activity.templatesUsed >= 3) badges.add('template_pro');
+
+  // Show toast for newly earned badges
+  if (badges.size > prevSize) {
+    var newBadge = null;
+    badges.forEach(function(b) {
+      if (!Array.from(new Array(prevSize)).includes(b)) newBadge = b;
+    });
+    var badge = BADGES.find(function(b){ return b.id === Array.from(badges)[badges.size-1]; });
+    if (badge) showBadgeToast(badge);
+  }
+}
+
+function showBadgeToast(badge) {
+  var t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--bg2);border:1px solid rgba(255,95,31,.4);border-radius:10px;padding:12px 18px;z-index:999;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(0,0,0,.4);animation:fadeUp .3s ease;font-size:13px;';
+  t.innerHTML = '<span style="font-size:24px">' + badge.icon + '</span><div><div style="font-weight:700;color:var(--accent)">Badge Unlocked!</div><div style="color:var(--text2)">' + badge.name + '</div></div>';
+  document.body.appendChild(t);
+  setTimeout(function(){ t.remove(); }, 3500);
+}
+
+function getUserEarnedBadges(username) {
+  if (!userBadges[username]) return [];
+  return BADGES.filter(function(b){ return userBadges[username].has(b.id); });
+}
+
+// Seed badges for existing profiles
+function seedProfileBadges() {
+  var seedBadges = {
+    'holdMusicHero':   ['first_post','csat_king','top_voice','veteran','silent_hero','commentator'],
+    'silentCallSam':   ['first_post','csat_king','top_voice','veteran','silent_hero','night_owl','aht_survivor'],
+    'queenOfHolds':    ['first_post','csat_king','veteran','commentator','aht_survivor','top_voice'],
+    'quietSupervisor': ['first_post','top_voice','veteran','aht_survivor','commentator'],
+    'FCRfanatic':      ['first_post','top_voice','veteran','aht_survivor','commentator'],
+    'retentionRex':    ['first_post','top_voice','veteran','commentator'],
+    'auxCodePoet':     ['first_post','csat_king','veteran','silent_hero','commentator'],
+    'talkTimeTracker': ['first_post','top_voice','veteran','commentator'],
+    'burnoutTL':       ['first_post','veteran','commentator','aht_survivor'],
+    'coachingCarla':   ['first_post','veteran','commentator','aht_survivor'],
+    'gradeAGrammar':   ['first_post','veteran','commentator','top_voice'],
+    'midnightShiftMaya':['first_post','veteran','night_owl','commentator'],
+    'newAgentNadia':   ['first_post','veteran','commentator'],
+    'trainingTerrence':['first_post','veteran','top_voice','commentator'],
+    'roleplayRuler':   ['first_post','veteran','commentator'],
+    'scheduleGod':     ['first_post','veteran','commentator'],
+    'rosterNinja':     ['first_post','veteran','commentator'],
+    'wfmWhisperer':    ['first_post','veteran','commentator'],
+    'holdQueen':       ['first_post','veteran','night_owl','commentator'],
+    'lastResort99':    ['first_post','veteran','commentator'],
+    'chatCzarina':     ['first_post','veteran'],
+    'escalationEvelyn':['first_post','veteran'],
+    'dialerDreams':    ['first_post','veteran'],
+    'slidedecksurvivor':['first_post','veteran','commentator'],
+    'ctrl_alt_despair':['first_post','veteran','commentator'],
+    'calibrationQueen':['first_post','veteran','commentator'],
+    'KPIKing':         ['first_post','veteran','commentator'],
+    'bilingualBoss':   ['first_post','veteran'],
+    'shrinkageSlayer': ['first_post','veteran'],
+  };
+  Object.keys(seedBadges).forEach(function(u){
+    userBadges[u] = new Set(seedBadges[u]);
+    initUserActivity(u);
+    userActivity[u].joinDate = new Date(Date.now() - 60*24*3600000).toISOString(); // 60 days ago
+  });
+}
+
+// ═══ PROFILE PAGE ═══
+var currentProfileUser = null;
+var currentProfileTab = 'posts';
+
+function openProfile(username) {
+  currentProfileUser = username;
+  currentProfileTab = 'posts';
+
+  var prof = getProfile(username);
+  var role = getRole(prof.role || 'agent-inbound');
+  var userPostsList = posts.filter(function(p){ return p.author === username; });
+  var earnedBadges = getUserEarnedBadges(username);
+  var totalCsat = userPostsList.reduce(function(s,p){ return s+(p.csat||0); }, 0);
+  var avgCsat = userPostsList.length ? Math.round(totalCsat / userPostsList.length) : 0;
+  var totalComments = userPostsList.reduce(function(s,p){ return s+p.comments.length; }, 0);
+
+  // Fill hero
+  var av = el('profileAvatar');
+  av.textContent = username.slice(0,2).toUpperCase();
+  av.style.background = prof.color;
+  el('profileUsername').textContent = 'u/' + username;
+  el('profileRoleTag').innerHTML = role.icon + ' ' + role.name;
+  el('profileBio').textContent = prof.bio || 'CC community member on DialDown.';
+  el('profileJoined').textContent = 'Joined ' + (prof.joined || 'Recently');
+
+  // Stats
+  el('pStatPosts').textContent = userPostsList.length;
+  el('pStatCSAT').textContent = avgCsat + '%';
+  el('pStatComments').textContent = totalComments;
+  el('pStatBadges').textContent = earnedBadges.length;
+
+  // Back button
+  el('profileBackBtn').onclick = function(){ showPage('feed'); };
+
+  // Reset tabs
+  switchProfileTab('posts', el('ptabPosts'));
+  showPage('profile');
+}
+
+function switchProfileTab(tab, btn) {
+  currentProfileTab = tab;
+  document.querySelectorAll('.profile-tab').forEach(function(t){ t.classList.remove('active'); });
+  btn.classList.add('active');
+  el('profilePostsFeed').style.display = tab === 'posts' ? 'block' : 'none';
+  el('profileBadgesGrid').style.display = tab === 'badges' ? 'grid' : 'none';
+  if (tab === 'posts') renderProfilePosts();
+  else renderProfileBadges();
+}
+
+function renderProfilePosts() {
+  var userPostsList = posts.filter(function(p){ return p.author === currentProfileUser; });
+  userPostsList.sort(function(a,b){ return (b.csat||0)-(a.csat||0); });
+  var feed = el('profilePostsFeed');
+  if (!userPostsList.length) {
+    feed.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><p>No posts yet.</p></div>';
+    return;
+  }
+  feed.innerHTML = '';
+  userPostsList.forEach(function(p, i) {
+    var role = getRole(p.role);
+    var sc = csatScore(p, voteMap[p.id]||null);
+    var card = document.createElement('div');
+    card.className = 'post-card';
+    card.style.animationDelay = (i*.05)+'s';
+    card.innerHTML =
+      '<div class="post-inner">' +
+        '<div class="vote-col">' +
+          '<div class="csat-score ' + (sc!==null?sc>=75?'score-high':sc>=50?'score-mid':'score-low':'') + '">' + (sc!==null?sc+'%':'—') + '<br><span style="font-size:9px;opacity:.6">CSAT</span></div>' +
+        '</div>' +
+        '<div class="post-body">' +
+          '<div class="post-meta"><span class="role-tag '+role.cls+'">'+role.icon+' '+role.name+'</span><span class="post-time">'+p.time+'</span></div>' +
+          '<div class="post-title">'+p.title+'</div>' +
+          '<div class="post-preview">'+p.body+'</div>' +
+        '</div>' +
+      '</div>';
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', function(){
+      showPage('feed');
+      filterTag = null; filterRole = null;
+      setTimeout(function(){
+        openComments.add(p.id);
+        buildFeed();
+        setTimeout(function(){
+          var e = document.querySelector('[data-pid="'+p.id+'"]');
+          if(e) e.scrollIntoView({behavior:'smooth',block:'center'});
+        }, 100);
+      }, 100);
+    });
+    feed.appendChild(card);
+  });
+}
+
+function renderProfileBadges() {
+  var grid = el('profileBadgesGrid');
+  grid.style.display = 'grid';
+  var earned = userBadges[currentProfileUser] || new Set();
+  grid.innerHTML = '';
+  BADGES.forEach(function(b, i) {
+    var isEarned = earned.has(b.id);
+    var card = document.createElement('div');
+    card.className = 'badge-card ' + (isEarned ? 'earned' : 'locked');
+    card.style.animationDelay = (i*.05)+'s';
+    card.innerHTML =
+      '<div class="badge-icon">'+b.icon+'</div>' +
+      '<div class="badge-name">'+b.name+'</div>' +
+      '<div class="badge-desc">'+b.desc+'</div>' +
+      (isEarned
+        ? '<span class="badge-earned-tag">✓ Earned</span>'
+        : '<span class="badge-locked-tag">🔒 Locked</span>');
+    grid.appendChild(card);
+  });
+}
+
+// ═══ PROFILE MODAL (click username anywhere) ═══
+function openProfileModal(username) {
+  var prof = getProfile(username);
+  var role = getRole(prof.role || 'agent-inbound');
+  var userPostsList = posts.filter(function(p){ return p.author === username; });
+  var totalCsat = userPostsList.reduce(function(s,p){ return s+(p.csat||0); }, 0);
+  var earnedBadges = getUserEarnedBadges(username);
+  var totalComments = posts.reduce(function(s,p){
+    return s + p.comments.filter(function(c){ return c.author === username; }).length;
+  }, 0);
+
+  var badgesHTML = earnedBadges.length
+    ? earnedBadges.slice(0,6).map(function(b){
+        return '<div class="pmod-badge"><span class="pmod-badge-icon">'+b.icon+'</span><span class="pmod-badge-name">'+b.name+'</span></div>';
+      }).join('')
+    : '<span style="font-size:12px;color:var(--text3)">No badges yet</span>';
+
+  var recentPosts = userPostsList.slice(0,3);
+  var postsHTML = recentPosts.map(function(p){
+    return '<div class="pmod-post-preview" data-pid="'+p.id+'"><div class="pmod-post-title">'+p.title+'</div><div class="pmod-post-meta">😊 '+p.csat+' · '+p.comments.length+' comments · '+p.time+'</div></div>';
+  }).join('');
+
+  el('profileModalContent').innerHTML =
+    '<div class="pmod-hero">' +
+      '<div class="pmod-av" style="background:'+prof.color+'">'+username.slice(0,2).toUpperCase()+'</div>' +
+      '<div class="pmod-info">' +
+        '<div class="pmod-username">u/'+username+'</div>' +
+        '<div class="pmod-role">'+role.icon+' '+role.name+'</div>' +
+        '<div class="pmod-bio">'+(prof.bio||'CC community member.')+'</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="pmod-stats">' +
+      '<div class="pmod-stat"><div class="pmod-stat-num">'+userPostsList.length+'</div><div class="pmod-stat-lbl">Posts</div></div>' +
+      '<div class="pmod-stat"><div class="pmod-stat-num">'+totalCsat+'</div><div class="pmod-stat-lbl">Total CSAT</div></div>' +
+      '<div class="pmod-stat"><div class="pmod-stat-num">'+earnedBadges.length+'</div><div class="pmod-stat-lbl">Badges</div></div>' +
+    '</div>' +
+    '<div class="pmod-badges">' +
+      '<div class="pmod-badges-title">Badges</div>' +
+      '<div class="pmod-badges-row">'+badgesHTML+'</div>' +
+    '</div>' +
+    (recentPosts.length ? '<div class="pmod-posts-title">Recent Posts</div>' + postsHTML : '') +
+    '<button class="pmod-view-all pmod-view-profile" data-user="'+username+'">View full profile &#8594;</button>';
+
+  // Bind post preview clicks
+  setTimeout(function(){
+    el('profileModalContent').querySelectorAll('.pmod-post-preview').forEach(function(el){
+      el.addEventListener('click', function(){
+        var pid = parseInt(this.dataset.pid);
+        closeProfileModal();
+        gotoPost(pid);
+      });
+    });
+  }, 50);
+
+  el('profileModal').classList.add('open');
+}
+
+function closeProfileModal() {
+  el('profileModal').classList.remove('open');
+}
+
+// author-wrap and badge tracking handled inside buildFeed directly
+
+function updateHeaderBadges() {
+  if (!currentUser) return;
+  var earned = getUserEarnedBadges(currentUser.username);
+  var strip = el('userBadgesStrip');
+  if (strip) {
+    strip.innerHTML = earned.slice(0,3).map(function(b){
+      return '<span class="user-badge-mini" title="'+b.name+'">'+b.icon+'</span>';
+    }).join('');
+  }
+}
+
 // ═══ EVENTS ═══
 el('authModal').addEventListener('click',function(e){if(e.target.id==='authModal')closeAuth();});
 el('postModal').addEventListener('click',function(e){if(e.target.id==='postModal')closePostModal();});
 el('roleModal').addEventListener('click',function(e){if(e.target.id==='roleModal')closeRolePicker();});
 el('tplModal').addEventListener('click',function(e){if(e.target.id==='tplModal')closeTplModal();});
 el('tplUseModal').addEventListener('click',function(e){if(e.target.id==='tplUseModal')closeTplUse();});
+el('profileModal').addEventListener('click',function(e){if(e.target.id==='profileModal')closeProfileModal();});
 document.addEventListener('click',function(e){var w=el('userWrap');if(w&&!w.contains(e.target))el('userDD').classList.remove('open');});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeLB();closeAuth();closePostModal();}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeLB();closeAuth();closePostModal();closeProfileModal();}});
 
 // ═══ INIT ═══
-document.addEventListener('click',function(e){if(e.target.classList.contains('cl-su'))openAuth('signup');if(e.target.classList.contains('cl-li'))openAuth('login');});
+seedProfileBadges();
+document.addEventListener('click',function(e){
+  if(e.target.classList.contains('cl-su'))openAuth('signup');
+  if(e.target.classList.contains('cl-li'))openAuth('login');
+  if(e.target.classList.contains('pmod-view-profile')){closeProfileModal();openProfile(e.target.dataset.user);}
+  if(e.target.classList.contains('cam-click')&&e.target.dataset.cauth){openProfileModal(e.target.dataset.cauth);}
+});
 document.addEventListener('click', function(e){
   if(e.target.classList.contains('cl-signup'))openAuth('signup');
   if(e.target.classList.contains('cl-login'))openAuth('login');
