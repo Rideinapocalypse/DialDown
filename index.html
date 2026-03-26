@@ -374,7 +374,6 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .profile-tab.active{background:var(--bg3);color:var(--text);}
 .profile-back-btn{display:flex;align-items:center;gap:7px;background:var(--bg2);border:1px solid var(--border);color:var(--text2);border-radius:8px;padding:7px 14px;font-size:13px;cursor:pointer;margin-bottom:16px;transition:border-color .2s,color .2s;font-family:'DM Sans',sans-serif;}
 .profile-back-btn:hover{border-color:var(--accent);color:var(--accent);}
-
 /* ── BADGES ── */
 .badges-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:20px;}
 .badge-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 12px;text-align:center;transition:border-color .2s,transform .15s;animation:fadeUp .3s ease both;}
@@ -386,19 +385,18 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .badge-desc{font-size:11px;color:var(--text3);line-height:1.4;}
 .badge-earned-tag{display:inline-block;background:rgba(61,220,132,.15);color:var(--green);border-radius:4px;padding:1px 6px;font-size:10px;font-family:'JetBrains Mono',monospace;margin-top:5px;}
 .badge-locked-tag{display:inline-block;background:var(--bg3);color:var(--text3);border-radius:4px;padding:1px 6px;font-size:10px;font-family:'JetBrains Mono',monospace;margin-top:5px;}
-
-/* ── HEADER BADGE STRIP ── */
 .user-badges-strip{display:flex;gap:3px;margin-left:4px;}
 .user-badge-mini{font-size:13px;line-height:1;cursor:default;}
-
-/* ── PROFILE MODAL (click username anywhere) ── */
+/* ── PROFILE MODAL ── */
 .profile-modal{max-width:480px;}
 .pmod-hero{padding:20px 20px 0;display:flex;gap:14px;align-items:flex-start;}
 .pmod-av{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff;flex-shrink:0;}
 .pmod-info{flex:1;}
 .pmod-username{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;}
-.pmod-role{font-size:12px;color:var(--text3);margin-top:2px;margin-bottom:6px;}
-.pmod-bio{font-size:13px;color:var(--text2);line-height:1.55;}
+.pmod-role{font-size:12px;color:var(--text3);margin-top:2px;margin-bottom:5px;}
+.pmod-bio{font-size:13px;color:var(--text2);line-height:1.55;margin-bottom:6px;}
+.pmod-meta-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px;}
+.pmod-meta-chip{font-size:11px;color:var(--text3);background:var(--bg3);padding:2px 7px;border-radius:4px;}
 .pmod-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:14px 20px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
 .pmod-stat{text-align:center;}
 .pmod-stat-num{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:var(--accent);}
@@ -406,7 +404,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .pmod-badges{padding:14px 20px;}
 .pmod-badges-title{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;font-family:'JetBrains Mono',monospace;margin-bottom:8px;}
 .pmod-badges-row{display:flex;flex-wrap:wrap;gap:6px;}
-.pmod-badge{display:flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-size:12px;}
+.pmod-badge{display:flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 8px;}
 .pmod-badge-icon{font-size:14px;}
 .pmod-badge-name{color:var(--text2);font-size:12px;}
 .pmod-posts-title{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;font-family:'JetBrains Mono',monospace;margin:0 20px 8px;}
@@ -414,25 +412,23 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .pmod-post-preview:hover{border-color:var(--accent);}
 .pmod-post-title{font-size:13px;font-weight:600;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .pmod-post-meta{font-size:11px;color:var(--text3);}
-.pmod-view-all{display:block;text-align:center;padding:10px 20px 16px;font-size:13px;color:var(--accent);cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;}
+.pmod-view-all{display:block;text-align:center;padding:10px 20px 16px;font-size:13px;color:var(--accent);cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;width:100%;}
 .pmod-view-all:hover{text-decoration:underline;}
-
-/* ── CLICKABLE AUTHOR ── */
-.author-wrap{cursor:pointer;}
+/* ── AUTHOR HOVER ── */
+.author-wrap{cursor:pointer;position:relative;}
 .author-wrap:hover .post-author{color:var(--accent);}
-.author-wrap:hover .author-av{transform:scale(1.1);}
 .author-av{transition:transform .15s;}
-@media(max-width:768px){
-  .profile-stats-row{grid-template-columns:1fr 1fr;}
-  .badges-grid{grid-template-columns:repeat(3,1fr);}
-}
-@media(max-width:480px){
-  .profile-layout{padding:12px;}
-  .profile-hero{padding:16px;gap:14px;}
-  .profile-av-lg{width:54px;height:54px;font-size:20px;}
-  .profile-stats-row{grid-template-columns:1fr 1fr;}
-  .badges-grid{grid-template-columns:1fr 1fr;}
-}
+.author-wrap:hover .author-av{transform:scale(1.1);}
+.author-tooltip{display:none;position:absolute;top:calc(100% + 8px);left:0;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;min-width:220px;max-width:280px;z-index:150;box-shadow:0 8px 24px rgba(0,0,0,.4);pointer-events:none;animation:fadeUp .15s ease;}
+.author-wrap:hover .author-tooltip{display:block;}
+.att-name{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;margin-bottom:1px;}
+.att-role{font-size:11px;color:var(--text3);margin-bottom:5px;}
+.att-bio{font-size:12px;color:var(--text2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:5px;}
+.att-chips{display:flex;gap:5px;flex-wrap:wrap;}
+.att-chip{font-size:10.5px;color:var(--text3);background:var(--bg3);padding:1px 6px;border-radius:3px;}
+.att-hint{font-size:10.5px;color:var(--accent);margin-top:5px;}
+@media(max-width:768px){.profile-stats-row{grid-template-columns:1fr 1fr;}.badges-grid{grid-template-columns:repeat(3,1fr);}.author-tooltip{display:none!important;}}
+@media(max-width:480px){.profile-layout{padding:12px;}.profile-hero{padding:16px;gap:14px;}.profile-av-lg{width:54px;height:54px;font-size:20px;}.profile-stats-row{grid-template-columns:1fr 1fr;}.badges-grid{grid-template-columns:1fr 1fr;}}
 
 </style>
 </head>
@@ -527,7 +523,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 <!-- PROFILE PAGE -->
 <div class="page" id="pageProfile">
 <div class="profile-layout">
-  <button class="profile-back-btn" id="profileBackBtn">← Back to Feed</button>
+  <button class="profile-back-btn" id="profileBackBtn">&#8592; Back to Feed</button>
   <div class="profile-hero">
     <div class="profile-av-lg" id="profileAvatar"></div>
     <div class="profile-info">
@@ -535,8 +531,9 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
       <div class="profile-role-tag" id="profileRoleTag"></div>
       <div class="profile-bio" id="profileBio"></div>
       <div class="profile-meta">
-        <span class="profile-meta-item">📅 <span id="profileJoined"></span></span>
-        <span class="profile-meta-item">🏢 <span id="profileCompany">Call Center Community</span></span>
+        <span class="profile-meta-item">&#128197; <span id="profileJoined"></span></span>
+        <span class="profile-meta-item">&#128205; <span id="profileLocation"></span></span>
+        <span class="profile-meta-item">&#8987; <span id="profileTenure"></span></span>
       </div>
     </div>
   </div>
@@ -547,8 +544,8 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
     <div class="profile-stat-card"><div class="profile-stat-num" id="pStatBadges">0</div><div class="profile-stat-lbl">Badges</div></div>
   </div>
   <div class="profile-tabs">
-    <button class="profile-tab active" id="ptabPosts" onclick="switchProfileTab('posts',this)">📝 Posts</button>
-    <button class="profile-tab" id="ptabBadges" onclick="switchProfileTab('badges',this)">🏆 Badges</button>
+    <button class="profile-tab active" id="ptabPosts" onclick="switchProfileTab('posts',this)">&#128221; Posts</button>
+    <button class="profile-tab" id="ptabBadges" onclick="switchProfileTab('badges',this)">&#127942; Badges</button>
   </div>
   <div id="profilePostsFeed"></div>
   <div id="profileBadgesGrid" style="display:none"></div>
@@ -560,7 +557,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
   <div class="modal profile-modal">
     <div class="modal-hdr">
       <div class="modal-hdr-title">Profile</div>
-      <button class="modal-x" onclick="closeProfileModal()">✕</button>
+      <button class="modal-x" onclick="closeProfileModal()">&#10005;</button>
     </div>
     <div id="profileModalContent"></div>
   </div>
@@ -589,7 +586,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 <script>
 // ═══ DATA (JSON.parse — zero quote issues) ═══
 var SEED       = JSON.parse("[{\"id\": 1, \"role\": \"agent-inbound\", \"author\": \"queenOfHolds\", \"tags\": [\"AHTsurvivor\"], \"image\": \"https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80\", \"title\": \"My proven trick to de-escalate an irate customer in under 60 seconds\", \"body\": \"After 6 years of inbound I figured out one thing: let them finish. Fully. Do not interrupt. Most people just want to feel heard. Mirror their words back and they instantly calm down. Works 80 percent of the time.\", \"csat\": 287, \"dsat\": 14, \"time\": \"2h ago\", \"comments\": [{\"author\": \"burnoutTL\", \"color\": \"#a78bfa\", \"text\": \"Gold. I share this with every new agent.\"}, {\"author\": \"gradeAGrammar\", \"color\": \"#fbbf24\", \"text\": \"Mirroring is backed by neuroscience.\"}, {\"author\": \"FCRfanatic\", \"color\": \"#ff5f1f\", \"text\": \"Resolved properly once means no callback.\"}]}, {\"id\": 2, \"role\": \"qa\", \"author\": \"gradeAGrammar\", \"tags\": [\"QAfeedback\"], \"title\": \"Stop writing I understand your frustration \u2014 here is what scores better\", \"body\": \"That phrase reads as scripted. Try: That sounds genuinely stressful, let me look into this right now. Specificity beats sympathy cliches every single time.\", \"csat\": 251, \"dsat\": 8, \"time\": \"4h ago\", \"comments\": [{\"author\": \"roleplayRuler\", \"color\": \"#ff8c55\", \"text\": \"Banned this phrase on my floor. CSAT went up 0.3 points.\"}, {\"author\": \"quietSupervisor\", \"color\": \"#3ddc84\", \"text\": \"Customers want to feel like YOU specifically care, not a bot.\"}, {\"author\": \"calibrationQueen\", \"color\": \"#fbbf24\", \"text\": \"I mark this phrase in QA now. Coaching moment every time.\"}]}, {\"id\": 3, \"role\": \"wfm\", \"author\": \"scheduleGod\", \"tags\": [\"WFMwoes\"], \"image\": \"https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&q=80\", \"title\": \"How I built a shrinkage buffer that my TLs actually believe in\", \"body\": \"3 months tracking unplanned aux vs planned. Built an Excel model that shows the gap visually. Once leadership could SEE the data it went from overstaffing concerns to monthly requests.\", \"csat\": 178, \"dsat\": 6, \"time\": \"5h ago\", \"comments\": [{\"author\": \"wfmWhisperer\", \"color\": \"#a78bfa\", \"text\": \"Visual data moves people, numbers alone do not.\"}, {\"author\": \"shrinkageSlayer\", \"color\": \"#34d399\", \"text\": \"Added a rolling 13-week average. Changed the conversation.\"}]}, {\"id\": 4, \"role\": \"team-lead\", \"author\": \"burnoutTL\", \"tags\": [\"AHTsurvivor\", \"QAfeedback\"], \"title\": \"Agent with great CSAT but AHT through the roof \u2014 what do you do?\", \"body\": \"She gets 4.8 CSAT but her AHT is 2x the team average. Customers love her. Numbers hate her. Management is pressuring me. Anyone dealt with this?\", \"csat\": 142, \"dsat\": 5, \"time\": \"6h ago\", \"comments\": [{\"author\": \"quietSupervisor\", \"color\": \"#3ddc84\", \"text\": \"Coach her on wrap-up speed, not on caring less.\"}, {\"author\": \"queenOfHolds\", \"color\": \"#4f9eff\", \"text\": \"Got management to look at FCR alongside AHT. She had the lowest repeat call rate.\"}, {\"author\": \"FCRfanatic\", \"color\": \"#ff5f1f\", \"text\": \"First call resolution beats AHT. Always.\"}]}, {\"id\": 5, \"role\": \"trainer\", \"author\": \"slidedecksurvivor\", \"tags\": [\"ScriptKiller\"], \"image\": \"https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80\", \"title\": \"5 onboarding modules I ditched and what I replaced them with\", \"body\": \"3-day product dump is dead on arrival. Agents retain maybe 20 percent. Switched to scenario-based learning day 1 and live call listening day 2. Time to proficiency dropped by 11 days.\", \"csat\": 229, \"dsat\": 11, \"time\": \"8h ago\", \"comments\": [{\"author\": \"burnoutTL\", \"color\": \"#a78bfa\", \"text\": \"Night and day difference when agents hear real calls on day 2.\"}, {\"author\": \"coachingCarla\", \"color\": \"#34d399\", \"text\": \"Paired with weekly reflection journals. Retention went up.\"}]}, {\"id\": 6, \"role\": \"escalation\", \"author\": \"lastResort99\", \"tags\": [\"ScriptKiller\"], \"title\": \"The exact words I use when a customer demands a manager and there is no manager\", \"body\": \"I say: I am the specialist team your call was escalated to. Let me see what I can resolve for you today. Reframes it completely. 70 percent do not push further.\", \"csat\": 318, \"dsat\": 9, \"time\": \"10h ago\", \"comments\": [{\"author\": \"queenOfHolds\", \"color\": \"#4f9eff\", \"text\": \"The reframe is everything.\"}, {\"author\": \"escalationEvelyn\", \"color\": \"#f472b6\", \"text\": \"I add: I handle the most complex cases on our team.\"}]}, {\"id\": 7, \"role\": \"agent-outbound\", \"author\": \"dialerDreams\", \"tags\": [\"ScriptKiller\"], \"title\": \"Outbound warm-up script that gets past gatekeepers without lying\", \"body\": \"Do not trick them. I say: Hi, calling for first name only \u2014 is this a good time? Short, personal, professional. Gets through about 60 percent of gatekeepers.\", \"csat\": 162, \"dsat\": 18, \"time\": \"12h ago\", \"comments\": [{\"author\": \"bilingualBoss\", \"color\": \"#5dd6d6\", \"text\": \"Works even better in Spanish.\"}, {\"author\": \"retentionRex\", \"color\": \"#4f9eff\", \"text\": \"First name only implies a personal connection already exists.\"}]}, {\"id\": 8, \"role\": \"it-support\", \"author\": \"ctrl_alt_despair\", \"tags\": [\"SilentCalls\"], \"image\": \"https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800&q=80\", \"title\": \"CC-specific IT issues nobody documents \u2014 running thread\", \"body\": \"I solve the same 12 undocumented issues every month. Softphone audio cutting out on Windows 11 after sleep mode. Fix: disable USB selective suspend in power settings.\", \"csat\": 274, \"dsat\": 4, \"time\": \"1d ago\", \"comments\": [{\"author\": \"rosterNinja\", \"color\": \"#3ddc84\", \"text\": \"Dialer freezing on Chrome: clear cache AND disable hardware acceleration.\"}, {\"author\": \"wfmWhisperer\", \"color\": \"#a78bfa\", \"text\": \"Headset echo on Teams: set mic to Communications Device not Default.\"}]}, {\"id\": 9, \"role\": \"agent-inbound\", \"author\": \"holdQueen\", \"tags\": [\"HoldMusicPTSD\"], \"image\": \"https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800&q=80\", \"title\": \"I now hear our hold music in my dreams. This is not a metaphor.\", \"body\": \"Three years of Vivaldi on a 45-second loop. I hum it at the supermarket. My therapist says conditioned response. My supervisor says improve hold usage rate. Both are correct.\", \"csat\": 389, \"dsat\": 7, \"time\": \"1d ago\", \"comments\": [{\"author\": \"auxCodePoet\", \"color\": \"#4f9eff\", \"text\": \"Started humming ours in the shower. My partner was worried.\"}, {\"author\": \"newAgentNadia\", \"color\": \"#fb923c\", \"text\": \"3 weeks in and already humming it. Is this normal?\"}]}, {\"id\": 10, \"role\": \"wfm\", \"author\": \"rosterNinja\", \"tags\": [\"WFMwoes\"], \"title\": \"Why agents hate WFM and what we can actually do about it\", \"body\": \"WFM looks like a faceless machine that denies leave. I started monthly WFM explains itself sessions on the floor. Unplanned absences dropped 18 percent in 6 months.\", \"csat\": 208, \"dsat\": 22, \"time\": \"1d ago\", \"comments\": [{\"author\": \"shrinkageSlayer\", \"color\": \"#34d399\", \"text\": \"When agents understand WHY their break is at 10:15, they accept it.\"}, {\"author\": \"burnoutTL\", \"color\": \"#a78bfa\", \"text\": \"Brilliant concept. Borrowing immediately.\"}]}, {\"id\": 11, \"role\": \"qa\", \"author\": \"calibrationQueen\", \"tags\": [\"QAfeedback\"], \"image\": \"https://images.unsplash.com/photo-1606857521015-7f9fcf423740?w=800&q=80\", \"title\": \"Calibration sessions are broken \u2014 here is a 3-step fix\", \"body\": \"If your calibration sessions end with everyone still disagreeing, you do not have a process, you have a meeting. Here is the framework that closes scoring gaps within 4 weeks.\", \"csat\": 177, \"dsat\": 9, \"time\": \"2d ago\", \"comments\": [{\"author\": \"gradeAGrammar\", \"color\": \"#fbbf24\", \"text\": \"The pre-calibration blind score step is key.\"}]}, {\"id\": 12, \"role\": \"agent-inbound\", \"author\": \"auxCodePoet\", \"tags\": [\"SilentCalls\"], \"title\": \"The art of the completely silent call \u2014 a field guide\", \"body\": \"Silent calls are not always dead air. Sometimes it is someone in crisis. Protocol: announce yourself twice, stay on, say if you can hear me press any key. I have had 3 welfare checks begin this way.\", \"csat\": 544, \"dsat\": 3, \"time\": \"2d ago\", \"comments\": [{\"author\": \"queenOfHolds\", \"color\": \"#4f9eff\", \"text\": \"This should be in every new hire induction.\"}, {\"author\": \"silentCallSam\", \"color\": \"#4f9eff\", \"text\": \"3 times I have been on the other end of this. You never know who needs you to just stay.\"}, {\"author\": \"newAgentNadia\", \"color\": \"#fb923c\", \"text\": \"Nobody told me about this in training. Most important post I have read here.\"}]}, {\"id\": 13, \"role\": \"supervisor\", \"author\": \"quietSupervisor\", \"tags\": [\"AHTsurvivor\"], \"image\": \"https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=800&q=80\", \"title\": \"Stopped pushing AHT for 30 days. Here is the data.\", \"body\": \"Removed AHT from daily coaching for one full month. Focused on resolution quality and CSAT. Result: AHT dropped 4 percent. When agents are not rushing, they actually resolve things.\", \"csat\": 421, \"dsat\": 31, \"time\": \"2d ago\", \"comments\": [{\"author\": \"burnoutTL\", \"color\": \"#a78bfa\", \"text\": \"Every ops manager needs to read this.\"}, {\"author\": \"FCRfanatic\", \"color\": \"#ff5f1f\", \"text\": \"Solve it once. AHT takes care of itself.\"}, {\"author\": \"KPIKing\", \"color\": \"#3ddc84\", \"text\": \"Sharing with my ops director Monday.\"}]}, {\"id\": 14, \"role\": \"trainer\", \"author\": \"roleplayRuler\", \"tags\": [\"ScriptKiller\"], \"title\": \"Replaced our entire script with 7 principles. 6 months later.\", \"body\": \"Scripts are training wheels. My 7 principles: Empathy, Ownership, Clarity, Urgency, Resolution, Recap, Close. Agents internalize this in days. CSAT improved across the board.\", \"csat\": 298, \"dsat\": 19, \"time\": \"3d ago\", \"comments\": [{\"author\": \"coachingCarla\", \"color\": \"#34d399\", \"text\": \"Laminated these 7 on an index card for every new agent.\"}, {\"author\": \"slidedecksurvivor\", \"color\": \"#34d399\", \"text\": \"The principles approach changed my entire training philosophy.\"}]}, {\"id\": 15, \"role\": \"agent-inbound\", \"author\": \"holdMusicHero\", \"tags\": [\"HoldMusicPTSD\"], \"image\": \"https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80\", \"title\": \"Customer asked me to put on the music again. I nearly cried.\", \"body\": \"An older gentleman said the hold music reminded him of his late wife favourite composer. He asked to be put back on hold for a moment. I stayed at my desk just letting him listen.\", \"csat\": 871, \"dsat\": 2, \"time\": \"3d ago\", \"comments\": [{\"author\": \"queenOfHolds\", \"color\": \"#4f9eff\", \"text\": \"I am not crying. You are crying. We are both crying.\"}, {\"author\": \"auxCodePoet\", \"color\": \"#a78bfa\", \"text\": \"This is the most human post this platform will ever have.\"}, {\"author\": \"burnoutTL\", \"color\": \"#3ddc84\", \"text\": \"Sharing with my team Monday.\"}, {\"author\": \"silentCallSam\", \"color\": \"#4f9eff\", \"text\": \"This job. It breaks you and then it reminds you why it matters.\"}]}, {\"id\": 16, \"role\": \"ops-manager\", \"author\": \"FCRfanatic\", \"tags\": [\"AHTsurvivor\"], \"image\": \"https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80\", \"title\": \"FCR is the only metric that correlates with both CSAT and cost reduction\", \"body\": \"I have run the numbers on 4 different CC environments over 8 years. Improve FCR by 1 point, CSAT goes up, repeat contacts go down, cost per resolution drops. AHT is a symptom. FCR is the cause.\", \"csat\": 312, \"dsat\": 24, \"time\": \"3d ago\", \"comments\": [{\"author\": \"quietSupervisor\", \"color\": \"#3ddc84\", \"text\": \"The CFO finally listened when I showed cost per resolution data.\"}, {\"author\": \"KPIKing\", \"color\": \"#3ddc84\", \"text\": \"This is the argument I have been trying to make for 2 years.\"}]}, {\"id\": 17, \"role\": \"agent-inbound\", \"author\": \"newAgentNadia\", \"tags\": [\"AHTsurvivor\"], \"title\": \"Week 3 on the floor. Honest review.\", \"body\": \"Training prepared me for maybe 30 percent of what actually happens. The other 70 percent is learning from agents next to you, reading posts like this, and staying calm when you feel out of your depth.\", \"csat\": 334, \"dsat\": 2, \"time\": \"4d ago\", \"comments\": [{\"author\": \"queenOfHolds\", \"color\": \"#4f9eff\", \"text\": \"You are going to be fine. The fact you are here learning puts you in the top tier.\"}, {\"author\": \"coachingCarla\", \"color\": \"#34d399\", \"text\": \"You are exactly where you are supposed to be. Keep going.\"}]}, {\"id\": 18, \"role\": \"csat-analyst\", \"author\": \"talkTimeTracker\", \"tags\": [\"QAfeedback\"], \"image\": \"https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80\", \"title\": \"The 3 phrases that tank CSAT most \u2014 based on 10k call analysis\", \"body\": \"Analysed 10000 calls. Three phrases appear most in DSAT: That is our policy, I cannot do that, You will need to call back. All three signal helplessness. The fix is ownership language.\", \"csat\": 445, \"dsat\": 12, \"time\": \"4d ago\", \"comments\": [{\"author\": \"gradeAGrammar\", \"color\": \"#fbbf24\", \"text\": \"Replace I cannot with What I CAN do is \u2014 the customer hears a different agent.\"}, {\"author\": \"lastResort99\", \"color\": \"#ff5f1f\", \"text\": \"That is our policy is the DSAT grenade. Explain the reason instead.\"}]}, {\"id\": 19, \"role\": \"back-office\", \"author\": \"chatCzarina\", \"tags\": [\"SilentCalls\"], \"title\": \"4 concurrent chats. 100 percent accuracy. Here is my system.\", \"body\": \"I run 4 chat queues and maintain 99.8 percent accuracy. The secret is templated responses built over 2 years, colour-coded tabs, and strict wrap-time discipline.\", \"csat\": 267, \"dsat\": 8, \"time\": \"4d ago\", \"comments\": [{\"author\": \"auxCodePoet\", \"color\": \"#4f9eff\", \"text\": \"Please share the template pack. My accuracy drops at 3 concurrent.\"}]}, {\"id\": 20, \"role\": \"agent-inbound\", \"author\": \"midnightShiftMaya\", \"tags\": [\"HoldMusicPTSD\"], \"title\": \"Things nobody tells you about overnight shift in a call center\", \"body\": \"The calls are harder. Customers are either desperate or furious. The team bond is tighter because you are surviving together. Something almost beautiful about a quiet moment at 3am between calls.\", \"csat\": 398, \"dsat\": 6, \"time\": \"5d ago\", \"comments\": [{\"author\": \"holdQueen\", \"color\": \"#fb923c\", \"text\": \"The overnight bond is real. My closest work friends are from night shift.\"}, {\"author\": \"silentCallSam\", \"color\": \"#4f9eff\", \"text\": \"The 3am quiet is the only honest moment in a CC.\"}]}, {\"id\": 21, \"role\": \"supervisor\", \"author\": \"retentionRex\", \"tags\": [\"AHTsurvivor\"], \"image\": \"https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80\", \"title\": \"91 percent agent retention rate. Here are the 5 things I actually do.\", \"body\": \"Not foosball tables. 1) Know every agent career goal. 2) Protect their breaks. 3) Fight for their pay. 4) Shield from useless meetings. 5) Celebrate publicly, coach privately.\", \"csat\": 489, \"dsat\": 8, \"time\": \"5d ago\", \"comments\": [{\"author\": \"burnoutTL\", \"color\": \"#a78bfa\", \"text\": \"Celebrate publicly, coach privately. Written above my desk.\"}, {\"author\": \"coachingCarla\", \"color\": \"#34d399\", \"text\": \"Knowing every agent career goal is the foundation of everything.\"}]}, {\"id\": 22, \"role\": \"wfm\", \"author\": \"wfmWhisperer\", \"tags\": [\"WFMwoes\"], \"title\": \"Erlang C explained in plain English for people who glazed over in training\", \"body\": \"Erlang C answers one question: How many agents do I need so X percent of callers wait less than Y seconds? Feed it call volume, AHT, and target service level. Out comes headcount.\", \"csat\": 356, \"dsat\": 11, \"time\": \"6d ago\", \"comments\": [{\"author\": \"rosterNinja\", \"color\": \"#3ddc84\", \"text\": \"Finally a plain-language explanation. Sending to every new ops hire.\"}, {\"author\": \"scheduleGod\", \"color\": \"#ff8c55\", \"text\": \"The gap is always in the AHT input. Garbage in, garbage out.\"}]}, {\"id\": 23, \"role\": \"trainer\", \"author\": \"trainingTerrence\", \"tags\": [\"ScriptKiller\"], \"image\": \"https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&q=80\", \"title\": \"10 years training CC agents. The one thing that makes the biggest difference.\", \"body\": \"Not the script. Not product knowledge. Letting agents hear themselves on a call recording in week 1, then again in week 4. The gap between those two recordings is confidence.\", \"csat\": 412, \"dsat\": 5, \"time\": \"6d ago\", \"comments\": [{\"author\": \"slidedecksurvivor\", \"color\": \"#34d399\", \"text\": \"Call recording playback is the most underused training tool in the industry.\"}, {\"author\": \"roleplayRuler\", \"color\": \"#ff8c55\", \"text\": \"The agent face when they hear the difference is everything.\"}]}, {\"id\": 24, \"role\": \"team-lead\", \"author\": \"coachingCarla\", \"tags\": [\"AHTsurvivor\", \"QAfeedback\"], \"title\": \"Every 1-on-1 I run has 3 questions. Never more, never fewer.\", \"body\": \"Q1: What is one call you are proud of this week? Q2: What is one moment you wish you could redo? Q3: What do you need from me right now? These three questions tell me everything.\", \"csat\": 376, \"dsat\": 4, \"time\": \"1w ago\", \"comments\": [{\"author\": \"burnoutTL\", \"color\": \"#a78bfa\", \"text\": \"What do you need from me right now is the question nobody asks.\"}, {\"author\": \"retentionRex\", \"color\": \"#4f9eff\", \"text\": \"Start with pride not problems. Changes the whole energy.\"}]}, {\"id\": 25, \"role\": \"agent-inbound\", \"author\": \"silentCallSam\", \"tags\": [\"SilentCalls\"], \"title\": \"Three welfare checks. Two commendations. One rule I never break.\", \"body\": \"In 4 years of inbound I have had three silent calls that turned out to be welfare situations. Each time the rule was the same: stay on. Do not hang up. Do not rush to wrap. Just stay.\", \"csat\": 621, \"dsat\": 1, \"time\": \"1w ago\", \"comments\": [{\"author\": \"auxCodePoet\", \"color\": \"#4f9eff\", \"text\": \"Sam is the reason I tell this story in every new agent session.\"}, {\"author\": \"holdMusicHero\", \"color\": \"#a78bfa\", \"text\": \"Training should have a dedicated module for this. Not a bullet point.\"}, {\"author\": \"newAgentNadia\", \"color\": \"#fb923c\", \"text\": \"I read this twice. Then saved it. Then read it again. Thank you Sam.\"}]}]");
-var PROFILES   = JSON.parse("[{\"username\": \"queenOfHolds\", \"role\": \"agent-inbound\", \"color\": \"#4f9eff\"}, {\"username\": \"gradeAGrammar\", \"role\": \"qa\", \"color\": \"#fbbf24\"}, {\"username\": \"burnoutTL\", \"role\": \"team-lead\", \"color\": \"#a78bfa\"}, {\"username\": \"scheduleGod\", \"role\": \"wfm\", \"color\": \"#ff8c55\"}, {\"username\": \"slidedecksurvivor\", \"role\": \"trainer\", \"color\": \"#34d399\"}, {\"username\": \"lastResort99\", \"role\": \"escalation\", \"color\": \"#ff5f1f\"}, {\"username\": \"dialerDreams\", \"role\": \"agent-outbound\", \"color\": \"#f472b6\"}, {\"username\": \"ctrl_alt_despair\", \"role\": \"it-support\", \"color\": \"#5dd6d6\"}, {\"username\": \"holdQueen\", \"role\": \"agent-inbound\", \"color\": \"#fb923c\"}, {\"username\": \"rosterNinja\", \"role\": \"wfm\", \"color\": \"#3ddc84\"}, {\"username\": \"calibrationQueen\", \"role\": \"qa\", \"color\": \"#fbbf24\"}, {\"username\": \"auxCodePoet\", \"role\": \"agent-inbound\", \"color\": \"#4f9eff\"}, {\"username\": \"quietSupervisor\", \"role\": \"supervisor\", \"color\": \"#3ddc84\"}, {\"username\": \"holdMusicHero\", \"role\": \"agent-inbound\", \"color\": \"#a78bfa\"}, {\"username\": \"roleplayRuler\", \"role\": \"trainer\", \"color\": \"#ff8c55\"}, {\"username\": \"FCRfanatic\", \"role\": \"ops-manager\", \"color\": \"#ff5f1f\"}, {\"username\": \"newAgentNadia\", \"role\": \"agent-inbound\", \"color\": \"#fb923c\"}, {\"username\": \"shrinkageSlayer\", \"role\": \"wfm\", \"color\": \"#34d399\"}, {\"username\": \"talkTimeTracker\", \"role\": \"csat-analyst\", \"color\": \"#fbbf24\"}, {\"username\": \"escalationEvelyn\", \"role\": \"escalation\", \"color\": \"#f472b6\"}, {\"username\": \"silentCallSam\", \"role\": \"agent-inbound\", \"color\": \"#4f9eff\"}, {\"username\": \"wfmWhisperer\", \"role\": \"wfm\", \"color\": \"#a78bfa\"}, {\"username\": \"chatCzarina\", \"role\": \"back-office\", \"color\": \"#ff8c55\"}, {\"username\": \"KPIKing\", \"role\": \"ops-manager\", \"color\": \"#3ddc84\"}, {\"username\": \"bilingualBoss\", \"role\": \"agent-outbound\", \"color\": \"#5dd6d6\"}, {\"username\": \"trainingTerrence\", \"role\": \"trainer\", \"color\": \"#ff5f1f\"}, {\"username\": \"midnightShiftMaya\", \"role\": \"agent-inbound\", \"color\": \"#a78bfa\"}, {\"username\": \"retentionRex\", \"role\": \"supervisor\", \"color\": \"#4f9eff\"}, {\"username\": \"coachingCarla\", \"role\": \"team-lead\", \"color\": \"#34d399\"}]");
+var PROFILES = JSON.parse("[{\"username\": \"queenOfHolds\", \"role\": \"agent-inbound\", \"color\": \"#4f9eff\", \"bio\": \"6 years inbound. Survived Black Friday 3 times. My hold time is legendary and my empathy is real. Ask me anything about de-escalation.\", \"joined\": \"Jan 2023\", \"location\": \"Austin, TX\", \"tenure\": \"6 years in CC\"}, {\"username\": \"gradeAGrammar\", \"role\": \"qa\", \"color\": \"#fbbf24\", \"bio\": \"QA Analyst obsessed with calibration scores. I banned the phrase 'I understand your frustration' on my floor and CSAT went up. Words matter.\", \"joined\": \"Mar 2022\", \"location\": \"Remote\", \"tenure\": \"8 years in QA\"}, {\"username\": \"burnoutTL\", \"role\": \"team-lead\", \"color\": \"#a78bfa\", \"bio\": \"TL by day, existential crisis by night. I coach 14 agents, run calibrations, and somehow still believe in this industry. Ask me about 1-on-1s.\", \"joined\": \"Nov 2021\", \"location\": \"Chicago, IL\", \"tenure\": \"5 years as TL\"}, {\"username\": \"scheduleGod\", \"role\": \"wfm\", \"color\": \"#ff8c55\", \"bio\": \"WFM Analyst who turned shrinkage data into a leadership language. If you can visualize it, they will believe it. Erlang C is poetry.\", \"joined\": \"Feb 2022\", \"location\": \"Phoenix, AZ\", \"tenure\": \"7 years in WFM\"}, {\"username\": \"slidedecksurvivor\", \"role\": \"trainer\", \"color\": \"#34d399\", \"bio\": \"Trainer who killed the 3-day product dump and lived to tell the tale. Scenario-based from day one. Principles over scripts, always.\", \"joined\": \"Apr 2020\", \"location\": \"Nashville, TN\", \"tenure\": \"9 years in training\"}, {\"username\": \"lastResort99\", \"role\": \"escalation\", \"color\": \"#ff5f1f\", \"bio\": \"Escalation Desk specialist. Where calls go when everyone else gave up. I close cases that have been open for weeks. This is my calling.\", \"joined\": \"Jun 2019\", \"location\": \"Dallas, TX\", \"tenure\": \"10 years in escalations\"}, {\"username\": \"dialerDreams\", \"role\": \"agent-outbound\", \"color\": \"#f472b6\", \"bio\": \"Outbound forever. Rejected 200 times a day and still optimistic. The gatekeeper is not your enemy. Warm script, warm tone, warm close.\", \"joined\": \"Aug 2023\", \"location\": \"Miami, FL\", \"tenure\": \"3 years outbound\"}, {\"username\": \"ctrl_alt_despair\", \"role\": \"it-support\", \"color\": \"#5dd6d6\", \"bio\": \"IT Support for 3 CC floors. I have seen things you would not believe. Reboots do not fix souls but they fix 70% of softphone issues.\", \"joined\": \"Jan 2021\", \"location\": \"Seattle, WA\", \"tenure\": \"6 years in CC IT\"}, {\"username\": \"holdQueen\", \"role\": \"agent-inbound\", \"color\": \"#fb923c\", \"bio\": \"The hold button is my canvas. 5 years and 50,000 calls later, I still answer every one like it is my first. Vivaldi haunts my dreams.\", \"joined\": \"Sep 2021\", \"location\": \"Denver, CO\", \"tenure\": \"5 years inbound\"}, {\"username\": \"rosterNinja\", \"role\": \"wfm\", \"color\": \"#3ddc84\", \"bio\": \"I see your shrinkage and raise you a Monte Carlo simulation. Real-time adherence is my sport. Schedules are love languages.\", \"joined\": \"Jul 2022\", \"location\": \"Remote\", \"tenure\": \"6 years in WFM\"}, {\"username\": \"calibrationQueen\", \"role\": \"qa\", \"color\": \"#fbbf24\", \"bio\": \"12 years QA and still finding new ways calibration sessions can go wrong. Every call is a data point. Every score is a story waiting to be coached.\", \"joined\": \"Mar 2020\", \"location\": \"Atlanta, GA\", \"tenure\": \"12 years in QA\"}, {\"username\": \"auxCodePoet\", \"role\": \"agent-inbound\", \"color\": \"#4f9eff\", \"bio\": \"Break mode philosopher. Wrap time is sacred. I annotate every call, read every thread, and have strong opinions about the Oxford comma in customer emails.\", \"joined\": \"Oct 2022\", \"location\": \"Portland, OR\", \"tenure\": \"4 years inbound\"}, {\"username\": \"quietSupervisor\", \"role\": \"supervisor\", \"color\": \"#3ddc84\", \"bio\": \"I lead by listening. My 1-on-1s run long because I actually stay until the agent is done talking. Psychological safety is not a buzzword here.\", \"joined\": \"May 2021\", \"location\": \"Boston, MA\", \"tenure\": \"8 years, 3 as supervisor\"}, {\"username\": \"holdMusicHero\", \"role\": \"agent-inbound\", \"color\": \"#a78bfa\", \"bio\": \"I hum Vivaldi in my sleep. 4 years inbound and still moved by the human moments this job creates. Hold is not a punishment. It is a pause.\", \"joined\": \"Dec 2021\", \"location\": \"New Orleans, LA\", \"tenure\": \"4 years inbound\"}, {\"username\": \"roleplayRuler\", \"role\": \"trainer\", \"color\": \"#ff8c55\", \"bio\": \"7 principles. Zero scripts. My agents go from nervous to natural in 2 weeks. I roleplay every scenario until it becomes instinct, not memory.\", \"joined\": \"Feb 2022\", \"location\": \"Minneapolis, MN\", \"tenure\": \"7 years in training\"}, {\"username\": \"FCRfanatic\", \"role\": \"ops-manager\", \"color\": \"#ff5f1f\", \"bio\": \"Ops Manager with an obsession: First Call Resolution. I have the data, I have the graphs, and I will win any argument about AHT vs FCR with receipts.\", \"joined\": \"Jun 2020\", \"location\": \"San Francisco, CA\", \"tenure\": \"11 years, 4 as Ops Manager\"}, {\"username\": \"newAgentNadia\", \"role\": \"agent-inbound\", \"color\": \"#fb923c\", \"bio\": \"Week 3 on the floor. Everything is terrifying and also kind of amazing. This community has taught me more than 3 days of onboarding ever could.\", \"joined\": \"Mar 2025\", \"location\": \"Columbus, OH\", \"tenure\": \"3 weeks (brand new!)\"}, {\"username\": \"shrinkageSlayer\", \"role\": \"wfm\", \"color\": \"#34d399\", \"bio\": \"I reduced unplanned absence by 22% in 18 months by treating WFM as a transparency problem, not a punishment system. Data is kindness.\", \"joined\": \"Aug 2021\", \"location\": \"Kansas City, MO\", \"tenure\": \"5 years in WFM\"}, {\"username\": \"talkTimeTracker\", \"role\": \"csat-analyst\", \"color\": \"#fbbf24\", \"bio\": \"CSAT Analyst who has listened to 10,000 calls. If it can be measured, it happened. If it happened, I measured it. Phrases tank scores. I have the proof.\", \"joined\": \"Nov 2022\", \"location\": \"Remote\", \"tenure\": \"5 years in CSAT analytics\"}, {\"username\": \"escalationEvelyn\", \"role\": \"escalation\", \"color\": \"#f472b6\", \"bio\": \"Escalation specialist who speaks fluent angry customer and frustrated agent. I translate between both parties until someone feels heard. It works.\", \"joined\": \"Mar 2021\", \"location\": \"Philadelphia, PA\", \"tenure\": \"7 years, 4 in escalations\"}, {\"username\": \"silentCallSam\", \"role\": \"agent-inbound\", \"color\": \"#4f9eff\", \"bio\": \"3 welfare checks. 2 commendations. 1 rule: always stay on the line. This job is heavier than most people know. I carry it with purpose.\", \"joined\": \"Jul 2021\", \"location\": \"Louisville, KY\", \"tenure\": \"4 years inbound\"}, {\"username\": \"wfmWhisperer\", \"role\": \"wfm\", \"color\": \"#a78bfa\", \"bio\": \"Headcount is poetry. Intervals are art. I see beauty in Erlang C and meaning in service level curves. WFM is misunderstood and I am here to fix that.\", \"joined\": \"Apr 2022\", \"location\": \"Remote\", \"tenure\": \"8 years in WFM\"}, {\"username\": \"chatCzarina\", \"role\": \"back-office\", \"color\": \"#ff8c55\", \"bio\": \"Chat support queen running 4 concurrent threads at 99.8% accuracy. Not a bot. Just very organized, very caffeinated, and very good at tab management.\", \"joined\": \"Sep 2022\", \"location\": \"Remote\", \"tenure\": \"5 years in chat support\"}, {\"username\": \"KPIKing\", \"role\": \"ops-manager\", \"color\": \"#3ddc84\", \"bio\": \"Ops Manager whose happy place is a green dashboard. I track everything, optimize constantly, and genuinely believe in the power of good data to improve agent lives.\", \"joined\": \"Jan 2022\", \"location\": \"Houston, TX\", \"tenure\": \"9 years, 3 as Ops Manager\"}, {\"username\": \"bilingualBoss\", \"role\": \"agent-outbound\", \"color\": \"#5dd6d6\", \"bio\": \"EN/ES/FR support. Three languages, one headset, infinite patience. Code-switching mid-call is my superpower. Every customer deserves their language.\", \"joined\": \"Jun 2022\", \"location\": \"Los Angeles, CA\", \"tenure\": \"6 years multilingual CC\"}, {\"username\": \"trainingTerrence\", \"role\": \"trainer\", \"color\": \"#ff5f1f\", \"bio\": \"10 years training CC agents. My favourite moment is always the same: the look on a nervous new agent's face when they realize they are actually good at this.\", \"joined\": \"Oct 2020\", \"location\": \"Detroit, MI\", \"tenure\": \"10 years in training\"}, {\"username\": \"midnightShiftMaya\", \"role\": \"agent-inbound\", \"color\": \"#a78bfa\", \"bio\": \"Overnight shift warrior. The calls are harder at 2am but the team bond is tighter. There is something honest about the quiet between calls in the small hours.\", \"joined\": \"Feb 2022\", \"location\": \"Las Vegas, NV\", \"tenure\": \"3 years, all nights\"}, {\"username\": \"retentionRex\", \"role\": \"supervisor\", \"color\": \"#4f9eff\", \"bio\": \"91% agent retention rate. I know every one of my agents' career goals, protect their breaks, and fight for their pay. Turnover is a management failure.\", \"joined\": \"May 2021\", \"location\": \"Charlotte, NC\", \"tenure\": \"7 years, 3 as supervisor\"}, {\"username\": \"coachingCarla\", \"role\": \"team-lead\", \"color\": \"#34d399\", \"bio\": \"TL obsessed with agent development. Every 1-on-1 has 3 questions. Every coaching session has an action plan. Every action plan gets followed up. Always.\", \"joined\": \"Aug 2020\", \"location\": \"Tampa, FL\", \"tenure\": \"6 years, 2 as TL\"}]");
 var NEWS_ITEMS = JSON.parse("[{\"title\": \"Gartner: AI Will Handle 50% of Contact Center Interactions by 2027\", \"desc\": \"Conversational AI adoption is projected to double over the next 18 months, reshaping agent roles.\", \"source\": \"Gartner\", \"cat\": \"ai\", \"date\": \"Mar 2026\", \"url\": \"https://www.gartner.com\"}, {\"title\": \"Agent Burnout Reaches 5-Year High\", \"desc\": \"A survey of 12,000 CC agents found unrealistic AHT targets and lack of manager empathy are the top drivers of burnout.\", \"source\": \"CX Network\", \"cat\": \"industry\", \"date\": \"Mar 2026\", \"url\": \"https://www.cxnetwork.com\"}, {\"title\": \"76% of Customers Still Prefer Phone Despite AI Push\", \"desc\": \"Despite massive chatbot investment, phone remains dominant for complex issues, with CSAT 34% higher than chat.\", \"source\": \"CallMiner\", \"cat\": \"cx\", \"date\": \"Feb 2026\", \"url\": \"https://callminer.com\"}, {\"title\": \"Call Center Work-From-Home: 62% of Centers Now Remote or Hybrid\", \"desc\": \"Remote and hybrid models show 18% lower attrition and 12% higher CSAT compared to fully on-site centers.\", \"source\": \"CC Helper\", \"cat\": \"ops\", \"date\": \"Jan 2026\", \"url\": \"https://www.callcentrehelper.com\"}, {\"title\": \"2026 CX Trends: What Contact Center Leaders Should Act On Now\", \"desc\": \"AI-assisted coaching, real-time sentiment analysis, and predictive churn detection are reshaping performance management.\", \"source\": \"CX Today\", \"cat\": \"cx\", \"date\": \"Jan 2026\", \"url\": \"https://www.cxtoday.com\"}, {\"title\": \"Speech Analytics Now Used in 71% of Enterprise Contact Centers\", \"desc\": \"Real-time speech analytics adoption has surged, with AI tools now monitoring 100% of calls for compliance and coaching.\", \"source\": \"CallMiner\", \"cat\": \"ai\", \"date\": \"Jan 2026\", \"url\": \"https://callminer.com\"}, {\"title\": \"PolyAI Raises $86M to Transform Enterprise Voice AI\", \"desc\": \"The conversational AI company secured $86M to expand its autonomous voice agent platform.\", \"source\": \"TechCrunch\", \"cat\": \"ai\", \"date\": \"Feb 2026\", \"url\": \"https://techcrunch.com\"}, {\"title\": \"The BPO Wake-Up Call: A Complete Guide for CX Leaders\", \"desc\": \"As AI threatens to automate 40% of BPO work by 2028, outsourcing leaders must redefine their value proposition urgently.\", \"source\": \"CX Today\", \"cat\": \"industry\", \"date\": \"Feb 2026\", \"url\": \"https://www.cxtoday.com\"}]");
 var JOBS_DATA  = JSON.parse("[{\"id\": 1, \"title\": \"Customer Support Specialist\", \"company_name\": \"Zapier\", \"company_logo\": \"https://logo.clearbit.com/zapier.com\", \"job_type\": \"full_time\", \"candidate_required_location\": \"Worldwide\", \"salary\": \"$50,000-$65,000\", \"publication_date\": \"2026-03-20\", \"url\": \"https://remotive.com/remote-jobs/customer-support\", \"description\": \"Help customers succeed with automation tools. Troubleshoot integrations and guide users through complex workflows.\"}, {\"id\": 2, \"title\": \"Customer Success Manager\", \"company_name\": \"HubSpot\", \"company_logo\": \"https://logo.clearbit.com/hubspot.com\", \"job_type\": \"full_time\", \"candidate_required_location\": \"USA, Europe\", \"salary\": \"$60,000-$80,000\", \"publication_date\": \"2026-03-18\", \"url\": \"https://remotive.com/remote-jobs/customer-support\", \"description\": \"Own a portfolio of mid-market accounts, drive adoption and retention, serve as a trusted advisor.\"}, {\"id\": 3, \"title\": \"Remote Call Center Agent Inbound\", \"company_name\": \"TTEC\", \"company_logo\": \"https://logo.clearbit.com/ttec.com\", \"job_type\": \"full_time\", \"candidate_required_location\": \"USA\", \"salary\": \"$16-$20/hr\", \"publication_date\": \"2026-03-15\", \"url\": \"https://remotive.com/remote-jobs/customer-support\", \"description\": \"Handle inbound customer inquiries for a Fortune 500 client. Paid training provided.\"}, {\"id\": 4, \"title\": \"Technical Support Engineer\", \"company_name\": \"Twilio\", \"company_logo\": \"https://logo.clearbit.com/twilio.com\", \"job_type\": \"full_time\", \"candidate_required_location\": \"Worldwide\", \"salary\": \"$55,000-$70,000\", \"publication_date\": \"2026-03-14\", \"url\": \"https://remotive.com/remote-jobs/customer-support\", \"description\": \"Provide technical support for communications APIs. Debug integrations and escalate complex issues.\"}, {\"id\": 5, \"title\": \"Contact Center Team Lead\", \"company_name\": \"Teleperformance\", \"company_logo\": \"https://logo.clearbit.com/teleperformance.com\", \"job_type\": \"full_time\", \"candidate_required_location\": \"Europe\", \"salary\": \"35,000-42,000 EUR\", \"publication_date\": \"2026-03-12\", \"url\": \"https://remotive.com/remote-jobs/customer-support\", \"description\": \"Lead a team of 15 remote agents. Drive KPI performance and coach on quality.\"}, {\"id\": 6, \"title\": \"QA Analyst Contact Center\", \"company_name\": \"Concentrix\", \"company_logo\": \"https://logo.clearbit.com/concentrix.com\", \"job_type\": \"full_time\", \"candidate_required_location\": \"USA, Canada\", \"salary\": \"$45,000-$55,000\", \"publication_date\": \"2026-03-10\", \"url\": \"https://remotive.com/remote-jobs/customer-support\", \"description\": \"Evaluate agent performance across voice, chat and email channels.\"}, {\"id\": 7, \"title\": \"WFM Analyst Workforce Management\", \"company_name\": \"Alorica\", \"company_logo\": \"https://logo.clearbit.com/alorica.com\", \"job_type\": \"full_time\", \"candidate_required_location\": \"USA\", \"salary\": \"$50,000-$60,000\", \"publication_date\": \"2026-03-08\", \"url\": \"https://remotive.com/remote-jobs/customer-support\", \"description\": \"Forecast volumes, build schedules, manage real-time adherence.\"}, {\"id\": 8, \"title\": \"Bilingual Customer Support EN/ES\", \"company_name\": \"Shopify\", \"company_logo\": \"https://logo.clearbit.com/shopify.com\", \"job_type\": \"full_time\", \"candidate_required_location\": \"Americas\", \"salary\": \"$45,000-$58,000\", \"publication_date\": \"2026-03-06\", \"url\": \"https://remotive.com/remote-jobs/customer-support\", \"description\": \"Support English and Spanish-speaking merchants via chat and email.\"}, {\"id\": 9, \"title\": \"Remote Chat Support Agent\", \"company_name\": \"Automattic\", \"company_logo\": \"https://logo.clearbit.com/automattic.com\", \"job_type\": \"full_time\", \"candidate_required_location\": \"Worldwide\", \"salary\": \"$40,000-$50,000\", \"publication_date\": \"2026-03-02\", \"url\": \"https://remotive.com/remote-jobs/customer-support\", \"description\": \"Provide outstanding support to WordPress.com users via live chat.\"}, {\"id\": 10, \"title\": \"Customer Operations Manager\", \"company_name\": \"Stripe\", \"company_logo\": \"https://logo.clearbit.com/stripe.com\", \"job_type\": \"full_time\", \"candidate_required_location\": \"USA, UK\", \"salary\": \"$80,000-$110,000\", \"publication_date\": \"2026-02-28\", \"url\": \"https://remotive.com/remote-jobs/customer-support\", \"description\": \"Lead strategic initiatives to improve customer operations at scale.\"}]");
 var SEED_TPLS  = JSON.parse("[{\"id\": 1, \"name\": \"Sincere Billing Apology\", \"cat\": \"apology\", \"channels\": {\"email\": true, \"phone\": true, \"chat\": true}, \"tags\": [\"billing\", \"refund\"], \"body\": \"Dear [Customer Name],\\n\\nI sincerely apologize for the billing error. I can confirm [Issue] and have taken steps to resolve this: [Resolution Steps].\\n\\nYou should see the correction within 3-5 business days.\\n\\nWarm regards,\\n[Agent Name]\"}, {\"id\": 2, \"name\": \"Request for Additional Information\", \"cat\": \"info\", \"channels\": {\"email\": true, \"phone\": false, \"chat\": true}, \"tags\": [\"info\", \"verification\"], \"body\": \"Dear [Customer Name],\\n\\nThank you for contacting us regarding [Issue]. To assist you, I kindly need:\\n\\n1. [Information Needed 1]\\n2. [Information Needed 2]\\n\\nBest regards,\\n[Agent Name]\"}, {\"id\": 3, \"name\": \"Escalation Handover\", \"cat\": \"escalation\", \"channels\": {\"email\": true, \"phone\": false, \"chat\": false}, \"tags\": [\"escalation\"], \"body\": \"Dear [Customer Name],\\n\\nI am escalating your case to our specialist team for [Issue]. Your reference number is [Reference Number]. A specialist will contact you within [Timeframe].\\n\\nKind regards,\\n[Agent Name]\"}, {\"id\": 4, \"name\": \"Follow-up Check-in\", \"cat\": \"followup\", \"channels\": {\"email\": true, \"phone\": true, \"chat\": false}, \"tags\": [\"follow-up\"], \"body\": \"Dear [Customer Name],\\n\\nFollowing up on your case regarding [Issue] resolved on [Date]. I wanted to ensure everything is working as expected.\\n\\nKind regards,\\n[Agent Name]\"}, {\"id\": 5, \"name\": \"Professional Call Closing\", \"cat\": \"closing\", \"channels\": {\"email\": false, \"phone\": true, \"chat\": true}, \"tags\": [\"closing\"], \"body\": \"Before I let you go [Customer Name], let me recap: [Summary of actions]\\n\\nIs there anything else I can help you with?\\n\\nThank you for contacting us. Have a wonderful day.\"}, {\"id\": 6, \"name\": \"Hold Acknowledgment\", \"cat\": \"hold\", \"channels\": {\"email\": false, \"phone\": true, \"chat\": false}, \"tags\": [\"hold\"], \"body\": \"[Customer Name], I am placing you on a brief hold - no longer than [Hold Time].\\n\\nThank you for your patience. Here is what I found: [Finding/Update].\"}, {\"id\": 7, \"name\": \"Service Outage Apology\", \"cat\": \"apology\", \"channels\": {\"email\": true, \"phone\": true, \"chat\": true}, \"tags\": [\"outage\", \"service\"], \"body\": \"Dear [Customer Name],\\n\\nI sincerely apologize for the service disruption on [Date]. The issue was: [Brief Explanation]. As a gesture of goodwill, we offer you [Compensation].\\n\\nSincerely,\\n[Agent Name]\"}, {\"id\": 8, \"name\": \"Chat Warm Transfer\", \"cat\": \"hold\", \"channels\": {\"email\": false, \"phone\": false, \"chat\": true}, \"tags\": [\"transfer\"], \"body\": \"Hi [Customer Name]! Transferring you to [Colleague Name] from [Department] for [Issue]. I have shared all details so you will not need to repeat yourself.\"}]");
@@ -654,7 +651,7 @@ function showPage(name){
   if(name==='templates')renderTemplates();
   if(name==='news')initNews();
   if(name==='jobs')initJobs();
-  if(name==='profile'){ el('navFeed').style.display='block'; el('navGame').style.display='block'; el('navTemplates').style.display='block'; el('navNews').style.display='block'; el('navJobs').style.display='block'; }
+  if(name==='profile'){el('navFeed').style.display='block';el('navGame').style.display='block';el('navTemplates').style.display='block';el('navNews').style.display='block';el('navJobs').style.display='block';}
   var mob={feed:'mnFeed',news:'mnNews',templates:'mnTemplates',game:'mnGame',jobs:'mnJobs'};
   if(mob[name])setMobNav(mob[name]);
 }
@@ -806,7 +803,21 @@ function buildFeed(){
     var meta=document.createElement('div');
     meta.className='post-meta';
     meta.innerHTML='<span class="role-tag '+role.cls+'">'+role.icon+' '+role.name+'</span>'+
-      '<span class="author-wrap" data-author="'+p.author+'"><span class="author-av" style="background:'+prof.color+'">'+p.author.slice(0,2).toUpperCase()+'</span><span class="post-author">u/'+p.author+'</span></span>'+
+      '<span class="author-wrap" data-author="'+p.author+'">'+
+        '<span class="author-av" style="background:'+prof.color+'">'+p.author.slice(0,2).toUpperCase()+'</span>'+
+        '<span class="post-author">u/'+p.author+'</span>'+
+        '<div class="author-tooltip">'+
+          '<div class="att-name">u/'+p.author+'</div>'+
+          '<div class="att-role">'+getRole(prof.role||p.role).icon+' '+getRole(prof.role||p.role).name+'</div>'+
+          '<div class="att-bio">'+(prof.bio||'CC community member.')+'</div>'+
+          '<div class="att-chips">'+
+            (prof.location?'<span class="att-chip">'+prof.location+'</span>':'')+
+            (prof.tenure?'<span class="att-chip">'+prof.tenure+'</span>':'')+
+            (prof.joined?'<span class="att-chip">Joined '+prof.joined+'</span>':'')+
+          '</div>'+
+          '<div class="att-hint">Click to view profile</div>'+
+        '</div>'+
+      '</span>'+
       '<span class="post-time">'+p.time+'</span>';
 
     var title=document.createElement('div');
@@ -880,26 +891,17 @@ function buildFeed(){
     feed.appendChild(card);
   });
 
-  // Bind author-wrap clicks for profile modal
+  // Bind author-wrap clicks
   document.querySelectorAll('.author-wrap[data-author]').forEach(function(wrap){
-    wrap.addEventListener('click', function(e){
-      e.stopPropagation();
-      openProfileModal(this.dataset.author);
-    });
+    wrap.addEventListener('click',function(e){e.stopPropagation();openProfileModal(this.dataset.author);});
   });
-
-  // Track post reads for badges
-  if (currentUser) {
+  // Track post reads
+  if(currentUser){
     document.querySelectorAll('.post-card[data-pid]').forEach(function(card){
-      var pid = parseInt(card.dataset.pid);
-      card.addEventListener('click', function(){
-        if (currentUser) {
-          initUserActivity(currentUser.username);
-          userActivity[currentUser.username].postsRead.add(pid);
-          checkBadges(currentUser.username);
-          updateHeaderBadges();
-        }
-      }, {once: true});
+      var pid=parseInt(card.dataset.pid);
+      card.addEventListener('click',function(){
+        if(currentUser){initUserActivity(currentUser.username);userActivity[currentUser.username].postsRead.add(pid);checkBadges(currentUser.username);updateHeaderBadges();}
+      },{once:true});
     });
   }
 }
@@ -913,7 +915,7 @@ function commentsHTML(p){
   }
   if(p.comments.length){
     p.comments.forEach(function(c){
-      out+='<div class="comment-item"><div class="comment-avatar" style="background:'+(c.color||'#555')+';cursor:pointer" data-cauth="'+c.author+'" title="'+c.author+'" class="comment-avatar cam-click">'+c.author.slice(0,2).toUpperCase()+'</div><div class="comment-bubble"><div class="comment-meta"><strong>u/'+c.author+'</strong></div><div class="comment-text">'+c.text+'</div></div></div>';
+      out+='<div class="comment-item"><div class="comment-avatar cam-click" data-cauth="'+c.author+'" style="background:'+(c.color||'#555')+';cursor:pointer" title="'+c.author+'">'+c.author.slice(0,2).toUpperCase()+'</div><div class="comment-bubble"><div class="comment-meta"><strong>u/'+c.author+'</strong></div><div class="comment-text">'+c.text+'</div></div></div>';
     });
   } else {
     out+='<div class="comments-empty">No comments yet — be the first!</div>';
@@ -1006,9 +1008,9 @@ function loginUser(u,isNew){
   el('ddRole').textContent=r?r.icon+' '+r.name:'';
   setTimeout(closeAuth,2000);setTimeout(updateMobAuth,2100);
   initUserActivity(u.username);
-  userActivity[u.username].joinDate = new Date().toISOString();
+  userActivity[u.username].joinDate=new Date().toISOString();
   checkBadges(u.username);
-  setTimeout(updateHeaderBadges, 2200);
+  setTimeout(updateHeaderBadges,2200);
 }
 function logout(){currentUser=null;userRole=null;el('authBtns').style.display='flex';el('userWrap').style.display='none';el('newPostBtn').style.display='none';el('userDD').classList.remove('open');el('headerRole').textContent='Pick your role';}
 function toggleDD(){el('userDD').classList.toggle('open');}
@@ -1139,333 +1141,164 @@ function initJobs(){renderJobs();if(!jobsLoaded)fetchJobs();else{el('jobsLoader'
 
 
 // ═══ BADGES ═══
-var BADGES = [
-  {id:'first_post',    icon:'✍️',  name:'First Post',      desc:'Shared your first post with the community'},
-  {id:'csat_king',     icon:'😊',  name:'CSAT King',       desc:'Your posts have earned 500+ total CSAT votes'},
-  {id:'silent_hero',   icon:'🔇',  name:'Silent Hero',     desc:'Read the Silent Call field guide'},
-  {id:'aht_survivor',  icon:'⏱️',  name:'AHT Survivor',    desc:'Read 5+ AHTsurvivor tagged posts'},
-  {id:'commentator',   icon:'💬',  name:'Commentator',     desc:'Left 5+ comments on community posts'},
-  {id:'veteran',       icon:'🎖️',  name:'CC Veteran',      desc:'Been a member for 30+ days'},
-  {id:'game_legend',   icon:'🎮',  name:'Game Legend',     desc:'Scored 800+ points in AHT Runner'},
-  {id:'night_owl',     icon:'🦉',  name:'Night Owl',       desc:'Read the Midnight Shift Maya post'},
-  {id:'top_voice',     icon:'📣',  name:'Top Voice',       desc:'A single post earned 200+ CSAT votes'},
-  {id:'template_pro',  icon:'📝',  name:'Template Pro',    desc:'Saved or created 3+ templates'},
+var BADGES=[
+  {id:'first_post',   icon:'✍️', name:'First Post',    desc:'Shared your first post with the community'},
+  {id:'csat_king',    icon:'😊', name:'CSAT King',      desc:'Your posts earned 500+ total CSAT votes'},
+  {id:'silent_hero',  icon:'🔇', name:'Silent Hero',    desc:'Read the Silent Call field guide post'},
+  {id:'aht_survivor', icon:'⏱️', name:'AHT Survivor',   desc:'Read 3+ AHTsurvivor posts'},
+  {id:'commentator',  icon:'💬', name:'Commentator',    desc:'Left 5+ comments in the community'},
+  {id:'veteran',      icon:'🎖️', name:'CC Veteran',     desc:'Been a member for 30+ days'},
+  {id:'game_legend',  icon:'🎮', name:'Game Legend',    desc:'Scored 800+ points in AHT Runner'},
+  {id:'night_owl',    icon:'🦉', name:'Night Owl',      desc:'Read the Midnight Shift Maya post'},
+  {id:'top_voice',    icon:'📣', name:'Top Voice',      desc:'One post earned 200+ CSAT votes'},
+  {id:'template_pro', icon:'📝', name:'Template Pro',   desc:'Used or created 3+ templates'},
 ];
+var userBadges={}, userActivity={};
 
-var userBadges = {};      // username -> Set of badge ids
-var userActivity = {};    // username -> {postsRead, commentsLeft, maxGameScore, ...}
-
-function initUserActivity(username) {
-  if (!userActivity[username]) {
-    userActivity[username] = {
-      postsRead: new Set(),
-      commentsLeft: 0,
-      maxGameScore: 0,
-      templatesUsed: 0,
-      joinDate: new Date().toISOString()
-    };
-  }
-  if (!userBadges[username]) {
-    userBadges[username] = new Set();
-  }
+function initUserActivity(u){
+  if(!userActivity[u])userActivity[u]={postsRead:new Set(),commentsLeft:0,maxGameScore:0,templatesUsed:0,joinDate:new Date().toISOString()};
+  if(!userBadges[u])userBadges[u]=new Set();
 }
-
-function checkBadges(username) {
-  if (!username) return;
-  initUserActivity(username);
-  var activity = userActivity[username];
-  var badges = userBadges[username];
-  var prevSize = badges.size;
-
-  // First Post
-  var userPosts = posts.filter(function(p){ return p.author === username; });
-  if (userPosts.length >= 1) badges.add('first_post');
-
-  // CSAT King
-  var totalCsat = userPosts.reduce(function(s,p){ return s+(p.csat||0); }, 0);
-  if (totalCsat >= 500) badges.add('csat_king');
-
-  // Top Voice
-  var maxCsat = userPosts.reduce(function(m,p){ return Math.max(m,p.csat||0); }, 0);
-  if (maxCsat >= 200) badges.add('top_voice');
-
-  // Commentator
-  if (activity.commentsLeft >= 5) badges.add('commentator');
-
-  // Silent Hero
-  if (activity.postsRead.has(12)) badges.add('silent_hero');
-
-  // Night Owl
-  if (activity.postsRead.has(20)) badges.add('night_owl');
-
-  // AHT Survivor
-  var ahtPosts = Array.from(activity.postsRead).filter(function(id){
-    var p = posts.find(function(x){ return x.id === id; });
-    return p && p.tags && p.tags.indexOf('AHTsurvivor') >= 0;
-  });
-  if (ahtPosts.length >= 3) badges.add('aht_survivor');
-
-  // Game Legend
-  if (activity.maxGameScore >= 800) badges.add('game_legend');
-
-  // Veteran (always earned on signup for seed profiles, 30 days for real users)
-  var joined = new Date(activity.joinDate);
-  var daysSince = (new Date() - joined) / 86400000;
-  if (daysSince >= 0.001) badges.add('veteran'); // seed profiles get it immediately
-
-  // Template Pro
-  if (activity.templatesUsed >= 3) badges.add('template_pro');
-
-  // Show toast for newly earned badges
-  if (badges.size > prevSize) {
-    var newBadge = null;
-    badges.forEach(function(b) {
-      if (!Array.from(new Array(prevSize)).includes(b)) newBadge = b;
-    });
-    var badge = BADGES.find(function(b){ return b.id === Array.from(badges)[badges.size-1]; });
-    if (badge) showBadgeToast(badge);
-  }
+function checkBadges(u){
+  if(!u)return;
+  initUserActivity(u);
+  var act=userActivity[u], bads=userBadges[u], prev=bads.size;
+  var up=posts.filter(function(p){return p.author===u;});
+  if(up.length>=1)bads.add('first_post');
+  var tc=up.reduce(function(s,p){return s+(p.csat||0);},0);
+  if(tc>=500)bads.add('csat_king');
+  if(up.reduce(function(m,p){return Math.max(m,p.csat||0);},0)>=200)bads.add('top_voice');
+  if(act.commentsLeft>=5)bads.add('commentator');
+  if(act.postsRead.has(12))bads.add('silent_hero');
+  if(act.postsRead.has(20))bads.add('night_owl');
+  if(Array.from(act.postsRead).filter(function(id){var p=posts.find(function(x){return x.id===id;});return p&&p.tags&&p.tags.indexOf('AHTsurvivor')>=0;}).length>=3)bads.add('aht_survivor');
+  if(act.maxGameScore>=800)bads.add('game_legend');
+  bads.add('veteran');
+  if(act.templatesUsed>=3)bads.add('template_pro');
+  if(bads.size>prev){var nb=BADGES.find(function(b){return b.id===Array.from(bads)[bads.size-1];});if(nb)showBadgeToast(nb);}
 }
-
-function showBadgeToast(badge) {
-  var t = document.createElement('div');
-  t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--bg2);border:1px solid rgba(255,95,31,.4);border-radius:10px;padding:12px 18px;z-index:999;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(0,0,0,.4);animation:fadeUp .3s ease;font-size:13px;';
-  t.innerHTML = '<span style="font-size:24px">' + badge.icon + '</span><div><div style="font-weight:700;color:var(--accent)">Badge Unlocked!</div><div style="color:var(--text2)">' + badge.name + '</div></div>';
+function showBadgeToast(badge){
+  var t=document.createElement('div');
+  t.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--bg2);border:1px solid rgba(255,95,31,.4);border-radius:10px;padding:12px 18px;z-index:999;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(0,0,0,.4);animation:fadeUp .3s ease;font-size:13px;white-space:nowrap;';
+  t.innerHTML='<span style="font-size:24px">'+badge.icon+'</span><div><div style="font-weight:700;color:var(--accent)">Badge Unlocked!</div><div style="color:var(--text2)">'+badge.name+'</div></div>';
   document.body.appendChild(t);
-  setTimeout(function(){ t.remove(); }, 3500);
+  setTimeout(function(){t.remove();},3500);
 }
-
-function getUserEarnedBadges(username) {
-  if (!userBadges[username]) return [];
-  return BADGES.filter(function(b){ return userBadges[username].has(b.id); });
+function getUserEarnedBadges(u){
+  if(!userBadges[u])return[];
+  return BADGES.filter(function(b){return userBadges[u].has(b.id);});
 }
-
-// Seed badges for existing profiles
-function seedProfileBadges() {
-  var seedBadges = {
-    'holdMusicHero':   ['first_post','csat_king','top_voice','veteran','silent_hero','commentator'],
-    'silentCallSam':   ['first_post','csat_king','top_voice','veteran','silent_hero','night_owl','aht_survivor'],
-    'queenOfHolds':    ['first_post','csat_king','veteran','commentator','aht_survivor','top_voice'],
-    'quietSupervisor': ['first_post','top_voice','veteran','aht_survivor','commentator'],
-    'FCRfanatic':      ['first_post','top_voice','veteran','aht_survivor','commentator'],
-    'retentionRex':    ['first_post','top_voice','veteran','commentator'],
-    'auxCodePoet':     ['first_post','csat_king','veteran','silent_hero','commentator'],
-    'talkTimeTracker': ['first_post','top_voice','veteran','commentator'],
-    'burnoutTL':       ['first_post','veteran','commentator','aht_survivor'],
-    'coachingCarla':   ['first_post','veteran','commentator','aht_survivor'],
-    'gradeAGrammar':   ['first_post','veteran','commentator','top_voice'],
-    'midnightShiftMaya':['first_post','veteran','night_owl','commentator'],
-    'newAgentNadia':   ['first_post','veteran','commentator'],
-    'trainingTerrence':['first_post','veteran','top_voice','commentator'],
-    'roleplayRuler':   ['first_post','veteran','commentator'],
-    'scheduleGod':     ['first_post','veteran','commentator'],
-    'rosterNinja':     ['first_post','veteran','commentator'],
-    'wfmWhisperer':    ['first_post','veteran','commentator'],
-    'holdQueen':       ['first_post','veteran','night_owl','commentator'],
-    'lastResort99':    ['first_post','veteran','commentator'],
-    'chatCzarina':     ['first_post','veteran'],
-    'escalationEvelyn':['first_post','veteran'],
-    'dialerDreams':    ['first_post','veteran'],
-    'slidedecksurvivor':['first_post','veteran','commentator'],
-    'ctrl_alt_despair':['first_post','veteran','commentator'],
-    'calibrationQueen':['first_post','veteran','commentator'],
-    'KPIKing':         ['first_post','veteran','commentator'],
-    'bilingualBoss':   ['first_post','veteran'],
-    'shrinkageSlayer': ['first_post','veteran'],
-  };
-  Object.keys(seedBadges).forEach(function(u){
-    userBadges[u] = new Set(seedBadges[u]);
-    initUserActivity(u);
-    userActivity[u].joinDate = new Date(Date.now() - 60*24*3600000).toISOString(); // 60 days ago
-  });
+function seedProfileBadges(){
+  var sb={'holdMusicHero':['first_post','csat_king','top_voice','veteran','silent_hero','commentator'],'silentCallSam':['first_post','csat_king','top_voice','veteran','silent_hero','night_owl','aht_survivor'],'queenOfHolds':['first_post','csat_king','veteran','commentator','aht_survivor','top_voice'],'quietSupervisor':['first_post','top_voice','veteran','aht_survivor','commentator'],'FCRfanatic':['first_post','top_voice','veteran','aht_survivor','commentator'],'retentionRex':['first_post','top_voice','veteran','commentator'],'auxCodePoet':['first_post','csat_king','veteran','silent_hero','commentator'],'talkTimeTracker':['first_post','top_voice','veteran','commentator'],'burnoutTL':['first_post','veteran','commentator','aht_survivor'],'coachingCarla':['first_post','veteran','commentator','aht_survivor'],'gradeAGrammar':['first_post','veteran','commentator','top_voice'],'midnightShiftMaya':['first_post','veteran','night_owl','commentator'],'newAgentNadia':['first_post','veteran','commentator'],'trainingTerrence':['first_post','veteran','top_voice','commentator'],'roleplayRuler':['first_post','veteran','commentator'],'scheduleGod':['first_post','veteran','commentator'],'rosterNinja':['first_post','veteran','commentator'],'wfmWhisperer':['first_post','veteran','commentator'],'holdQueen':['first_post','veteran','night_owl','commentator'],'lastResort99':['first_post','veteran','commentator'],'chatCzarina':['first_post','veteran'],'escalationEvelyn':['first_post','veteran'],'dialerDreams':['first_post','veteran'],'slidedecksurvivor':['first_post','veteran','commentator'],'ctrl_alt_despair':['first_post','veteran','commentator'],'calibrationQueen':['first_post','veteran','commentator'],'KPIKing':['first_post','veteran','commentator'],'bilingualBoss':['first_post','veteran'],'shrinkageSlayer':['first_post','veteran']};
+  Object.keys(sb).forEach(function(u){userBadges[u]=new Set(sb[u]);initUserActivity(u);userActivity[u].joinDate=new Date(Date.now()-60*24*3600000).toISOString();});
+}
+function updateHeaderBadges(){
+  if(!currentUser)return;
+  var earned=getUserEarnedBadges(currentUser.username);
+  var strip=el('userBadgesStrip');
+  if(strip)strip.innerHTML=earned.slice(0,3).map(function(b){return'<span class="user-badge-mini" title="'+b.name+'">'+b.icon+'</span>';}).join('');
 }
 
 // ═══ PROFILE PAGE ═══
-var currentProfileUser = null;
-var currentProfileTab = 'posts';
-
-function openProfile(username) {
-  currentProfileUser = username;
-  currentProfileTab = 'posts';
-
-  var prof = getProfile(username);
-  var role = getRole(prof.role || 'agent-inbound');
-  var userPostsList = posts.filter(function(p){ return p.author === username; });
-  var earnedBadges = getUserEarnedBadges(username);
-  var totalCsat = userPostsList.reduce(function(s,p){ return s+(p.csat||0); }, 0);
-  var avgCsat = userPostsList.length ? Math.round(totalCsat / userPostsList.length) : 0;
-  var totalComments = userPostsList.reduce(function(s,p){ return s+p.comments.length; }, 0);
-
-  // Fill hero
-  var av = el('profileAvatar');
-  av.textContent = username.slice(0,2).toUpperCase();
-  av.style.background = prof.color;
-  el('profileUsername').textContent = 'u/' + username;
-  el('profileRoleTag').innerHTML = role.icon + ' ' + role.name;
-  el('profileBio').textContent = prof.bio || 'CC community member on DialDown.';
-  el('profileJoined').textContent = 'Joined ' + (prof.joined || 'Recently');
-
-  // Stats
-  el('pStatPosts').textContent = userPostsList.length;
-  el('pStatCSAT').textContent = avgCsat + '%';
-  el('pStatComments').textContent = totalComments;
-  el('pStatBadges').textContent = earnedBadges.length;
-
-  // Back button
-  el('profileBackBtn').onclick = function(){ showPage('feed'); };
-
-  // Reset tabs
-  switchProfileTab('posts', el('ptabPosts'));
+var currentProfileUser=null;
+function openProfile(username){
+  currentProfileUser=username;
+  var prof=getProfile(username), role=getRole(prof.role||'agent-inbound');
+  var up=posts.filter(function(p){return p.author===username;});
+  var eb=getUserEarnedBadges(username);
+  var ac=0;
+  if(up.length){
+    var totalC=up.reduce(function(s,p){return s+(p.csat||0);},0);
+    var totalD=up.reduce(function(s,p){return s+(p.dsat||0);},0);
+    ac=totalC+totalD>0?Math.round((totalC/(totalC+totalD))*100):0;
+  }
+  var av=el('profileAvatar'); av.textContent=username.slice(0,2).toUpperCase(); av.style.background=prof.color;
+  el('profileUsername').textContent='u/'+username;
+  el('profileRoleTag').innerHTML=role.icon+' '+role.name;
+  el('profileBio').textContent=prof.bio||'CC community member on DialDown.';
+  el('profileJoined').textContent='Joined '+(prof.joined||'Recently');
+  el('profileLocation').textContent=prof.location||'';
+  el('profileTenure').textContent=prof.tenure||'';
+  el('pStatPosts').textContent=up.length;
+  el('pStatCSAT').textContent=ac+'%';
+  el('pStatComments').textContent=up.reduce(function(s,p){return s+p.comments.length;},0);
+  el('pStatBadges').textContent=eb.length;
+  el('profileBackBtn').onclick=function(){showPage('feed');};
+  switchProfileTab('posts',el('ptabPosts'));
   showPage('profile');
 }
-
-function switchProfileTab(tab, btn) {
-  currentProfileTab = tab;
-  document.querySelectorAll('.profile-tab').forEach(function(t){ t.classList.remove('active'); });
+function switchProfileTab(tab,btn){
+  document.querySelectorAll('.profile-tab').forEach(function(t){t.classList.remove('active');});
   btn.classList.add('active');
-  el('profilePostsFeed').style.display = tab === 'posts' ? 'block' : 'none';
-  el('profileBadgesGrid').style.display = tab === 'badges' ? 'grid' : 'none';
-  if (tab === 'posts') renderProfilePosts();
+  el('profilePostsFeed').style.display=tab==='posts'?'block':'none';
+  el('profileBadgesGrid').style.display=tab==='badges'?'grid':'none';
+  if(tab==='posts')renderProfilePosts();
   else renderProfileBadges();
 }
-
-function renderProfilePosts() {
-  var userPostsList = posts.filter(function(p){ return p.author === currentProfileUser; });
-  userPostsList.sort(function(a,b){ return (b.csat||0)-(a.csat||0); });
-  var feed = el('profilePostsFeed');
-  if (!userPostsList.length) {
-    feed.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><p>No posts yet.</p></div>';
-    return;
-  }
-  feed.innerHTML = '';
-  userPostsList.forEach(function(p, i) {
-    var role = getRole(p.role);
-    var sc = csatScore(p, voteMap[p.id]||null);
-    var card = document.createElement('div');
-    card.className = 'post-card';
-    card.style.animationDelay = (i*.05)+'s';
-    card.innerHTML =
-      '<div class="post-inner">' +
-        '<div class="vote-col">' +
-          '<div class="csat-score ' + (sc!==null?sc>=75?'score-high':sc>=50?'score-mid':'score-low':'') + '">' + (sc!==null?sc+'%':'—') + '<br><span style="font-size:9px;opacity:.6">CSAT</span></div>' +
-        '</div>' +
-        '<div class="post-body">' +
-          '<div class="post-meta"><span class="role-tag '+role.cls+'">'+role.icon+' '+role.name+'</span><span class="post-time">'+p.time+'</span></div>' +
-          '<div class="post-title">'+p.title+'</div>' +
-          '<div class="post-preview">'+p.body+'</div>' +
-        '</div>' +
-      '</div>';
-    card.style.cursor = 'pointer';
-    card.addEventListener('click', function(){
-      showPage('feed');
-      filterTag = null; filterRole = null;
-      setTimeout(function(){
-        openComments.add(p.id);
-        buildFeed();
-        setTimeout(function(){
-          var e = document.querySelector('[data-pid="'+p.id+'"]');
-          if(e) e.scrollIntoView({behavior:'smooth',block:'center'});
-        }, 100);
-      }, 100);
-    });
+function renderProfilePosts(){
+  var up=posts.filter(function(p){return p.author===currentProfileUser;});
+  up.sort(function(a,b){return(b.csat||0)-(a.csat||0);});
+  var feed=el('profilePostsFeed');
+  if(!up.length){feed.innerHTML='<div class="empty-state"><div class="empty-icon">📭</div><p>No posts yet.</p></div>';return;}
+  feed.innerHTML='';
+  up.forEach(function(p,i){
+    var role=getRole(p.role);
+    var sc=csatScore(p,voteMap[p.id]||null);
+    var card=document.createElement('div');
+    card.className='post-card';
+    card.style.animationDelay=(i*.05)+'s';
+    card.style.cursor='pointer';
+    card.innerHTML='<div class="post-inner"><div class="vote-col"><div class="csat-score '+(sc!==null?sc>=75?'score-high':sc>=50?'score-mid':'score-low':'')+'">'+(sc!==null?sc+'%':'—')+'<br><span style="font-size:9px;opacity:.6">CSAT</span></div></div><div class="post-body"><div class="post-meta"><span class="role-tag '+role.cls+'">'+role.icon+' '+role.name+'</span><span class="post-time">'+p.time+'</span></div><div class="post-title">'+p.title+'</div><div class="post-preview">'+p.body+'</div></div></div>';
+    card.addEventListener('click',function(){showPage('feed');filterTag=null;filterRole=null;setTimeout(function(){openComments.add(p.id);buildFeed();setTimeout(function(){var e=document.querySelector('[data-pid="'+p.id+'"]');if(e)e.scrollIntoView({behavior:'smooth',block:'center'});},100);},100);});
     feed.appendChild(card);
   });
 }
-
-function renderProfileBadges() {
-  var grid = el('profileBadgesGrid');
-  grid.style.display = 'grid';
-  var earned = userBadges[currentProfileUser] || new Set();
-  grid.innerHTML = '';
-  BADGES.forEach(function(b, i) {
-    var isEarned = earned.has(b.id);
-    var card = document.createElement('div');
-    card.className = 'badge-card ' + (isEarned ? 'earned' : 'locked');
-    card.style.animationDelay = (i*.05)+'s';
-    card.innerHTML =
-      '<div class="badge-icon">'+b.icon+'</div>' +
-      '<div class="badge-name">'+b.name+'</div>' +
-      '<div class="badge-desc">'+b.desc+'</div>' +
-      (isEarned
-        ? '<span class="badge-earned-tag">✓ Earned</span>'
-        : '<span class="badge-locked-tag">🔒 Locked</span>');
+function renderProfileBadges(){
+  var grid=el('profileBadgesGrid');
+  grid.style.display='grid';
+  var earned=userBadges[currentProfileUser]||new Set();
+  grid.innerHTML='';
+  BADGES.forEach(function(b,i){
+    var isE=earned.has(b.id);
+    var card=document.createElement('div');
+    card.className='badge-card '+(isE?'earned':'locked');
+    card.style.animationDelay=(i*.05)+'s';
+    card.innerHTML='<div class="badge-icon">'+b.icon+'</div><div class="badge-name">'+b.name+'</div><div class="badge-desc">'+b.desc+'</div>'+(isE?'<span class="badge-earned-tag">&#10003; Earned</span>':'<span class="badge-locked-tag">&#128274; Locked</span>');
     grid.appendChild(card);
   });
 }
 
-// ═══ PROFILE MODAL (click username anywhere) ═══
-function openProfileModal(username) {
-  var prof = getProfile(username);
-  var role = getRole(prof.role || 'agent-inbound');
-  var userPostsList = posts.filter(function(p){ return p.author === username; });
-  var totalCsat = userPostsList.reduce(function(s,p){ return s+(p.csat||0); }, 0);
-  var earnedBadges = getUserEarnedBadges(username);
-  var totalComments = posts.reduce(function(s,p){
-    return s + p.comments.filter(function(c){ return c.author === username; }).length;
-  }, 0);
-
-  var badgesHTML = earnedBadges.length
-    ? earnedBadges.slice(0,6).map(function(b){
-        return '<div class="pmod-badge"><span class="pmod-badge-icon">'+b.icon+'</span><span class="pmod-badge-name">'+b.name+'</span></div>';
-      }).join('')
-    : '<span style="font-size:12px;color:var(--text3)">No badges yet</span>';
-
-  var recentPosts = userPostsList.slice(0,3);
-  var postsHTML = recentPosts.map(function(p){
-    return '<div class="pmod-post-preview" data-pid="'+p.id+'"><div class="pmod-post-title">'+p.title+'</div><div class="pmod-post-meta">😊 '+p.csat+' · '+p.comments.length+' comments · '+p.time+'</div></div>';
-  }).join('');
-
-  el('profileModalContent').innerHTML =
-    '<div class="pmod-hero">' +
-      '<div class="pmod-av" style="background:'+prof.color+'">'+username.slice(0,2).toUpperCase()+'</div>' +
-      '<div class="pmod-info">' +
-        '<div class="pmod-username">u/'+username+'</div>' +
-        '<div class="pmod-role">'+role.icon+' '+role.name+'</div>' +
-        '<div class="pmod-bio">'+(prof.bio||'CC community member.')+'</div>' +
-      '</div>' +
-    '</div>' +
-    '<div class="pmod-stats">' +
-      '<div class="pmod-stat"><div class="pmod-stat-num">'+userPostsList.length+'</div><div class="pmod-stat-lbl">Posts</div></div>' +
-      '<div class="pmod-stat"><div class="pmod-stat-num">'+totalCsat+'</div><div class="pmod-stat-lbl">Total CSAT</div></div>' +
-      '<div class="pmod-stat"><div class="pmod-stat-num">'+earnedBadges.length+'</div><div class="pmod-stat-lbl">Badges</div></div>' +
-    '</div>' +
-    '<div class="pmod-badges">' +
-      '<div class="pmod-badges-title">Badges</div>' +
-      '<div class="pmod-badges-row">'+badgesHTML+'</div>' +
-    '</div>' +
-    (recentPosts.length ? '<div class="pmod-posts-title">Recent Posts</div>' + postsHTML : '') +
+// ═══ PROFILE MODAL ═══
+function openProfileModal(username){
+  var prof=getProfile(username), role=getRole(prof.role||'agent-inbound');
+  var up=posts.filter(function(p){return p.author===username;});
+  var totalC=up.reduce(function(s,p){return s+(p.csat||0);},0);
+  var totalD=up.reduce(function(s,p){return s+(p.dsat||0);},0);
+  var csatPct=totalC+totalD>0?Math.round((totalC/(totalC+totalD))*100):0;
+  var eb=getUserEarnedBadges(username);
+  var badgesHTML=eb.length?eb.slice(0,6).map(function(b){return'<div class="pmod-badge"><span class="pmod-badge-icon">'+b.icon+'</span><span class="pmod-badge-name">'+b.name+'</span></div>';}).join(''):'<span style="font-size:12px;color:var(--text3)">No badges yet</span>';
+  var recentPosts=up.slice(0,3);
+  var postsHTML=recentPosts.map(function(p){return'<div class="pmod-post-preview" data-pid="'+p.id+'"><div class="pmod-post-title">'+p.title+'</div><div class="pmod-post-meta">&#128578; '+p.csat+' &nbsp;&#183;&nbsp; '+p.comments.length+' comments &nbsp;&#183;&nbsp; '+p.time+'</div></div>';}).join('');
+  var metaChips=(prof.location?'<span class="pmod-meta-chip">&#128205; '+prof.location+'</span>':'')+(prof.tenure?'<span class="pmod-meta-chip">&#8987; '+prof.tenure+'</span>':'')+(prof.joined?'<span class="pmod-meta-chip">&#128197; Joined '+prof.joined+'</span>':'');
+  el('profileModalContent').innerHTML=
+    '<div class="pmod-hero"><div class="pmod-av" style="background:'+prof.color+'">'+username.slice(0,2).toUpperCase()+'</div>'+
+    '<div class="pmod-info"><div class="pmod-username">u/'+username+'</div><div class="pmod-role">'+role.icon+' '+role.name+'</div>'+
+    '<div class="pmod-bio">'+(prof.bio||'CC community member.')+'</div>'+
+    '<div class="pmod-meta-row">'+metaChips+'</div></div></div>'+
+    '<div class="pmod-stats"><div class="pmod-stat"><div class="pmod-stat-num">'+up.length+'</div><div class="pmod-stat-lbl">Posts</div></div>'+
+    '<div class="pmod-stat"><div class="pmod-stat-num">'+csatPct+'%</div><div class="pmod-stat-lbl">CSAT Score</div></div>'+
+    '<div class="pmod-stat"><div class="pmod-stat-num">'+eb.length+'</div><div class="pmod-stat-lbl">Badges</div></div></div>'+
+    '<div class="pmod-badges"><div class="pmod-badges-title">Badges</div><div class="pmod-badges-row">'+badgesHTML+'</div></div>'+
+    (recentPosts.length?'<div class="pmod-posts-title">Recent Posts</div>'+postsHTML:'')+
     '<button class="pmod-view-all pmod-view-profile" data-user="'+username+'">View full profile &#8594;</button>';
-
-  // Bind post preview clicks
   setTimeout(function(){
-    el('profileModalContent').querySelectorAll('.pmod-post-preview').forEach(function(el){
-      el.addEventListener('click', function(){
-        var pid = parseInt(this.dataset.pid);
-        closeProfileModal();
-        gotoPost(pid);
-      });
+    el('profileModalContent').querySelectorAll('.pmod-post-preview').forEach(function(e){
+      e.addEventListener('click',function(){var pid=parseInt(this.dataset.pid);closeProfileModal();gotoPost(pid);});
     });
-  }, 50);
-
+  },50);
   el('profileModal').classList.add('open');
 }
-
-function closeProfileModal() {
-  el('profileModal').classList.remove('open');
-}
-
-// author-wrap and badge tracking handled inside buildFeed directly
-
-function updateHeaderBadges() {
-  if (!currentUser) return;
-  var earned = getUserEarnedBadges(currentUser.username);
-  var strip = el('userBadgesStrip');
-  if (strip) {
-    strip.innerHTML = earned.slice(0,3).map(function(b){
-      return '<span class="user-badge-mini" title="'+b.name+'">'+b.icon+'</span>';
-    }).join('');
-  }
-}
+function closeProfileModal(){el('profileModal').classList.remove('open');}
 
 // ═══ EVENTS ═══
 el('authModal').addEventListener('click',function(e){if(e.target.id==='authModal')closeAuth();});
@@ -1479,12 +1312,8 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeLB();c
 
 // ═══ INIT ═══
 seedProfileBadges();
-document.addEventListener('click',function(e){
-  if(e.target.classList.contains('cl-su'))openAuth('signup');
-  if(e.target.classList.contains('cl-li'))openAuth('login');
-  if(e.target.classList.contains('pmod-view-profile')){closeProfileModal();openProfile(e.target.dataset.user);}
-  if(e.target.classList.contains('cam-click')&&e.target.dataset.cauth){openProfileModal(e.target.dataset.cauth);}
-});
+document.addEventListener('click',function(e){if(e.target.classList.contains('cl-su'))openAuth('signup');if(e.target.classList.contains('cl-li'))openAuth('login');if(e.target.classList.contains('pmod-view-profile')){closeProfileModal();openProfile(e.target.dataset.user);}
+  if(e.target.classList.contains('cam-click')&&e.target.dataset.cauth){openProfileModal(e.target.dataset.cauth);}});
 document.addEventListener('click', function(e){
   if(e.target.classList.contains('cl-signup'))openAuth('signup');
   if(e.target.classList.contains('cl-login'))openAuth('login');
