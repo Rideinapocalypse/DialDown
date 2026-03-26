@@ -353,7 +353,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .mob-nav-btn span:first-child{font-size:20px;}
 ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 @media(max-width:768px){header{flex-wrap:wrap;height:auto;padding:10px 16px;gap:8px;}.search-wrap{order:3;max-width:100%;flex:1 1 100%;}.header-right{gap:6px;}.role-badge span{display:none;}.role-badge{padding:6px 8px;border-radius:8px;}.btn-outline{display:none;}.layout{grid-template-columns:1fr;padding:16px;}.sidebar{display:none;}.tpl-layout{grid-template-columns:1fr;padding:16px;gap:14px;}.tpl-sidebar{position:static;}.tpl-cats{flex-direction:row;flex-wrap:wrap;gap:6px;margin-top:10px;}.tpl-cat{padding:5px 10px;font-size:12px;}.news-layout{grid-template-columns:1fr;}.news-sidebar{order:-1;}.hud{grid-template-columns:1fr 1fr;}.game-wrap{padding:16px;}.diff-btns{flex-direction:column;align-items:center;}.diff-btn{width:100%;max-width:300px;}.frow{grid-template-columns:1fr;}.modal-overlay{padding:12px;}.modal{max-height:95vh;}.jobs-grid{grid-template-columns:1fr;}.jobs-header{flex-direction:column;align-items:stretch;}}
-@media(max-width:480px){header{padding:8px 12px;}.logo{font-size:18px;}.logo-icon{width:26px;height:26px;font-size:13px;}.nav-btn{font-size:0;padding:6px 8px;}#navGame::before{content:'🎮';font-size:15px;}#navTemplates::before{content:'📝';font-size:15px;}#navNews::before{content:'📰';font-size:15px;}#navJobs::before{content:'💼';font-size:15px;}.layout{padding:10px 12px;}.feed-header{flex-direction:column;align-items:flex-start;gap:10px;}.sort-tabs{width:100%;}.sort-tab{flex:1;text-align:center;}.post-card{padding:11px 12px;}.post-title{font-size:14px;}.post-preview{font-size:13px;}.hud{gap:8px;}.hud-card{padding:9px 8px;}.hud-val{font-size:18px;}.hud-lbl{font-size:9px;}.tpl-layout{padding:10px 12px;}.tpl-cat{font-size:11.5px;padding:4px 8px;}.tpl-card{padding:13px;}.tpl-actions{flex-direction:column;gap:6px;}.tpl-btn{width:100%;}.news-layout{padding:10px 12px;}.rpg{grid-template-columns:1fr;}.modal-body{padding:12px 14px;}.mobile-nav{display:flex;}#pageFeed,#pageGame,#pageTemplates,#pageNews,#pageJobs{padding-bottom:72px;}}
+@media(max-width:480px){#mobileBuddyStrip{display:flex!important;}header{padding:8px 12px;}.logo{font-size:18px;}.logo-icon{width:26px;height:26px;font-size:13px;}.nav-btn{font-size:0;padding:6px 8px;}#navGame::before{content:'🎮';font-size:15px;}#navTemplates::before{content:'📝';font-size:15px;}#navNews::before{content:'📰';font-size:15px;}#navJobs::before{content:'💼';font-size:15px;}.layout{padding:10px 12px;}.feed-header{flex-direction:column;align-items:flex-start;gap:10px;}.sort-tabs{width:100%;}.sort-tab{flex:1;text-align:center;}.post-card{padding:11px 12px;}.post-title{font-size:14px;}.post-preview{font-size:13px;}.hud{gap:8px;}.hud-card{padding:9px 8px;}.hud-val{font-size:18px;}.hud-lbl{font-size:9px;}.tpl-layout{padding:10px 12px;}.tpl-cat{font-size:11.5px;padding:4px 8px;}.tpl-card{padding:13px;}.tpl-actions{flex-direction:column;gap:6px;}.tpl-btn{width:100%;}.news-layout{padding:10px 12px;}.rpg{grid-template-columns:1fr;}.modal-body{padding:12px 14px;}.mobile-nav{display:flex;}#pageFeed,#pageGame,#pageTemplates,#pageNews,#pageJobs{padding-bottom:72px;}}
 
 /* ── PROFILE PAGE ── */
 .profile-layout{max-width:960px;margin:0 auto;padding:24px 20px;position:relative;z-index:1;}
@@ -428,7 +428,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .att-chip{font-size:10.5px;color:var(--text3);background:var(--bg3);padding:1px 6px;border-radius:3px;}
 .att-hint{font-size:10.5px;color:var(--accent);margin-top:5px;}
 @media(max-width:768px){.profile-stats-row{grid-template-columns:1fr 1fr;}.badges-grid{grid-template-columns:repeat(3,1fr);}.author-tooltip{display:none!important;}}
-@media(max-width:480px){.profile-layout{padding:12px;}.profile-hero{padding:16px;gap:14px;}.profile-av-lg{width:54px;height:54px;font-size:20px;}.profile-stats-row{grid-template-columns:1fr 1fr;}.badges-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:480px){#mobileBuddyStrip{display:flex!important;}.profile-layout{padding:12px;}.profile-hero{padding:16px;gap:14px;}.profile-av-lg{width:54px;height:54px;font-size:20px;}.profile-stats-row{grid-template-columns:1fr 1fr;}.badges-grid{grid-template-columns:1fr 1fr;}}
 
 
 /* ── BUDDY SYSTEM ── */
@@ -478,6 +478,21 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .ref-note-area:focus{border-color:var(--green);}
 .ref-modal{max-width:540px;}
 
+
+/* ── MOBILE FLOATING BUDDY BTN ── */
+#floatingBuddyBtn{
+  display:none;position:fixed;bottom:80px;right:16px;z-index:140;
+  background:var(--purple);color:#fff;border:none;border-radius:50%;
+  width:52px;height:52px;font-size:22px;cursor:pointer;
+  box-shadow:0 4px 16px rgba(167,139,250,.4);
+  transition:transform .2s,opacity .2s;
+  align-items:center;justify-content:center;
+}
+#floatingBuddyBtn:hover{transform:scale(1.1);}
+@media(max-width:480px){
+  #floatingBuddyBtn{display:flex;}
+}
+
 </style>
 </head>
 <body>
@@ -500,6 +515,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
       <div class="user-dropdown" id="userDD">
         <div class="dd-header"><div class="dd-name" id="ddName"></div><div class="dd-role" id="ddRole"></div></div>
         <div class="dd-item">👤 My Profile</div><div class="dd-item">🔖 Saved Posts</div>
+        <div class="dd-item" onclick="openBuddyModal()">🤝 Find a Buddy</div>
         <div class="dd-item danger" onclick="logout()">🚪 Log Out</div>
       </div>
     </div>
@@ -515,6 +531,13 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
       <div class="feed-title-wrap"><div class="feed-title" id="feedTitle">Community Feed</div><span class="csat-legend">😊 CSAT &nbsp;·&nbsp; 😤 DSAT</span></div>
       <div class="sort-tabs"><button class="sort-tab active" onclick="setSort(this,'hot')">🔥 Hot</button><button class="sort-tab" onclick="setSort(this,'new')">✨ New</button><button class="sort-tab" onclick="setSort(this,'top')">👑 Top</button></div>
     </div>
+
+<!-- MOBILE BUDDY STRIP (visible only on mobile) -->
+<div id="mobileBuddyStrip" style="display:none;gap:8px;flex-wrap:wrap;margin-bottom:12px;padding:10px 14px;background:linear-gradient(135deg,#0d1a1a,#111f1f);border:1px solid #1a3a3a;border-radius:var(--radius);">
+  <span style="font-size:13px;color:var(--text2);flex:1">Find a CC peer who can help with your challenges</span>
+  <button class="buddy-btn" onclick="currentUser?openBuddyModal():openAuth('signup')" style="justify-content:center">🤝 Find Buddy</button>
+</div>
+
     <div class="filter-bar" id="filterBar"><span>📌 Tagged</span><span class="filter-bar-tag" id="filterBarTag"></span><button class="filter-bar-clear" onclick="clearTagFilter()">✕ Clear</button></div>
     <div id="feed"></div>
   </main>
@@ -522,6 +545,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
     <div class="sidebar-card"><div class="sc-header">🎯 Browse by Role</div><div class="sc-body"><div class="role-list" id="roleFilterList"></div></div></div>
     <div class="sidebar-card"><div class="sc-header">📊 Stats</div><div class="sc-body"><div class="stats-grid"><div class="stat-item"><div class="stat-num">4.2k</div><div class="stat-label">Members</div></div><div class="stat-item"><div class="stat-num" id="statPosts">25</div><div class="stat-label">Posts</div></div><div class="stat-item"><div class="stat-num">12k</div><div class="stat-label">Tips</div></div><div class="stat-item"><div class="stat-num">99%</div><div class="stat-label">AHT Stress</div></div></div></div></div>
     <div class="sidebar-card"><div class="sc-header">📈 Trending</div><div class="sc-body"><div id="trendingList"></div></div></div>
+    <div class="sidebar-card" style="background:linear-gradient(135deg,#0d1a1a,#111f1f);border-color:#1a3a3a"><div class="sc-body" style="text-align:center;padding:16px"><div style="font-size:28px;margin-bottom:6px">🤝</div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:4px">Find a Buddy</div><div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.5">Get matched with a CC peer<br>who can help with your needs.</div><button class="buddy-btn" id="sidebarBuddyBtn" onclick="currentUser?openBuddyModal():openAuth('signup')" style="width:100%;justify-content:center">🤝 Find My Buddy</button></div></div>
     <div class="sidebar-card" style="background:linear-gradient(135deg,#1a0f07,#1e1208);border-color:#3a2010"><div class="sc-body" style="text-align:center;padding:16px"><div style="font-size:28px;margin-bottom:6px">🎮</div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:4px">AHT Runner</div><div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.5">Handle tickets fast.<br>Keep AHT low. Survive.</div><button class="btn-primary" onclick="showPage('game')" style="width:100%">Play Now 🎯</button></div></div>
   </aside>
 </div>
@@ -561,7 +585,9 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 <div class="page" id="pageJobs">
 <div class="jobs-layout">
   <div class="jobs-header"><div><div class="jobs-title">💼 CC & Customer Service Jobs</div><div class="jobs-sub">Real remote jobs from <a href="https://remotive.com" target="_blank" style="color:var(--accent);text-decoration:none">Remotive</a> · <span id="jobsLastUpdated">fetching…</span></div></div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><div style="position:relative"><span class="search-icon" style="font-size:13px">🔍</span><input class="search-input" id="jobsSearchInput" placeholder="Search jobs…" oninput="renderJobs()" style="padding-left:32px;min-width:180px"/></div><select class="fsel" id="jobsTypeFilter" onchange="renderJobs()" style="width:auto;padding:7px 12px;font-size:13px"><option value="">All Types</option><option value="full_time">Full Time</option><option value="part_time">Part Time</option><option value="contract">Contract</option></select></div></div>
-  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px" id="jobsFilterBtns"><button class="news-filter-btn active" onclick="filterJobs('all',this)">All Roles</button><button class="news-filter-btn" onclick="filterJobs('support',this)">🎧 Support</button><button class="news-filter-btn" onclick="filterJobs('success',this)">⭐ Success</button><button class="news-filter-btn" onclick="filterJobs('manager',this)">📊 Manager</button><button class="news-filter-btn" onclick="filterJobs('remote',this)">🌍 Remote Only</button></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px" id="jobsFilterBtns"><button class="news-filter-btn active" onclick="filterJobs('all',this)">All Roles</button><button class="news-filter-btn" onclick="filterJobs('support',this)">🎧 Support</button><button class="news-filter-btn" onclick="filterJobs('success',this)">⭐ Success</button><button class="news-filter-btn" onclick="filterJobs('manager',this)">📊 Manager</button><button class="news-filter-btn" onclick="filterJobs('remote',this)">🌍 Remote Only</button>
+    <button class="news-filter-btn" onclick="filterJobs('turkey',this)">🇹🇷 Türkiye</button>
+    <button class="news-filter-btn" onclick="filterJobs('turkey',this)">🇹🇷 Türkiye</button></div>
   <div id="jobsStats" style="display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap"></div>
   <div id="jobsGrid"></div>
   <div id="jobsLoader" style="text-align:center;padding:40px;color:var(--text3)"><div style="font-size:32px;margin-bottom:10px">📡</div><div>Fetching live jobs…</div></div>
@@ -594,6 +620,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
     <div class="profile-stat-card"><div class="profile-stat-num" id="pStatComments">0</div><div class="profile-stat-lbl">Comments</div></div>
     <div class="profile-stat-card"><div class="profile-stat-num" id="pStatBadges">0</div><div class="profile-stat-lbl">Badges</div></div>
   </div>
+  <div id="profileBuddyInfo" style="display:none;margin-bottom:16px"></div>
   <div class="profile-tabs">
     <button class="profile-tab active" id="ptabPosts" onclick="switchProfileTab('posts',this)">&#128221; Posts</button>
     <button class="profile-tab" id="ptabBadges" onclick="switchProfileTab('badges',this)">&#127942; Badges</button>
@@ -649,6 +676,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 <div class="modal-overlay" id="tplUseModal"><div class="modal" style="max-width:620px"><div class="modal-hdr"><div class="modal-hdr-title" id="tplUseName">Use Template</div><button class="modal-x" onclick="closeTplUse()">✕</button></div><div class="modal-body"><div id="tplPlaceholderFields"></div><div><div class="fl">Preview</div><textarea class="fta" id="tplPreview" style="min-height:160px;line-height:1.65"></textarea></div></div><div class="modal-footer" style="justify-content:space-between"><button class="btn-ghost" onclick="closeTplUse()">Cancel</button><div style="display:flex;gap:8px"><button class="btn-ghost" onclick="copyTpl()">📋 Copy</button><button class="btn-primary" onclick="copyTpl(true)">📋 Copy & Close</button></div></div></div></div>
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lb" onclick="closeLB()"><button class="lb-close" onclick="closeLB()">✕</button><img id="lbImg" src="" alt=""/></div>
+<button id="floatingBuddyBtn" onclick="currentUser?openBuddyModal():openAuth('signup')" title="Find a Buddy">🤝</button>
 <!-- MOBILE NAV -->
 <nav class="mobile-nav">
   <button class="mob-nav-btn active" id="mnFeed" onclick="showPage('feed');setMobNav('mnFeed')"><span>📰</span><span>Feed</span></button>
@@ -686,6 +714,10 @@ var AVCOLORS=['#ff5f1f','#4f9eff','#a78bfa','#3ddc84','#fbbf24','#f472b6','#34d3
 var MOOD_RESPONSES={great:{msg:"Amazing! Keep that energy — spread some to your team today."},good:{msg:"Solid day. Stay hydrated, take your breaks."},meh:{msg:"Meh days happen. Go easy on yourself. One call at a time."},tough:{msg:"Sorry to hear that. You do not have to carry it alone."},burnout:{msg:"That is a signal worth taking seriously. You matter more than your metrics."}};
 var TEAM_MOOD={great:14,good:31,meh:24,tough:18,burnout:13};
 var CAT_META={apology:{label:'Apology',color:'rgba(255,107,107,.15)',text:'#ff6b6b',emoji:'😔'},info:{label:'Ask for Info',color:'rgba(79,158,255,.15)',text:'#4f9eff',emoji:'❓'},escalation:{label:'Escalation',color:'rgba(251,191,36,.15)',text:'#fbbf24',emoji:'🚨'},followup:{label:'Follow-up',color:'rgba(61,220,132,.15)',text:'#3ddc84',emoji:'🔁'},closing:{label:'Closing',color:'rgba(167,139,250,.15)',text:'#a78bfa',emoji:'✅'},hold:{label:'Hold/Transfer',color:'rgba(100,200,200,.15)',text:'#5dd6d6',emoji:'⏸'},custom:{label:'Custom',color:'rgba(255,95,31,.15)',text:'#ff8c55',emoji:'🏷'}};
+
+var TR_JOBS_DATA = JSON.parse("[{\"id\": \"tr1\", \"title\": \"M\u00fc\u015fteri Temsilcisi - \u0130nbound\", \"company_name\": \"Concentrix T\u00fcrkiye\", \"company_logo\": \"https://logo.clearbit.com/concentrix.com\", \"job_type\": \"full_time\", \"candidate_required_location\": \"\u0130stanbul, T\u00fcrkiye\", \"salary\": \"18.000 - 22.000 TL\", \"publication_date\": \"2026-03-24\", \"url\": \"https://www.kariyer.net/is-ilani/concentrix\", \"description\": \"\u0130nbound \u00e7a\u011fr\u0131 merkezi ekibimize M\u00fc\u015fteri Temsilcisi ar\u0131yoruz. M\u00fckemmel ileti\u015fim becerileri, empati yetene\u011fi ve problem \u00e7\u00f6zme odakl\u0131 d\u00fc\u015f\u00fcnce yap\u0131s\u0131na sahip adaylar tercih edilir.\", \"language\": \"tr\", \"flag\": \"\ud83c\uddf9\ud83c\uddf7\"}, {\"id\": \"tr2\", \"title\": \"\u00c7a\u011fr\u0131 Merkezi Tak\u0131m Lideri\", \"company_name\": \"Vodafone T\u00fcrkiye\", \"company_logo\": \"https://logo.clearbit.com/vodafone.com.tr\", \"job_type\": \"full_time\", \"candidate_required_location\": \"\u0130stanbul / Ankara, T\u00fcrkiye\", \"salary\": \"28.000 - 35.000 TL\", \"publication_date\": \"2026-03-22\", \"url\": \"https://www.kariyer.net/is-ilani/vodafone\", \"description\": \"10-15 ki\u015filik m\u00fc\u015fteri hizmetleri ekibini y\u00f6netecek, KPI takibi yapacak ve ko\u00e7luk faaliyetlerini y\u00fcr\u00fctecek deneyimli bir Tak\u0131m Lideri ar\u0131yoruz.\", \"language\": \"tr\", \"flag\": \"\ud83c\uddf9\ud83c\uddf7\"}, {\"id\": \"tr3\", \"title\": \"Kalite G\u00fcvence Uzman\u0131 - \u00c7a\u011fr\u0131 Merkezi\", \"company_name\": \"T\u00fcrk Telekom\", \"company_logo\": \"https://logo.clearbit.com/turktelekom.com.tr\", \"job_type\": \"full_time\", \"candidate_required_location\": \"Ankara, T\u00fcrkiye\", \"salary\": \"25.000 - 30.000 TL\", \"publication_date\": \"2026-03-20\", \"url\": \"https://www.kariyer.net/is-ilani/turktelekom\", \"description\": \"\u00c7a\u011fr\u0131 merkezi ekiplerimizin kalite performans\u0131n\u0131 izleyecek, kalibrasyon seanslar\u0131 d\u00fczenleyecek ve geri bildirim s\u00fcre\u00e7lerini y\u00f6netecek QA Uzman\u0131 aray\u0131\u015f\u0131nday\u0131z.\", \"language\": \"tr\", \"flag\": \"\ud83c\uddf9\ud83c\uddf7\"}, {\"id\": \"tr4\", \"title\": \"M\u00fc\u015fteri Deneyimi Temsilcisi (Uzaktan)\", \"company_name\": \"Trendyol\", \"company_logo\": \"https://logo.clearbit.com/trendyol.com\", \"job_type\": \"full_time\", \"candidate_required_location\": \"T\u00fcrkiye (Uzaktan)\", \"salary\": \"20.000 - 25.000 TL\", \"publication_date\": \"2026-03-19\", \"url\": \"https://www.kariyer.net/is-ilani/trendyol\", \"description\": \"Trendyol m\u00fc\u015fterilerine chat ve telefon kanallar\u0131ndan destek verecek, sorunlar\u0131 h\u0131zl\u0131 ve etkili \u00e7\u00f6zecek M\u00fc\u015fteri Deneyimi Temsilcisi ar\u0131yoruz. Uzaktan \u00e7al\u0131\u015fma imk\u00e2n\u0131 mevcuttur.\", \"language\": \"tr\", \"flag\": \"\ud83c\uddf9\ud83c\uddf7\"}, {\"id\": \"tr5\", \"title\": \"\u0130\u015f G\u00fcc\u00fc Planlama (WFM) Analisti\", \"company_name\": \"Teleperformance T\u00fcrkiye\", \"company_logo\": \"https://logo.clearbit.com/teleperformance.com\", \"job_type\": \"full_time\", \"candidate_required_location\": \"\u0130stanbul, T\u00fcrkiye\", \"salary\": \"30.000 - 38.000 TL\", \"publication_date\": \"2026-03-18\", \"url\": \"https://www.kariyer.net/is-ilani/teleperformance\", \"description\": \"\u00c7a\u011fr\u0131 hacimlerini tahmin eden, personel \u00e7izelgesi olu\u015fturan ve ger\u00e7ek zamanl\u0131 uyum takibi yapan WFM Analisti ar\u0131yoruz. Erlang C ve Excel ileri d\u00fczey bilgisi tercih sebebidir.\", \"language\": \"tr\", \"flag\": \"\ud83c\uddf9\ud83c\uddf7\"}, {\"id\": \"tr6\", \"title\": \"\u00c7ift Dilli M\u00fc\u015fteri Temsilcisi (TR/EN)\", \"company_name\": \"Amazon T\u00fcrkiye\", \"company_logo\": \"https://logo.clearbit.com/amazon.com.tr\", \"job_type\": \"full_time\", \"candidate_required_location\": \"\u0130stanbul, T\u00fcrkiye\", \"salary\": \"22.000 - 28.000 TL\", \"publication_date\": \"2026-03-16\", \"url\": \"https://www.kariyer.net/is-ilani/amazon\", \"description\": \"T\u00fcrk\u00e7e ve \u0130ngilizce m\u00fc\u015fteri deste\u011fi sa\u011flayacak, sipari\u015f ve teslimat sorunlar\u0131n\u0131 \u00e7\u00f6zecek ikidilli M\u00fc\u015fteri Temsilcisi ar\u0131yoruz.\", \"language\": \"tr\", \"flag\": \"\ud83c\uddf9\ud83c\uddf7\"}, {\"id\": \"tr7\", \"title\": \"Yeni Nesil \u00c7a\u011fr\u0131 Merkezi Ko\u00e7u\", \"company_name\": \"Garanti BBVA\", \"company_logo\": \"https://logo.clearbit.com/garantibbva.com.tr\", \"job_type\": \"full_time\", \"candidate_required_location\": \"\u0130stanbul, T\u00fcrkiye\", \"salary\": \"32.000 - 40.000 TL\", \"publication_date\": \"2026-03-14\", \"url\": \"https://www.kariyer.net/is-ilani/garantibbva\", \"description\": \"M\u00fc\u015fteri hizmetleri ekibimizde performans ko\u00e7lu\u011fu yapacak, bireysel geli\u015fim planlar\u0131 olu\u015fturacak ve e\u011fitim programlar\u0131n\u0131 y\u00fcr\u00fctecek deneyimli bir ko\u00e7 ar\u0131yoruz.\", \"language\": \"tr\", \"flag\": \"\ud83c\uddf9\ud83c\uddf7\"}, {\"id\": \"tr8\", \"title\": \"Part-Time M\u00fc\u015fteri Destek Temsilcisi\", \"company_name\": \"Hepsiburada\", \"company_logo\": \"https://logo.clearbit.com/hepsiburada.com\", \"job_type\": \"part_time\", \"candidate_required_location\": \"T\u00fcrkiye (Uzaktan)\", \"salary\": \"Saatlik \u00fccret + prim\", \"publication_date\": \"2026-03-12\", \"url\": \"https://www.kariyer.net/is-ilani/hepsiburada\", \"description\": \"Ak\u015fam ve hafta sonu vardiyalar\u0131nda m\u00fc\u015fteri chat deste\u011fi verecek part-time temsilci ar\u0131yoruz. Uzaktan \u00e7al\u0131\u015fma, esnek saat. \u00d6nceki \u00e7a\u011fr\u0131 merkezi deneyimi art\u0131.\", \"language\": \"tr\", \"flag\": \"\ud83c\uddf9\ud83c\uddf7\"}]");
+var TR_PROFILES_DATA = JSON.parse("[{\"username\": \"ahtavcisi_ayse\", \"role\": \"agent-inbound\", \"color\": \"#e05252\", \"bio\": \"7 y\u0131ll\u0131k inbound deneyimi. \u0130stanbul'da bir \u00e7a\u011fr\u0131 merkezinde \u00e7al\u0131\u015f\u0131yorum. Zor m\u00fc\u015fteriler konusunda ustala\u015ft\u0131m \u2014 empati her \u015feydir.\", \"joined\": \"Oca 2023\", \"location\": \"\u0130stanbul, T\u00fcrkiye\", \"tenure\": \"7 y\u0131l inbound\"}, {\"username\": \"wfm_ustasi\", \"role\": \"wfm\", \"color\": \"#52a8e0\", \"bio\": \"WFM Analisti. Erlang C benim dilim, shrinkage benim d\u00fc\u015fman\u0131m. T\u00fcrkiye'de \u00e7a\u011fr\u0131 merkezi planlamas\u0131 \u00fczerine 6 y\u0131l tecr\u00fcbe edindim.\", \"joined\": \"Mar 2022\", \"location\": \"Ankara, T\u00fcrkiye\", \"tenure\": \"6 y\u0131l WFM\"}, {\"username\": \"kalite_kral\", \"role\": \"qa\", \"color\": \"#e0b452\", \"bio\": \"QA Uzman\u0131. Her \u00e7a\u011fr\u0131 bir veri noktas\u0131, her puan bir hikaye. Kalibrasyon seanslar\u0131n\u0131 sever, 'anl\u0131yorum' gibi kli\u015fe ifadeleri sevmem.\", \"joined\": \"\u015eub 2021\", \"location\": \"\u0130zmir, T\u00fcrkiye\", \"tenure\": \"8 y\u0131l QA\"}, {\"username\": \"ekip_lideri_emre\", \"role\": \"team-lead\", \"color\": \"#52e08a\", \"bio\": \"14 ki\u015filik tak\u0131m\u0131 y\u00f6netiyorum. Ko\u00e7luk yapmak sabah kahvem kadar olmazsa olmaz. Burn-out'a kar\u015f\u0131 sava\u015f\u0131yorum, ekibim i\u00e7in.\", \"joined\": \"Nis 2022\", \"location\": \"\u0130stanbul, T\u00fcrkiye\", \"tenure\": \"4 y\u0131l TL\"}, {\"username\": \"uzaktan_uzman\", \"role\": \"agent-inbound\", \"color\": \"#a852e0\", \"bio\": \"Tamamen uzaktan \u00e7al\u0131\u015fan m\u00fc\u015fteri temsilcisi. Evden m\u00fckemmel CSAT almak m\u00fcmk\u00fcn \u2014 ispat ettim. T\u00fcrkiye'nin en iyi remote setup'\u0131 bende.\", \"joined\": \"Haz 2023\", \"location\": \"T\u00fcrkiye (Uzaktan)\", \"tenure\": \"3 y\u0131l uzaktan\"}]");
+var TR_POSTS_DATA = JSON.parse("[{\"id\": 101, \"role\": \"agent-inbound\", \"author\": \"ahtavcisi_ayse\", \"tags\": [\"AHTsurvivor\"], \"title\": \"T\u00fcrkiye'de \u00e7a\u011fr\u0131 merkezinde zor m\u00fc\u015fteri nas\u0131l y\u00f6netilir \u2014 7 y\u0131lda \u00f6\u011frendiklerim\", \"body\": \"M\u00fc\u015fteri \u00f6fkeliyse \u00f6nce sustum, dinledim. T\u00fcrk\u00e7ede 'anl\u0131yorum' \u00e7ok kullan\u0131l\u0131yor ama m\u00fc\u015fteri bunu robotik buluyor. Bunun yerine 'Bu ger\u00e7ekten sinir bozucu olmal\u0131' gibi spesifik bir empati kurun. Fark yarat\u0131yor.\", \"csat\": 187, \"dsat\": 8, \"time\": \"3s \u00f6nce\", \"comments\": [{\"author\": \"ekip_lideri_emre\", \"color\": \"#52e08a\", \"text\": \"Kesinlikle kat\u0131l\u0131yorum. Ekibimde bu ge\u00e7i\u015fi yapt\u0131k, CSAT 0.4 puan artt\u0131.\"}, {\"author\": \"kalite_kral\", \"color\": \"#e0b452\", \"text\": \"QA perspektifinden: bu c\u00fcmleyi kulland\u0131\u011f\u0131nda de\u011ferlendirmede de art\u0131 puan al\u0131yorsun.\"}]}, {\"id\": 102, \"role\": \"wfm\", \"author\": \"wfm_ustasi\", \"tags\": [\"WFMwoes\"], \"title\": \"T\u00fcrkiye'de planlama yaparken Ramazan ay\u0131n\u0131 hesaba katmak\", \"body\": \"Ramazan d\u00f6neminde \u00e7a\u011fr\u0131 hacmi sabah 9-11 aras\u0131 dramatik d\u00fc\u015f\u00fcyor, ak\u015fam iftardan sonra patl\u0131yor. Bu d\u00f6nem i\u00e7in ayr\u0131 bir shrinkage modeli kurdum. Payla\u015fmak isteyen var m\u0131?\", \"csat\": 143, \"dsat\": 4, \"time\": \"5s \u00f6nce\", \"comments\": [{\"author\": \"ekip_lideri_emre\", \"color\": \"#52e08a\", \"text\": \"Payla\u015fabilirsen \u00e7ok i\u015fe yarar, her y\u0131l bu d\u00f6nemi tahmin etmekte zorlan\u0131yoruz.\"}]}, {\"id\": 103, \"role\": \"team-lead\", \"author\": \"ekip_lideri_emre\", \"tags\": [\"AHTsurvivor\", \"QAfeedback\"], \"title\": \"14 ki\u015filik ekipte motivasyonu y\u00fcksek tutman\u0131n 3 yolu\", \"body\": \"1) Her sabah k\u0131sa bir 'kazan\u00e7 payla\u015f\u0131m\u0131' \u2014 d\u00fcnk\u00fc en iyi \u00e7a\u011fr\u0131y\u0131 anlat\u0131yoruz. 2) KPI bask\u0131s\u0131ndan \u00f6nce insan\u0131 g\u00f6r\u00fcyoruz. 3) Burn-out i\u015faretlerini erken fark ediyoruz. T\u00fcrk \u00e7a\u011fr\u0131 merkezlerinde bu k\u00fclt\u00fcr h\u00e2l\u00e2 yeterince geli\u015fmedi.\", \"csat\": 234, \"dsat\": 11, \"time\": \"1g \u00f6nce\", \"comments\": [{\"author\": \"ahtavcisi_ayse\", \"color\": \"#e05252\", \"text\": \"'Kazan\u00e7 payla\u015f\u0131m\u0131' fikri harikaym\u0131\u015f, hemen deneyece\u011fim.\"}, {\"author\": \"uzaktan_uzman\", \"color\": \"#a852e0\", \"text\": \"Uzaktan ekiplerde bu \u00e7ok daha \u00f6nemli, ekran arkas\u0131ndaki insan\u0131 g\u00f6rmek zor.\"}]}, {\"id\": 104, \"role\": \"qa\", \"author\": \"kalite_kral\", \"tags\": [\"QAfeedback\"], \"title\": \"'Anl\u0131yorum efendim' \u2014 T\u00fcrk \u00e7a\u011fr\u0131 merkezlerinin AHT katili\", \"body\": \"10.000 \u00e7a\u011fr\u0131 dinledim. En \u00e7ok DSAT alan c\u00fcmle bu. M\u00fc\u015fteri bunu sahte buluyor. Yerine 'Bu durumu sizin i\u00e7in hemen \u00e7\u00f6zeyim' deneyin. Spesifik, sahiplenme odakl\u0131, g\u00fc\u00e7l\u00fc.\", \"csat\": 312, \"dsat\": 6, \"time\": \"2g \u00f6nce\", \"comments\": [{\"author\": \"ahtavcisi_ayse\", \"color\": \"#e05252\", \"text\": \"Hakl\u0131s\u0131n, bu c\u00fcmleyi kald\u0131rd\u0131\u011f\u0131m\u0131zda ger\u00e7ekten fark oluyor.\"}, {\"author\": \"wfm_ustasi\", \"color\": \"#52a8e0\", \"text\": \"QA skorlar\u0131 bu de\u011fi\u015fimle nas\u0131l etkilendi, veri var m\u0131?\"}]}, {\"id\": 105, \"role\": \"agent-inbound\", \"author\": \"uzaktan_uzman\", \"tags\": [\"SilentCalls\"], \"title\": \"Evden \u00e7al\u0131\u015fan \u00e7a\u011fr\u0131 merkezi temsilcisi olarak sessiz \u00e7a\u011fr\u0131lar\u0131 nas\u0131l y\u00f6netiyorum\", \"body\": \"Ofisteki gibi destek yokken sessiz bir \u00e7a\u011fr\u0131 al\u0131yorsun \u2014 yaln\u0131z hissediyorsun. Protokol\u00fcm: iki kez duyuru, hatta 'E\u011fer beni duyuyorsan\u0131z bir tu\u015fa bas\u0131n' diyorum. Bu c\u00fcmle hayat kurtar\u0131yor.\", \"csat\": 198, \"dsat\": 3, \"time\": \"3g \u00f6nce\", \"comments\": [{\"author\": \"ahtavcisi_ayse\", \"color\": \"#e05252\", \"text\": \"Uzaktan \u00e7al\u0131\u015fanlara bu protokol mutlaka \u00f6\u011fretilmeli.\"}]}]");
 
 // ═══ HELPERS (defined before everything else) ═══
 function getRole(id){return ROLES.find(function(r){return r.id===id;})||{icon:'👤',name:id,cls:'role-agent'};}
@@ -730,7 +762,7 @@ function showPage(name){
   if(mob[name])setMobNav(mob[name]);
 }
 function setMobNav(id){qsa('.mob-nav-btn').forEach(function(b){b.classList.remove('active');});var e=el(id);if(e)e.classList.add('active');}
-function handleMobAuth(){if(currentUser)toggleDD();else openAuth('signup');}
+function handleMobAuth(){if(currentUser)openBuddyModal();else openAuth('signup');}
 function updateMobAuth(){if(!currentUser)return;var i=el('mnAuthIcon'),l=el('mnAuthLabel');if(i)i.textContent=currentUser.username[0].toUpperCase();if(l)l.textContent=currentUser.username.slice(0,8);}
 function nextJoke(){jokeIdx=(jokeIdx+1)%JOKES.length;var e=el('jokeText');e.style.opacity=0;setTimeout(function(){e.textContent=JOKES[jokeIdx];e.style.opacity=1;},280);}
 
@@ -876,7 +908,7 @@ function buildFeed(){
     // Meta row
     var meta=document.createElement('div');
     meta.className='post-meta';
-    meta.innerHTML='<span class="role-tag '+role.cls+'">'+role.icon+' '+role.name+'</span>'+
+    meta.innerHTML='<span class="role-tag '+role.cls+'">'+role.icon+' '+role.name+'</span>'+(p.id>=100?'<span style="font-size:11px;background:rgba(227,10,23,.12);color:#e30a17;padding:2px 7px;border-radius:4px;font-family:monospace">🇹🇷 TR</span>':'')+
       '<span class="author-wrap" data-author="'+p.author+'">'+
         '<span class="author-av" style="background:'+prof.color+'">'+p.author.slice(0,2).toUpperCase()+'</span>'+
         '<span class="post-author">u/'+p.author+'</span>'+
@@ -1081,6 +1113,7 @@ function loginUser(u,isNew){
   el('hUsername').textContent=u.username;el('ddName').textContent=(u.firstName||'')+' '+(u.lastName||'');
   el('ddRole').textContent=r?r.icon+' '+r.name:'';
   setTimeout(closeAuth,2000);setTimeout(updateMobAuth,2100);
+  setTimeout(function(){var fb=document.getElementById('floatingBuddyBtn');if(fb)fb.style.background='var(--purple)';},2200);
   initUserActivity(u.username);
   userActivity[u.username].joinDate=new Date().toISOString();
   checkBadges(u.username);
@@ -1174,7 +1207,7 @@ function endGame(){clearInterval(gs.timer);el('gamePlaying').style.display='none
   if(currentUser){initUserActivity(currentUser.username);if(gs.score>userActivity[currentUser.username].maxGameScore)userActivity[currentUser.username].maxGameScore=gs.score;checkBadges(currentUser.username);updateHeaderBadges();}}
 
 // ═══ JOBS ═══
-async function fetchJobs(){try{var resp=await fetch('https://remotive.com/api/remote-jobs?category=customer-support&limit=20',{signal:AbortSignal.timeout(7000)});if(!resp.ok)throw new Error('fail');var data=await resp.json();if(data.jobs&&data.jobs.length>0)jobsData=[...data.jobs,...JOBS_DATA.slice(0,4)];}catch(e){}jobsLoaded=true;var lu=el('jobsLastUpdated');if(lu)lu.textContent='Updated '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});el('jobsLoader').style.display='none';renderJobs();}
+async function fetchJobs(){try{var resp=await fetch('https://remotive.com/api/remote-jobs?category=customer-support&limit=24',{signal:AbortSignal.timeout(7000)});if(!resp.ok)throw new Error('fail');var data=await resp.json();if(data.jobs&&data.jobs.length>0)jobsData=[...data.jobs,...JOBS_DATA.slice(0,4)];}catch(e){}jobsLoaded=true;var lu=el('jobsLastUpdated');if(lu)lu.textContent='Updated '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});el('jobsLoader').style.display='none';renderJobs();}
 function filterJobs(cat,btn){jobsCatFilter=cat;qsa('#jobsFilterBtns .news-filter-btn').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');renderJobs();}
 function getJobType(t){if(!t)return{cls:'job-type-other',label:'Remote'};if(t==='full_time')return{cls:'job-type-full',label:'Full Time'};if(t==='part_time')return{cls:'job-type-part',label:'Part Time'};if(t==='contract')return{cls:'job-type-contract',label:'Contract'};return{cls:'job-type-other',label:t.replace('_',' ')};}
 function timeSince(d){var days=Math.floor((new Date()-new Date(d))/86400000);if(days===0)return'Today';if(days===1)return'Yesterday';if(days<7)return days+'d ago';if(days<30)return Math.floor(days/7)+'w ago';return Math.floor(days/30)+'mo ago';}
@@ -1187,6 +1220,7 @@ function renderJobs(){
   else if(jobsCatFilter==='success')filtered=filtered.filter(function(j){return/(success|experience|cx)/i.test(j.title);});
   else if(jobsCatFilter==='manager')filtered=filtered.filter(function(j){return/(manager|lead|supervisor|director)/i.test(j.title);});
   else if(jobsCatFilter==='remote')filtered=filtered.filter(function(j){return/(worldwide|remote|anywhere)/i.test(j.candidate_required_location||'');});
+  else if(jobsCatFilter==='turkey')filtered=filtered.filter(function(j){return j.language==='tr'||/(Turkiye|Turkey|Istanbul|Ankara|Izmir)/i.test(j.candidate_required_location||'');});
   if(q)filtered=filtered.filter(function(j){return j.title.toLowerCase().indexOf(q)>=0||j.company_name.toLowerCase().indexOf(q)>=0;});
   if(typeF)filtered=filtered.filter(function(j){return j.job_type===typeF;});
   var statsEl=el('jobsStats');
@@ -1204,8 +1238,9 @@ function renderJobs(){
     var phHtml='<div class="job-logo-placeholder"'+(j.company_logo?' style="display:none"':'')+'>'+j.company_name[0]+'</div>';
     var desc=stripHtml(j.description||'').substring(0,150)+'...';
     var salary=j.salary&&j.salary.trim()&&j.salary!=='Competitive'?'<span class="job-salary">💰 '+j.salary+'</span>':'';
-    card.innerHTML='<div class="job-card-top">'+logoHtml+phHtml+'<div class="job-info"><div class="job-company">'+j.company_name+'</div><div class="job-title">'+j.title+'</div><div class="job-meta"><span class="job-badge '+jt.cls+'">'+jt.label+'</span><span class="job-location">📍 '+(j.candidate_required_location||'Remote')+'</span></div></div></div><div class="job-desc">'+desc+'</div><div class="job-footer"><div>'+salary+'<span class="job-date">📅 '+timeSince(j.publication_date)+'</span></div><button class="job-apply-btn">Apply →</button></div>';
+    card.innerHTML='<div class="job-card-top">'+logoHtml+phHtml+'<div class="job-info"><div class="job-company">'+(j.flag?j.flag+' ':'')+j.company_name+'</div><div class="job-title">'+j.title+'</div><div class="job-meta"><span class="job-badge '+jt.cls+'">'+jt.label+'</span><span class="job-location">📍 '+(j.candidate_required_location||'Remote')+'</span></div></div></div><div class="job-desc">'+desc+'</div><div class="job-footer"><div>'+salary+'<span class="job-date">📅 '+timeSince(j.publication_date)+'</span></div><div style="display:flex;gap:7px"><button class="job-ref-btn ref-trigger">👥 Refer</button><button class="job-apply-btn">Apply →</button></div></div>';
     card.querySelector('.job-apply-btn').addEventListener('click',function(e){e.stopPropagation();window.open(j.url,'_blank');});
+    if(j.language==='tr'){var trBadge=document.createElement('span');trBadge.className='job-badge';trBadge.style.cssText='background:rgba(227,10,23,.12);color:#e30a17;margin-left:4px';trBadge.textContent='🇹🇷 TR';var metaDiv=card.querySelector('.job-meta');if(metaDiv)metaDiv.appendChild(trBadge);}
     var refTrigger=card.querySelector('.ref-trigger');
     if(refTrigger){refTrigger.addEventListener('click',(function(job){return function(e){e.stopPropagation();if(!currentUser){openAuth('signup');return;}openReferralModal(job);};})(j));}
     card.addEventListener('click',function(){window.open(j.url,'_blank');});
@@ -1300,6 +1335,18 @@ function openProfile(username){
   el('pStatComments').textContent=up.reduce(function(s,p){return s+p.comments.length;},0);
   el('pStatBadges').textContent=eb.length;
   el('profileBackBtn').onclick=function(){showPage('feed');};
+  // Show buddy info section
+  var buddyInfoEl=el('profileBuddyInfo');
+  if(buddyInfoEl){
+    var myBuddy=currentUser?buddyData[currentUser.username]:null;
+    var isBuddy=myBuddy===username;
+    var theyAreMyBuddy=Object.keys(buddyData).some(function(u){return buddyData[u]===username;});
+    if(isBuddy){
+      buddyInfoEl.style.display='block';
+      var bp=getProfile(username);
+      buddyInfoEl.innerHTML='<div class="buddy-current"><div class="buddy-current-av" style="background:'+bp.color+'">'+username.slice(0,2).toUpperCase()+'</div><div class="buddy-current-info"><div class="buddy-current-name">🤝 This is your current buddy</div><div class="buddy-current-sub">You are connected with u/'+username+'</div></div><button class="buddy-remove-btn" onclick="removeBuddy()">Remove</button></div>';
+    } else { buddyInfoEl.style.display='none'; }
+  }
   // Buddy button
   var buddyBtnEl=el('profileBuddyBtn');
   if(buddyBtnEl){
@@ -1637,6 +1684,10 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeLB();c
 
 // ═══ INIT ═══
 seedProfileBadges();
+// Merge Turkish data
+jobsData = jobsData.concat(TR_JOBS_DATA);
+PROFILES = PROFILES.concat(TR_PROFILES_DATA);
+posts = posts.concat(TR_POSTS_DATA.map(function(p){return Object.assign({},p,{comments:p.comments.map(function(c){return Object.assign({},c);})});}));
 document.addEventListener('click',function(e){if(e.target.classList.contains('cl-su'))openAuth('signup');if(e.target.classList.contains('cl-li'))openAuth('login');if(e.target.classList.contains('pmod-view-profile')){closeProfileModal();openProfile(e.target.dataset.user);}
   if(e.target.classList.contains('cam-click')&&e.target.dataset.cauth){openProfileModal(e.target.dataset.cauth);}});
 document.addEventListener('click', function(e){
