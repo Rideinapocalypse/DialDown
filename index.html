@@ -479,19 +479,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .ref-modal{max-width:540px;}
 
 
-/* ── MOBILE FLOATING BUDDY BTN ── */
-#floatingBuddyBtn{
-  display:none;position:fixed;bottom:80px;right:16px;z-index:140;
-  background:var(--purple);color:#fff;border:none;border-radius:50%;
-  width:52px;height:52px;font-size:22px;cursor:pointer;
-  box-shadow:0 4px 16px rgba(167,139,250,.4);
-  transition:transform .2s,opacity .2s;
-  align-items:center;justify-content:center;
-}
-#floatingBuddyBtn:hover{transform:scale(1.1);}
-@media(max-width:480px){
-  #floatingBuddyBtn{display:flex;}
-}
+/* floating buddy btn removed */
 
 </style>
 </head>
@@ -535,7 +523,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 <!-- MOBILE BUDDY STRIP (visible only on mobile) -->
 <div id="mobileBuddyStrip" style="display:none;gap:8px;flex-wrap:wrap;margin-bottom:12px;padding:10px 14px;background:linear-gradient(135deg,#0d1a1a,#111f1f);border:1px solid #1a3a3a;border-radius:var(--radius);">
   <span style="font-size:13px;color:var(--text2);flex:1">Find a CC peer who can help with your challenges</span>
-  <button class="buddy-btn" onclick="currentUser?openBuddyModal():openAuth('signup')" style="justify-content:center">🤝 Find Buddy</button>
+  <button class="buddy-btn" onclick="openBuddyModalMob()" style="justify-content:center">🤝 Find Buddy</button>
 </div>
 
     <div class="filter-bar" id="filterBar"><span>📌 Tagged</span><span class="filter-bar-tag" id="filterBarTag"></span><button class="filter-bar-clear" onclick="clearTagFilter()">✕ Clear</button></div>
@@ -545,7 +533,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
     <div class="sidebar-card"><div class="sc-header">🎯 Browse by Role</div><div class="sc-body"><div class="role-list" id="roleFilterList"></div></div></div>
     <div class="sidebar-card"><div class="sc-header">📊 Stats</div><div class="sc-body"><div class="stats-grid"><div class="stat-item"><div class="stat-num">4.2k</div><div class="stat-label">Members</div></div><div class="stat-item"><div class="stat-num" id="statPosts">25</div><div class="stat-label">Posts</div></div><div class="stat-item"><div class="stat-num">12k</div><div class="stat-label">Tips</div></div><div class="stat-item"><div class="stat-num">99%</div><div class="stat-label">AHT Stress</div></div></div></div></div>
     <div class="sidebar-card"><div class="sc-header">📈 Trending</div><div class="sc-body"><div id="trendingList"></div></div></div>
-    <div class="sidebar-card" style="background:linear-gradient(135deg,#0d1a1a,#111f1f);border-color:#1a3a3a"><div class="sc-body" style="text-align:center;padding:16px"><div style="font-size:28px;margin-bottom:6px">🤝</div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:4px">Find a Buddy</div><div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.5">Get matched with a CC peer<br>who can help with your needs.</div><button class="buddy-btn" id="sidebarBuddyBtn" onclick="currentUser?openBuddyModal():openAuth('signup')" style="width:100%;justify-content:center">🤝 Find My Buddy</button></div></div>
+    <div class="sidebar-card" style="background:linear-gradient(135deg,#0d1a1a,#111f1f);border-color:#1a3a3a"><div class="sc-body" style="text-align:center;padding:16px"><div style="font-size:28px;margin-bottom:6px">🤝</div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:4px">Find a Buddy</div><div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.5">Get matched with a CC peer<br>who can help with your needs.</div><button class="buddy-btn" id="sidebarBuddyBtn" onclick="openBuddyModalMob()" style="width:100%;justify-content:center">🤝 Find My Buddy</button></div></div>
     <div class="sidebar-card" style="background:linear-gradient(135deg,#1a0f07,#1e1208);border-color:#3a2010"><div class="sc-body" style="text-align:center;padding:16px"><div style="font-size:28px;margin-bottom:6px">🎮</div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:4px">AHT Runner</div><div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.5">Handle tickets fast.<br>Keep AHT low. Survive.</div><button class="btn-primary" onclick="showPage('game')" style="width:100%">Play Now 🎯</button></div></div>
   </aside>
 </div>
@@ -676,14 +664,13 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 <div class="modal-overlay" id="tplUseModal"><div class="modal" style="max-width:620px"><div class="modal-hdr"><div class="modal-hdr-title" id="tplUseName">Use Template</div><button class="modal-x" onclick="closeTplUse()">✕</button></div><div class="modal-body"><div id="tplPlaceholderFields"></div><div><div class="fl">Preview</div><textarea class="fta" id="tplPreview" style="min-height:160px;line-height:1.65"></textarea></div></div><div class="modal-footer" style="justify-content:space-between"><button class="btn-ghost" onclick="closeTplUse()">Cancel</button><div style="display:flex;gap:8px"><button class="btn-ghost" onclick="copyTpl()">📋 Copy</button><button class="btn-primary" onclick="copyTpl(true)">📋 Copy & Close</button></div></div></div></div>
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lb" onclick="closeLB()"><button class="lb-close" onclick="closeLB()">✕</button><img id="lbImg" src="" alt=""/></div>
-<button id="floatingBuddyBtn" onclick="currentUser?openBuddyModal():openAuth('signup')" title="Find a Buddy">🤝</button>
 <!-- MOBILE NAV -->
 <nav class="mobile-nav">
   <button class="mob-nav-btn active" id="mnFeed" onclick="showPage('feed');setMobNav('mnFeed')"><span>📰</span><span>Feed</span></button>
   <button class="mob-nav-btn" id="mnNews" onclick="showPage('news');setMobNav('mnNews')"><span>📡</span><span>News</span></button>
   <button class="mob-nav-btn" id="mnTemplates" onclick="showPage('templates');setMobNav('mnTemplates')"><span>📝</span><span>Templates</span></button>
   <button class="mob-nav-btn" id="mnJobs" onclick="showPage('jobs');setMobNav('mnJobs')"><span>💼</span><span>Jobs</span></button>
-  <button class="mob-nav-btn" id="mnAuth" onclick="handleMobAuth()"><span id="mnAuthIcon">👤</span><span id="mnAuthLabel">Sign In</span></button>
+  <button class="mob-nav-btn" id="mnBuddy" onclick="openBuddyModalMob()"><span>🤝</span><span id="mnBuddyLabel">Buddy</span></button>
 </nav>
 <script>
 // ═══ DATA (JSON.parse — zero quote issues) ═══
@@ -763,7 +750,14 @@ function showPage(name){
 }
 function setMobNav(id){qsa('.mob-nav-btn').forEach(function(b){b.classList.remove('active');});var e=el(id);if(e)e.classList.add('active');}
 function handleMobAuth(){if(currentUser)openBuddyModal();else openAuth('signup');}
-function updateMobAuth(){if(!currentUser)return;var i=el('mnAuthIcon'),l=el('mnAuthLabel');if(i)i.textContent=currentUser.username[0].toUpperCase();if(l)l.textContent=currentUser.username.slice(0,8);}
+function updateMobAuth(){
+  var lbl=el('mnBuddyLabel');
+  if(currentUser){
+    if(lbl)lbl.textContent='Buddy';
+  }
+  // Update auth buttons visibility
+  el('authBtns').style.display=currentUser?'none':'flex';
+}
 function nextJoke(){jokeIdx=(jokeIdx+1)%JOKES.length;var e=el('jokeText');e.style.opacity=0;setTimeout(function(){e.textContent=JOKES[jokeIdx];e.style.opacity=1;},280);}
 
 // ═══ SEARCH ═══
@@ -1113,7 +1107,6 @@ function loginUser(u,isNew){
   el('hUsername').textContent=u.username;el('ddName').textContent=(u.firstName||'')+' '+(u.lastName||'');
   el('ddRole').textContent=r?r.icon+' '+r.name:'';
   setTimeout(closeAuth,2000);setTimeout(updateMobAuth,2100);
-  setTimeout(function(){var fb=document.getElementById('floatingBuddyBtn');if(fb)fb.style.background='var(--purple)';},2200);
   initUserActivity(u.username);
   userActivity[u.username].joinDate=new Date().toISOString();
   checkBadges(u.username);
@@ -1668,6 +1661,17 @@ function copyReferral() {
 function closeReferralModal() {
   el('referralModal').classList.remove('open');
   currentReferralJob = null;
+}
+
+
+function openBuddyModalMob(){
+  if(currentUser){
+    openBuddyModal();
+  } else {
+    // Show a hint then open auth
+    showToast('Sign in to find a buddy!');
+    setTimeout(function(){ openAuth('signup'); }, 800);
+  }
 }
 
 // ═══ EVENTS ═══
