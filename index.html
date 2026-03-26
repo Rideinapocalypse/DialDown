@@ -430,6 +430,54 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 @media(max-width:768px){.profile-stats-row{grid-template-columns:1fr 1fr;}.badges-grid{grid-template-columns:repeat(3,1fr);}.author-tooltip{display:none!important;}}
 @media(max-width:480px){.profile-layout{padding:12px;}.profile-hero{padding:16px;gap:14px;}.profile-av-lg{width:54px;height:54px;font-size:20px;}.profile-stats-row{grid-template-columns:1fr 1fr;}.badges-grid{grid-template-columns:1fr 1fr;}}
 
+
+/* ── BUDDY SYSTEM ── */
+.buddy-btn{display:flex;align-items:center;gap:6px;background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.3);color:var(--purple);border-radius:8px;padding:7px 14px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;white-space:nowrap;}
+.buddy-btn:hover{background:rgba(167,139,250,.2);border-color:var(--purple);}
+.buddy-btn.has-buddy{background:rgba(61,220,132,.1);border-color:rgba(61,220,132,.3);color:var(--green);}
+.buddy-btn.has-buddy:hover{background:rgba(61,220,132,.18);}
+.buddy-section{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;margin-bottom:20px;}
+.buddy-section-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.buddy-need-chip{display:inline-flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--text2);cursor:pointer;transition:all .2s;}
+.buddy-need-chip:hover{border-color:var(--purple);color:var(--purple);}
+.buddy-need-chip.selected{background:rgba(167,139,250,.15);border-color:var(--purple);color:var(--purple);}
+.buddy-match-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:14px;display:flex;gap:12px;align-items:flex-start;transition:border-color .2s;margin-bottom:8px;}
+.buddy-match-card:hover{border-color:var(--purple);}
+.buddy-match-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#fff;flex-shrink:0;}
+.buddy-match-info{flex:1;min-width:0;}
+.buddy-match-name{font-weight:600;font-size:13.5px;margin-bottom:2px;}
+.buddy-match-role{font-size:12px;color:var(--text3);margin-bottom:5px;}
+.buddy-match-why{font-size:12.5px;color:var(--text2);line-height:1.5;margin-bottom:8px;}
+.buddy-match-tags{display:flex;gap:5px;flex-wrap:wrap;}
+.buddy-match-tag{font-size:11px;background:rgba(167,139,250,.12);color:var(--purple);border-radius:4px;padding:2px 7px;font-family:'JetBrains Mono',monospace;}
+.buddy-connect-btn{background:var(--purple);color:#fff;border:none;border-radius:7px;padding:6px 14px;font-size:12.5px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:background .2s;white-space:nowrap;flex-shrink:0;}
+.buddy-connect-btn:hover{background:#8b6de0;}
+.buddy-current{background:rgba(61,220,132,.08);border:1px solid rgba(61,220,132,.25);border-radius:var(--radius);padding:14px 16px;display:flex;gap:12px;align-items:center;}
+.buddy-current-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0;}
+.buddy-current-info{flex:1;}
+.buddy-current-name{font-weight:600;font-size:13px;color:var(--green);}
+.buddy-current-sub{font-size:12px;color:var(--text3);margin-top:2px;}
+.buddy-remove-btn{background:none;border:1px solid rgba(255,107,107,.3);color:var(--red);border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.buddy-remove-btn:hover{background:rgba(255,107,107,.1);}
+.need-textarea{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13.5px;resize:vertical;min-height:80px;outline:none;transition:border-color .2s;line-height:1.6;}
+.need-textarea:focus{border-color:var(--purple);}
+.buddy-page-section{margin-bottom:24px;}
+
+/* ── JOB REFERRAL ── */
+.job-ref-btn{background:none;border:1px solid rgba(61,220,132,.3);color:var(--green);border-radius:7px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;display:flex;align-items:center;gap:5px;}
+.job-ref-btn:hover{background:rgba(61,220,132,.1);border-color:var(--green);}
+.ref-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px;}
+.ref-card-title{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;margin-bottom:4px;}
+.ref-card-sub{font-size:12.5px;color:var(--text3);margin-bottom:16px;}
+.ref-preview{background:var(--bg3);border-radius:8px;padding:14px;font-size:13px;line-height:1.7;color:var(--text2);border:1px solid var(--border);margin-bottom:12px;white-space:pre-wrap;font-family:'DM Sans',sans-serif;}
+.ref-copy-btn{background:var(--green);color:#1a1a1a;border:none;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s;}
+.ref-copy-btn:hover{background:#34d399;}
+.ref-name-input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;margin-bottom:10px;transition:border-color .2s;}
+.ref-name-input:focus{border-color:var(--green);}
+.ref-note-area{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;margin-bottom:10px;resize:vertical;min-height:60px;transition:border-color .2s;line-height:1.5;}
+.ref-note-area:focus{border-color:var(--green);}
+.ref-modal{max-width:540px;}
+
 </style>
 </head>
 <body>
@@ -523,7 +571,10 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 <!-- PROFILE PAGE -->
 <div class="page" id="pageProfile">
 <div class="profile-layout">
-  <button class="profile-back-btn" id="profileBackBtn">&#8592; Back to Feed</button>
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+    <button class="profile-back-btn" id="profileBackBtn" style="margin-bottom:0">&#8592; Back to Feed</button>
+    <button class="buddy-btn" id="profileBuddyBtn" style="display:none">&#129309; Find Buddy</button>
+  </div>
   <div class="profile-hero">
     <div class="profile-av-lg" id="profileAvatar"></div>
     <div class="profile-info">
@@ -560,6 +611,29 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
       <button class="modal-x" onclick="closeProfileModal()">&#10005;</button>
     </div>
     <div id="profileModalContent"></div>
+  </div>
+</div>
+
+
+<!-- BUDDY MODAL -->
+<div class="modal-overlay" id="buddyModal">
+  <div class="modal" style="max-width:560px">
+    <div class="modal-hdr">
+      <div class="modal-hdr-title">&#129309; Find a Buddy</div>
+      <button class="modal-x" onclick="closeBuddyModal()">&#10005;</button>
+    </div>
+    <div class="modal-body" id="buddyModalBody"></div>
+  </div>
+</div>
+
+<!-- REFERRAL MODAL -->
+<div class="modal-overlay" id="referralModal">
+  <div class="modal ref-modal">
+    <div class="modal-hdr">
+      <div class="modal-hdr-title">&#128101; Refer a Friend</div>
+      <button class="modal-x" onclick="closeReferralModal()">&#10005;</button>
+    </div>
+    <div class="modal-body" id="referralModalBody"></div>
   </div>
 </div>
 
@@ -1132,6 +1206,8 @@ function renderJobs(){
     var salary=j.salary&&j.salary.trim()&&j.salary!=='Competitive'?'<span class="job-salary">💰 '+j.salary+'</span>':'';
     card.innerHTML='<div class="job-card-top">'+logoHtml+phHtml+'<div class="job-info"><div class="job-company">'+j.company_name+'</div><div class="job-title">'+j.title+'</div><div class="job-meta"><span class="job-badge '+jt.cls+'">'+jt.label+'</span><span class="job-location">📍 '+(j.candidate_required_location||'Remote')+'</span></div></div></div><div class="job-desc">'+desc+'</div><div class="job-footer"><div>'+salary+'<span class="job-date">📅 '+timeSince(j.publication_date)+'</span></div><button class="job-apply-btn">Apply →</button></div>';
     card.querySelector('.job-apply-btn').addEventListener('click',function(e){e.stopPropagation();window.open(j.url,'_blank');});
+    var refTrigger=card.querySelector('.ref-trigger');
+    if(refTrigger){refTrigger.addEventListener('click',(function(job){return function(e){e.stopPropagation();if(!currentUser){openAuth('signup');return;}openReferralModal(job);};})(j));}
     card.addEventListener('click',function(){window.open(j.url,'_blank');});
     if(j.company_logo){var img=card.querySelector('.job-logo');img.onerror=function(){this.style.display='none';this.nextElementSibling.style.display='flex';};}
     grid.appendChild(card);
@@ -1224,6 +1300,17 @@ function openProfile(username){
   el('pStatComments').textContent=up.reduce(function(s,p){return s+p.comments.length;},0);
   el('pStatBadges').textContent=eb.length;
   el('profileBackBtn').onclick=function(){showPage('feed');};
+  // Buddy button
+  var buddyBtnEl=el('profileBuddyBtn');
+  if(buddyBtnEl){
+    if(currentUser&&currentUser.username!==username){
+      buddyBtnEl.style.display='flex';
+      var myBuddy=currentUser?buddyData[currentUser.username]:null;
+      if(myBuddy===username){buddyBtnEl.className='buddy-btn has-buddy';buddyBtnEl.innerHTML='&#129309; Your Buddy';}
+      else{buddyBtnEl.className='buddy-btn';buddyBtnEl.innerHTML='&#129309; Find Buddy';}
+      buddyBtnEl.onclick=function(){openBuddyModal();};
+    } else {buddyBtnEl.style.display='none';}
+  }
   switchProfileTab('posts',el('ptabPosts'));
   showPage('profile');
 }
@@ -1300,6 +1387,242 @@ function openProfileModal(username){
 }
 function closeProfileModal(){el('profileModal').classList.remove('open');}
 
+
+// ═══ BUDDY SYSTEM ═══
+var buddyData = {};  // username -> buddy username
+var BUDDY_NEEDS = [
+  {id:'deescalation', label:'De-escalation tips',    icon:'😤', roles:['agent-inbound','supervisor','team-lead']},
+  {id:'wfm_help',     label:'WFM & scheduling',       icon:'📅', roles:['wfm']},
+  {id:'qa_coaching',  label:'QA & scoring help',      icon:'🔍', roles:['qa','csat-analyst']},
+  {id:'career',       label:'Career growth advice',   icon:'🚀', roles:['supervisor','ops-manager','team-lead']},
+  {id:'scripts',      label:'Script & template help', icon:'📋', roles:['trainer']},
+  {id:'burnout',      label:'Burnout & wellbeing',    icon:'🔥', roles:['supervisor','team-lead']},
+  {id:'tech',         label:'Tech & IT issues',       icon:'🖥',  roles:['it-support']},
+  {id:'outbound',     label:'Outbound techniques',    icon:'📲', roles:['agent-outbound']},
+  {id:'escalation',   label:'Escalation handling',   icon:'🚨', roles:['escalation']},
+  {id:'newagent',     label:'New agent guidance',     icon:'🌱', roles:['trainer','team-lead','supervisor']},
+];
+
+var selectedNeeds = new Set();
+var currentReferralJob = null;
+
+function openBuddyModal() {
+  if (!currentUser) { openAuth('signup'); return; }
+  selectedNeeds = new Set();
+  var myBuddy = buddyData[currentUser.username];
+  var body = el('buddyModalBody');
+
+  if (myBuddy) {
+    // Show current buddy
+    var prof = getProfile(myBuddy);
+    var role = getRole(prof.role || 'agent-inbound');
+    body.innerHTML =
+      '<div class="buddy-current" style="margin-bottom:18px">' +
+        '<div class="buddy-current-av" style="background:'+prof.color+'">'+myBuddy.slice(0,2).toUpperCase()+'</div>' +
+        '<div class="buddy-current-info">' +
+          '<div class="buddy-current-name">&#129309; Your current buddy: u/'+myBuddy+'</div>' +
+          '<div class="buddy-current-sub">'+role.icon+' '+role.name+' &nbsp;·&nbsp; '+(prof.tenure||'CC community member')+'</div>' +
+        '</div>' +
+        '<button class="buddy-remove-btn" onclick="removeBuddy()">Remove</button>' +
+      '</div>' +
+      '<div style="font-size:13px;color:var(--text2);line-height:1.6;background:var(--bg3);border-radius:8px;padding:12px 14px;">' +
+        '<strong style="color:var(--text)">What your buddy can help with:</strong><br>' +
+        (PROFILES.find(function(p){return p.username===myBuddy;})||{bio:''}).bio +
+      '</div>' +
+      '<div class="modal-footer" style="padding:14px 0 0;border:none;justify-content:center">' +
+        '<button class="btn-primary pmod-view-profile" data-user="'+myBuddy+'">View '+myBuddy+' Profile</button>' +
+      '</div>';
+    return;
+  }
+
+  // Step 1: pick needs
+  body.innerHTML =
+    '<div style="font-size:13.5px;color:var(--text2);margin-bottom:16px;line-height:1.6">Tell us what you need help with and we will match you with the best buddy from the community.</div>' +
+    '<div class="fl" style="margin-bottom:10px">What do you need help with? <span style="color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">(pick all that apply)</span></div>' +
+    '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px" id="buddyNeedsChips">' +
+      BUDDY_NEEDS.map(function(n){
+        return '<span class="buddy-need-chip" data-need="'+n.id+'" onclick="toggleNeedEl(this)">'+n.icon+' '+n.label+'</span>';
+      }).join('') +
+    '</div>' +
+    '<div class="fl" style="margin-bottom:8px">Anything specific you want your buddy to know?</div>' +
+    '<textarea class="need-textarea" id="buddyNeedNote" placeholder="e.g. I am struggling with irate customers on billing calls and need practical de-escalation scripts..."></textarea>' +
+    '<div id="buddyMatchResults" style="margin-top:18px"></div>';
+
+  // Auto-show matches as chips are selected
+  showBuddyMatches();
+}
+
+function toggleNeedEl(el){toggleNeed(el,el.dataset.need);}
+function connectBuddyEl(el){connectBuddy(el.dataset.buddy);}
+function toggleNeed(chip, needId) {
+  if (selectedNeeds.has(needId)) {
+    selectedNeeds.delete(needId);
+    chip.classList.remove('selected');
+  } else {
+    selectedNeeds.add(needId);
+    chip.classList.add('selected');
+  }
+  showBuddyMatches();
+}
+
+function showBuddyMatches() {
+  var container = el('buddyMatchResults');
+  if (!container) return;
+
+  // Score each profile
+  var candidates = PROFILES.filter(function(p) {
+    return p.username !== currentUser.username &&
+           buddyData[p.username] !== currentUser.username; // not already someone's buddy
+  });
+
+  var scored = candidates.map(function(p) {
+    var score = 0;
+    var reasons = [];
+    var role = getRole(p.role);
+
+    // Match by selected needs
+    selectedNeeds.forEach(function(needId) {
+      var need = BUDDY_NEEDS.find(function(n) { return n.id === needId; });
+      if (need && need.roles.indexOf(p.role) >= 0) {
+        score += 3;
+        reasons.push(need.label);
+      }
+    });
+
+    // Boost for veteran/highly rated
+    var up = posts.filter(function(post){ return post.author === p.username; });
+    var csat = up.reduce(function(s,post){ return s+(post.csat||0); },0);
+    if (csat > 300) score += 2;
+    if (up.length > 1) score += 1;
+
+    // Boost for matching complementary roles to current user
+    var myRole = currentUser.role;
+    if (myRole === 'agent-inbound' && ['team-lead','supervisor','qa','trainer'].indexOf(p.role) >= 0) score += 1;
+    if (myRole === 'team-lead' && ['ops-manager','supervisor','wfm'].indexOf(p.role) >= 0) score += 1;
+    if (myRole === 'wfm' && p.role === 'ops-manager') score += 1;
+
+    return { profile: p, score: score, reasons: reasons, role: role };
+  });
+
+  scored.sort(function(a,b){ return b.score - a.score; });
+  var top = scored.slice(0, 4);
+
+  if (!top.length || top[0].score === 0) {
+    container.innerHTML = '<div style="font-size:13px;color:var(--text3);text-align:center;padding:12px">Select what you need help with to see matches &#8593;</div>';
+    return;
+  }
+
+  container.innerHTML =
+    '<div class="fl" style="margin-bottom:10px">&#127919; Best matches for you</div>' +
+    top.filter(function(m){ return m.score > 0; }).map(function(m) {
+      var matchPct = Math.min(100, Math.round((m.score / 8) * 100));
+      var whyText = m.reasons.length
+        ? 'Can help with: ' + m.reasons.slice(0,2).join(', ')
+        : 'Active community member · ' + (m.profile.tenure || 'CC professional');
+      return '<div class="buddy-match-card">' +
+        '<div class="buddy-match-av" style="background:'+m.profile.color+'">'+m.profile.username.slice(0,2).toUpperCase()+'</div>' +
+        '<div class="buddy-match-info">' +
+          '<div class="buddy-match-name">u/'+m.profile.username + ' <span style="font-size:11px;color:var(--green);font-family:monospace">'+matchPct+'% match</span></div>' +
+          '<div class="buddy-match-role">'+m.role.icon+' '+m.role.name+' &nbsp;·&nbsp; '+(m.profile.tenure||'CC member')+'</div>' +
+          '<div class="buddy-match-why">'+whyText+'</div>' +
+          (m.reasons.length ? '<div class="buddy-match-tags">'+m.reasons.map(function(r){return '<span class="buddy-match-tag">'+r+'</span>';}).join('')+'</div>' : '') +
+        '</div>' +
+        '<button class="buddy-connect-btn" data-buddy="'+m.profile.username+'" onclick="connectBuddyEl(this)">Connect &#129309;</button>' +
+      '</div>';
+    }).join('');
+}
+
+function connectBuddy(username) {
+  if (!currentUser) return;
+  buddyData[currentUser.username] = username;
+  var note = el('buddyNeedNote') ? el('buddyNeedNote').value.trim() : '';
+  showToast('&#129309; You and u/' + username + ' are now buddies!');
+  closeBuddyModal();
+  // Refresh profile page buddy button if open
+  if (currentProfileUser) {
+    var buddyBtnEl = el('profileBuddyBtn');
+    if (buddyBtnEl) {
+      buddyBtnEl.className = 'buddy-btn has-buddy';
+      buddyBtnEl.innerHTML = '&#129309; Your Buddy';
+    }
+  }
+}
+
+function removeBuddy() {
+  if (!currentUser) return;
+  delete buddyData[currentUser.username];
+  showToast('Buddy removed');
+  openBuddyModal(); // refresh
+}
+
+function closeBuddyModal() { el('buddyModal').classList.remove('open'); }
+
+// ═══ JOB REFERRAL ═══
+function openReferralModal(job) {
+  currentReferralJob = job;
+  var body = el('referralModalBody');
+  var refName = currentUser ? currentUser.firstName || currentUser.username : 'your name';
+
+  body.innerHTML =
+    '<div class="ref-card">' +
+      '<div class="ref-card-title">&#128101; Refer someone to this role</div>' +
+      '<div class="ref-card-sub">' +
+        '<strong style="color:var(--text)">'+job.title+'</strong> at '+job.company_name+
+        (job.salary ? ' &nbsp;·&nbsp; &#128176; '+job.salary : '') +
+      '</div>' +
+      '<div class="fl" style="margin-bottom:8px">Friend name <span style="color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></div>' +
+      '<input class="ref-name-input" id="refFriendName" placeholder="e.g. Sarah" oninput="updateRefPreview()"/>' +
+      '<div class="fl" style="margin-bottom:8px">Personal note <span style="color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></div>' +
+      '<textarea class="ref-note-area" id="refNote" placeholder="e.g. I thought of you for this one — your background is perfect for it." oninput="updateRefPreview()"></textarea>' +
+      '<div class="fl" style="margin-bottom:8px">Your referral message</div>' +
+      '<div class="ref-preview" id="refPreview"></div>' +
+      '<div style="display:flex;gap:8px;flex-wrap:wrap">' +
+        '<button class="ref-copy-btn" onclick="copyReferral()">&#128203; Copy Message</button>' +
+        '<button class="btn-ghost" onclick="closeReferralModal()">Cancel</button>' +
+      '</div>' +
+    '</div>';
+
+  updateRefPreview();
+  el('referralModal').classList.add('open');
+}
+
+function updateRefPreview() {
+  var job = currentReferralJob;
+  if (!job) return;
+  var friendName = (el('refFriendName') && el('refFriendName').value.trim()) || 'Hey';
+  var note = (el('refNote') && el('refNote').value.trim()) || '';
+  var senderName = currentUser ? (currentUser.firstName || currentUser.username) : 'A friend';
+  var greeting = friendName !== 'Hey' ? 'Hey ' + friendName + ',' : 'Hey,';
+
+  var msg =
+    greeting + '\n\n' +
+    (note ? note + '\n\n' : '') +
+    'Came across this role and thought it might be a great fit for you:\n\n' +
+    '&#128188; ' + job.title + '\n' +
+    '&#127970; ' + job.company_name + '\n' +
+    (job.candidate_required_location ? '&#127757; ' + job.candidate_required_location + '\n' : '') +
+    (job.salary ? '&#128176; ' + job.salary + '\n' : '') +
+    '\n&#128279; Apply here: ' + job.url + '\n\n' +
+    '— ' + senderName + ' (via DialDown CC Community)';
+
+  var preview = el('refPreview');
+  if (preview) preview.textContent = msg;
+}
+
+function copyReferral() {
+  var preview = el('refPreview');
+  if (!preview) return;
+  navigator.clipboard.writeText(preview.textContent).then(function() {
+    showToast('&#128203; Referral message copied! Send it via WhatsApp, email or Slack.');
+    closeReferralModal();
+  });
+}
+
+function closeReferralModal() {
+  el('referralModal').classList.remove('open');
+  currentReferralJob = null;
+}
+
 // ═══ EVENTS ═══
 el('authModal').addEventListener('click',function(e){if(e.target.id==='authModal')closeAuth();});
 el('postModal').addEventListener('click',function(e){if(e.target.id==='postModal')closePostModal();});
@@ -1307,8 +1630,10 @@ el('roleModal').addEventListener('click',function(e){if(e.target.id==='roleModal
 el('tplModal').addEventListener('click',function(e){if(e.target.id==='tplModal')closeTplModal();});
 el('tplUseModal').addEventListener('click',function(e){if(e.target.id==='tplUseModal')closeTplUse();});
 el('profileModal').addEventListener('click',function(e){if(e.target.id==='profileModal')closeProfileModal();});
+el('buddyModal').addEventListener('click',function(e){if(e.target.id==='buddyModal')closeBuddyModal();});
+el('referralModal').addEventListener('click',function(e){if(e.target.id==='referralModal')closeReferralModal();});
 document.addEventListener('click',function(e){var w=el('userWrap');if(w&&!w.contains(e.target))el('userDD').classList.remove('open');});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeLB();closeAuth();closePostModal();closeProfileModal();}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeLB();closeAuth();closePostModal();closeProfileModal();closeBuddyModal();closeReferralModal();}});
 
 // ═══ INIT ═══
 seedProfileBadges();
