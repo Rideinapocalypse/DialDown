@@ -1776,19 +1776,8 @@ function closeAuth(){el('authModal').classList.remove('open');qsa('.ferr').forEa
 function switchTab(tab){el('tabS').classList.toggle('active',tab==='signup');el('tabL').classList.toggle('active',tab==='login');el('panelS').classList.toggle('active',tab==='signup');el('panelL').classList.toggle('active',tab==='login');el('authTitle').textContent=tab==='signup'?'Join DialDown':'Welcome back';el('authBtn').textContent=tab==='signup'?'Create Account':'Log In';}
 function tPwd(id,btn){var i=el(id);i.type=i.type==='password'?'text':'password';btn.textContent=i.type==='password'?'👁':'🙈';}
 function handleAuth(){qsa('.ferr').forEach(function(e){e.classList.remove('show');});el('tabS').classList.contains('active')?doSignup():doLogin();}
-function doSignup(){
-  var first=el('sFirst').value.trim(),last=el('sLast').value.trim(),username=el('sUser').value.trim(),email=el('sEmail').value.trim(),role=el('sRole').value,password=el('sPwd').value;
-  var ok=true;
-  if(!username||users.find(function(u){return u.username===username;})){el('eUser').classList.add('show');ok=false;}
-  if(!email||email.indexOf('@')<0){el('eEmail').classList.add('show');ok=false;}
-  if(!role){el('eRole').classList.add('show');ok=false;}
-  if(password.length<6){el('ePwd').classList.add('show');ok=false;}
-  if(!ok)return;
-  var prof=getProfile(username);
-  var u={firstName:first,lastName:last,username:username,email:email,password:password,role:role,color:prof.color||AVCOLORS[users.length%AVCOLORS.length]};
-  users.push(u);loginUser(u,true);
-}
-function doLogin(){var ident=el('lIdent').value.trim(),pw=el('lPwd').value;var u=users.find(function(u){return(u.username===ident||u.email===ident)&&u.password===pw;});if(!u){el('eLogin').classList.add('show');return;}loginUser(u,false);}
+// doSignup() — handled by Supabase version above
+// doLogin() — handled by Supabase version above
 function loginUser(u,isNew){
   currentUser=u;userRole=u.role;
   var r=getRole(u.role);
