@@ -1173,9 +1173,15 @@ async function logout() {
 // REAL POSTS — load from DB and merge with seed
 // ═══════════════════════════════════════════════════════════════════════════
 async function loadRealPosts() {
+  console.log('Loading posts from Supabase...');
   var res = await sb.from('posts').select('*, comments(*)').order('created_at', {ascending: false}).limit(50);
-  if (res.error) { console.warn('Posts load error:', res.error.message); return; }
-  if (!res.data || !res.data.length) return;
+  if (res.error) { 
+    console.error('Posts load error:', res.error.message, res.error.code, res.error.details);
+    showToast('Could not load posts: ' + res.error.message);
+    return; 
+  }
+  console.log('Posts loaded from DB:', res.data ? res.data.length : 0);
+  if (!res.data || !res.data.length) { console.log('No posts in DB yet'); return; }
 
   // Convert DB posts to app format
   var dbPosts = res.data.map(function(p) {
@@ -1233,7 +1239,12 @@ function submitPost() {
     dsat: 0,
     language: 'en'
   }).then(function(res) {
-    if (res.error) { console.warn('Post save error:', res.error.message); }
+    if (res.error) { 
+      console.error('Post save error:', res.error.message, res.error.code);
+      showToast('Post not saved to DB: ' + res.error.message);
+    } else {
+      console.log('Post saved to Supabase ✅');
+    }
   });
 
   // Also add locally for instant feedback
@@ -1426,7 +1437,7 @@ function showPage(name){
   el('navTemplates').style.display=name==='templates'?'none':'block';
   el('navNews').style.display=name==='news'?'none':'block';
   el('navJobs').style.display=name==='jobs'?'none':'block';
-  if(name==='feed'){buildFeed();buildRoleFilter();buildTrending();initChallenge();renderLeaderboard();}
+  if(name==='feed'){buildFeed();buildRoleFilter();buildTrending();initChallenge();renderLeaderboard();if(sbUser)loadRealPosts();}
   if(name==='templates')renderTemplates();
   if(name==='news')initNews();
   if(name==='jobs')initJobs();
