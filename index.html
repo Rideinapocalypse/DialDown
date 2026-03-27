@@ -1058,7 +1058,11 @@ async function doSignup() {
 
   if (authRes.error) {
     el('eEmail').classList.add('show');
-    el('eEmail').textContent = authRes.error.message;
+    if(authRes.error.message && authRes.error.message.toLowerCase().indexOf('already registered') >= 0){
+      el('eEmail').textContent = 'This email is already registered — try logging in';
+    } else {
+      el('eEmail').textContent = authRes.error.message || 'Signup failed';
+    }
     return;
   }
 
@@ -1076,7 +1080,18 @@ async function doSignup() {
     });
   }
 
-  // Log user in locally
+  // Check if email confirmation is needed
+  if (!authRes.data.session) {
+    // Email confirmation required — show message
+    el('panelS').style.display = 'none';
+    el('authFooter').style.display = 'none';
+    el('authBtn').style.display = 'none';
+    el('authOK').style.display = 'block';
+    el('okTitle').textContent = 'Check your email!';
+    el('okSub').textContent = 'We sent a confirmation link to ' + email + '. Click it to activate your account, then come back and log in.';
+    return;
+  }
+  // No confirmation needed — log in directly
   var u = { username: username, email: email, role: role, color: color, firstName: first, lastName: last };
   users.push(u);
   sbUser = authRes.data.user;
@@ -1106,7 +1121,13 @@ async function doLogin() {
   var authRes = await sb.auth.signInWithPassword({ email: email, password: pw });
   if (authRes.error) {
     el('eLogin').classList.add('show');
-    el('eLogin').textContent = 'Invalid email or password';
+    if(authRes.error.message && authRes.error.message.toLowerCase().indexOf('confirm') >= 0){
+      el('eLogin').textContent = 'Please check your email and click the confirmation link first';
+    } else if(authRes.error.message && authRes.error.message.toLowerCase().indexOf('invalid') >= 0){
+      el('eLogin').textContent = 'Wrong email or password';
+    } else {
+      el('eLogin').textContent = authRes.error.message || 'Login failed';
+    }
     return;
   }
 
