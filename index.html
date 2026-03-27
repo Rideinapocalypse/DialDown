@@ -565,6 +565,72 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .ext-rating-link{font-size:11px;color:#64be54;text-decoration:none;margin-left:auto;white-space:nowrap;}
 .ext-rating-link:hover{text-decoration:underline;}
 
+
+/* ══ NOTIFICATIONS ══ */
+.notif-bell{position:relative;cursor:pointer;background:none;border:none;padding:6px;color:var(--text2);font-size:18px;transition:color .2s;line-height:1;}
+.notif-bell:hover{color:var(--text);}
+.notif-badge{position:absolute;top:0;right:0;background:#e30a17;color:#fff;border-radius:50%;width:16px;height:16px;font-size:10px;font-family:'JetBrains Mono',monospace;display:flex;align-items:center;justify-content:center;font-weight:700;line-height:1;}
+.notif-panel{position:absolute;top:calc(100% + 10px);right:0;width:340px;max-width:92vw;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:0 8px 32px rgba(0,0,0,.4);z-index:200;overflow:hidden;}
+.notif-panel-hdr{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.notif-panel-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;}
+.notif-mark-read{font-size:12px;color:var(--accent);cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;}
+.notif-mark-read:hover{text-decoration:underline;}
+.notif-item{padding:12px 16px;display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;}
+.notif-item:hover{background:var(--bg3);}
+.notif-item.unread{background:rgba(79,158,255,.04);}
+.notif-item.unread::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;position:absolute;right:12px;top:16px;}
+.notif-item{position:relative;}
+.notif-icon{font-size:20px;flex-shrink:0;line-height:1;margin-top:1px;}
+.notif-body{flex:1;min-width:0;}
+.notif-text{font-size:13px;color:var(--text);line-height:1.5;}
+.notif-text strong{color:var(--accent);}
+.notif-time{font-size:11px;color:var(--text3);margin-top:3px;font-family:'JetBrains Mono',monospace;}
+.notif-empty{padding:28px 16px;text-align:center;color:var(--text3);font-size:13px;}
+.notif-bell-wrap{position:relative;display:flex;align-items:center;}
+
+/* ══ LEADERBOARD ══ */
+.leaderboard-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:0;overflow:hidden;margin-bottom:16px;}
+.lb-header{padding:14px 16px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.lb-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;display:flex;align-items:center;gap:6px;}
+.lb-tabs{display:flex;gap:2px;background:var(--bg3);border-radius:6px;padding:2px;}
+.lb-tab{padding:4px 10px;border-radius:4px;font-size:11px;cursor:pointer;color:var(--text3);border:none;background:none;font-family:'DM Sans',sans-serif;transition:all .15s;}
+.lb-tab.active{background:var(--bg2);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.2);}
+.lb-item{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border);transition:background .15s;cursor:pointer;}
+.lb-item:last-child{border-bottom:none;}
+.lb-item:hover{background:var(--bg3);}
+.lb-rank{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;width:20px;text-align:center;flex-shrink:0;}
+.lb-rank.gold{color:#ffd700;}
+.lb-rank.silver{color:#c0c0c0;}
+.lb-rank.bronze{color:#cd7f32;}
+.lb-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;}
+.lb-name{flex:1;font-size:13px;font-weight:500;}
+.lb-role-tag{font-size:10px;color:var(--text3);}
+.lb-score{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--accent);}
+.lb-score-lbl{font-size:10px;color:var(--text3);text-align:right;}
+
+/* ══ ONBOARDING ══ */
+.onboard-modal{max-width:500px;}
+.onboard-progress{display:flex;gap:6px;padding:0 24px;margin-bottom:24px;}
+.onboard-step-dot{flex:1;height:4px;border-radius:2px;background:var(--border);transition:background .3s;}
+.onboard-step-dot.done{background:var(--purple);}
+.onboard-step-dot.active{background:var(--accent);}
+.onboard-body{padding:0 24px 24px;}
+.onboard-emoji{font-size:48px;text-align:center;margin-bottom:12px;}
+.onboard-title{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;text-align:center;margin-bottom:8px;}
+.onboard-sub{font-size:13.5px;color:var(--text2);text-align:center;line-height:1.6;margin-bottom:20px;}
+.onboard-role-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
+.onboard-role-btn{background:var(--bg3);border:2px solid var(--border);border-radius:10px;padding:12px 8px;text-align:center;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.onboard-role-btn:hover{border-color:var(--purple);}
+.onboard-role-btn.selected{border-color:var(--purple);background:rgba(167,139,250,.1);}
+.onboard-role-icon{font-size:22px;margin-bottom:4px;}
+.onboard-role-name{font-size:11px;color:var(--text2);line-height:1.3;}
+.onboard-topic-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px;}
+.onboard-topic-btn{background:var(--bg3);border:2px solid var(--border);border-radius:8px;padding:10px 12px;text-align:left;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);}
+.onboard-topic-btn:hover{border-color:var(--purple);}
+.onboard-topic-btn.selected{border-color:var(--purple);background:rgba(167,139,250,.1);color:var(--text);}
+.onboard-nav{display:flex;gap:8px;justify-content:flex-end;}
+.onboard-welcome-av{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:#fff;margin:0 auto 16px;}
+
 </style>
 </head>
 <body>
@@ -584,7 +650,8 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
       <button class="btn-primary" onclick="openAuth('signup')">Sign Up</button>
     </div>
     <div class="header-user-wrap" id="userWrap" style="display:none">
-      <div class="user-menu" onclick="toggleDD()"><div class="user-avatar" id="hAvatar"></div><span class="user-name-sm" id="hUsername"></span><div class="user-badges-strip" id="userBadgesStrip"></div><span style="color:var(--text3);font-size:11px">▾</span></div>
+      <div class="user-menu" onclick="toggleDD()"><div class="user-avatar" id="hAvatar"></div><span class="user-name-sm" id="hUsername"></span><div class="notif-bell-wrap" id="notifBellWrap" style="display:none"><button class="notif-bell" onclick="toggleNotifPanel()" title="Notifications">🔔<span class="notif-badge" id="notifBadge" style="display:none">0</span></button><div class="notif-panel" id="notifPanel" style="display:none"><div class="notif-panel-hdr"><span class="notif-panel-title">Notifications</span><button class="notif-mark-read" onclick="markAllRead()">Mark all read</button></div><div id="notifList"></div></div></div>
+<div class="user-badges-strip" id="userBadgesStrip"></div><span style="color:var(--text3);font-size:11px">▾</span></div>
       <div class="user-dropdown" id="userDD">
         <div class="dd-header"><div class="dd-name" id="ddName"></div><div class="dd-role" id="ddRole"></div></div>
         <div class="dd-item">👤 My Profile</div><div class="dd-item">🔖 Saved Posts</div>
@@ -631,6 +698,17 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
     <div class="sidebar-card"><div class="sc-header">🎯 Browse by Role</div><div class="sc-body"><div class="role-list" id="roleFilterList"></div></div></div>
     <div class="sidebar-card"><div class="sc-header">📊 Stats</div><div class="sc-body"><div class="stats-grid"><div class="stat-item"><div class="stat-num">4.2k</div><div class="stat-label">Members</div></div><div class="stat-item"><div class="stat-num" id="statPosts">25</div><div class="stat-label">Posts</div></div><div class="stat-item"><div class="stat-num">12k</div><div class="stat-label">Tips</div></div><div class="stat-item"><div class="stat-num">99%</div><div class="stat-label">AHT Stress</div></div></div></div></div>
     <div class="sidebar-card"><div class="sc-header">📈 Trending</div><div class="sc-body"><div id="trendingList"></div></div></div>
+    <div class="sidebar-card" style="padding:0">
+      <div class="lb-header">
+        <div class="lb-title">🏆 Leaderboard</div>
+        <div class="lb-tabs">
+          <button class="lb-tab active" id="lbTabCsat" onclick="switchLbTab('csat',this)">CSAT</button>
+          <button class="lb-tab" id="lbTabPosts" onclick="switchLbTab('posts',this)">Posts</button>
+          <button class="lb-tab" id="lbTabComments" onclick="switchLbTab('comments',this)">Active</button>
+        </div>
+      </div>
+      <div id="lbList"></div>
+    </div>
     <div class="sidebar-card" style="background:linear-gradient(135deg,#0d1a1a,#111f1f);border-color:#1a3a3a"><div class="sc-body" style="text-align:center;padding:16px"><div style="font-size:28px;margin-bottom:6px">🤝</div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:4px">Find a Buddy</div><div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.5">Get matched with a CC peer<br>who can help with your needs.</div><button class="buddy-btn" id="sidebarBuddyBtn" onclick="openBuddyModalMob()" style="width:100%;justify-content:center">🤝 Find My Buddy</button></div></div>
     <div class="sidebar-card" style="background:linear-gradient(135deg,#1a0f07,#1e1208);border-color:#3a2010"><div class="sc-body" style="text-align:center;padding:16px"><div style="font-size:28px;margin-bottom:6px">🎮</div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:4px">AHT Runner</div><div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.5">Handle tickets fast.<br>Keep AHT low. Survive.</div><button class="btn-primary" onclick="showPage('game')" style="width:100%">Play Now 🎯</button></div></div>
   </aside>
@@ -831,12 +909,29 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
   </div>
 </div>
 
+
+<!-- ONBOARDING MODAL -->
+<div class="modal-overlay" id="onboardModal">
+  <div class="modal onboard-modal">
+    <div class="modal-hdr" style="border:none;padding-bottom:8px">
+      <div class="modal-hdr-title" style="font-size:13px;color:var(--text3)" id="onboardStepLabel">Step 1 of 3</div>
+      <button class="modal-x" onclick="skipOnboard()">✕</button>
+    </div>
+    <div class="onboard-progress" id="onboardProgress">
+      <div class="onboard-step-dot active" id="odot1"></div>
+      <div class="onboard-step-dot" id="odot2"></div>
+      <div class="onboard-step-dot" id="odot3"></div>
+    </div>
+    <div class="onboard-body" id="onboardBody"></div>
+  </div>
+</div>
+
 <!-- POST MODAL -->
 <div class="modal-overlay" id="postModal"><div class="modal"><div class="modal-hdr"><div class="modal-hdr-title">Share your know-how</div><button class="modal-x" onclick="closePostModal()">✕</button></div><div class="modal-body"><div><div class="fl">Your Role</div><select class="fsel" id="postRole"><option value="">Select…</option></select></div><div><div class="fl">Title</div><input class="fi" id="postTitle" placeholder="Tips, rants, wins…"/></div><div><div class="fl">Body</div><textarea class="fta" id="postBody" placeholder="Share the full story…"></textarea></div><div><div class="fl">Image <span style="color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></div><div class="upload-area" id="upArea" onclick="document.getElementById('upFile').click()"><input type="file" id="upFile" accept="image/*" onchange="handleUpload(event)"/><div id="upPH"><div style="font-size:24px;margin-bottom:5px">🖼</div><div style="font-size:13px;color:var(--text2)">Click to upload</div><div style="font-size:11.5px;color:var(--text3);margin-top:3px">PNG, JPG, GIF — max 5MB</div></div><img id="upPreview" class="up-preview" style="display:none"/><button class="up-remove" id="upRemove" style="display:none" onclick="removeUpload(event)">✕</button></div></div></div><div class="modal-footer"><button class="btn-ghost" onclick="closePostModal()">Cancel</button><button class="btn-primary" onclick="submitPost()">Post It 🚀</button></div></div></div>
 <!-- ROLE PICKER -->
 <div class="modal-overlay" id="roleModal"><div class="modal"><div class="modal-hdr"><div class="modal-hdr-title">What's your role in CC?</div><button class="modal-x" onclick="closeRolePicker()">✕</button></div><div class="modal-body"><div class="rpg" id="rpg"></div></div></div></div>
 <!-- AUTH MODAL -->
-<div class="modal-overlay" id="authModal"><div class="modal"><div class="modal-hdr"><div class="modal-hdr-title" id="authTitle">Join DialDown</div><button class="modal-x" onclick="closeAuth()">✕</button></div><div class="modal-body"><div class="auth-tabs"><button class="auth-tab active" id="tabS" onclick="switchTab('signup')">Create Account</button><button class="auth-tab" id="tabL" onclick="switchTab('login')">Log In</button></div><div class="auth-panel active" id="panelS"><div class="frow"><div><div class="fl">First Name</div><input class="fi" id="sFirst" placeholder="Alex"/></div><div><div class="fl">Last Name</div><input class="fi" id="sLast" placeholder="Morgan"/></div></div><div><div class="fl">Username</div><input class="fi" id="sUser" placeholder="holdqueen99"/><div class="fhint">How you appear on posts</div><div class="ferr" id="eUser">Username taken or empty</div></div><div><div class="fl">Email</div><input class="fi" id="sEmail" type="email" placeholder="you@callcenter.com"/><div class="ferr" id="eEmail">Valid email required</div></div><div><div class="fl">Your CC Role</div><select class="fsel" id="sRole"><option value="">Select…</option></select><div class="ferr" id="eRole">Please select a role</div></div><div><div class="fl">Password</div><div class="pw-wrap"><input class="fi" id="sPwd" type="password" placeholder="Min. 6 characters"/><button class="pw-toggle" onclick="tPwd('sPwd',this)">👁</button></div><div class="ferr" id="ePwd">At least 6 characters</div></div></div><div class="auth-panel" id="panelL"><div><div class="fl">Username or Email</div><input class="fi" id="lIdent" placeholder="Your username or email"/><div class="ferr" id="eLogin">Invalid credentials</div></div><div><div class="fl">Password</div><div class="pw-wrap"><input class="fi" id="lPwd" type="password" placeholder="Your password"/><button class="pw-toggle" onclick="tPwd('lPwd',this)">👁</button></div></div></div><div id="authOK" style="display:none"><div class="success-state"><div class="success-icon">🎉</div><div class="success-title" id="okTitle">Welcome!</div><div class="success-sub" id="okSub"></div></div></div></div><div class="modal-footer" id="authFooter"><button class="btn-ghost" onclick="closeAuth()">Cancel</button><button class="btn-primary" id="authBtn" onclick="handleAuth()">Create Account 🚀</button></div></div></div>
+<div class="modal-overlay" id="authModal"><div class="modal"><div class="modal-hdr"><div class="modal-hdr-title" id="authTitle">Join DialDown</div><button class="modal-x" onclick="closeAuth()">✕</button></div><div class="modal-body"><div class="auth-tabs"><button class="auth-tab active" id="tabS" onclick="switchTab('signup')">Create Account</button><button class="auth-tab" id="tabL" onclick="switchTab('login')">Log In</button></div><div class="auth-panel active" id="panelS"><div class="frow"><div><div class="fl">First Name</div><input class="fi" id="sFirst" placeholder="Alex"/></div><div><div class="fl">Last Name</div><input class="fi" id="sLast" placeholder="Morgan"/></div></div><div><div class="fl">Username</div><input class="fi" id="sUser" placeholder="holdqueen99"/><div class="fhint">How you appear on posts</div><div class="ferr" id="eUser">Username taken or empty</div></div><div><div class="fl">Email</div><input class="fi" id="sEmail" type="email" placeholder="you@callcenter.com"/><div class="ferr" id="eEmail">Valid email required</div></div><div><div class="fl">Your CC Role</div><select class="fsel" id="sRole"><option value="">Select…</option></select><div class="ferr" id="eRole">Please select a role</div></div><div><div class="fl">Password</div><div class="pw-wrap"><input class="fi" id="sPwd" type="password" placeholder="Min. 6 characters"/><button class="pw-toggle" onclick="tPwd('sPwd',this)">👁</button></div><div class="ferr" id="ePwd">At least 6 characters</div></div></div><div class="auth-panel" id="panelL"><div><div class="fl">Username or Email</div><input class="fi" id="lIdent" type="email" placeholder="Your username or email"/><div class="ferr" id="eLogin">Invalid credentials</div></div><div><div class="fl">Password</div><div class="pw-wrap"><input class="fi" id="lPwd" type="password" placeholder="Your password"/><button class="pw-toggle" onclick="tPwd('lPwd',this)">👁</button></div></div></div><div id="authOK" style="display:none"><div class="success-state"><div class="success-icon">🎉</div><div class="success-title" id="okTitle">Welcome!</div><div class="success-sub" id="okSub"></div></div></div></div><div class="modal-footer" id="authFooter"><button class="btn-ghost" onclick="closeAuth()">Cancel</button><button class="btn-primary" id="authBtn" onclick="handleAuth()" style="position:relative">Create Account 🚀</button></div></div></div>
 <!-- TPL MODAL -->
 <div class="modal-overlay" id="tplModal"><div class="modal" style="max-width:640px"><div class="modal-hdr"><div class="modal-hdr-title" id="tplModalTitle">New Template</div><button class="modal-x" onclick="closeTplModal()">✕</button></div><div class="modal-body"><div class="frow"><div><div class="fl">Name</div><input class="fi" id="tplName" placeholder="e.g. Billing Apology"/></div><div><div class="fl">Category</div><select class="fsel" id="tplCat"><option value="apology">😔 Apology</option><option value="info">❓ Ask for Info</option><option value="escalation">🚨 Escalation</option><option value="followup">🔁 Follow-up</option><option value="closing">✅ Closing</option><option value="hold">⏸ Hold / Transfer</option><option value="custom">🏷 Custom</option></select></div></div><div><div class="fl">Channels</div><div style="display:flex;gap:12px"><label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px"><input type="checkbox" id="chkEmail" checked style="accent-color:var(--accent)"/> ✉ Email</label><label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px"><input type="checkbox" id="chkPhone" style="accent-color:var(--accent)"/> 📞 Phone</label><label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px"><input type="checkbox" id="chkChat" style="accent-color:var(--accent)"/> 💬 Chat</label></div></div><div><div class="fl">Body</div><div style="font-size:12px;color:var(--text3);margin-bottom:6px">Use <code style="background:var(--bg3);padding:1px 5px;border-radius:3px;color:var(--accent2)">[Customer Name]</code>, <code style="background:var(--bg3);padding:1px 5px;border-radius:3px;color:var(--accent2)">[Issue]</code> as placeholders</div><textarea class="fta" id="tplBody" placeholder="Write your template…" style="min-height:160px"></textarea></div><div><div class="fl">Tags</div><input class="fi" id="tplTags" placeholder="billing, refund, empathy"/></div></div><div class="modal-footer"><button class="btn-ghost" onclick="closeTplModal()">Cancel</button><button class="btn-primary" onclick="saveTpl()">Save 💾</button></div></div></div>
 <!-- TPL USE MODAL -->
@@ -851,7 +946,387 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
   <button class="mob-nav-btn" id="mnJobs" onclick="showPage('jobs');setMobNav('mnJobs')"><span>💼</span><span>Jobs</span></button>
   <button class="mob-nav-btn" id="mnBuddy" onclick="openBuddyModalMob()"><span>🤝</span><span id="mnBuddyLabel">Buddy</span></button>
 </nav>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SUPABASE INTEGRATION
+// ═══════════════════════════════════════════════════════════════════════════
+const SUPABASE_URL = 'https://tbmdhjehekzectekzhya.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_Rntlx3MNJ4kPJKZb89p_mw_OvWp_eRr';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ── AUTH STATE ──────────────────────────────────────────────────────────────
+var sbUser = null; // current Supabase auth user
+var sbProfile = null; // profile row from DB
+
+// Listen for auth changes (handles page reload persistence)
+sb.auth.onAuthStateChange(function(event, session) {
+  if (session && session.user) {
+    sbUser = session.user;
+    loadUserProfile(session.user.id).then(function(profile) {
+      if (profile) {
+        sbProfile = profile;
+        restoreUserSession(profile);
+      }
+    });
+  } else {
+    sbUser = null;
+    sbProfile = null;
+  }
+});
+
+// ── LOAD PROFILE FROM DB ────────────────────────────────────────────────────
+async function loadUserProfile(userId) {
+  var res = await sb.from('profiles').select('*').eq('id', userId).single();
+  if (res.error) { console.warn('Profile load error:', res.error.message); return null; }
+  return res.data;
+}
+
+// ── RESTORE SESSION AFTER RELOAD ────────────────────────────────────────────
+function restoreUserSession(profile) {
+  currentUser = {
+    username: profile.username,
+    role: profile.role || 'agent-inbound',
+    color: profile.color || '#4f9eff',
+    bio: profile.bio || '',
+    firstName: profile.username,
+    lastName: ''
+  };
+  userRole = profile.role;
+
+  var role = getRole(profile.role);
+  el('headerRole').textContent = role ? role.name : profile.role;
+  el('authBtns').style.display = 'none';
+  el('userWrap').style.display = 'block';
+  el('newPostBtn').style.display = 'block';
+
+  var av = el('hAvatar');
+  av.textContent = profile.username.slice(0,2).toUpperCase();
+  av.style.background = profile.color || '#4f9eff';
+  el('hUsername').textContent = profile.username;
+  el('ddName').textContent = profile.username;
+  el('ddRole').textContent = role ? role.icon + ' ' + role.name : profile.role;
+
+  showNotifBell();
+  seedNotifications({ username: profile.username });
+  updateMobAuth();
+  updateHeaderBadges();
+
+  // Load persisted data
+  loadVotes();
+  loadSaves();
+  loadBadges();
+  loadRealPosts();
+  console.log('Session restored for:', profile.username);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// REAL AUTH — replaces fake doSignup / doLogin
+// ═══════════════════════════════════════════════════════════════════════════
+async function doSignup() {
+  qsa('.ferr').forEach(function(e){ e.classList.remove('show'); });
+  var username = el('sUser').value.trim();
+  var email    = el('sEmail').value.trim();
+  var role     = el('sRole').value;
+  var password = el('sPwd').value;
+  var first    = el('sFirst').value.trim();
+  var last     = el('sLast').value.trim();
+
+  var ok = true;
+  if (!username || username.length < 3) { el('eUser').classList.add('show'); ok = false; }
+  if (!email || email.indexOf('@') < 0)  { el('eEmail').classList.add('show'); ok = false; }
+  if (!role)                              { el('eRole').classList.add('show'); ok = false; }
+  if (password.length < 6)               { el('ePwd').classList.add('show'); ok = false; }
+  if (!ok) return;
+
+  // Check username not taken
+  var existing = await sb.from('profiles').select('username').eq('username', username).single();
+  if (existing.data) { el('eUser').classList.add('show'); el('eUser').textContent = 'Username taken'; ok = false; return; }
+
+  // Pick avatar color
+  var color = AVCOLORS[Math.floor(Math.random() * AVCOLORS.length)];
+
+  // Sign up with Supabase Auth
+  var authRes = await sb.auth.signUp({
+    email: email,
+    password: password,
+    options: {
+      data: { username: username, color: color }
+    }
+  });
+
+  if (authRes.error) {
+    el('eEmail').classList.add('show');
+    el('eEmail').textContent = authRes.error.message;
+    return;
+  }
+
+  // Update profile with full details
+  if (authRes.data.user) {
+    await sb.from('profiles').upsert({
+      id: authRes.data.user.id,
+      username: username,
+      role: role,
+      color: color,
+      bio: '',
+      location: '',
+      tenure: '',
+      joined_at: new Date().toISOString()
+    });
+  }
+
+  // Log user in locally
+  var u = { username: username, email: email, role: role, color: color, firstName: first, lastName: last };
+  users.push(u);
+  sbUser = authRes.data.user;
+  loginUser(u, true);
+}
+
+async function doLogin() {
+  qsa('.ferr').forEach(function(e){ e.classList.remove('show'); });
+  var ident = el('lIdent').value.trim();
+  var pw    = el('lPwd').value;
+
+  // Try email login first, then username lookup
+  var email = ident;
+  if (ident.indexOf('@') < 0) {
+    // username — look up email
+    var prof = await sb.from('profiles').select('id').eq('username', ident).single();
+    if (prof.error || !prof.data) {
+      el('eLogin').classList.add('show');
+      return;
+    }
+    // Can't get email from profile, try direct login (user must enter email)
+    el('eLogin').classList.add('show');
+    el('eLogin').textContent = 'Please enter your email address, not username';
+    return;
+  }
+
+  var authRes = await sb.auth.signInWithPassword({ email: email, password: pw });
+  if (authRes.error) {
+    el('eLogin').classList.add('show');
+    el('eLogin').textContent = 'Invalid email or password';
+    return;
+  }
+
+  sbUser = authRes.data.user;
+  var profile = await loadUserProfile(authRes.data.user.id);
+  if (profile) {
+    sbProfile = profile;
+    var u = { username: profile.username, role: profile.role, color: profile.color, firstName: profile.username, lastName: '' };
+    users.push(u);
+    loginUser(u, false);
+  }
+}
+
+async function logout() {
+  await sb.auth.signOut();
+  currentUser = null; userRole = null; sbUser = null; sbProfile = null;
+  el('authBtns').style.display = 'flex';
+  el('userWrap').style.display = 'none';
+  el('newPostBtn').style.display = 'none';
+  el('userDD').classList.remove('open');
+  el('headerRole').textContent = 'Pick your role';
+  var bw = el('notifBellWrap');
+  if (bw) bw.style.display = 'none';
+  // Reload seed posts
+  posts = SEED.map(function(p){ return Object.assign({}, p, {comments: p.comments.map(function(c){ return Object.assign({}, c); })}); });
+  posts = posts.concat(TR_POSTS_DATA.map(function(p){ return Object.assign({}, p, {comments: p.comments.map(function(c){ return Object.assign({}, c); })}); }));
+  voteMap = {}; savedPosts = new Set();
+  buildFeed(); buildRoleFilter(); buildTrending();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// REAL POSTS — load from DB and merge with seed
+// ═══════════════════════════════════════════════════════════════════════════
+async function loadRealPosts() {
+  var res = await sb.from('posts').select('*, comments(*)').order('created_at', {ascending: false}).limit(50);
+  if (res.error) { console.warn('Posts load error:', res.error.message); return; }
+  if (!res.data || !res.data.length) return;
+
+  // Convert DB posts to app format
+  var dbPosts = res.data.map(function(p) {
+    return {
+      id: 'db_' + p.id,
+      role: p.role,
+      author: p.author,
+      title: p.title,
+      body: p.body,
+      image: p.image_url || null,
+      tags: p.tags || [],
+      csat: p.csat || 1,
+      dsat: p.dsat || 0,
+      time: timeAgo(p.created_at),
+      comments: (p.comments || []).map(function(c) {
+        return { author: c.author, text: c.text, color: c.color || '#4f9eff' };
+      }),
+      language: p.language || 'en',
+      fromDB: true
+    };
+  });
+
+  // Prepend real posts before seed posts
+  posts = dbPosts.concat(posts);
+  buildFeed(); buildRoleFilter(); buildTrending(); renderLeaderboard();
+}
+
+function timeAgo(isoStr) {
+  var diff = Math.floor((new Date() - new Date(isoStr)) / 1000);
+  if (diff < 60) return 'just now';
+  if (diff < 3600) return Math.floor(diff/60) + 'm ago';
+  if (diff < 86400) return Math.floor(diff/3600) + 'h ago';
+  return Math.floor(diff/86400) + 'd ago';
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// REAL SUBMIT POST — saves to DB
+// ═══════════════════════════════════════════════════════════════════════════
+var _origSubmitPost = submitPost;
+function submitPost() {
+  if (!sbUser) { _origSubmitPost(); return; }
+  var role  = el('postRole').value;
+  var title = el('postTitle').value.trim();
+  var body  = el('postBody').value.trim();
+  if (!role || !title) { alert('Please select a role and add a title.'); return; }
+
+  sb.from('posts').insert({
+    author: currentUser.username,
+    role: role,
+    title: title,
+    body: body,
+    image_url: pendingImg || null,
+    tags: [],
+    csat: 1,
+    dsat: 0,
+    language: 'en'
+  }).then(function(res) {
+    if (res.error) { console.warn('Post save error:', res.error.message); }
+  });
+
+  // Also add locally for instant feedback
+  _origSubmitPost();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// REAL VOTES — persisted per user
+// ═══════════════════════════════════════════════════════════════════════════
+async function loadVotes() {
+  if (!sbUser) return;
+  var res = await sb.from('votes').select('post_id, direction').eq('user_id', sbUser.id);
+  if (res.error || !res.data) return;
+  res.data.forEach(function(v) {
+    voteMap['db_' + v.post_id] = v.direction;
+    voteMap[v.post_id] = v.direction;
+  });
+  buildFeed();
+}
+
+var _origVoteFn = vote;
+function vote(e, id, dir) {
+  _origVoteFn(e, id, dir);
+  if (!sbUser) return;
+  var dbId = String(id).replace('db_', '');
+  if (isNaN(dbId)) return; // seed post, don't save
+  if (voteMap[id] === dir) {
+    // Voted same direction = toggle off
+    sb.from('votes').delete().eq('user_id', sbUser.id).eq('post_id', dbId);
+  } else {
+    sb.from('votes').upsert({ user_id: sbUser.id, post_id: dbId, direction: dir });
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// REAL SAVES — persisted
+// ═══════════════════════════════════════════════════════════════════════════
+async function loadSaves() {
+  if (!sbUser) return;
+  var res = await sb.from('saves').select('post_id').eq('user_id', sbUser.id);
+  if (res.error || !res.data) return;
+  res.data.forEach(function(s) {
+    savedPosts.add('db_' + s.post_id);
+    savedPosts.add(s.post_id);
+  });
+  buildFeed();
+}
+
+var _origToggleSave = toggleSave;
+function toggleSave(postId, btn) {
+  _origToggleSave(postId, btn);
+  if (!sbUser) return;
+  var dbId = String(postId).replace('db_', '');
+  if (isNaN(dbId)) return;
+  if (savedPosts.has(postId)) {
+    sb.from('saves').insert({ user_id: sbUser.id, post_id: dbId });
+  } else {
+    sb.from('saves').delete().eq('user_id', sbUser.id).eq('post_id', dbId);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// REAL COMMENTS — saved to DB
+// ═══════════════════════════════════════════════════════════════════════════
+var _origSubmitCommentById = submitCommentById;
+function submitCommentById(postId) {
+  _origSubmitCommentById(postId);
+  if (!sbUser) return;
+  var dbId = String(postId).replace('db_', '');
+  if (isNaN(dbId)) return;
+  var inp = el('ci-' + postId);
+  var text = inp ? inp.value.trim() : '';
+  if (!text) return;
+  sb.from('comments').insert({
+    post_id: dbId,
+    author: currentUser.username,
+    text: text,
+    color: currentUser.color || '#4f9eff'
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// REAL BADGES — persisted
+// ═══════════════════════════════════════════════════════════════════════════
+async function loadBadges() {
+  if (!sbUser) return;
+  var res = await sb.from('badges').select('badge_id').eq('user_id', sbUser.id);
+  if (res.error || !res.data) return;
+  if (!userBadges[currentUser.username]) userBadges[currentUser.username] = new Set();
+  res.data.forEach(function(b) {
+    userBadges[currentUser.username].add(b.badge_id);
+  });
+  updateHeaderBadges();
+}
+
+var _origCheckBadges = checkBadges;
+function checkBadges(username) {
+  var prevSize = (userBadges[username] || new Set()).size;
+  _origCheckBadges(username);
+  if (!sbUser || username !== currentUser.username) return;
+  var newBadges = userBadges[username];
+  if (!newBadges) return;
+  // Save any newly earned badges
+  newBadges.forEach(function(badgeId) {
+    sb.from('badges').upsert({ user_id: sbUser.id, badge_id: badgeId }).then(function(){});
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// PROFILE UPDATE — save bio/role changes to DB
+// ═══════════════════════════════════════════════════════════════════════════
+async function saveProfileToDB(updates) {
+  if (!sbUser) return;
+  await sb.from('profiles').update(updates).eq('id', sbUser.id);
+}
+
+// Update profile when role is selected
+var _origSelectRole = selectRole;
+function selectRole(id) {
+  _origSelectRole(id);
+  if (sbUser) saveProfileToDB({ role: id });
+}
+
+console.log('Supabase integration loaded ✅');
+
 // ═══ DATA (JSON.parse — zero quote issues) ═══
 var SEED       = JSON.parse("[{\"id\": 1, \"role\": \"agent-inbound\", \"author\": \"queenOfHolds\", \"tags\": [\"AHTsurvivor\"], \"image\": \"https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80\", \"title\": \"My proven trick to de-escalate an irate customer in under 60 seconds\", \"body\": \"After 6 years of inbound I figured out one thing: let them finish. Fully. Do not interrupt. Most people just want to feel heard. Mirror their words back and they instantly calm down. Works 80 percent of the time.\", \"csat\": 287, \"dsat\": 14, \"time\": \"2h ago\", \"comments\": [{\"author\": \"burnoutTL\", \"color\": \"#a78bfa\", \"text\": \"Gold. I share this with every new agent.\"}, {\"author\": \"gradeAGrammar\", \"color\": \"#fbbf24\", \"text\": \"Mirroring is backed by neuroscience.\"}, {\"author\": \"FCRfanatic\", \"color\": \"#ff5f1f\", \"text\": \"Resolved properly once means no callback.\"}]}, {\"id\": 2, \"role\": \"qa\", \"author\": \"gradeAGrammar\", \"tags\": [\"QAfeedback\"], \"title\": \"Stop writing I understand your frustration \u2014 here is what scores better\", \"body\": \"That phrase reads as scripted. Try: That sounds genuinely stressful, let me look into this right now. Specificity beats sympathy cliches every single time.\", \"csat\": 251, \"dsat\": 8, \"time\": \"4h ago\", \"comments\": [{\"author\": \"roleplayRuler\", \"color\": \"#ff8c55\", \"text\": \"Banned this phrase on my floor. CSAT went up 0.3 points.\"}, {\"author\": \"quietSupervisor\", \"color\": \"#3ddc84\", \"text\": \"Customers want to feel like YOU specifically care, not a bot.\"}, {\"author\": \"calibrationQueen\", \"color\": \"#fbbf24\", \"text\": \"I mark this phrase in QA now. Coaching moment every time.\"}]}, {\"id\": 3, \"role\": \"wfm\", \"author\": \"scheduleGod\", \"tags\": [\"WFMwoes\"], \"image\": \"https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&q=80\", \"title\": \"How I built a shrinkage buffer that my TLs actually believe in\", \"body\": \"3 months tracking unplanned aux vs planned. Built an Excel model that shows the gap visually. Once leadership could SEE the data it went from overstaffing concerns to monthly requests.\", \"csat\": 178, \"dsat\": 6, \"time\": \"5h ago\", \"comments\": [{\"author\": \"wfmWhisperer\", \"color\": \"#a78bfa\", \"text\": \"Visual data moves people, numbers alone do not.\"}, {\"author\": \"shrinkageSlayer\", \"color\": \"#34d399\", \"text\": \"Added a rolling 13-week average. Changed the conversation.\"}]}, {\"id\": 4, \"role\": \"team-lead\", \"author\": \"burnoutTL\", \"tags\": [\"AHTsurvivor\", \"QAfeedback\"], \"title\": \"Agent with great CSAT but AHT through the roof \u2014 what do you do?\", \"body\": \"She gets 4.8 CSAT but her AHT is 2x the team average. Customers love her. Numbers hate her. Management is pressuring me. Anyone dealt with this?\", \"csat\": 142, \"dsat\": 5, \"time\": \"6h ago\", \"comments\": [{\"author\": \"quietSupervisor\", \"color\": \"#3ddc84\", \"text\": \"Coach her on wrap-up speed, not on caring less.\"}, {\"author\": \"queenOfHolds\", \"color\": \"#4f9eff\", \"text\": \"Got management to look at FCR alongside AHT. She had the lowest repeat call rate.\"}, {\"author\": \"FCRfanatic\", \"color\": \"#ff5f1f\", \"text\": \"First call resolution beats AHT. Always.\"}]}, {\"id\": 5, \"role\": \"trainer\", \"author\": \"slidedecksurvivor\", \"tags\": [\"ScriptKiller\"], \"image\": \"https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80\", \"title\": \"5 onboarding modules I ditched and what I replaced them with\", \"body\": \"3-day product dump is dead on arrival. Agents retain maybe 20 percent. Switched to scenario-based learning day 1 and live call listening day 2. Time to proficiency dropped by 11 days.\", \"csat\": 229, \"dsat\": 11, \"time\": \"8h ago\", \"comments\": [{\"author\": \"burnoutTL\", \"color\": \"#a78bfa\", \"text\": \"Night and day difference when agents hear real calls on day 2.\"}, {\"author\": \"coachingCarla\", \"color\": \"#34d399\", \"text\": \"Paired with weekly reflection journals. Retention went up.\"}]}, {\"id\": 6, \"role\": \"escalation\", \"author\": \"lastResort99\", \"tags\": [\"ScriptKiller\"], \"title\": \"The exact words I use when a customer demands a manager and there is no manager\", \"body\": \"I say: I am the specialist team your call was escalated to. Let me see what I can resolve for you today. Reframes it completely. 70 percent do not push further.\", \"csat\": 318, \"dsat\": 9, \"time\": \"10h ago\", \"comments\": [{\"author\": \"queenOfHolds\", \"color\": \"#4f9eff\", \"text\": \"The reframe is everything.\"}, {\"author\": \"escalationEvelyn\", \"color\": \"#f472b6\", \"text\": \"I add: I handle the most complex cases on our team.\"}]}, {\"id\": 7, \"role\": \"agent-outbound\", \"author\": \"dialerDreams\", \"tags\": [\"ScriptKiller\"], \"title\": \"Outbound warm-up script that gets past gatekeepers without lying\", \"body\": \"Do not trick them. I say: Hi, calling for first name only \u2014 is this a good time? Short, personal, professional. Gets through about 60 percent of gatekeepers.\", \"csat\": 162, \"dsat\": 18, \"time\": \"12h ago\", \"comments\": [{\"author\": \"bilingualBoss\", \"color\": \"#5dd6d6\", \"text\": \"Works even better in Spanish.\"}, {\"author\": \"retentionRex\", \"color\": \"#4f9eff\", \"text\": \"First name only implies a personal connection already exists.\"}]}, {\"id\": 8, \"role\": \"it-support\", \"author\": \"ctrl_alt_despair\", \"tags\": [\"SilentCalls\"], \"image\": \"https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800&q=80\", \"title\": \"CC-specific IT issues nobody documents \u2014 running thread\", \"body\": \"I solve the same 12 undocumented issues every month. Softphone audio cutting out on Windows 11 after sleep mode. Fix: disable USB selective suspend in power settings.\", \"csat\": 274, \"dsat\": 4, \"time\": \"1d ago\", \"comments\": [{\"author\": \"rosterNinja\", \"color\": \"#3ddc84\", \"text\": \"Dialer freezing on Chrome: clear cache AND disable hardware acceleration.\"}, {\"author\": \"wfmWhisperer\", \"color\": \"#a78bfa\", \"text\": \"Headset echo on Teams: set mic to Communications Device not Default.\"}]}, {\"id\": 9, \"role\": \"agent-inbound\", \"author\": \"holdQueen\", \"tags\": [\"HoldMusicPTSD\"], \"image\": \"https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800&q=80\", \"title\": \"I now hear our hold music in my dreams. This is not a metaphor.\", \"body\": \"Three years of Vivaldi on a 45-second loop. I hum it at the supermarket. My therapist says conditioned response. My supervisor says improve hold usage rate. Both are correct.\", \"csat\": 389, \"dsat\": 7, \"time\": \"1d ago\", \"comments\": [{\"author\": \"auxCodePoet\", \"color\": \"#4f9eff\", \"text\": \"Started humming ours in the shower. My partner was worried.\"}, {\"author\": \"newAgentNadia\", \"color\": \"#fb923c\", \"text\": \"3 weeks in and already humming it. Is this normal?\"}]}, {\"id\": 10, \"role\": \"wfm\", \"author\": \"rosterNinja\", \"tags\": [\"WFMwoes\"], \"title\": \"Why agents hate WFM and what we can actually do about it\", \"body\": \"WFM looks like a faceless machine that denies leave. I started monthly WFM explains itself sessions on the floor. Unplanned absences dropped 18 percent in 6 months.\", \"csat\": 208, \"dsat\": 22, \"time\": \"1d ago\", \"comments\": [{\"author\": \"shrinkageSlayer\", \"color\": \"#34d399\", \"text\": \"When agents understand WHY their break is at 10:15, they accept it.\"}, {\"author\": \"burnoutTL\", \"color\": \"#a78bfa\", \"text\": \"Brilliant concept. Borrowing immediately.\"}]}, {\"id\": 11, \"role\": \"qa\", \"author\": \"calibrationQueen\", \"tags\": [\"QAfeedback\"], \"image\": \"https://images.unsplash.com/photo-1606857521015-7f9fcf423740?w=800&q=80\", \"title\": \"Calibration sessions are broken \u2014 here is a 3-step fix\", \"body\": \"If your calibration sessions end with everyone still disagreeing, you do not have a process, you have a meeting. Here is the framework that closes scoring gaps within 4 weeks.\", \"csat\": 177, \"dsat\": 9, \"time\": \"2d ago\", \"comments\": [{\"author\": \"gradeAGrammar\", \"color\": \"#fbbf24\", \"text\": \"The pre-calibration blind score step is key.\"}]}, {\"id\": 12, \"role\": \"agent-inbound\", \"author\": \"auxCodePoet\", \"tags\": [\"SilentCalls\"], \"title\": \"The art of the completely silent call \u2014 a field guide\", \"body\": \"Silent calls are not always dead air. Sometimes it is someone in crisis. Protocol: announce yourself twice, stay on, say if you can hear me press any key. I have had 3 welfare checks begin this way.\", \"csat\": 544, \"dsat\": 3, \"time\": \"2d ago\", \"comments\": [{\"author\": \"queenOfHolds\", \"color\": \"#4f9eff\", \"text\": \"This should be in every new hire induction.\"}, {\"author\": \"silentCallSam\", \"color\": \"#4f9eff\", \"text\": \"3 times I have been on the other end of this. You never know who needs you to just stay.\"}, {\"author\": \"newAgentNadia\", \"color\": \"#fb923c\", \"text\": \"Nobody told me about this in training. Most important post I have read here.\"}]}, {\"id\": 13, \"role\": \"supervisor\", \"author\": \"quietSupervisor\", \"tags\": [\"AHTsurvivor\"], \"image\": \"https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=800&q=80\", \"title\": \"Stopped pushing AHT for 30 days. Here is the data.\", \"body\": \"Removed AHT from daily coaching for one full month. Focused on resolution quality and CSAT. Result: AHT dropped 4 percent. When agents are not rushing, they actually resolve things.\", \"csat\": 421, \"dsat\": 31, \"time\": \"2d ago\", \"comments\": [{\"author\": \"burnoutTL\", \"color\": \"#a78bfa\", \"text\": \"Every ops manager needs to read this.\"}, {\"author\": \"FCRfanatic\", \"color\": \"#ff5f1f\", \"text\": \"Solve it once. AHT takes care of itself.\"}, {\"author\": \"KPIKing\", \"color\": \"#3ddc84\", \"text\": \"Sharing with my ops director Monday.\"}]}, {\"id\": 14, \"role\": \"trainer\", \"author\": \"roleplayRuler\", \"tags\": [\"ScriptKiller\"], \"title\": \"Replaced our entire script with 7 principles. 6 months later.\", \"body\": \"Scripts are training wheels. My 7 principles: Empathy, Ownership, Clarity, Urgency, Resolution, Recap, Close. Agents internalize this in days. CSAT improved across the board.\", \"csat\": 298, \"dsat\": 19, \"time\": \"3d ago\", \"comments\": [{\"author\": \"coachingCarla\", \"color\": \"#34d399\", \"text\": \"Laminated these 7 on an index card for every new agent.\"}, {\"author\": \"slidedecksurvivor\", \"color\": \"#34d399\", \"text\": \"The principles approach changed my entire training philosophy.\"}]}, {\"id\": 15, \"role\": \"agent-inbound\", \"author\": \"holdMusicHero\", \"tags\": [\"HoldMusicPTSD\"], \"image\": \"https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80\", \"title\": \"Customer asked me to put on the music again. I nearly cried.\", \"body\": \"An older gentleman said the hold music reminded him of his late wife favourite composer. He asked to be put back on hold for a moment. I stayed at my desk just letting him listen.\", \"csat\": 871, \"dsat\": 2, \"time\": \"3d ago\", \"comments\": [{\"author\": \"queenOfHolds\", \"color\": \"#4f9eff\", \"text\": \"I am not crying. You are crying. We are both crying.\"}, {\"author\": \"auxCodePoet\", \"color\": \"#a78bfa\", \"text\": \"This is the most human post this platform will ever have.\"}, {\"author\": \"burnoutTL\", \"color\": \"#3ddc84\", \"text\": \"Sharing with my team Monday.\"}, {\"author\": \"silentCallSam\", \"color\": \"#4f9eff\", \"text\": \"This job. It breaks you and then it reminds you why it matters.\"}]}, {\"id\": 16, \"role\": \"ops-manager\", \"author\": \"FCRfanatic\", \"tags\": [\"AHTsurvivor\"], \"image\": \"https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80\", \"title\": \"FCR is the only metric that correlates with both CSAT and cost reduction\", \"body\": \"I have run the numbers on 4 different CC environments over 8 years. Improve FCR by 1 point, CSAT goes up, repeat contacts go down, cost per resolution drops. AHT is a symptom. FCR is the cause.\", \"csat\": 312, \"dsat\": 24, \"time\": \"3d ago\", \"comments\": [{\"author\": \"quietSupervisor\", \"color\": \"#3ddc84\", \"text\": \"The CFO finally listened when I showed cost per resolution data.\"}, {\"author\": \"KPIKing\", \"color\": \"#3ddc84\", \"text\": \"This is the argument I have been trying to make for 2 years.\"}]}, {\"id\": 17, \"role\": \"agent-inbound\", \"author\": \"newAgentNadia\", \"tags\": [\"AHTsurvivor\"], \"title\": \"Week 3 on the floor. Honest review.\", \"body\": \"Training prepared me for maybe 30 percent of what actually happens. The other 70 percent is learning from agents next to you, reading posts like this, and staying calm when you feel out of your depth.\", \"csat\": 334, \"dsat\": 2, \"time\": \"4d ago\", \"comments\": [{\"author\": \"queenOfHolds\", \"color\": \"#4f9eff\", \"text\": \"You are going to be fine. The fact you are here learning puts you in the top tier.\"}, {\"author\": \"coachingCarla\", \"color\": \"#34d399\", \"text\": \"You are exactly where you are supposed to be. Keep going.\"}]}, {\"id\": 18, \"role\": \"csat-analyst\", \"author\": \"talkTimeTracker\", \"tags\": [\"QAfeedback\"], \"image\": \"https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80\", \"title\": \"The 3 phrases that tank CSAT most \u2014 based on 10k call analysis\", \"body\": \"Analysed 10000 calls. Three phrases appear most in DSAT: That is our policy, I cannot do that, You will need to call back. All three signal helplessness. The fix is ownership language.\", \"csat\": 445, \"dsat\": 12, \"time\": \"4d ago\", \"comments\": [{\"author\": \"gradeAGrammar\", \"color\": \"#fbbf24\", \"text\": \"Replace I cannot with What I CAN do is \u2014 the customer hears a different agent.\"}, {\"author\": \"lastResort99\", \"color\": \"#ff5f1f\", \"text\": \"That is our policy is the DSAT grenade. Explain the reason instead.\"}]}, {\"id\": 19, \"role\": \"back-office\", \"author\": \"chatCzarina\", \"tags\": [\"SilentCalls\"], \"title\": \"4 concurrent chats. 100 percent accuracy. Here is my system.\", \"body\": \"I run 4 chat queues and maintain 99.8 percent accuracy. The secret is templated responses built over 2 years, colour-coded tabs, and strict wrap-time discipline.\", \"csat\": 267, \"dsat\": 8, \"time\": \"4d ago\", \"comments\": [{\"author\": \"auxCodePoet\", \"color\": \"#4f9eff\", \"text\": \"Please share the template pack. My accuracy drops at 3 concurrent.\"}]}, {\"id\": 20, \"role\": \"agent-inbound\", \"author\": \"midnightShiftMaya\", \"tags\": [\"HoldMusicPTSD\"], \"title\": \"Things nobody tells you about overnight shift in a call center\", \"body\": \"The calls are harder. Customers are either desperate or furious. The team bond is tighter because you are surviving together. Something almost beautiful about a quiet moment at 3am between calls.\", \"csat\": 398, \"dsat\": 6, \"time\": \"5d ago\", \"comments\": [{\"author\": \"holdQueen\", \"color\": \"#fb923c\", \"text\": \"The overnight bond is real. My closest work friends are from night shift.\"}, {\"author\": \"silentCallSam\", \"color\": \"#4f9eff\", \"text\": \"The 3am quiet is the only honest moment in a CC.\"}]}, {\"id\": 21, \"role\": \"supervisor\", \"author\": \"retentionRex\", \"tags\": [\"AHTsurvivor\"], \"image\": \"https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80\", \"title\": \"91 percent agent retention rate. Here are the 5 things I actually do.\", \"body\": \"Not foosball tables. 1) Know every agent career goal. 2) Protect their breaks. 3) Fight for their pay. 4) Shield from useless meetings. 5) Celebrate publicly, coach privately.\", \"csat\": 489, \"dsat\": 8, \"time\": \"5d ago\", \"comments\": [{\"author\": \"burnoutTL\", \"color\": \"#a78bfa\", \"text\": \"Celebrate publicly, coach privately. Written above my desk.\"}, {\"author\": \"coachingCarla\", \"color\": \"#34d399\", \"text\": \"Knowing every agent career goal is the foundation of everything.\"}]}, {\"id\": 22, \"role\": \"wfm\", \"author\": \"wfmWhisperer\", \"tags\": [\"WFMwoes\"], \"title\": \"Erlang C explained in plain English for people who glazed over in training\", \"body\": \"Erlang C answers one question: How many agents do I need so X percent of callers wait less than Y seconds? Feed it call volume, AHT, and target service level. Out comes headcount.\", \"csat\": 356, \"dsat\": 11, \"time\": \"6d ago\", \"comments\": [{\"author\": \"rosterNinja\", \"color\": \"#3ddc84\", \"text\": \"Finally a plain-language explanation. Sending to every new ops hire.\"}, {\"author\": \"scheduleGod\", \"color\": \"#ff8c55\", \"text\": \"The gap is always in the AHT input. Garbage in, garbage out.\"}]}, {\"id\": 23, \"role\": \"trainer\", \"author\": \"trainingTerrence\", \"tags\": [\"ScriptKiller\"], \"image\": \"https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&q=80\", \"title\": \"10 years training CC agents. The one thing that makes the biggest difference.\", \"body\": \"Not the script. Not product knowledge. Letting agents hear themselves on a call recording in week 1, then again in week 4. The gap between those two recordings is confidence.\", \"csat\": 412, \"dsat\": 5, \"time\": \"6d ago\", \"comments\": [{\"author\": \"slidedecksurvivor\", \"color\": \"#34d399\", \"text\": \"Call recording playback is the most underused training tool in the industry.\"}, {\"author\": \"roleplayRuler\", \"color\": \"#ff8c55\", \"text\": \"The agent face when they hear the difference is everything.\"}]}, {\"id\": 24, \"role\": \"team-lead\", \"author\": \"coachingCarla\", \"tags\": [\"AHTsurvivor\", \"QAfeedback\"], \"title\": \"Every 1-on-1 I run has 3 questions. Never more, never fewer.\", \"body\": \"Q1: What is one call you are proud of this week? Q2: What is one moment you wish you could redo? Q3: What do you need from me right now? These three questions tell me everything.\", \"csat\": 376, \"dsat\": 4, \"time\": \"1w ago\", \"comments\": [{\"author\": \"burnoutTL\", \"color\": \"#a78bfa\", \"text\": \"What do you need from me right now is the question nobody asks.\"}, {\"author\": \"retentionRex\", \"color\": \"#4f9eff\", \"text\": \"Start with pride not problems. Changes the whole energy.\"}]}, {\"id\": 25, \"role\": \"agent-inbound\", \"author\": \"silentCallSam\", \"tags\": [\"SilentCalls\"], \"title\": \"Three welfare checks. Two commendations. One rule I never break.\", \"body\": \"In 4 years of inbound I have had three silent calls that turned out to be welfare situations. Each time the rule was the same: stay on. Do not hang up. Do not rush to wrap. Just stay.\", \"csat\": 621, \"dsat\": 1, \"time\": \"1w ago\", \"comments\": [{\"author\": \"auxCodePoet\", \"color\": \"#4f9eff\", \"text\": \"Sam is the reason I tell this story in every new agent session.\"}, {\"author\": \"holdMusicHero\", \"color\": \"#a78bfa\", \"text\": \"Training should have a dedicated module for this. Not a bullet point.\"}, {\"author\": \"newAgentNadia\", \"color\": \"#fb923c\", \"text\": \"I read this twice. Then saved it. Then read it again. Thank you Sam.\"}]}]");
 var PROFILES = JSON.parse("[{\"username\": \"queenOfHolds\", \"role\": \"agent-inbound\", \"color\": \"#4f9eff\", \"bio\": \"6 years inbound. Survived Black Friday 3 times. My hold time is legendary and my empathy is real. Ask me anything about de-escalation.\", \"joined\": \"Jan 2023\", \"location\": \"Austin, TX\", \"tenure\": \"6 years in CC\"}, {\"username\": \"gradeAGrammar\", \"role\": \"qa\", \"color\": \"#fbbf24\", \"bio\": \"QA Analyst obsessed with calibration scores. I banned the phrase 'I understand your frustration' on my floor and CSAT went up. Words matter.\", \"joined\": \"Mar 2022\", \"location\": \"Remote\", \"tenure\": \"8 years in QA\"}, {\"username\": \"burnoutTL\", \"role\": \"team-lead\", \"color\": \"#a78bfa\", \"bio\": \"TL by day, existential crisis by night. I coach 14 agents, run calibrations, and somehow still believe in this industry. Ask me about 1-on-1s.\", \"joined\": \"Nov 2021\", \"location\": \"Chicago, IL\", \"tenure\": \"5 years as TL\"}, {\"username\": \"scheduleGod\", \"role\": \"wfm\", \"color\": \"#ff8c55\", \"bio\": \"WFM Analyst who turned shrinkage data into a leadership language. If you can visualize it, they will believe it. Erlang C is poetry.\", \"joined\": \"Feb 2022\", \"location\": \"Phoenix, AZ\", \"tenure\": \"7 years in WFM\"}, {\"username\": \"slidedecksurvivor\", \"role\": \"trainer\", \"color\": \"#34d399\", \"bio\": \"Trainer who killed the 3-day product dump and lived to tell the tale. Scenario-based from day one. Principles over scripts, always.\", \"joined\": \"Apr 2020\", \"location\": \"Nashville, TN\", \"tenure\": \"9 years in training\"}, {\"username\": \"lastResort99\", \"role\": \"escalation\", \"color\": \"#ff5f1f\", \"bio\": \"Escalation Desk specialist. Where calls go when everyone else gave up. I close cases that have been open for weeks. This is my calling.\", \"joined\": \"Jun 2019\", \"location\": \"Dallas, TX\", \"tenure\": \"10 years in escalations\"}, {\"username\": \"dialerDreams\", \"role\": \"agent-outbound\", \"color\": \"#f472b6\", \"bio\": \"Outbound forever. Rejected 200 times a day and still optimistic. The gatekeeper is not your enemy. Warm script, warm tone, warm close.\", \"joined\": \"Aug 2023\", \"location\": \"Miami, FL\", \"tenure\": \"3 years outbound\"}, {\"username\": \"ctrl_alt_despair\", \"role\": \"it-support\", \"color\": \"#5dd6d6\", \"bio\": \"IT Support for 3 CC floors. I have seen things you would not believe. Reboots do not fix souls but they fix 70% of softphone issues.\", \"joined\": \"Jan 2021\", \"location\": \"Seattle, WA\", \"tenure\": \"6 years in CC IT\"}, {\"username\": \"holdQueen\", \"role\": \"agent-inbound\", \"color\": \"#fb923c\", \"bio\": \"The hold button is my canvas. 5 years and 50,000 calls later, I still answer every one like it is my first. Vivaldi haunts my dreams.\", \"joined\": \"Sep 2021\", \"location\": \"Denver, CO\", \"tenure\": \"5 years inbound\"}, {\"username\": \"rosterNinja\", \"role\": \"wfm\", \"color\": \"#3ddc84\", \"bio\": \"I see your shrinkage and raise you a Monte Carlo simulation. Real-time adherence is my sport. Schedules are love languages.\", \"joined\": \"Jul 2022\", \"location\": \"Remote\", \"tenure\": \"6 years in WFM\"}, {\"username\": \"calibrationQueen\", \"role\": \"qa\", \"color\": \"#fbbf24\", \"bio\": \"12 years QA and still finding new ways calibration sessions can go wrong. Every call is a data point. Every score is a story waiting to be coached.\", \"joined\": \"Mar 2020\", \"location\": \"Atlanta, GA\", \"tenure\": \"12 years in QA\"}, {\"username\": \"auxCodePoet\", \"role\": \"agent-inbound\", \"color\": \"#4f9eff\", \"bio\": \"Break mode philosopher. Wrap time is sacred. I annotate every call, read every thread, and have strong opinions about the Oxford comma in customer emails.\", \"joined\": \"Oct 2022\", \"location\": \"Portland, OR\", \"tenure\": \"4 years inbound\"}, {\"username\": \"quietSupervisor\", \"role\": \"supervisor\", \"color\": \"#3ddc84\", \"bio\": \"I lead by listening. My 1-on-1s run long because I actually stay until the agent is done talking. Psychological safety is not a buzzword here.\", \"joined\": \"May 2021\", \"location\": \"Boston, MA\", \"tenure\": \"8 years, 3 as supervisor\"}, {\"username\": \"holdMusicHero\", \"role\": \"agent-inbound\", \"color\": \"#a78bfa\", \"bio\": \"I hum Vivaldi in my sleep. 4 years inbound and still moved by the human moments this job creates. Hold is not a punishment. It is a pause.\", \"joined\": \"Dec 2021\", \"location\": \"New Orleans, LA\", \"tenure\": \"4 years inbound\"}, {\"username\": \"roleplayRuler\", \"role\": \"trainer\", \"color\": \"#ff8c55\", \"bio\": \"7 principles. Zero scripts. My agents go from nervous to natural in 2 weeks. I roleplay every scenario until it becomes instinct, not memory.\", \"joined\": \"Feb 2022\", \"location\": \"Minneapolis, MN\", \"tenure\": \"7 years in training\"}, {\"username\": \"FCRfanatic\", \"role\": \"ops-manager\", \"color\": \"#ff5f1f\", \"bio\": \"Ops Manager with an obsession: First Call Resolution. I have the data, I have the graphs, and I will win any argument about AHT vs FCR with receipts.\", \"joined\": \"Jun 2020\", \"location\": \"San Francisco, CA\", \"tenure\": \"11 years, 4 as Ops Manager\"}, {\"username\": \"newAgentNadia\", \"role\": \"agent-inbound\", \"color\": \"#fb923c\", \"bio\": \"Week 3 on the floor. Everything is terrifying and also kind of amazing. This community has taught me more than 3 days of onboarding ever could.\", \"joined\": \"Mar 2025\", \"location\": \"Columbus, OH\", \"tenure\": \"3 weeks (brand new!)\"}, {\"username\": \"shrinkageSlayer\", \"role\": \"wfm\", \"color\": \"#34d399\", \"bio\": \"I reduced unplanned absence by 22% in 18 months by treating WFM as a transparency problem, not a punishment system. Data is kindness.\", \"joined\": \"Aug 2021\", \"location\": \"Kansas City, MO\", \"tenure\": \"5 years in WFM\"}, {\"username\": \"talkTimeTracker\", \"role\": \"csat-analyst\", \"color\": \"#fbbf24\", \"bio\": \"CSAT Analyst who has listened to 10,000 calls. If it can be measured, it happened. If it happened, I measured it. Phrases tank scores. I have the proof.\", \"joined\": \"Nov 2022\", \"location\": \"Remote\", \"tenure\": \"5 years in CSAT analytics\"}, {\"username\": \"escalationEvelyn\", \"role\": \"escalation\", \"color\": \"#f472b6\", \"bio\": \"Escalation specialist who speaks fluent angry customer and frustrated agent. I translate between both parties until someone feels heard. It works.\", \"joined\": \"Mar 2021\", \"location\": \"Philadelphia, PA\", \"tenure\": \"7 years, 4 in escalations\"}, {\"username\": \"silentCallSam\", \"role\": \"agent-inbound\", \"color\": \"#4f9eff\", \"bio\": \"3 welfare checks. 2 commendations. 1 rule: always stay on the line. This job is heavier than most people know. I carry it with purpose.\", \"joined\": \"Jul 2021\", \"location\": \"Louisville, KY\", \"tenure\": \"4 years inbound\"}, {\"username\": \"wfmWhisperer\", \"role\": \"wfm\", \"color\": \"#a78bfa\", \"bio\": \"Headcount is poetry. Intervals are art. I see beauty in Erlang C and meaning in service level curves. WFM is misunderstood and I am here to fix that.\", \"joined\": \"Apr 2022\", \"location\": \"Remote\", \"tenure\": \"8 years in WFM\"}, {\"username\": \"chatCzarina\", \"role\": \"back-office\", \"color\": \"#ff8c55\", \"bio\": \"Chat support queen running 4 concurrent threads at 99.8% accuracy. Not a bot. Just very organized, very caffeinated, and very good at tab management.\", \"joined\": \"Sep 2022\", \"location\": \"Remote\", \"tenure\": \"5 years in chat support\"}, {\"username\": \"KPIKing\", \"role\": \"ops-manager\", \"color\": \"#3ddc84\", \"bio\": \"Ops Manager whose happy place is a green dashboard. I track everything, optimize constantly, and genuinely believe in the power of good data to improve agent lives.\", \"joined\": \"Jan 2022\", \"location\": \"Houston, TX\", \"tenure\": \"9 years, 3 as Ops Manager\"}, {\"username\": \"bilingualBoss\", \"role\": \"agent-outbound\", \"color\": \"#5dd6d6\", \"bio\": \"EN/ES/FR support. Three languages, one headset, infinite patience. Code-switching mid-call is my superpower. Every customer deserves their language.\", \"joined\": \"Jun 2022\", \"location\": \"Los Angeles, CA\", \"tenure\": \"6 years multilingual CC\"}, {\"username\": \"trainingTerrence\", \"role\": \"trainer\", \"color\": \"#ff5f1f\", \"bio\": \"10 years training CC agents. My favourite moment is always the same: the look on a nervous new agent's face when they realize they are actually good at this.\", \"joined\": \"Oct 2020\", \"location\": \"Detroit, MI\", \"tenure\": \"10 years in training\"}, {\"username\": \"midnightShiftMaya\", \"role\": \"agent-inbound\", \"color\": \"#a78bfa\", \"bio\": \"Overnight shift warrior. The calls are harder at 2am but the team bond is tighter. There is something honest about the quiet between calls in the small hours.\", \"joined\": \"Feb 2022\", \"location\": \"Las Vegas, NV\", \"tenure\": \"3 years, all nights\"}, {\"username\": \"retentionRex\", \"role\": \"supervisor\", \"color\": \"#4f9eff\", \"bio\": \"91% agent retention rate. I know every one of my agents' career goals, protect their breaks, and fight for their pay. Turnover is a management failure.\", \"joined\": \"May 2021\", \"location\": \"Charlotte, NC\", \"tenure\": \"7 years, 3 as supervisor\"}, {\"username\": \"coachingCarla\", \"role\": \"team-lead\", \"color\": \"#34d399\", \"bio\": \"TL obsessed with agent development. Every 1-on-1 has 3 questions. Every coaching session has an action plan. Every action plan gets followed up. Always.\", \"joined\": \"Aug 2020\", \"location\": \"Tampa, FL\", \"tenure\": \"6 years, 2 as TL\"}]");
@@ -919,7 +1394,7 @@ function showPage(name){
   el('navTemplates').style.display=name==='templates'?'none':'block';
   el('navNews').style.display=name==='news'?'none':'block';
   el('navJobs').style.display=name==='jobs'?'none':'block';
-  if(name==='feed'){buildFeed();buildRoleFilter();buildTrending();initChallenge();}
+  if(name==='feed'){buildFeed();buildRoleFilter();buildTrending();initChallenge();renderLeaderboard();}
   if(name==='templates')renderTemplates();
   if(name==='news')initNews();
   if(name==='jobs')initJobs();
@@ -1219,6 +1694,8 @@ function submitCommentById(postId){
   var post=posts.find(function(p){return p.id===postId;});
   if(!post)return;
   post.comments.push({author:currentUser.username,color:currentUser.color,text:text});
+  if(typeof addNotif==='function')addNotif('💬','You commented on <strong>'+post.title.slice(0,35)+'...</strong>',function(){gotoPost(postId);});
+  if(typeof addNotif !== 'undefined') addNotif('💬', 'You commented on <strong>'+post.title.slice(0,40)+'...</strong>', function(){ gotoPost(postId); });
   var cs=el('cs-'+postId);
   if(cs){cs.innerHTML=commentsHTML(post);}
   // Re-attach keydown on new input
@@ -1294,12 +1771,15 @@ function loginUser(u,isNew){
   el('hUsername').textContent=u.username;el('ddName').textContent=(u.firstName||'')+' '+(u.lastName||'');
   el('ddRole').textContent=r?r.icon+' '+r.name:'';
   setTimeout(closeAuth,2000);setTimeout(updateMobAuth,2100);
+  showNotifBell();
+  seedNotifications(u);
+  if(isNew) setTimeout(function(){ openOnboard(u); }, 2500);
   initUserActivity(u.username);
   userActivity[u.username].joinDate=new Date().toISOString();
   checkBadges(u.username);
   setTimeout(updateHeaderBadges,2200);
 }
-function logout(){currentUser=null;userRole=null;el('authBtns').style.display='flex';el('userWrap').style.display='none';el('newPostBtn').style.display='none';el('userDD').classList.remove('open');el('headerRole').textContent='Pick your role';}
+// logout() replaced by Supabase version above
 function toggleDD(){el('userDD').classList.toggle('open');}
 
 // ═══ TEMPLATES ═══
@@ -2131,6 +2611,292 @@ function externalRatingHTML(company){
   '</div>';
 }
 
+
+// ═══════════════════════════════════════════════════════
+// 🔔 NOTIFICATIONS
+// ═══════════════════════════════════════════════════════
+var notifications = [];
+var notifPanelOpen = false;
+
+function addNotif(icon, html, onClick){
+  notifications.unshift({
+    id: Date.now() + Math.random(),
+    icon: icon,
+    html: html,
+    time: 'just now',
+    read: false,
+    onClick: onClick || null
+  });
+  if(notifications.length > 30) notifications.pop();
+  renderNotifBadge();
+  renderNotifList();
+}
+
+function renderNotifBadge(){
+  var unread = notifications.filter(function(n){ return !n.read; }).length;
+  var badge = document.getElementById('notifBadge');
+  if(!badge) return;
+  if(unread > 0){
+    badge.style.display = 'flex';
+    badge.textContent = unread > 9 ? '9+' : unread;
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
+function renderNotifList(){
+  var list = document.getElementById('notifList');
+  if(!list) return;
+  if(!notifications.length){
+    list.innerHTML = '<div class="notif-empty">🔔 No notifications yet.<br>Start posting and interacting!</div>';
+    return;
+  }
+  list.innerHTML = '';
+  notifications.slice(0,15).forEach(function(n){
+    var item = document.createElement('div');
+    item.className = 'notif-item' + (n.read ? '' : ' unread');
+    item.innerHTML = '<div class="notif-icon">'+n.icon+'</div><div class="notif-body"><div class="notif-text">'+n.html+'</div><div class="notif-time">'+n.time+'</div></div>';
+    item.addEventListener('click', function(){
+      n.read = true;
+      renderNotifBadge();
+      if(n.onClick) n.onClick();
+      toggleNotifPanel();
+    });
+    list.appendChild(item);
+  });
+}
+
+function toggleNotifPanel(){
+  var panel = document.getElementById('notifPanel');
+  if(!panel) return;
+  notifPanelOpen = !notifPanelOpen;
+  panel.style.display = notifPanelOpen ? 'block' : 'none';
+  if(notifPanelOpen) renderNotifList();
+}
+
+function markAllRead(){
+  notifications.forEach(function(n){ n.read = true; });
+  renderNotifBadge();
+  renderNotifList();
+}
+
+function showNotifBell(){
+  var wrap = document.getElementById('notifBellWrap');
+  if(wrap) wrap.style.display = 'flex';
+}
+
+// Seed some starter notifications when user logs in
+function seedNotifications(user){
+  notifications = [];
+  addNotif('🎉', '<strong>Welcome to DialDown!</strong> Your account is live. Start by reading the feed.', null);
+  addNotif('🏆', 'You earned your first badge: <strong>CC Veteran</strong>', function(){ openProfile(user.username); });
+  addNotif('💡', 'This week challenge is live — <strong>share your de-escalation tip</strong>!', null);
+  // Simulate a like on a recent post
+  setTimeout(function(){
+    addNotif('😊', '<strong>burnoutTL</strong> liked your CSAT score on a post', null);
+  }, 8000);
+}
+
+// Vote notification — added to real vote fn below
+
+// Comment notification — handled inline
+
+// Hook into badge award
+var _origShowBadgeToast = showBadgeToast;
+function showBadgeToast(badge){
+  _origShowBadgeToast(badge);
+  addNotif(badge.icon, 'Badge unlocked: <strong>' + badge.name + '</strong> — ' + badge.desc, function(){
+    if(currentUser) openProfile(currentUser.username);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// 🏆 LEADERBOARD
+// ═══════════════════════════════════════════════════════
+var lbMode = 'csat';
+
+function switchLbTab(mode, btn){
+  lbMode = mode;
+  document.querySelectorAll('.lb-tab').forEach(function(b){ b.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  renderLeaderboard();
+}
+
+function renderLeaderboard(){
+  var list = document.getElementById('lbList');
+  if(!list) return;
+
+  var scores = {};
+
+  if(lbMode === 'csat'){
+    // Total CSAT votes received on their posts
+    PROFILES.forEach(function(p){
+      var up = posts.filter(function(post){ return post.author === p.username; });
+      var total = up.reduce(function(s,post){ return s+(post.csat||0); }, 0);
+      var dsat = up.reduce(function(s,post){ return s+(post.dsat||0); }, 0);
+      var pct = (total+dsat)>0 ? Math.round((total/(total+dsat))*100) : 0;
+      if(up.length) scores[p.username] = { val: pct, lbl: pct+'% CSAT', prof: p };
+    });
+  } else if(lbMode === 'posts'){
+    PROFILES.forEach(function(p){
+      var count = posts.filter(function(post){ return post.author === p.username; }).length;
+      if(count) scores[p.username] = { val: count, lbl: count+' post'+(count!==1?'s':''), prof: p };
+    });
+  } else {
+    // Most comments left
+    var commentCounts = {};
+    posts.forEach(function(post){
+      post.comments.forEach(function(c){
+        commentCounts[c.author] = (commentCounts[c.author]||0) + 1;
+      });
+    });
+    PROFILES.forEach(function(p){
+      var count = commentCounts[p.username] || 0;
+      if(count) scores[p.username] = { val: count, lbl: count+' comment'+(count!==1?'s':''), prof: p };
+    });
+  }
+
+  var ranked = Object.keys(scores).sort(function(a,b){ return scores[b].val - scores[a].val; }).slice(0,8);
+
+  list.innerHTML = '';
+  var rankLabels = ['🥇','🥈','🥉'];
+  var rankClasses = ['gold','silver','bronze'];
+
+  ranked.forEach(function(username, i){
+    var s = scores[username];
+    var role = getRole(s.prof.role);
+    var item = document.createElement('div');
+    item.className = 'lb-item';
+    item.innerHTML =
+      '<span class="lb-rank '+(rankClasses[i]||'')+'">'+(rankLabels[i]||(i+1))+'</span>'+
+      '<div class="lb-av" style="background:'+s.prof.color+'">'+username.slice(0,2).toUpperCase()+'</div>'+
+      '<div style="flex:1;min-width:0"><div class="lb-name">u/'+username+'</div><div class="lb-role-tag">'+role.icon+' '+role.name+'</div></div>'+
+      '<div style="text-align:right"><div class="lb-score">'+s.lbl.split(' ')[0]+'</div><div class="lb-score-lbl">'+s.lbl.split(' ').slice(1).join(' ')+'</div></div>';
+    item.addEventListener('click', function(){ openProfileModal(username); });
+    list.appendChild(item);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// 🎓 ONBOARDING
+// ═══════════════════════════════════════════════════════
+var onboardStep = 1;
+var onboardRole = null;
+var onboardTopics = new Set();
+var ONBOARD_TOPICS = [
+  {id:'AHTsurvivor', icon:'⏱', label:'AHT & Call Times'},
+  {id:'QAfeedback',  icon:'🔍', label:'QA & Scoring'},
+  {id:'WFMwoes',     icon:'📅', label:'WFM & Scheduling'},
+  {id:'ScriptKiller',icon:'📋', label:'Scripts & Templates'},
+  {id:'SilentCalls', icon:'🔇', label:'Silent Calls & Welfare'},
+  {id:'HoldMusicPTSD',icon:'🎵', label:'CC Life & Culture'},
+];
+
+function openOnboard(user){
+  onboardStep = 1;
+  onboardRole = user.role || null;
+  onboardTopics = new Set();
+  renderOnboardStep();
+  document.getElementById('onboardModal').classList.add('open');
+}
+
+function skipOnboard(){
+  document.getElementById('onboardModal').classList.remove('open');
+}
+
+function renderOnboardStep(){
+  var label=document.getElementById('onboardStepLabel');
+  var body=document.getElementById('onboardBody');
+  var dots=['odot1','odot2','odot3'];
+  dots.forEach(function(d,i){
+    var el=document.getElementById(d);
+    if(!el)return;
+    el.className='onboard-step-dot'+(i+1<onboardStep?' done':i+1===onboardStep?' active':'');
+  });
+  if(label)label.textContent='Step '+onboardStep+' of 3';
+
+  if(onboardStep===1){
+    var roleOptions=[
+      {id:'agent-inbound',icon:'🎧',name:'Inbound Agent'},
+      {id:'team-lead',icon:'🦁',name:'Team Lead'},
+      {id:'qa',icon:'🔍',name:'QA Analyst'},
+      {id:'wfm',icon:'📅',name:'WFM Analyst'},
+      {id:'trainer',icon:'🎓',name:'Trainer'},
+      {id:'ops-manager',icon:'📊',name:'Ops Manager'},
+    ];
+    body.innerHTML='<div class="onboard-emoji">👋</div><div class="onboard-title">What is your role?</div><div class="onboard-sub">We will personalise your feed and match you with the right peers.</div><div class="onboard-role-grid" id="onboardRoleGrid"></div><div class="onboard-nav"><button class="btn-primary" onclick="nextOnboardStep()">Continue →</button></div>';
+    var grid=document.getElementById('onboardRoleGrid');
+    roleOptions.forEach(function(r){
+      var btn=document.createElement('div');
+      btn.className='onboard-role-btn'+(onboardRole===r.id?' selected':'');
+      btn.dataset.role=r.id;
+      btn.innerHTML='<div class="onboard-role-icon">'+r.icon+'</div><div class="onboard-role-name">'+r.name+'</div>';
+      btn.addEventListener('click',function(){selectOnboardRole(btn,r.id);});
+      grid.appendChild(btn);
+    });
+
+  } else if(onboardStep===2){
+    body.innerHTML='<div class="onboard-emoji">🎯</div><div class="onboard-title">What do you care about?</div><div class="onboard-sub">Pick the topics you want to see more of in your feed.</div><div class="onboard-topic-grid" id="onboardTopicGrid"></div><div class="onboard-nav"><button class="btn-ghost" onclick="prevOnboardStep()">← Back</button><button class="btn-primary" onclick="nextOnboardStep()">Continue →</button></div>';
+    var tgrid=document.getElementById('onboardTopicGrid');
+    ONBOARD_TOPICS.forEach(function(t){
+      var btn=document.createElement('div');
+      btn.className='onboard-topic-btn'+(onboardTopics.has(t.id)?' selected':'');
+      btn.dataset.tag=t.id;
+      btn.innerHTML='<span>'+t.icon+'</span><span>'+t.label+'</span>';
+      btn.addEventListener('click',function(){toggleOnboardTopic(btn,t.id);});
+      tgrid.appendChild(btn);
+    });
+
+  } else if(onboardStep===3){
+    var role=getRole(onboardRole||'agent-inbound');
+    var topicList=Array.from(onboardTopics).map(function(t){var found=ONBOARD_TOPICS.find(function(x){return x.id===t;});return found?found.icon+' '+found.label:t;});
+    var color=currentUser?currentUser.color:'var(--accent)';
+    var initials=currentUser?currentUser.username.slice(0,2).toUpperCase():'👤';
+    body.innerHTML=
+      '<div class="onboard-welcome-av" style="background:'+color+'">'+initials+'</div>'+
+      '<div class="onboard-title">You are all set!</div>'+
+      '<div class="onboard-sub">Your role: <strong>'+role.icon+' '+role.name+'</strong><br>'+(topicList.length?'Following: '+topicList.join(' · ')+'<br>':'')+'<br>Your feed is personalised. Jump in and share your first thought!</div>'+
+      '<div class="onboard-nav" style="justify-content:center;gap:10px"><button class="btn-ghost" onclick="skipOnboard()">Go to feed</button><button class="btn-primary" onclick="onboardFinish()">✍️ Share something</button></div>';
+  }
+}
+
+function selectOnboardRoleEl(el){selectOnboardRole(el, el.dataset.role);}
+function toggleOnboardTopicEl(el){toggleOnboardTopic(el, el.dataset.tag);}
+function selectOnboardRole(el, roleId){
+  onboardRole = roleId;
+  document.querySelectorAll('.onboard-role-btn').forEach(function(b){ b.classList.remove('selected'); });
+  el.classList.add('selected');
+  // Update user role
+  if(currentUser){ currentUser.role = roleId; userRole = roleId; }
+}
+
+function toggleOnboardTopic(el, tag){
+  if(onboardTopics.has(tag)){ onboardTopics.delete(tag); el.classList.remove('selected'); }
+  else { onboardTopics.add(tag); el.classList.add('selected'); }
+}
+
+function nextOnboardStep(){
+  onboardStep++;
+  if(onboardStep > 3){ onboardFinish(); return; }
+  renderOnboardStep();
+}
+
+function prevOnboardStep(){
+  onboardStep = Math.max(1, onboardStep-1);
+  renderOnboardStep();
+}
+
+function onboardFinish(){
+  skipOnboard();
+  // Apply topic filters to show relevant posts
+  if(onboardTopics.size > 0){
+    var firstTopic = Array.from(onboardTopics)[0];
+    setTagFilter(firstTopic);
+  }
+  // Open post modal if they clicked share
+  setTimeout(openPostModal, 300);
+}
+
 // ═══ EVENTS ═══
 el('authModal').addEventListener('click',function(e){if(e.target.id==='authModal')closeAuth();});
 el('postModal').addEventListener('click',function(e){if(e.target.id==='postModal')closePostModal();});
@@ -2141,8 +2907,11 @@ el('profileModal').addEventListener('click',function(e){if(e.target.id==='profil
 el('buddyModal').addEventListener('click',function(e){if(e.target.id==='buddyModal')closeBuddyModal();});
 el('referralModal').addEventListener('click',function(e){if(e.target.id==='referralModal')closeReferralModal();});
 el('writeReviewModal').addEventListener('click',function(e){if(e.target.id==='writeReviewModal')closeWriteReview();});
-document.addEventListener('click',function(e){var w=el('userWrap');if(w&&!w.contains(e.target))el('userDD').classList.remove('open');});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeLB();closeAuth();closePostModal();closeProfileModal();closeBuddyModal();closeReferralModal();closeWriteReview();}});
+if(document.getElementById('onboardModal'))document.getElementById('onboardModal').addEventListener('click',function(e){if(e.target.id==='onboardModal')skipOnboard();});
+document.addEventListener('click',function(e){
+  var nw=document.getElementById('notifBellWrap');if(nw&&notifPanelOpen&&!nw.contains(e.target)){var p=document.getElementById('notifPanel');if(p)p.style.display='none';notifPanelOpen=false;}
+var w=el('userWrap');if(w&&!w.contains(e.target))el('userDD').classList.remove('open');});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeLB();closeAuth();closePostModal();closeProfileModal();closeBuddyModal();closeReferralModal();closeWriteReview();skipOnboard();}});
 
 // ═══ INIT ═══
 seedProfileBadges();
@@ -2150,7 +2919,9 @@ seedProfileBadges();
 jobsData = jobsData.concat(TR_JOBS_DATA);
 PROFILES = PROFILES.concat(TR_PROFILES_DATA);
 posts = posts.concat(TR_POSTS_DATA.map(function(p){return Object.assign({},p,{comments:p.comments.map(function(c){return Object.assign({},c);})});}));
-document.addEventListener('click',function(e){if(e.target.classList.contains('cl-su'))openAuth('signup');if(e.target.classList.contains('cl-li'))openAuth('login');if(e.target.classList.contains('pmod-view-profile')){closeProfileModal();openProfile(e.target.dataset.user);}
+document.addEventListener('click',function(e){
+  var nw=document.getElementById('notifBellWrap');if(nw&&notifPanelOpen&&!nw.contains(e.target)){var p=document.getElementById('notifPanel');if(p)p.style.display='none';notifPanelOpen=false;}
+if(e.target.classList.contains('cl-su'))openAuth('signup');if(e.target.classList.contains('cl-li'))openAuth('login');if(e.target.classList.contains('pmod-view-profile')){closeProfileModal();openProfile(e.target.dataset.user);}
   if(e.target.classList.contains('cam-click')&&e.target.dataset.cauth){openProfileModal(e.target.dataset.cauth);}});
 document.addEventListener('click', function(e){
   if(e.target.classList.contains('cl-signup'))openAuth('signup');
@@ -2162,6 +2933,7 @@ buildRoleFilter();
 buildTrending();
 buildFeed();
 initChallenge();
+renderLeaderboard();
 setInterval(nextJoke,20000);
 setTimeout(function(){openAuth('signup');},700);
 </script>
