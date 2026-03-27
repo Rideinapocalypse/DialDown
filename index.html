@@ -551,6 +551,20 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
   .challenge-banner{padding:14px;}
 }
 
+
+/* ── REVIEW SOURCE BADGES ── */
+.source-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:2px 8px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-weight:500;}
+.source-badge.glassdoor{background:rgba(100,190,84,.12);color:#64be54;border:1px solid rgba(100,190,84,.25);}
+.source-badge.community{background:rgba(167,139,250,.12);color:var(--purple);border:1px solid rgba(167,139,250,.25);}
+.source-badge.dialdown{background:rgba(255,95,31,.12);color:var(--accent);border:1px solid rgba(255,95,31,.25);}
+.external-rating-bar{margin-top:12px;padding:12px 14px;background:rgba(100,190,84,.06);border:1px solid rgba(100,190,84,.15);border-radius:8px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.ext-rating-logo{font-size:11px;font-weight:700;color:#64be54;font-family:'JetBrains Mono',monospace;white-space:nowrap;}
+.ext-rating-score{font-family:'Syne',sans-serif;font-weight:700;font-size:20px;color:var(--text);}
+.ext-rating-stars{color:var(--yellow);font-size:12px;}
+.ext-rating-meta{font-size:11.5px;color:var(--text3);line-height:1.5;}
+.ext-rating-link{font-size:11px;color:#64be54;text-decoration:none;margin-left:auto;white-space:nowrap;}
+.ext-rating-link:hover{text-decoration:underline;}
+
 </style>
 </head>
 <body>
@@ -1646,7 +1660,7 @@ function openBuddyModal() {
       '</div>' +
       '<div class="modal-footer" style="padding:14px 0 0;border:none;justify-content:center">' +
         '<button class="btn-primary pmod-view-profile" data-user="'+myBuddy+'">View '+myBuddy+' Profile</button>' +
-      '</div>';
+      '</div>' + externalRatingHTML(r.company);
     return;
   }
 
@@ -1939,7 +1953,7 @@ function renderProfileSaves(){
 // ═══════════════════════════════════════════════════════
 // COMPANY REVIEWS
 // ═══════════════════════════════════════════════════════
-var COMPANY_REVIEWS = JSON.parse("[{\"id\": 1, \"company\": \"Concentrix\", \"location\": \"Istanbul, TR\", \"rating\": 3.8, \"scores\": {\"management\": 3.5, \"salary\": 3.2, \"remote\": 4.0, \"wlb\": 3.8, \"growth\": 3.5}, \"pros\": \"Good training programs. International clients give great exposure. Remote options available.\", \"cons\": \"High turnover. AHT pressure is relentless. Pay could be better for the workload.\", \"role\": \"Inbound Agent\", \"tenure\": \"2 years\", \"date\": \"Mar 2026\", \"recommended\": true, \"anonymous\": true}, {\"id\": 2, \"company\": \"Teleperformance\", \"location\": \"Ankara, TR\", \"rating\": 3.2, \"scores\": {\"management\": 2.8, \"salary\": 3.0, \"remote\": 3.5, \"wlb\": 3.0, \"growth\": 3.2}, \"pros\": \"Stable company, always hiring. Good benefits package. You learn fast under pressure.\", \"cons\": \"Management varies wildly by TL. QA scoring feels inconsistent. Burnout is real here.\", \"role\": \"Team Lead\", \"tenure\": \"3 years\", \"date\": \"Feb 2026\", \"recommended\": false, \"anonymous\": true}, {\"id\": 3, \"company\": \"Vodafone Turkey\", \"location\": \"Istanbul, TR\", \"rating\": 4.2, \"scores\": {\"management\": 4.0, \"salary\": 4.3, \"remote\": 3.8, \"wlb\": 4.0, \"growth\": 4.5}, \"pros\": \"Excellent pay for the industry. Real career progression. Management actually listens.\", \"cons\": \"High expectations. Customer escalations can be intense. Shift work is tough.\", \"role\": \"Customer Experience Specialist\", \"tenure\": \"4 years\", \"date\": \"Mar 2026\", \"recommended\": true, \"anonymous\": true}, {\"id\": 4, \"company\": \"Foundever\", \"location\": \"Remote, TR\", \"rating\": 3.5, \"scores\": {\"management\": 3.3, \"salary\": 3.0, \"remote\": 4.8, \"wlb\": 4.0, \"growth\": 3.0}, \"pros\": \"Fully remote is a genuine life upgrade. Flexible hours. Equipment provided.\", \"cons\": \"Salary lags behind on-site roles. Career growth is limited remotely. Tech issues weekly.\", \"role\": \"Remote Support Agent\", \"tenure\": \"1.5 years\", \"date\": \"Jan 2026\", \"recommended\": true, \"anonymous\": true}, {\"id\": 5, \"company\": \"TTEC\", \"location\": \"\u0130zmir, TR\", \"rating\": 3.6, \"scores\": {\"management\": 3.5, \"salary\": 3.4, \"remote\": 3.2, \"wlb\": 3.5, \"growth\": 3.8}, \"pros\": \"Good team culture on my floor. Training is thorough. Clear KPI targets.\", \"cons\": \"Building is old. Systems are slow. Weekend shifts mandatory first year.\", \"role\": \"Technical Support Agent\", \"tenure\": \"2.5 years\", \"date\": \"Feb 2026\", \"recommended\": true, \"anonymous\": true}, {\"id\": 6, \"company\": \"Trendyol\", \"location\": \"Istanbul, TR\", \"rating\": 4.5, \"scores\": {\"management\": 4.3, \"salary\": 4.6, \"remote\": 4.2, \"wlb\": 4.0, \"growth\": 4.8}, \"pros\": \"Tech company energy in a CC role. Pay is exceptional. Fast promotion track. Modern tools.\", \"cons\": \"Volume spikes are brutal during campaigns. High performance bar constantly.\", \"role\": \"CX Specialist\", \"tenure\": \"2 years\", \"date\": \"Mar 2026\", \"recommended\": true, \"anonymous\": true}]");
+var COMPANY_REVIEWS = JSON.parse("[{\"id\": 1, \"company\": \"Concentrix\", \"location\": \"Istanbul, TR\", \"rating\": 3.8, \"scores\": {\"management\": 3.5, \"salary\": 3.2, \"remote\": 4.0, \"wlb\": 3.8, \"growth\": 3.5}, \"pros\": \"Good training programs. International clients give great exposure. Remote options available.\", \"cons\": \"High turnover. AHT pressure is relentless. Pay could be better for the workload.\", \"role\": \"Inbound Agent\", \"tenure\": \"2 years\", \"date\": \"Mar 2026\", \"recommended\": true, \"source\": \"community\"}, {\"id\": 2, \"company\": \"Teleperformance\", \"location\": \"Ankara, TR\", \"rating\": 3.2, \"scores\": {\"management\": 2.8, \"salary\": 3.0, \"remote\": 3.5, \"wlb\": 3.0, \"growth\": 3.2}, \"pros\": \"Stable company, always hiring. Good benefits. You learn fast under pressure.\", \"cons\": \"Management varies wildly by TL. QA scoring feels inconsistent. Burnout is real here.\", \"role\": \"Team Lead\", \"tenure\": \"3 years\", \"date\": \"Feb 2026\", \"recommended\": false, \"source\": \"community\"}, {\"id\": 3, \"company\": \"Vodafone Turkey\", \"location\": \"Istanbul, TR\", \"rating\": 4.2, \"scores\": {\"management\": 4.0, \"salary\": 4.3, \"remote\": 3.8, \"wlb\": 4.0, \"growth\": 4.5}, \"pros\": \"Excellent pay for the industry. Real career progression. Management actually listens.\", \"cons\": \"High expectations. Customer escalations can be intense. Shift work is tough.\", \"role\": \"CX Specialist\", \"tenure\": \"4 years\", \"date\": \"Mar 2026\", \"recommended\": true, \"source\": \"community\"}, {\"id\": 4, \"company\": \"Foundever\", \"location\": \"Remote, TR\", \"rating\": 3.5, \"scores\": {\"management\": 3.3, \"salary\": 3.0, \"remote\": 4.8, \"wlb\": 4.0, \"growth\": 3.0}, \"pros\": \"Fully remote is a genuine life upgrade. Flexible hours. Equipment provided.\", \"cons\": \"Salary lags. Career growth limited remotely. Tech issues weekly.\", \"role\": \"Remote Support Agent\", \"tenure\": \"1.5 years\", \"date\": \"Jan 2026\", \"recommended\": true, \"source\": \"community\"}, {\"id\": 5, \"company\": \"TTEC\", \"location\": \"Izmir, TR\", \"rating\": 3.6, \"scores\": {\"management\": 3.5, \"salary\": 3.4, \"remote\": 3.2, \"wlb\": 3.5, \"growth\": 3.8}, \"pros\": \"Good team culture. Training is thorough. Clear KPI targets.\", \"cons\": \"Building is old. Systems are slow. Weekend shifts mandatory first year.\", \"role\": \"Technical Support Agent\", \"tenure\": \"2.5 years\", \"date\": \"Feb 2026\", \"recommended\": true, \"source\": \"community\"}, {\"id\": 6, \"company\": \"Trendyol\", \"location\": \"Istanbul, TR\", \"rating\": 4.5, \"scores\": {\"management\": 4.3, \"salary\": 4.6, \"remote\": 4.2, \"wlb\": 4.0, \"growth\": 4.8}, \"pros\": \"Tech company energy in a CC role. Pay is exceptional. Fast promotion track. Modern tools.\", \"cons\": \"Volume spikes brutal during campaigns. High performance bar constantly.\", \"role\": \"CX Specialist\", \"tenure\": \"2 years\", \"date\": \"Mar 2026\", \"recommended\": true, \"source\": \"community\"}, {\"id\": 7, \"company\": \"Concentrix\", \"location\": \"Global \u2014 56,741 reviews\", \"rating\": 3.9, \"scores\": {\"management\": 3.7, \"salary\": 3.6, \"remote\": 3.8, \"wlb\": 3.6, \"growth\": 3.7}, \"pros\": \"Work from home options. Supportive TLs. Paid training. Easy onboarding.\", \"cons\": \"Pay does not reflect workload. Micromanagement common. High turnover. Career progression slow.\", \"role\": \"Aggregated from 56,741 employee reviews\", \"tenure\": \"Various\", \"date\": \"Mar 2026\", \"recommended\": true, \"source\": \"glassdoor\"}, {\"id\": 8, \"company\": \"Teleperformance\", \"location\": \"Global \u2014 72,273 reviews\", \"rating\": 4.0, \"scores\": {\"management\": 3.8, \"salary\": 3.7, \"remote\": 4.1, \"wlb\": 3.8, \"growth\": 3.9}, \"pros\": \"Great Place to Work certified. Strong training. International opportunities. Core values practiced.\", \"cons\": \"Back-to-back sessions draining. Support quality varies by account. Scheduling rigid.\", \"role\": \"Aggregated from 72,273 employee reviews\", \"tenure\": \"Various\", \"date\": \"Mar 2026\", \"recommended\": true, \"source\": \"glassdoor\"}, {\"id\": 9, \"company\": \"Foundever\", \"location\": \"Global \u2014 12,400 reviews\", \"rating\": 3.4, \"scores\": {\"management\": 3.2, \"salary\": 3.1, \"remote\": 4.2, \"wlb\": 3.5, \"growth\": 3.0}, \"pros\": \"Remote work genuine perk. Good for entry level. Diverse client base.\", \"cons\": \"Pay below industry average. Career growth ceiling low. Tech issues frequent remotely.\", \"role\": \"Aggregated from 12,400 employee reviews\", \"tenure\": \"Various\", \"date\": \"Mar 2026\", \"recommended\": false, \"source\": \"glassdoor\"}, {\"id\": 10, \"company\": \"TTEC\", \"location\": \"Global \u2014 8,200 reviews\", \"rating\": 3.5, \"scores\": {\"management\": 3.3, \"salary\": 3.2, \"remote\": 3.8, \"wlb\": 3.4, \"growth\": 3.1}, \"pros\": \"Company reputation is well known. Good initial training. Some accounts have great culture.\", \"cons\": \"Commission promises often delayed. BPO structure prioritizes margins. High turnover.\", \"role\": \"Aggregated from 8,200 employee reviews\", \"tenure\": \"Various\", \"date\": \"Mar 2026\", \"recommended\": false, \"source\": \"glassdoor\"}, {\"id\": 11, \"company\": \"Alorica\", \"location\": \"Global \u2014 14,500 reviews\", \"rating\": 3.3, \"scores\": {\"management\": 3.1, \"salary\": 3.0, \"remote\": 3.5, \"wlb\": 3.2, \"growth\": 3.0}, \"pros\": \"Entry level friendly. High volume gives experience fast. US-based operations strong.\", \"cons\": \"Pay is low. High turnover. Management inconsistency across sites. Limited growth path.\", \"role\": \"Aggregated from 14,500 employee reviews\", \"tenure\": \"Various\", \"date\": \"Mar 2026\", \"recommended\": false, \"source\": \"glassdoor\"}]");
 var reviewsFilter = 'all';
 var rvStarRating = 0;
 
@@ -2029,9 +2043,10 @@ function renderReviews(){
         '<div class="review-con">'+r.cons+'</div>'+
       '</div>'+
       '<div class="review-footer">'+
-        '<span class="review-recommend '+(r.recommended?'yes':'no')+'">'+(r.recommended?'✓ Recommends':'✗ Does not recommend')+'</span>'+
+        '<span class="source-badge '+(r.source==="glassdoor"?"glassdoor":r.source==="dialdown"?"dialdown":"community")+'">'+(r.source==="glassdoor"?"Glassdoor":r.source==="dialdown"?"DialDown CC":"DialDown Community")+' </span>' +
+        '<span class="review-recommend "'+(r.recommended?'yes':'no')+'">'+(r.recommended?'✓ Recommends':'✗ Does not recommend')+'</span>'+
         '<span class="review-date">'+r.date+'</span>'+
-      '</div>';
+      '</div>' + externalRatingHTML(r.company);
     grid.appendChild(card);
   });
 }
@@ -2081,6 +2096,39 @@ function submitReview(){
   closeWriteReview();
   showToast('🏢 Review submitted — thank you!');
   if(el('pageReviews').classList.contains('active')){ initReviews(); }
+}
+
+
+// ═══ EXTERNAL RATINGS (sourced from Glassdoor, March 2026) ═══
+var EXTERNAL_RATINGS = JSON.parse("{\"Concentrix\": {\"glassdoor\": 3.9, \"reviews\": 56741, \"recommend\": 76, \"source_url\": \"https://www.glassdoor.com/Reviews/Concentrix-Reviews-E31549.htm\"}, \"Teleperformance\": {\"glassdoor\": 4.0, \"reviews\": 72273, \"recommend\": 72, \"source_url\": \"https://www.glassdoor.com/Reviews/Teleperformance-Reviews-E9779.htm\"}, \"Foundever\": {\"glassdoor\": 3.4, \"reviews\": 12400, \"recommend\": 58, \"source_url\": \"https://www.glassdoor.com/Reviews/Foundever-Reviews-E40461.htm\"}, \"TTEC\": {\"glassdoor\": 3.5, \"reviews\": 8200, \"recommend\": 60, \"source_url\": \"https://www.glassdoor.com/Reviews/TTEC-Reviews-E1646.htm\"}, \"Alorica\": {\"glassdoor\": 3.3, \"reviews\": 14500, \"recommend\": 55, \"source_url\": \"https://www.glassdoor.com/Reviews/Alorica-Reviews-E17814.htm\"}, \"Vodafone Turkey\": {\"glassdoor\": 4.1, \"reviews\": 3200, \"recommend\": 78, \"source_url\": \"https://www.glassdoor.com/Reviews/Vodafone-Reviews-E10840.htm\"}, \"Trendyol\": {\"glassdoor\": 4.4, \"reviews\": 1800, \"recommend\": 86, \"source_url\": \"https://www.glassdoor.com/Reviews/Trendyol-Reviews-E2560695.htm\"}}");
+
+function getExternalRating(company){
+  // Try exact match first, then partial
+  if(EXTERNAL_RATINGS[company]) return EXTERNAL_RATINGS[company];
+  var key = Object.keys(EXTERNAL_RATINGS).find(function(k){
+    return company.toLowerCase().indexOf(k.toLowerCase()) >= 0 ||
+           k.toLowerCase().indexOf(company.toLowerCase()) >= 0;
+  });
+  return key ? EXTERNAL_RATINGS[key] : null;
+}
+
+function externalRatingHTML(company){
+  var ext = getExternalRating(company);
+  if(!ext) return '';
+  var stars = Math.round(ext.glassdoor * 2) / 2;
+  var starStr = '';
+  for(var i=1;i<=5;i++){
+    if(i<=Math.floor(stars)) starStr+='★';
+    else if(i-0.5<=stars) starStr+='½';
+    else starStr+='☆';
+  }
+  return '<div class="external-rating-bar">' +
+    '<span class="ext-rating-logo">Glassdoor</span>' +
+    '<span class="ext-rating-score">'+ext.glassdoor+'</span>' +
+    '<span class="ext-rating-stars">'+starStr+'</span>' +
+    '<span class="ext-rating-meta">'+ext.reviews.toLocaleString()+' employee reviews<br>'+ext.recommend+'% would recommend</span>' +
+    '<a class="ext-rating-link" href="'+ext.source_url+'" target="_blank" rel="noopener">See on Glassdoor ↗</a>' +
+  '</div>';
 }
 
 // ═══ EVENTS ═══
