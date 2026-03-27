@@ -953,8 +953,19 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 // SUPABASE INTEGRATION
 // ═══════════════════════════════════════════════════════════════════════════
 const SUPABASE_URL = 'https://tbmdhjehekzectekzhya.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_Rntlx3MNJ4kPJKZb89p_mw_OvWp_eRr';
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRibWRoamVoZWt6ZWN0ZWt6aHlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2MDU2NTUsImV4cCI6MjA5MDE4MTY1NX0.hHKpH2Aw6dR77Cxg1guelJXaVWFqNc16jdO_hSXsgWY';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+  auth: {
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: true
+  }
+});
+// Test connection
+sb.from('profiles').select('count', {count:'exact',head:true}).then(function(r){
+  if(r.error) console.error('Supabase error:', r.error.message);
+  else console.log('Supabase connected ✅');
+});
 
 // ── AUTH STATE ──────────────────────────────────────────────────────────────
 var sbUser = null; // current Supabase auth user
