@@ -899,6 +899,21 @@ header {
 .comment-edit-cancel:hover{border-color:var(--text2);}
 .comment-edited-tag{font-size:10px;color:var(--text3);font-style:italic;margin-left:4px;}
 
+
+/* ══ DEFAULT AVATARS ══ */
+.def-avatar { border-radius: 50%; overflow: hidden; flex-shrink: 0; display: block; }
+.def-avatar svg { display: block; width: 100%; height: 100%; }
+/* Profile page large avatar */
+.profile-av-lg .def-avatar { width: 100%; height: 100%; }
+/* Tenure chip on profile */
+.tenure-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(255,95,31,.1); border: 1px solid rgba(255,95,31,.25);
+  border-radius: 20px; padding: 3px 10px; font-size: 12px;
+  color: var(--accent2); font-family: 'JetBrains Mono', monospace;
+}
+.tenure-chip-icon { font-size: 13px; }
+
 </style>
 </head>
 <body>
@@ -1147,7 +1162,7 @@ header {
       <div class="profile-meta">
         <span class="profile-meta-item">&#128197; <span id="profileJoined"></span></span>
         <span class="profile-meta-item">&#128205; <span id="profileLocation"></span></span>
-        <span class="profile-meta-item">&#8987; <span id="profileTenure"></span></span>
+        <span class="profile-meta-item" id="profileTenureWrap" style="display:none"><span class="tenure-chip"><span class="tenure-chip-icon">⏳</span><span id="profileTenure"></span></span></span>
       </div>
     </div>
   </div>
@@ -1456,6 +1471,7 @@ function restoreUserSession(profile) {
 
   // Set avatar/location/tenure from DB
   if(profile.avatar_url){ currentUser.avatar_url = profile.avatar_url; }
+  if(profile.joined_at){ currentUser.joined_at = profile.joined_at; }
   if(profile.location)   { currentUser.location   = profile.location;   }
   if(profile.tenure)     { currentUser.tenure      = profile.tenure;     }
   // Load persisted data
@@ -2002,7 +2018,7 @@ function buildFeed(){
     meta.className='post-meta';
     meta.innerHTML='<span class="role-tag '+role.cls+'">'+role.icon+' '+role.name+'</span>'+(p.id>=100?'<span style="font-size:11px;background:rgba(227,10,23,.12);color:#e30a17;padding:2px 7px;border-radius:4px;font-family:monospace">🇹🇷 TR</span>':'')+
       '<span class="author-wrap" data-author="'+p.author+'">'+
-        '<span class="author-av" style="background:'+prof.color+'">'+p.author.slice(0,2).toUpperCase()+'</span>'+
+        '<span class="author-av" style="background:transparent;overflow:hidden;padding:0">'+getUserAvatarHTML(p.author, prof.avatar_url||null, prof.color, 20)+'</span>'+
         '<span class="post-author">u/'+p.author+'</span>'+
         '<div class="author-tooltip">'+
           '<div class="att-name">u/'+p.author+'</div>'+
@@ -2122,11 +2138,8 @@ function buildFeed(){
 function commentsHTML(p){
   var out='';
   if(currentUser){
-    var av=currentUser.avatar_url
-      ? '<img src="'+currentUser.avatar_url+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"/>'
-      : (currentUser.username||'?').slice(0,2).toUpperCase();
     out='<div class="comment-input-row">'+
-      '<div class="comment-avatar" style="background:'+(currentUser.avatar_url?'transparent':currentUser.color||'#4f9eff')+'">'+av+'</div>'+
+      '<div class="comment-avatar" style="background:transparent;overflow:hidden;padding:0">'+getUserAvatarHTML(currentUser.username, currentUser.avatar_url, currentUser.color, 26)+'</div>'+
       '<input class="comment-input" id="ci-'+p.id+'" placeholder="Write a comment..." data-pid="'+p.id+'"/>'+
       '<button class="comment-send" id="csend-'+p.id+'">&#8629; Send</button>'+
     '</div>';
@@ -2137,11 +2150,11 @@ function commentsHTML(p){
     p.comments.forEach(function(c){
       var prof=getProfile(c.author);
       var cavUrl=prof.avatar_url||(currentUser&&currentUser.username===c.author?currentUser.avatar_url:null);
-      var cavHtml=cavUrl?'<img src="'+cavUrl+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"/>':c.author.slice(0,2).toUpperCase();
+      var cavHtml=getUserAvatarHTML(c.author, cavUrl, c.color||'#4f9eff', 26);
       var isOwn=currentUser&&currentUser.username===c.author;
       var cIdx = p.comments.indexOf(c);
       out+='<div class="comment-item" data-post-id="'+p.id+'" data-comment-idx="'+cIdx+'">'+
-        '<div class="comment-avatar cam-click" data-cauth="'+c.author+'" style="background:'+(cavUrl?'transparent':c.color||'#555')+';cursor:pointer" title="'+c.author+'">'+cavHtml+'</div>'+
+        '<div class="comment-avatar cam-click" data-cauth="'+c.author+'" style="background:transparent;overflow:hidden;padding:0;cursor:pointer" title="'+c.author+'">'+cavHtml+'</div>'+
         '<div class="comment-bubble" style="flex:1">'+
           '<div class="comment-meta" style="display:flex;align-items:center;gap:4px">'+
             '<strong>u/'+c.author+'</strong>'+
@@ -2529,11 +2542,17 @@ function openProfile(username){
     var totalD=up.reduce(function(s,p){return s+(p.dsat||0);},0);
     ac=totalC+totalD>0?Math.round((totalC/(totalC+totalD))*100):0;
   }
-  var av=el('profileAvatar'); av.textContent=username.slice(0,2).toUpperCase(); av.style.background=prof.color;
+  var av=el('profileAvatar'); av.style.background='transparent'; av.innerHTML=getUserAvatarHTML(username, prof.avatar_url||(currentUser&&currentUser.username===username?currentUser.avatar_url:null), prof.color, 72);
   el('profileUsername').textContent='u/'+username;
   el('profileRoleTag').innerHTML=role.icon+' '+role.name;
   el('profileBio').textContent=prof.bio||'CC community member on DialDown.';
-  el('profileJoined').textContent='Joined '+(prof.joined||'Recently');
+  var joinDate = prof.joined_at || prof.joined || null;
+  el('profileJoined').textContent = formatJoinDate(joinDate) || ('Joined '+(prof.joined||'Recently'));
+  // Auto-tenure from join date if not manually set
+  var autoTenure = calcTenure(joinDate);
+  var displayTenure = prof.tenure || autoTenure || '';
+  el('profileTenure').textContent = displayTenure;
+  var tw=el('profileTenureWrap');if(tw)tw.style.display=displayTenure?'':'none';
   el('profileLocation').textContent=prof.location||'';
   el('profileTenure').textContent=prof.tenure||'';
   el('pStatPosts').textContent=up.length;
@@ -3320,7 +3339,7 @@ function renderLeaderboard(){
     item.className = 'lb-item';
     item.innerHTML =
       '<span class="lb-rank '+(rankClasses[i]||'')+'">'+(rankLabels[i]||(i+1))+'</span>'+
-      '<div class="lb-av" style="background:'+s.prof.color+'">'+username.slice(0,2).toUpperCase()+'</div>'+
+      '<div class="lb-av" style="background:transparent;overflow:hidden;padding:0">'+getUserAvatarHTML(username, s.prof.avatar_url||null, s.prof.color, 30)+'</div>'+
       '<div style="flex:1;min-width:0"><div class="lb-name">u/'+username+'</div><div class="lb-role-tag">'+role.icon+' '+role.name+'</div></div>'+
       '<div style="text-align:right"><div class="lb-score">'+s.lbl.split(' ')[0]+'</div><div class="lb-score-lbl">'+s.lbl.split(' ').slice(1).join(' ')+'</div></div>';
     item.addEventListener('click', function(){ openProfileModal(username); });
@@ -3502,8 +3521,10 @@ function handleAvatarUpload(e){
 function removeAvatar(){ pendingAvatar='REMOVE'; currentUser.avatar_url=null; updateEditAvatarPreview(); }
 function updateHeaderAvatar(){
   var av=el('hAvatar'); if(!av)return;
-  if(currentUser.avatar_url){ av.innerHTML='<img class="hud-avatar-img" src="'+currentUser.avatar_url+'" alt=""/>'; av.style.background='transparent'; }
-  else { av.innerHTML=(currentUser.username||'?').slice(0,2).toUpperCase(); av.style.background=currentUser.color||'#4f9eff'; }
+  av.style.background='transparent';
+  av.style.padding='0';
+  av.style.overflow='hidden';
+  av.innerHTML=getUserAvatarHTML(currentUser.username||'?', currentUser.avatar_url, currentUser.color, 24);
 }
 async function saveProfile(){
   if(!currentUser||!sbUser)return;
@@ -3726,13 +3747,10 @@ function updateSidebarAuth() {
     // Update avatar
     var av = document.getElementById('snavAvatar');
     if (av) {
-      if (currentUser.avatar_url) {
-        av.innerHTML = '<img src="' + currentUser.avatar_url + '" alt=""/>';
-        av.style.background = 'transparent';
-      } else {
-        av.textContent = (currentUser.username||'?').slice(0,2).toUpperCase();
-        av.style.background = currentUser.color || '#4f9eff';
-      }
+      av.style.background = 'transparent';
+      av.style.overflow = 'hidden';
+      av.style.padding = '0';
+      av.innerHTML = getUserAvatarHTML(currentUser.username||'?', currentUser.avatar_url, currentUser.color, 32);
     }
     var un = document.getElementById('snavUsername');
     if (un) un.textContent = 'u/' + currentUser.username;
@@ -3919,7 +3937,7 @@ async function sendPasswordReset() {
   btn.disabled = true;
 
   var res = await sb.auth.resetPasswordForEmail(email, {
-    redirectTo: window.location.href
+    redirectTo: 'https://rideinapocalypse.github.io/DialDown/'
   });
 
   btn.textContent = 'Send Reset Link ✉️';
@@ -4007,6 +4025,166 @@ async function saveNewPassword() {
   setTimeout(closeAuth, 3000);
   // Clear the hash from URL
   history.replaceState(null, '', window.location.pathname);
+}
+
+
+// ═══════════════════════════════════════════════════════
+// DEFAULT AVATAR SYSTEM (Reddit-style illustrated)
+// ═══════════════════════════════════════════════════════
+
+// Deterministic hash from string
+function strHash(str) {
+  var h = 0;
+  for (var i = 0; i < str.length; i++) {
+    h = ((h << 5) - h) + str.charCodeAt(i);
+    h |= 0;
+  }
+  return Math.abs(h);
+}
+
+// Generate a unique illustrated SVG avatar from username
+function generateDefaultAvatar(username, size) {
+  size = size || 40;
+  var hash = strHash(username || 'anon');
+
+  // Pick background gradient
+  var gradients = [
+    ['#ff5f1f','#ff8c55'],  // orange
+    ['#4f9eff','#7ab8ff'],  // blue
+    ['#a78bfa','#c4b0ff'],  // purple
+    ['#3ddc84','#6ee9a8'],  // green
+    ['#fbbf24','#fcd96a'],  // yellow
+    ['#f472b6','#f9a8d4'],  // pink
+    ['#34d399','#6edcb8'],  // teal
+    ['#fb923c','#fbb96a'],  // amber
+    ['#e05252','#f08080'],  // red
+    ['#52a8e0','#80c4f0'],  // sky
+  ];
+  var grad = gradients[hash % gradients.length];
+  var grad2 = gradients[(hash + 3) % gradients.length];
+
+  // Pick face/character style (8 styles)
+  var style = (hash >> 4) % 8;
+  var eyeY = 38 + (hash % 6);
+  var eyeGap = 12 + (hash % 5);
+  var eyeSize = 4 + (hash % 3);
+  var mouthY = 55 + (hash % 8);
+  var earSize = 8 + ((hash >> 2) % 5);
+
+  // Hat / accessory (50% chance)
+  var hasHat = ((hash >> 8) % 2) === 0;
+  var hatColor = ['#1a1a2e','#2d1b69','#0f3460','#16213e','#1a0a2e'][(hash >> 6) % 5];
+
+  // Ear shape (round vs pointy)
+  var earShape = (hash % 3);
+  var leftEar = earShape === 0
+    ? '<circle cx="22" cy="45" r="'+earSize+'" fill="'+grad[0]+'"/>'
+    : earShape === 1
+    ? '<ellipse cx="20" cy="43" rx="'+(earSize-2)+'" ry="'+earSize+'" fill="'+grad[0]+'"/>'
+    : '<polygon points="20,35 14,50 26,50" fill="'+grad[0]+'"/>';
+  var rightEar = earShape === 0
+    ? '<circle cx="78" cy="45" r="'+earSize+'" fill="'+grad[0]+'"/>'
+    : earShape === 1
+    ? '<ellipse cx="80" cy="43" rx="'+(earSize-2)+'" ry="'+earSize+'" fill="'+grad[0]+'"/>'
+    : '<polygon points="80,35 74,50 86,50" fill="'+grad[0]+'"/>';
+
+  // Nose style
+  var nose = (hash % 4) === 0
+    ? '<ellipse cx="50" cy="48" rx="3" ry="2" fill="rgba(0,0,0,.2)"/>'
+    : '<circle cx="50" cy="47" r="2" fill="rgba(0,0,0,.15)"/>';
+
+  // Mouth
+  var mouthW = 10 + (hash % 8);
+  var mouthStyles = [
+    '<path d="M'+(50-mouthW/2)+','+mouthY+' Q50,'+(mouthY+6)+' '+(50+mouthW/2)+','+mouthY+'" stroke="rgba(0,0,0,.35)" stroke-width="2" fill="none" stroke-linecap="round"/>',
+    '<path d="M'+(50-mouthW/2)+','+mouthY+' Q50,'+(mouthY+8)+' '+(50+mouthW/2)+','+mouthY+'" stroke="rgba(0,0,0,.4)" stroke-width="2.5" fill="rgba(0,0,0,.1)" stroke-linecap="round"/>',
+    '<line x1="'+(50-mouthW/2)+'" y1="'+mouthY+'" x2="'+(50+mouthW/2)+'" y2="'+mouthY+'" stroke="rgba(0,0,0,.3)" stroke-width="2" stroke-linecap="round"/>',
+  ];
+  var mouth = mouthStyles[(hash >> 3) % mouthStyles.length];
+
+  // Eyes
+  var eyeStyles = [
+    // Round eyes
+    '<circle cx="'+(50-eyeGap)+'" cy="'+eyeY+'" r="'+eyeSize+'" fill="rgba(0,0,0,.7)"/><circle cx="'+(50+eyeGap)+'" cy="'+eyeY+'" r="'+eyeSize+'" fill="rgba(0,0,0,.7)"/><circle cx="'+(50-eyeGap+1)+'" cy="'+(eyeY-1)+'" r="1.5" fill="white"/><circle cx="'+(50+eyeGap+1)+'" cy="'+(eyeY-1)+'" r="1.5" fill="white"/>',
+    // Happy squint eyes
+    '<path d="M'+(50-eyeGap-eyeSize)+','+eyeY+' Q'+(50-eyeGap)+','+(eyeY-eyeSize*1.5)+' '+(50-eyeGap+eyeSize)+','+eyeY+'" stroke="rgba(0,0,0,.7)" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M'+(50+eyeGap-eyeSize)+','+eyeY+' Q'+(50+eyeGap)+','+(eyeY-eyeSize*1.5)+' '+(50+eyeGap+eyeSize)+','+eyeY+'" stroke="rgba(0,0,0,.7)" stroke-width="2.5" fill="none" stroke-linecap="round"/>',
+    // Star eyes
+    '<text x="'+(50-eyeGap)+'" y="'+(eyeY+4)+'" text-anchor="middle" font-size="10" fill="rgba(0,0,0,.75)">✦</text><text x="'+(50+eyeGap)+'" y="'+(eyeY+4)+'" text-anchor="middle" font-size="10" fill="rgba(0,0,0,.75)">✦</text>',
+  ];
+  var eyes = eyeStyles[(hash >> 5) % eyeStyles.length];
+
+  // Hat HTML
+  var hat = hasHat
+    ? '<rect x="28" y="18" width="44" height="5" rx="2" fill="'+hatColor+'"/><rect x="33" y="4" width="34" height="16" rx="4" fill="'+hatColor+'"/>'
+    : '';
+
+  // Cheeks (blush)
+  var hasBlush = ((hash >> 9) % 3) === 0;
+  var blush = hasBlush
+    ? '<ellipse cx="33" cy="52" rx="6" ry="4" fill="rgba(255,100,100,.2)"/><ellipse cx="67" cy="52" rx="6" ry="4" fill="rgba(255,100,100,.2)"/>'
+    : '';
+
+  var gradId = 'g' + hash;
+  var svg =
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="'+size+'" height="'+size+'">' +
+    '<defs>' +
+      '<radialGradient id="'+gradId+'" cx="40%" cy="35%" r="60%">' +
+        '<stop offset="0%" stop-color="'+grad[1]+'"/>' +
+        '<stop offset="100%" stop-color="'+grad[0]+'"/>' +
+      '</radialGradient>' +
+    '</defs>' +
+    // Background circle
+    '<circle cx="50" cy="50" r="50" fill="url(#'+gradId+')"/>' +
+    // Ears (behind face)
+    leftEar + rightEar +
+    // Face circle
+    '<circle cx="50" cy="52" r="28" fill="'+grad[1]+'" opacity=".85"/>' +
+    // Hat
+    hat +
+    // Eyes
+    eyes +
+    // Nose
+    nose +
+    // Mouth
+    mouth +
+    // Blush
+    blush +
+    '</svg>';
+
+  return svg;
+}
+
+// Get avatar HTML for a user — photo takes priority, then generated
+function getUserAvatarHTML(username, avatarUrl, color, size) {
+  size = size || 40;
+  if (avatarUrl) {
+    return '<img src="'+avatarUrl+'" style="width:'+size+'px;height:'+size+'px;border-radius:50%;object-fit:cover;display:block;" alt="'+username+'"/>';
+  }
+  return '<div class="def-avatar" style="width:'+size+'px;height:'+size+'px;">'+generateDefaultAvatar(username, size)+'</div>';
+}
+
+// ═══════════════════════════════════════════════════════
+// TENURE CALCULATOR — from Supabase joined_at date
+// ═══════════════════════════════════════════════════════
+
+function calcTenure(joinedAt) {
+  if (!joinedAt) return null;
+  var joined = new Date(joinedAt);
+  var now = new Date();
+  var years = now.getFullYear() - joined.getFullYear();
+  var months = now.getMonth() - joined.getMonth();
+  if (months < 0) { years--; months += 12; }
+  if (years === 0 && months === 0) return 'New member';
+  if (years === 0) return months + ' month' + (months !== 1 ? 's' : '') + ' on DialDown';
+  if (months === 0) return years + ' year' + (years !== 1 ? 's' : '') + ' on DialDown';
+  return years + 'y ' + months + 'm on DialDown';
+}
+
+// Format join date nicely
+function formatJoinDate(isoStr) {
+  if (!isoStr) return '';
+  var d = new Date(isoStr);
+  return 'Joined ' + d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 }
 
 // ═══ EVENTS ═══
