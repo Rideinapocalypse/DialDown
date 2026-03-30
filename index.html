@@ -2537,7 +2537,16 @@ function toggleComments(id){
 
 function setTagFilter(tag){filterTag=filterTag===tag?null:tag;buildFeed();buildTrending();var m=qs('main');if(m)m.scrollIntoView({behavior:'smooth',block:'start'});}
 function clearTagFilter(){filterTag=null;buildFeed();buildTrending();}
-function vote(e,id,dir){e.stopPropagation();voteMap[id]=voteMap[id]===dir?null:dir;buildFeed();}
+function vote(e,id,dir){
+  e.stopPropagation();
+  voteMap[id]=voteMap[id]===dir?null:dir;
+  buildFeed();
+  // Check COTD winner when upvoting
+  if(dir==='up'){
+    var post=posts.find(function(p){return String(p.id)===String(id);});
+    if(post)checkCOTDWinner(post);
+  }
+}
 function setSort(btn,mode){qsa('.sort-tab').forEach(function(t){t.classList.remove('active');});btn.classList.add('active');sortMode=mode;buildFeed();}
 
 // ═══ POST MODAL ═══
@@ -2558,6 +2567,22 @@ function submitPost(){
       if(res.error){ console.error('Post save error:',res.error.message); showToast('Warning: post may not persist'); }
       else { console.log('Post saved to Supabase'); showToast('Post saved!'); setTimeout(loadRealPosts,600); }
     });
+  }
+  // COTD streak tracking — inline, no override needed
+  if(window._pendingCOTDPost){
+    window._pendingCOTDPost=false;
+    if(!cotdState.participated){
+      cotdState.participated=true;
+      var lastDate=cotdState.lastParticipated?cotdState.lastParticipated.split('T')[0]:null;
+      var yesterday=new Date(Date.now()-86400000).toISOString().split('T')[0];
+      cotdState.streak=(lastDate===yesterday)?cotdState.streak+1:1;
+      cotdState.lastParticipated=new Date().toISOString();
+      saveCOTDState();
+      renderCOTD();
+      if(cotdState.streak===7)showBadgeToast({icon:'📞',name:'7-Day CC Survivor',desc:'Responded to COTD 7 days in a row'});
+      else if(cotdState.streak===30)showBadgeToast({icon:'🎯',name:'Call Center Legend',desc:'30-day COTD streak'});
+      else showToast('🔥 Day '+cotdState.streak+' streak! Keep it going!');
+    }
   }
 }
 
@@ -4958,36 +4983,7 @@ function scrollToCOTDComments() {
   else scrollToCOTD();
 }
 
-// Hook submitPost to detect COTD replies and update streak
-var _origSubmitPostCOTD = submitPost;
-function submitPost() {
-  _origSubmitPostCOTD();
-  if (window._pendingCOTDPost) {
-    window._pendingCOTDPost = false;
-    var today = new Date().toISOString().split('T')[0];
-    if (!cotdState.participated) {
-      cotdState.participated = true;
-      var lastDate = cotdState.lastParticipated ? cotdState.lastParticipated.split('T')[0] : null;
-      var yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
-      if (lastDate === yesterday) {
-        cotdState.streak++;
-      } else {
-        cotdState.streak = 1;
-      }
-      cotdState.lastParticipated = new Date().toISOString();
-      saveCOTDState();
-      renderCOTD(); // refresh banner
-      // Badge if streak milestone
-      if (cotdState.streak === 7) {
-        showBadgeToast({ icon: '📞', name: '7-Day CC Survivor', desc: 'Responded to Call of the Day 7 days in a row' });
-      } else if (cotdState.streak === 30) {
-        showBadgeToast({ icon: '🎯', name: 'Call Center Legend', desc: '30-day COTD streak — unstoppable' });
-      } else if (cotdState.streak >= 1) {
-        showToast('🔥 Day ' + cotdState.streak + ' streak! Keep it going!');
-      }
-    }
-  }
-}
+// COTD streak logic merged into main submitPost
 
 // Award COTD winner (called when user gets high CSAT on a COTD post)
 function checkCOTDWinner(post) {
@@ -5017,13 +5013,7 @@ function checkCOTDWinner(post) {
   }
 }
 
-// Hook vote to check for COTD winners
-var _origVoteCOTD = vote;
-function vote(e, id, dir) {
-  _origVoteCOTD(e, id, dir);
-  var post = posts.find(function(p){ return String(p.id) === String(id); });
-  if (post && dir === 'up') checkCOTDWinner(post);
-}
+// COTD winner check wired via event — no vote override needed
 
 // ═══ EVENTS ═══
 el('authModal').addEventListener('click',function(e){if(e.target.id==='authModal')closeAuth();});
