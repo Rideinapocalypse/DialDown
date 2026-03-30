@@ -5417,10 +5417,20 @@ function openDMUserPicker() {
 async function loadDMInbox() {
   if (!currentUser || !sbUser) return;
   try {
-    var res = await sb.from('messages').select('*')
-      .or('sender_username.eq.'+currentUser.username+',recipient_username.eq.'+currentUser.username)
+    // Fetch sent and received separately
+    var sent = await sb.from('messages').select('*')
+      .eq('sender_username', currentUser.username)
       .order('created_at', { ascending: false });
-    if (res.error) { console.log('DM inbox error:', res.error.message); return; }
+    var received = await sb.from('messages').select('*')
+      .eq('recipient_username', currentUser.username)
+      .order('created_at', { ascending: false });
+
+    if (sent.error) { console.log('DM inbox sent error:', sent.error.message); }
+    if (received.error) { console.log('DM inbox recv error:', received.error.message); }
+
+    var res = { data: ((sent.data||[]).concat(received.data||[])).sort(function(a,b){
+      return new Date(b.created_at) - new Date(a.created_at);
+    }) };
 
     // Group by conversation partner
     var convos = {};
@@ -5486,23 +5496,37 @@ function renderDMInbox(convos) {
 async function loadDMConvo(username) {
   if (!currentUser || !sbUser) return;
   try {
-    var res = await sb.from('messages').select('*')
-      .or(
-        'and(sender_username.eq.'+currentUser.username+',recipient_username.eq.'+username+'),' +
-        'and(sender_username.eq.'+username+',recipient_username.eq.'+currentUser.username+')'
-      )
+    // Fetch both directions separately (avoids complex nested .or() syntax issues)
+    var res1 = await sb.from('messages').select('*')
+      .eq('sender_username', currentUser.username)
+      .eq('recipient_username', username)
       .order('created_at', { ascending: true });
-    if (res.error) { console.log('DM convo error:', res.error.message); return; }
 
-    renderDMConvo(res.data || [], username);
+    var res2 = await sb.from('messages').select('*')
+      .eq('sender_username', username)
+      .eq('recipient_username', currentUser.username)
+      .order('created_at', { ascending: true });
+
+    if (res1.error) console.log('DM convo error:', res1.error.message);
+    if (res2.error) console.log('DM convo error:', res2.error.message);
+
+    // Merge and sort by created_at
+    var allMsgs = ((res1.data||[]).concat(res2.data||[])).sort(function(a,b){
+      return new Date(a.created_at) - new Date(b.created_at);
+    });
+
+    // Cache for optimistic UI
+    dmState._lastMessages = allMsgs;
+
+    renderDMConvo(allMsgs, username);
 
     // Mark unread as read
-    var unreadIds = (res.data || [])
+    var unreadIds = allMsgs
       .filter(function(m){ return !m.read && m.recipient_username === currentUser.username; })
       .map(function(m){ return m.id; });
     if (unreadIds.length) {
       await sb.from('messages').update({ read: true }).in('id', unreadIds);
-      loadDMInbox(); // refresh unread counts
+      loadDMInbox();
     }
   } catch(e) { console.log('DM convo skipped:', e.message); }
 }
@@ -5560,7 +5584,11 @@ async function sendDM() {
   var btn = el('dmSendBtn');
   btn.disabled = true;
 
-  // Optimistic UI — add message immediately
+  // Clear input immediately for responsive feel
+  inp.value = '';
+  inp.style.height = 'auto';
+
+  // Optimistic UI — add message immediately without waiting for DB
   var tempMsg = {
     id: 'temp-' + Date.now(),
     sender_username: currentUser.username,
@@ -5569,20 +5597,8 @@ async function sendDM() {
     read: false,
     created_at: new Date().toISOString()
   };
-
-  // Clear input
-  inp.value = '';
-  inp.style.height = 'auto';
-
-  // Re-render with temp message
-  var existing = await sb.from('messages').select('*')
-    .or(
-      'and(sender_username.eq.'+currentUser.username+',recipient_username.eq.'+dmState.activeConvo+'),' +
-      'and(sender_username.eq.'+dmState.activeConvo+',recipient_username.eq.'+currentUser.username+')'
-    )
-    .order('created_at', { ascending: true });
-  var msgs = (existing.data || []).concat([tempMsg]);
-  renderDMConvo(msgs, dmState.activeConvo);
+  var currentMsgs = dmState._lastMessages || [];
+  renderDMConvo(currentMsgs.concat([tempMsg]), dmState.activeConvo);
 
   // Save to Supabase
   var res = await sb.from('messages').insert({
@@ -5594,21 +5610,24 @@ async function sendDM() {
   btn.disabled = false;
 
   if (res.error) {
+    console.error('DM send error:', res.error.message);
     showToast('Message not sent: ' + res.error.message);
     return;
   }
 
-  // Send notification to recipient
+  console.log('DM sent successfully');
+
+  // Send notification to recipient (fire and forget)
   sb.from('notifications').insert({
     recipient_username: dmState.activeConvo,
     sender_username: currentUser.username,
     type: 'dm',
-    message: '<strong>u/'+currentUser.username+'</strong> sent you a message: <em>' + body.slice(0,60) + (body.length>60?'...':'') + '</em>',
+    message: '<strong>u/'+currentUser.username+'</strong> sent you a message',
     read: false
   }).then(function(){});
 
-  // Reload to get real message
-  setTimeout(function(){ loadDMConvo(dmState.activeConvo); }, 400);
+  // Reload conversation with real data
+  setTimeout(function(){ loadDMConvo(dmState.activeConvo); }, 600);
 }
 
 // ── USER PICKER ───────────────────────────────────────────────────
@@ -5720,13 +5739,17 @@ startPresenceHeartbeat._lastPing = 0;
 async function pingPresence() {
   if (!currentUser || !sbUser) return;
   startPresenceHeartbeat._lastPing = Date.now();
+  // Update local presence immediately so own avatar shows green
+  presenceMap[currentUser.username] = new Date().toISOString();
   try {
-    await sb.from('presence').upsert({
+    var res = await sb.from('presence').upsert({
       username: currentUser.username,
       last_seen: new Date().toISOString(),
       updated_at: new Date().toISOString()
     }, { onConflict: 'username' });
-  } catch(e) {}
+    if (res.error) console.log('Presence ping error:', res.error.message);
+    else console.log('Presence pinged ✅');
+  } catch(e) { console.log('Presence ping skipped:', e.message); }
 }
 
 // Load presence for a list of usernames
