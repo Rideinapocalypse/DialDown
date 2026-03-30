@@ -882,6 +882,23 @@ header {
   .role-badge { padding: 6px 8px; }
 }
 
+
+/* ══ COMMENT EDIT/DELETE ══ */
+.comment-actions{display:flex;gap:4px;margin-left:auto;opacity:0;transition:opacity .15s;}
+.comment-item:hover .comment-actions{opacity:1;}
+.comment-action-btn{background:none;border:none;cursor:pointer;font-size:11px;color:var(--text3);padding:2px 6px;border-radius:4px;font-family:'DM Sans',sans-serif;transition:all .15s;line-height:1.4;}
+.comment-action-btn:hover{background:var(--bg3);}
+.comment-action-btn.edit:hover{color:var(--accent);}
+.comment-action-btn.del:hover{color:var(--red);}
+.comment-edit-wrap{margin-top:7px;display:flex;gap:7px;align-items:flex-end;}
+.comment-edit-input{flex:1;background:var(--bg2);border:1px solid var(--accent);border-radius:7px;padding:7px 10px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;resize:none;min-height:36px;}
+.comment-edit-btns{display:flex;gap:5px;flex-direction:column;}
+.comment-edit-save{background:var(--accent);color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;}
+.comment-edit-save:hover{background:var(--accent2);}
+.comment-edit-cancel{background:var(--bg3);color:var(--text2);border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;}
+.comment-edit-cancel:hover{border-color:var(--text2);}
+.comment-edited-tag{font-size:10px;color:var(--text3);font-style:italic;margin-left:4px;}
+
 </style>
 </head>
 <body>
@@ -1614,7 +1631,7 @@ async function loadRealPosts() {
       dsat: p.dsat || 0,
       time: timeAgo(p.created_at),
       comments: (p.comments || []).map(function(c) {
-        return { author: c.author, text: c.text, color: c.color || '#4f9eff' };
+        return { dbId: c.id, author: c.author, text: c.text, color: c.color || '#4f9eff' };
       }),
       language: p.language || 'en',
       fromDB: true
@@ -2122,14 +2139,20 @@ function commentsHTML(p){
       var cavUrl=prof.avatar_url||(currentUser&&currentUser.username===c.author?currentUser.avatar_url:null);
       var cavHtml=cavUrl?'<img src="'+cavUrl+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"/>':c.author.slice(0,2).toUpperCase();
       var isOwn=currentUser&&currentUser.username===c.author;
-      out+='<div class="comment-item">'+
+      var cIdx = p.comments.indexOf(c);
+      out+='<div class="comment-item" data-post-id="'+p.id+'" data-comment-idx="'+cIdx+'">'+
         '<div class="comment-avatar cam-click" data-cauth="'+c.author+'" style="background:'+(cavUrl?'transparent':c.color||'#555')+';cursor:pointer" title="'+c.author+'">'+cavHtml+'</div>'+
-        '<div class="comment-bubble">'+
-          '<div class="comment-meta">'+
+        '<div class="comment-bubble" style="flex:1">'+
+          '<div class="comment-meta" style="display:flex;align-items:center;gap:4px">'+
             '<strong>u/'+c.author+'</strong>'+
-            (isOwn?'<span style="font-size:10px;color:var(--text3);margin-left:4px">you</span>':'')+
+            (isOwn?'<span style="font-size:10px;color:var(--text3)">you</span>':'')+
+            (c.edited?'<span class="comment-edited-tag">(edited)</span>':'')+
+            (isOwn?'<div class="comment-actions">'+
+              '<button class="comment-action-btn edit" data-cpid="'+p.id+'" data-cidx="'+cIdx+'">&#9999; Edit</button>'+
+              '<button class="comment-action-btn del" data-cpid="'+p.id+'" data-cidx="'+cIdx+'">&#128465;</button>'+
+            '</div>':'')+
           '</div>'+
-          '<div class="comment-text">'+c.text+'</div>'+
+          '<div class="comment-text" id="ctxt-'+p.id+'-'+cIdx+'">'+c.text+'</div>'+
         '</div>'+
       '</div>';
     });
@@ -2142,17 +2165,31 @@ function commentsHTML(p){
 
 function wireCommentInput(postId){
   var inp = el('ci-'+postId);
-  if(!inp) return;
-  inp.removeEventListener('keydown', inp._ckd);
-  inp._ckd = function(e){
-    if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); submitCommentById(String(postId)); }
-  };
-  inp.addEventListener('keydown', inp._ckd);
-  // Also wire send button
-  var btn = el('csend-'+postId);
-  if(btn){
-    btn.onclick = function(){ submitCommentById(String(postId)); };
+  if(inp){
+    inp.removeEventListener('keydown', inp._ckd);
+    inp._ckd = function(e){
+      if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); submitCommentById(String(postId)); }
+    };
+    inp.addEventListener('keydown', inp._ckd);
   }
+  var btn = el('csend-'+postId);
+  if(btn){ btn.onclick = function(){ submitCommentById(String(postId)); }; }
+
+  // Wire edit/delete buttons via data attributes
+  var cs = el('cs-'+postId);
+  if(!cs) return;
+  cs.querySelectorAll('.comment-action-btn.edit').forEach(function(b){
+    b.addEventListener('click', function(e){
+      e.stopPropagation();
+      editComment(this.dataset.cpid, parseInt(this.dataset.cidx));
+    });
+  });
+  cs.querySelectorAll('.comment-action-btn.del').forEach(function(b){
+    b.addEventListener('click', function(e){
+      e.stopPropagation();
+      deleteComment(this.dataset.cpid, parseInt(this.dataset.cidx));
+    });
+  });
 }
 
 function submitCommentById(postId){
@@ -3706,6 +3743,134 @@ function updateSidebarAuth() {
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeSidebar();
 });
+
+
+// ═══════════════════════════════════════════════════════
+// COMMENT EDIT & DELETE
+// ═══════════════════════════════════════════════════════
+
+function editComment(postId, commentIdx) {
+  var post = posts.find(function(p){ return String(p.id) === String(postId); });
+  if (!post || !post.comments[commentIdx]) return;
+  var comment = post.comments[commentIdx];
+  if (!currentUser || comment.author !== currentUser.username) return;
+
+  // Find the comment text element and replace with edit input
+  var textEl = document.getElementById('ctxt-' + postId + '-' + commentIdx);
+  if (!textEl) return;
+
+  // Already editing? bail
+  if (textEl.nextSibling && textEl.nextSibling.className === 'comment-edit-wrap') return;
+
+  var originalText = comment.text;
+  textEl.style.display = 'none';
+
+  var wrap = document.createElement('div');
+  wrap.className = 'comment-edit-wrap';
+  wrap.innerHTML =
+    '<textarea class="comment-edit-input" id="cedit-'+postId+'-'+commentIdx+'" rows="2">'+originalText+'</textarea>'+
+    '<div class="comment-edit-btns">'+
+      '<button class="comment-edit-save">Save</button>'+
+      '<button class="comment-edit-cancel">Cancel</button>'+
+    '</div>';
+
+  // Wire buttons
+  wrap.querySelector('.comment-edit-save').addEventListener('click', function(){
+    saveCommentEdit(postId, commentIdx);
+  });
+  wrap.querySelector('.comment-edit-cancel').addEventListener('click', function(){
+    textEl.style.display = '';
+    wrap.remove();
+  });
+
+  textEl.parentNode.insertBefore(wrap, textEl.nextSibling);
+
+  // Focus and position cursor at end
+  var ta = document.getElementById('cedit-'+postId+'-'+commentIdx);
+  if (ta) { ta.focus(); ta.selectionStart = ta.selectionEnd = ta.value.length; }
+}
+
+async function saveCommentEdit(postId, commentIdx) {
+  var ta = document.getElementById('cedit-'+postId+'-'+commentIdx);
+  if (!ta) return;
+  var newText = ta.value.trim();
+  if (!newText) { showToast('Comment cannot be empty'); return; }
+
+  var post = posts.find(function(p){ return String(p.id) === String(postId); });
+  if (!post || !post.comments[commentIdx]) return;
+
+  // Update local
+  post.comments[commentIdx].text = newText;
+  post.comments[commentIdx].edited = true;
+
+  // Save to Supabase if comment has a DB id
+  var comment = post.comments[commentIdx];
+  if (sbUser && comment.dbId) {
+    await sb.from('comments').update({ text: newText }).eq('id', comment.dbId);
+  }
+
+  // Refresh comment section
+  var cs = document.getElementById('cs-' + postId);
+  if (cs) { cs.innerHTML = commentsHTML(post); }
+  wireCommentInput(String(postId));
+  showToast('✅ Comment updated');
+}
+
+function deleteComment(postId, commentIdx) {
+  var post = posts.find(function(p){ return String(p.id) === String(postId); });
+  if (!post || !post.comments[commentIdx]) return;
+  var comment = post.comments[commentIdx];
+  if (!currentUser || comment.author !== currentUser.username) return;
+
+  // Confirm inline — replace comment text with a quick confirm
+  var textEl = document.getElementById('ctxt-' + postId + '-' + commentIdx);
+  if (!textEl) return;
+
+  var oldHtml = textEl.innerHTML;
+  textEl.innerHTML = '<span style="color:var(--red);font-size:12.5px">Delete this comment? </span>'+
+    '<button style="background:var(--red);color:#fff;border:none;border-radius:5px;padding:2px 8px;font-size:12px;cursor:pointer;margin-right:4px" id="cdel-confirm-'+postId+'-'+commentIdx+'">Yes, delete</button>'+
+    '<button style="background:var(--bg3);border:1px solid var(--border);color:var(--text2);border-radius:5px;padding:2px 8px;font-size:12px;cursor:pointer" id="cdel-cancel-'+postId+'-'+commentIdx+'">Cancel</button>';
+
+  document.getElementById('cdel-confirm-'+postId+'-'+commentIdx).addEventListener('click', function(){
+    executeDeleteComment(postId, commentIdx);
+  });
+  document.getElementById('cdel-cancel-'+postId+'-'+commentIdx).addEventListener('click', function(){
+    textEl.innerHTML = oldHtml;
+  });
+}
+
+async function executeDeleteComment(postId, commentIdx) {
+  var post = posts.find(function(p){ return String(p.id) === String(postId); });
+  if (!post) return;
+
+  var comment = post.comments[commentIdx];
+
+  // Delete from Supabase if has DB id
+  if (sbUser && comment && comment.dbId) {
+    await sb.from('comments').delete().eq('id', comment.dbId);
+  }
+
+  // Also try deleting by post+author+text if no dbId
+  if (sbUser && comment) {
+    var dbPostId = String(postId).replace('db_','');
+    if (!isNaN(Number(dbPostId)) && String(postId).startsWith('db_')) {
+      await sb.from('comments')
+        .delete()
+        .eq('post_id', Number(dbPostId))
+        .eq('author', currentUser.username)
+        .eq('text', comment.text);
+    }
+  }
+
+  // Remove from local array
+  post.comments.splice(commentIdx, 1);
+
+  // Refresh comment section
+  var cs = document.getElementById('cs-' + postId);
+  if (cs) { cs.innerHTML = commentsHTML(post); }
+  wireCommentInput(String(postId));
+  showToast('Comment deleted');
+}
 
 // ═══ EVENTS ═══
 el('authModal').addEventListener('click',function(e){if(e.target.id==='authModal')closeAuth();});
