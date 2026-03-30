@@ -1359,7 +1359,7 @@ header {
 <!-- ROLE PICKER -->
 <div class="modal-overlay" id="roleModal"><div class="modal"><div class="modal-hdr"><div class="modal-hdr-title">What's your role in CC?</div><button class="modal-x" onclick="closeRolePicker()">✕</button></div><div class="modal-body"><div class="rpg" id="rpg"></div></div></div></div>
 <!-- AUTH MODAL -->
-<div class="modal-overlay" id="authModal"><div class="modal"><div class="modal-hdr"><div class="modal-hdr-title" id="authTitle">Join DialDown</div><button class="modal-x" onclick="closeAuth()">✕</button></div><div class="modal-body"><div class="auth-tabs"><button class="auth-tab active" id="tabS" onclick="switchTab('signup')">Create Account</button><button class="auth-tab" id="tabL" onclick="switchTab('login')">Log In</button></div><div class="auth-panel active" id="panelS"><div class="frow"><div><div class="fl">First Name</div><input class="fi" id="sFirst" placeholder="Alex"/></div><div><div class="fl">Last Name</div><input class="fi" id="sLast" placeholder="Morgan"/></div></div><div><div class="fl">Username</div><input class="fi" id="sUser" placeholder="holdqueen99"/><div class="fhint">How you appear on posts</div><div class="ferr" id="eUser">Username taken or empty</div></div><div><div class="fl">Email</div><input class="fi" id="sEmail" type="email" placeholder="you@callcenter.com"/><div class="ferr" id="eEmail">Valid email required</div></div><div><div class="fl">Your CC Role</div><select class="fsel" id="sRole"><option value="">Select…</option></select><div class="ferr" id="eRole">Please select a role</div></div><div><div class="fl">Password</div><div class="pw-wrap"><input class="fi" id="sPwd" type="password" placeholder="Min. 6 characters"/><button class="pw-toggle" onclick="tPwd('sPwd',this)">👁</button></div><div class="ferr" id="ePwd">At least 6 characters</div></div></div><div class="auth-panel" id="panelL"><div><div class="fl">Username or Email</div><input class="fi" id="lIdent" type="email" placeholder="Your username or email"/><div class="ferr" id="eLogin">Invalid credentials</div></div><div><div class="fl">Password</div><div class="pw-wrap"><input class="fi" id="lPwd" type="password" placeholder="Your password"/><button class="pw-toggle" onclick="tPwd('lPwd',this)">👁</button></div></div></div><div id="authOK" style="display:none"><div class="success-state"><div class="success-icon">🎉</div><div class="success-title" id="okTitle">Welcome!</div><div class="success-sub" id="okSub"></div></div></div></div><div class="modal-footer" id="authFooter"><button class="btn-ghost" onclick="closeAuth()">Cancel</button><button class="btn-primary" id="authBtn" onclick="handleAuth()" style="position:relative">Create Account 🚀</button></div></div></div>
+<div class="modal-overlay" id="authModal"><div class="modal"><div class="modal-hdr"><div class="modal-hdr-title" id="authTitle">Join DialDown</div><button class="modal-x" onclick="closeAuth()">✕</button></div><div class="modal-body"><div class="auth-tabs"><button class="auth-tab active" id="tabS" onclick="switchTab('signup')">Create Account</button><button class="auth-tab" id="tabL" onclick="switchTab('login')">Log In</button></div><div class="auth-panel active" id="panelS"><div class="frow"><div><div class="fl">First Name</div><input class="fi" id="sFirst" placeholder="Alex"/></div><div><div class="fl">Last Name</div><input class="fi" id="sLast" placeholder="Morgan"/></div></div><div><div class="fl">Username</div><input class="fi" id="sUser" placeholder="holdqueen99"/><div class="fhint">How you appear on posts</div><div class="ferr" id="eUser">Username taken or empty</div></div><div><div class="fl">Email</div><input class="fi" id="sEmail" type="email" placeholder="you@callcenter.com"/><div class="ferr" id="eEmail">Valid email required</div></div><div><div class="fl">Your CC Role</div><select class="fsel" id="sRole"><option value="">Select…</option></select><div class="ferr" id="eRole">Please select a role</div></div><div><div class="fl">Password</div><div class="pw-wrap"><input class="fi" id="sPwd" type="password" placeholder="Min. 6 characters"/><button class="pw-toggle" onclick="tPwd('sPwd',this)">👁</button></div><div class="ferr" id="ePwd">At least 6 characters</div></div></div><div class="auth-panel" id="panelL"><div><div class="fl">Username or Email</div><input class="fi" id="lIdent" type="email" placeholder="Your username or email"/><div class="ferr" id="eLogin">Invalid credentials</div></div><div><div class="fl">Password</div><div class="pw-wrap"><input class="fi" id="lPwd" type="password" placeholder="Your password"/><button class="pw-toggle" onclick="tPwd('lPwd',this)">👁</button></div></div><div style="text-align:right;margin-top:2px"><button style="background:none;border:none;color:var(--accent);font-size:12.5px;cursor:pointer;font-family:'DM Sans',sans-serif;padding:2px 0" onclick="showForgotPassword()">Forgot password?</button></div></div><div id="authOK" style="display:none"><div class="success-state"><div class="success-icon">🎉</div><div class="success-title" id="okTitle">Welcome!</div><div class="success-sub" id="okSub"></div></div></div><div id="panelForgot" style="display:none;flex-direction:column;gap:13px;margin-top:18px"><div style="text-align:center;padding:4px 0"><div style="font-size:36px;margin-bottom:8px">🔒</div><div style="font-family:'Syne',sans-serif;font-weight:700;font-size:16px;margin-bottom:6px">Reset your password</div><div style="font-size:13px;color:var(--text2);line-height:1.6">Enter your email and we will send a reset link.</div></div><div><div class="fl">Email</div><input class="fi" id="forgotEmail" type="email" placeholder="you@example.com"/><div id="eForgot" style="display:none;color:var(--red);font-size:12px;margin-top:4px"></div></div><button class="btn-primary" onclick="sendPasswordReset()" id="forgotBtn">Send Reset Link ✉️</button><div style="text-align:center;margin-top:4px"><button style="background:none;border:none;color:var(--text3);font-size:12.5px;cursor:pointer;font-family:'DM Sans',sans-serif;padding:4px" onclick="switchTab('login')">← Back to Log In</button></div></div></div><div class="modal-footer" id="authFooter"><button class="btn-ghost" onclick="closeAuth()">Cancel</button><button class="btn-primary" id="authBtn" onclick="handleAuth()" style="position:relative">Create Account 🚀</button></div></div></div>
 <!-- TPL MODAL -->
 <div class="modal-overlay" id="tplModal"><div class="modal" style="max-width:640px"><div class="modal-hdr"><div class="modal-hdr-title" id="tplModalTitle">New Template</div><button class="modal-x" onclick="closeTplModal()">✕</button></div><div class="modal-body"><div class="frow"><div><div class="fl">Name</div><input class="fi" id="tplName" placeholder="e.g. Billing Apology"/></div><div><div class="fl">Category</div><select class="fsel" id="tplCat"><option value="apology">😔 Apology</option><option value="info">❓ Ask for Info</option><option value="escalation">🚨 Escalation</option><option value="followup">🔁 Follow-up</option><option value="closing">✅ Closing</option><option value="hold">⏸ Hold / Transfer</option><option value="custom">🏷 Custom</option></select></div></div><div><div class="fl">Channels</div><div style="display:flex;gap:12px"><label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px"><input type="checkbox" id="chkEmail" checked style="accent-color:var(--accent)"/> ✉ Email</label><label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px"><input type="checkbox" id="chkPhone" style="accent-color:var(--accent)"/> 📞 Phone</label><label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13.5px"><input type="checkbox" id="chkChat" style="accent-color:var(--accent)"/> 💬 Chat</label></div></div><div><div class="fl">Body</div><div style="font-size:12px;color:var(--text3);margin-bottom:6px">Use <code style="background:var(--bg3);padding:1px 5px;border-radius:3px;color:var(--accent2)">[Customer Name]</code>, <code style="background:var(--bg3);padding:1px 5px;border-radius:3px;color:var(--accent2)">[Issue]</code> as placeholders</div><textarea class="fta" id="tplBody" placeholder="Write your template…" style="min-height:160px"></textarea></div><div><div class="fl">Tags</div><input class="fi" id="tplTags" placeholder="billing, refund, empathy"/></div></div><div class="modal-footer"><button class="btn-ghost" onclick="closeTplModal()">Cancel</button><button class="btn-primary" onclick="saveTpl()">Save 💾</button></div></div></div>
 <!-- TPL USE MODAL -->
@@ -2288,7 +2288,17 @@ function closeLB(){el('lb').classList.remove('open');}
 // ═══ AUTH ═══
 function openAuth(tab){populateRoleSelects();switchTab(tab||'signup');el('authOK').style.display='none';el('panelS').style.display='';el('panelL').style.display='';el('authFooter').style.display='';el('authModal').classList.add('open');}
 function closeAuth(){el('authModal').classList.remove('open');qsa('.ferr').forEach(function(e){e.classList.remove('show');});}
-function switchTab(tab){el('tabS').classList.toggle('active',tab==='signup');el('tabL').classList.toggle('active',tab==='login');el('panelS').classList.toggle('active',tab==='signup');el('panelL').classList.toggle('active',tab==='login');el('authTitle').textContent=tab==='signup'?'Join DialDown':'Welcome back';el('authBtn').textContent=tab==='signup'?'Create Account':'Log In';}
+function switchTab(tab){
+  el('tabS').classList.toggle('active',tab==='signup');
+  el('tabL').classList.toggle('active',tab==='login');
+  el('panelS').classList.toggle('active',tab==='signup');
+  el('panelL').classList.toggle('active',tab==='login');
+  // Hide forgot panel when switching tabs
+  if(el('panelForgot')) el('panelForgot').style.display='none';
+  el('authTitle').textContent=tab==='signup'?'Join DialDown':'Welcome back';
+  el('authBtn').textContent=tab==='signup'?'Create Account &#128640;':'Log In';
+  el('authFooter').style.display='';
+}
 function tPwd(id,btn){var i=el(id);i.type=i.type==='password'?'text':'password';btn.textContent=i.type==='password'?'👁':'🙈';}
 function handleAuth(){qsa('.ferr').forEach(function(e){e.classList.remove('show');});el('tabS').classList.contains('active')?doSignup():doLogin();}
 // doSignup() — handled by Supabase version above
@@ -3870,6 +3880,133 @@ async function executeDeleteComment(postId, commentIdx) {
   if (cs) { cs.innerHTML = commentsHTML(post); }
   wireCommentInput(String(postId));
   showToast('Comment deleted');
+}
+
+
+// ═══════════════════════════════════════════════════════
+// FORGOT PASSWORD
+// ═══════════════════════════════════════════════════════
+
+function showForgotPassword() {
+  // Hide all panels, show forgot
+  el('panelS').style.display = 'none';
+  el('panelL').style.display = 'none';
+  el('authOK').style.display = 'none';
+  el('panelForgot').style.display = 'flex';
+  el('authFooter').style.display = 'none';
+  el('authTitle').textContent = 'Reset Password';
+  // Pre-fill email if user already typed it
+  var identVal = el('lIdent') ? el('lIdent').value.trim() : '';
+  if (identVal && identVal.indexOf('@') >= 0) {
+    el('forgotEmail').value = identVal;
+  }
+}
+
+async function sendPasswordReset() {
+  var email = el('forgotEmail').value.trim();
+  var errEl = el('eForgot');
+  var btn = el('forgotBtn');
+
+  errEl.style.display = 'none';
+
+  if (!email || email.indexOf('@') < 0) {
+    errEl.textContent = 'Please enter a valid email address';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  var res = await sb.auth.resetPasswordForEmail(email, {
+    redirectTo: window.location.href
+  });
+
+  btn.textContent = 'Send Reset Link ✉️';
+  btn.disabled = false;
+
+  if (res.error) {
+    errEl.textContent = res.error.message || 'Something went wrong. Try again.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  // Success — show confirmation
+  el('panelForgot').style.display = 'none';
+  el('authOK').style.display = 'block';
+  el('okTitle').textContent = 'Check your email!';
+  el('okSub').textContent = 'We sent a password reset link to ' + email + '. Click the link in the email to set a new password.';
+}
+
+
+// Handle password reset redirect from email link
+(function(){
+  var hash = window.location.hash;
+  if(hash && hash.indexOf('type=recovery') >= 0) {
+    // User clicked reset link — show set new password UI after page loads
+    window.addEventListener('DOMContentLoaded', function(){
+      setTimeout(function(){ openSetNewPassword(); }, 500);
+    });
+  }
+})();
+
+function openSetNewPassword() {
+  // Show set new password inside auth modal
+  openAuth('login');
+  el('panelS').style.display = 'none';
+  el('panelL').style.display = 'none';
+  el('panelForgot').style.display = 'none';
+  el('authFooter').style.display = 'none';
+  el('authTitle').textContent = 'Set New Password';
+  el('authOK').style.display = 'none';
+
+  // Create new password panel dynamically
+  var existing = el('panelNewPwd');
+  if(!existing){
+    var div = document.createElement('div');
+    div.id = 'panelNewPwd';
+    div.style.cssText = 'display:flex;flex-direction:column;gap:13px;margin-top:18px';
+    div.innerHTML =
+      '<div style="text-align:center;padding:8px 0 4px">' +
+        '<div style="font-size:32px;margin-bottom:8px">&#128273;</div>' +
+        '<div style="font-family:Syne,sans-serif;font-weight:700;font-size:16px;margin-bottom:6px">Choose a new password</div>' +
+      '</div>' +
+      '<div><div class="fl">New Password</div>' +
+        '<div class="pw-wrap"><input class="fi" id="newPwd1" type="password" placeholder="At least 6 characters"/>' +
+        '<button class="pw-toggle" id="npwdToggle1">&#128065;</button></div>' +
+      '</div>' +
+      '<div><div class="fl">Confirm Password</div>' +
+        '<div class="pw-wrap"><input class="fi" id="newPwd2" type="password" placeholder="Repeat password"/>' +
+        '<button class="pw-toggle" id="npwdToggle2">&#128065;</button></div>' +
+      '</div>' +
+      '<div class="ferr" id="eNewPwd" style="display:none"></div>' +
+      '<button class="btn-primary" onclick="saveNewPassword()">Save New Password &#10003;</button>';
+    el('authModal').querySelector('.modal-body').appendChild(div);
+  } else {
+    existing.style.display = 'flex';
+  }
+}
+
+async function saveNewPassword() {
+  var p1 = el('newPwd1') ? el('newPwd1').value : '';
+  var p2 = el('newPwd2') ? el('newPwd2').value : '';
+  var errEl = el('eNewPwd');
+  errEl.style.display = 'none';
+
+  if(p1.length < 6){ errEl.textContent = 'Password must be at least 6 characters'; errEl.style.display = 'block'; return; }
+  if(p1 !== p2){ errEl.textContent = 'Passwords do not match'; errEl.style.display = 'block'; return; }
+
+  var res = await sb.auth.updateUser({ password: p1 });
+  if(res.error){ errEl.textContent = res.error.message; errEl.style.display = 'block'; return; }
+
+  // Success
+  el('panelNewPwd').style.display = 'none';
+  el('authOK').style.display = 'block';
+  el('okTitle').textContent = 'Password updated!';
+  el('okSub').textContent = 'Your new password has been saved. You are now logged in.';
+  setTimeout(closeAuth, 3000);
+  // Clear the hash from URL
+  history.replaceState(null, '', window.location.pathname);
 }
 
 // ═══ EVENTS ═══
