@@ -1,0 +1,63 @@
+{
+  "name": "DialDown \u2014 CC Community",
+  "short_name": "DialDown",
+  "description": "The community platform for call center professionals",
+  "start_url": "/DialDown/",
+  "scope": "/DialDown/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0e0f13",
+  "theme_color": "#ff5f1f",
+  "lang": "en",
+  "categories": [
+    "social",
+    "productivity",
+    "business"
+  ],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='80' fill='%23ff5f1f'/%3E%3Ctext x='256' y='320' font-size='280' text-anchor='middle' fill='white'%3E%E2%98%8E%3C/text%3E%3C/svg%3E",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "label": "DialDown Community Feed",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Community Feed",
+      "short_name": "Feed",
+      "url": "/DialDown/",
+      "description": "Go to the community feed"
+    },
+    {
+      "name": "Call of the Day",
+      "short_name": "COTD",
+      "url": "/DialDown/",
+      "description": "Today's call challenge"
+    },
+    {
+      "name": "Messages",
+      "short_name": "DMs",
+      "url": "/DialDown/",
+      "description": "Your direct messages"
+    }
+  ]
+}
