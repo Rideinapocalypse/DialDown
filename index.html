@@ -1046,26 +1046,26 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
   auth: {
     autoRefreshToken: true,
     persistSession: true,
-    detectSessionInUrl: true
+    detectSessionInUrl: true,
+    storage: window.localStorage
   }
-});
-// Test connection
-sb.from('profiles').select('count', {count:'exact',head:true}).then(function(r){
-  if(r.error) console.error('Supabase error:', r.error.message);
-  else console.log('Supabase connected ✅');
 });
 
 // ── AUTH STATE ──────────────────────────────────────────────────────────────
-var sbUser = null; // current Supabase auth user
-var sbProfile = null; // profile row from DB
+var sbUser = null;
+var sbProfile = null;
+var _sessionChecked = false; // tracks whether we've received the first auth event
 
-// Listen for auth changes (handles page reload persistence)
+// onAuthStateChange fires immediately on load with either:
+// - INITIAL_SESSION event + session (if logged in) 
+// - INITIAL_SESSION event + null (if not logged in)
+// This is the ONLY reliable way to check session on page load
 sb.auth.onAuthStateChange(function(event, session) {
+  console.log('Auth event:', event, session ? 'has session' : 'no session');
+  
   if (session && session.user) {
     sbUser = session.user;
-    // Cancel the signup prompt timer — user is already logged in
-    if(typeof _signupTimer !== 'undefined') clearTimeout(_signupTimer);
-    closeAuth();
+    closeAuth(); // close modal if it opened too early
     loadUserProfile(session.user.id).then(function(profile) {
       if (profile) {
         sbProfile = profile;
@@ -1075,7 +1075,13 @@ sb.auth.onAuthStateChange(function(event, session) {
   } else {
     sbUser = null;
     sbProfile = null;
+    // Only show signup on first check (INITIAL_SESSION with no user)
+    // Not on SIGNED_OUT events which fire when user logs out manually
+    if (event === 'INITIAL_SESSION' && !session) {
+      setTimeout(function(){ openAuth('signup'); }, 800);
+    }
   }
+  _sessionChecked = true;
 });
 
 // ── LOAD PROFILE FROM DB ────────────────────────────────────────────────────
@@ -3360,13 +3366,7 @@ buildFeed();
 initChallenge();
 renderLeaderboard();
 setInterval(nextJoke,20000);
-// Show signup only if no session after waiting for onAuthStateChange
-var _signupTimer = setTimeout(function(){
-  if(!sbUser){
-    // Still no session after 1.5s — show signup
-    openAuth('signup');
-  }
-}, 1500);
+// Signup prompt handled by onAuthStateChange INITIAL_SESSION event
 </script>
 </body>
 </html>
