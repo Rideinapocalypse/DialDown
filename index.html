@@ -914,6 +914,84 @@ header {
 }
 .tenure-chip-icon { font-size: 13px; }
 
+
+/* ══ FRIENDS SYSTEM ══ */
+.friend-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  border-radius: 8px; padding: 7px 15px; font-size: 13px;
+  font-family: 'DM Sans', sans-serif; font-weight: 500;
+  cursor: pointer; transition: all .2s; border: 1px solid var(--border);
+  white-space: nowrap;
+}
+.friend-btn.add {
+  background: var(--accent); color: #fff; border-color: var(--accent);
+}
+.friend-btn.add:hover { background: var(--accent2); border-color: var(--accent2); }
+.friend-btn.pending {
+  background: var(--bg3); color: var(--yellow); border-color: rgba(251,191,36,.4);
+}
+.friend-btn.pending:hover { border-color: var(--red); color: var(--red); }
+.friend-btn.pending:hover::after { content: ' · Cancel'; }
+.friend-btn.friends {
+  background: rgba(61,220,132,.1); color: var(--green); border-color: rgba(61,220,132,.3);
+}
+.friend-btn.friends:hover { background: rgba(255,107,107,.08); color: var(--red); border-color: rgba(255,107,107,.3); }
+
+/* Friend count badge */
+.friends-count-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; color: var(--text3);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Friends list on profile */
+.friends-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px; margin-top: 4px;
+}
+.friend-card {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 14px 12px; text-align: center; cursor: pointer;
+  transition: border-color .2s, transform .15s; animation: fadeUp .3s ease both;
+}
+.friend-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.friend-card-av {
+  width: 48px; height: 48px; border-radius: 50%; margin: 0 auto 8px;
+  overflow: hidden; display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 700; color: #fff;
+}
+.friend-card-name {
+  font-size: 12px; font-weight: 600; color: var(--text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px;
+}
+.friend-card-role { font-size: 11px; color: var(--text3); }
+
+/* Friend indicator on post author */
+.friend-indicator {
+  font-size: 10px; color: var(--green);
+  margin-left: 3px; vertical-align: middle;
+}
+
+/* Pending requests banner */
+.friend-request-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; background: var(--bg3);
+  border-radius: 8px; margin-bottom: 8px; border: 1px solid var(--border);
+}
+.friend-request-actions { display: flex; gap: 6px; margin-left: auto; }
+.fr-accept-btn {
+  background: var(--green); color: #1a1a1a; border: none; border-radius: 6px;
+  padding: 5px 12px; font-size: 12px; cursor: pointer; font-family: 'DM Sans', sans-serif;
+  font-weight: 600; transition: background .2s;
+}
+.fr-accept-btn:hover { background: #34d399; }
+.fr-decline-btn {
+  background: var(--bg2); color: var(--text3); border: 1px solid var(--border);
+  border-radius: 6px; padding: 5px 10px; font-size: 12px; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; transition: all .2s;
+}
+.fr-decline-btn:hover { border-color: var(--red); color: var(--red); }
+
 </style>
 </head>
 <body>
@@ -1152,6 +1230,7 @@ header {
     <button class="profile-back-btn" id="profileBackBtn" style="margin-bottom:0">&#8592; Back to Feed</button>
     <button class="buddy-btn" id="profileBuddyBtn" style="display:none">&#129309; Find Buddy</button>
     <button class="profile-edit-btn" id="profileEditBtn" onclick="openEditProfile()" style="display:none">&#9999;&#65039; Edit Profile</button>
+    <div id="profileFriendBtnWrap"></div>
   </div>
   <div class="profile-hero">
     <div class="profile-av-lg" id="profileAvatar"></div>
@@ -1177,10 +1256,12 @@ header {
     <button class="profile-tab active" id="ptabPosts" onclick="switchProfileTab('posts',this)">&#128221; Posts</button>
     <button class="profile-tab" id="ptabBadges" onclick="switchProfileTab('badges',this)">&#127942; Badges</button>
     <button class="profile-tab" id="ptabSaves" onclick="switchProfileTab('saves',this)">&#128278; Saved</button>
+    <button class="profile-tab" id="ptabFriends" onclick="switchProfileTab('friends',this)">&#128101; Friends</button>
   </div>
   <div id="profilePostsFeed"></div>
   <div id="profileBadgesGrid" style="display:none"></div>
   <div id="profileSavesFeed" style="display:none"></div>
+  <div id="profileFriendsFeed" style="display:none"></div>
 </div>
 </div>
 
@@ -1475,7 +1556,7 @@ function restoreUserSession(profile) {
   if(profile.location)   { currentUser.location   = profile.location;   }
   if(profile.tenure)     { currentUser.tenure      = profile.tenure;     }
   // Load persisted data
-  loadVotes(); loadSaves(); loadBadges(); loadRealPosts();
+  loadVotes(); loadSaves(); loadBadges(); loadRealPosts(); loadFriends();
   setTimeout(loadNotifications, 1500);
   updateSidebarAuth(); // Load after posts
   console.log('Session restored for:', profile.username);
@@ -2019,7 +2100,7 @@ function buildFeed(){
     meta.innerHTML='<span class="role-tag '+role.cls+'">'+role.icon+' '+role.name+'</span>'+(p.id>=100?'<span style="font-size:11px;background:rgba(227,10,23,.12);color:#e30a17;padding:2px 7px;border-radius:4px;font-family:monospace">🇹🇷 TR</span>':'')+
       '<span class="author-wrap" data-author="'+p.author+'">'+
         '<span class="author-av" style="background:transparent;overflow:hidden;padding:0">'+getUserAvatarHTML(p.author, prof.avatar_url||null, prof.color, 20)+'</span>'+
-        '<span class="post-author">u/'+p.author+'</span>'+
+        '<span class="post-author">u/'+p.author+(getFriendStatus(p.author)==="friends"?'<span class="friend-indicator" title="Your friend">&#9733;</span>':'')+'</span>'+
         '<div class="author-tooltip">'+
           '<div class="att-name">u/'+p.author+'</div>'+
           '<div class="att-role">'+getRole(prof.role||p.role).icon+' '+getRole(prof.role||p.role).name+'</div>'+
@@ -2561,6 +2642,15 @@ function openProfile(username){
   el('pStatBadges').textContent=eb.length;
   el('profileBackBtn').onclick=function(){showPage('feed');};
   var epBtn=el('profileEditBtn');if(epBtn)epBtn.style.display=(currentUser&&currentUser.username===username)?'flex':'none';
+  // Friend button — show for other users
+  var fbWrap=el('profileFriendBtnWrap');
+  if(fbWrap){
+    if(currentUser && currentUser.username !== username){
+      fbWrap.innerHTML=friendBtnHTML(username);
+    } else {
+      fbWrap.innerHTML='';
+    }
+  }
   // Show buddy info section
   var buddyInfoEl=el('profileBuddyInfo');
   if(buddyInfoEl){
@@ -2593,9 +2683,11 @@ function switchProfileTab(tab,btn){
   el('profilePostsFeed').style.display=tab==='posts'?'block':'none';
   el('profileBadgesGrid').style.display=tab==='badges'?'grid':'none';
   el('profileSavesFeed').style.display=tab==='saves'?'block':'none';
+  var pff=el('profileFriendsFeed');if(pff)pff.style.display=tab==='friends'?'block':'none';
   if(tab==='posts')renderProfilePosts();
   else if(tab==='badges')renderProfileBadges();
   else if(tab==='saves')renderProfileSaves();
+  else if(tab==='friends')renderProfileFriends();
 }
 function renderProfilePosts(){
   var up=posts.filter(function(p){return p.author===currentProfileUser;});
@@ -2656,7 +2748,7 @@ function openProfileModal(username){
     '<div class="pmod-stat"><div class="pmod-stat-num">'+eb.length+'</div><div class="pmod-stat-lbl">Badges</div></div></div>'+
     '<div class="pmod-badges"><div class="pmod-badges-title">Badges</div><div class="pmod-badges-row">'+badgesHTML+'</div></div>'+
     (recentPosts.length?'<div class="pmod-posts-title">Recent Posts</div>'+postsHTML:'')+
-    '<button class="pmod-view-all pmod-view-profile" data-user="'+username+'">View full profile &#8594;</button>';
+    '<div style="display:flex;gap:8px;align-items:center;padding:0 20px 16px">'+friendBtnHTML(username)+'<button class="pmod-view-all pmod-view-profile" data-user="'+username+'" style="margin:0;flex:1">View full profile &#8594;</button></div>';
   setTimeout(function(){
     el('profileModalContent').querySelectorAll('.pmod-post-preview').forEach(function(e){
       e.addEventListener('click',function(){var pid=parseInt(this.dataset.pid);closeProfileModal();gotoPost(pid);});
@@ -4187,6 +4279,240 @@ function formatJoinDate(isoStr) {
   return 'Joined ' + d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 }
 
+
+// ═══════════════════════════════════════════════════════
+// FRIENDS SYSTEM
+// ═══════════════════════════════════════════════════════
+
+var friendsList = {};   // username -> 'pending_sent' | 'pending_received' | 'friends'
+var friendsLoaded = false;
+
+// Load all friend relationships for current user
+async function loadFriends() {
+  if (!sbUser || !currentUser) return;
+  try {
+    var res = await sb.from('friends').select('*')
+      .or('requester_username.eq.'+currentUser.username+',recipient_username.eq.'+currentUser.username);
+    if (res.error) { console.log('Friends load:', res.error.message); return; }
+    friendsList = {};
+    (res.data || []).forEach(function(f) {
+      if (f.requester_username === currentUser.username) {
+        friendsList[f.recipient_username] = f.status === 'accepted' ? 'friends' : 'pending_sent';
+      } else {
+        friendsList[f.requester_username] = f.status === 'accepted' ? 'friends' : 'pending_received';
+      }
+    });
+    friendsLoaded = true;
+    console.log('Friends loaded:', Object.keys(friendsList).length);
+    // Update any visible friend buttons
+    document.querySelectorAll('[data-friend-btn]').forEach(function(btn){
+      updateFriendBtnState(btn, btn.dataset.friendBtn);
+    });
+  } catch(e) { console.log('Friends load skipped:', e.message); }
+}
+
+// Get friend status with another user
+function getFriendStatus(username) {
+  return friendsList[username] || 'none';
+}
+
+// Get friend button HTML
+function friendBtnHTML(username, size) {
+  if (!currentUser || currentUser.username === username) return '';
+  var status = getFriendStatus(username);
+  var u = encodeURIComponent(username);
+  if (status === 'friends') {
+    return '<button class="friend-btn friends" data-friend-btn="'+username+'" data-faction="remove">&#10003; Friends</button>';
+  } else if (status === 'pending_sent') {
+    return '<button class="friend-btn pending" data-friend-btn="'+username+'" data-faction="cancel">&#9203; Pending</button>';
+  } else if (status === 'pending_received') {
+    return '<button class="fr-accept-btn" data-friend-btn="'+username+'" data-faction="accept" style="margin-right:4px">&#10003; Accept</button>'+
+      '<button class="fr-decline-btn" data-friend-btn="'+username+'" data-faction="decline">&#10005;</button>';
+  } else {
+    return '<button class="friend-btn add" data-friend-btn="'+username+'" data-faction="add">&#xFF0B; Add Friend</button>';
+  }
+}
+
+function updateFriendBtnState(btn, username) {
+  var status = getFriendStatus(username);
+  var wrap = btn.parentElement;
+  if (wrap) wrap.innerHTML = friendBtnHTML(username);
+}
+
+// Send friend request
+async function sendFriendRequest(username) {
+  if (!currentUser || !sbUser) { openAuth('signup'); return; }
+  var res = await sb.from('friends').insert({
+    requester_username: currentUser.username,
+    recipient_username: username,
+    status: 'pending'
+  });
+  if (res.error && res.error.code !== '23505') { // 23505 = duplicate
+    showToast('Could not send request: ' + res.error.message); return;
+  }
+  friendsList[username] = 'pending_sent';
+  showToast('Friend request sent to u/' + username + '! 👋');
+  // Send notification
+  sb.from('notifications').insert({
+    recipient_username: username,
+    sender_username: currentUser.username,
+    type: 'friend_request',
+    message: '<strong>u/'+currentUser.username+'</strong> sent you a friend request',
+    read: false
+  }).then(function(){});
+  refreshFriendButtons(username);
+  // Refresh profile page if open
+  if (currentProfileUser === username) openProfile(username);
+}
+
+// Cancel sent request
+async function cancelFriendRequest(username) {
+  if (!currentUser || !sbUser) return;
+  await sb.from('friends').delete()
+    .eq('requester_username', currentUser.username)
+    .eq('recipient_username', username);
+  delete friendsList[username];
+  showToast('Friend request cancelled');
+  refreshFriendButtons(username);
+}
+
+// Accept incoming request
+async function acceptFriendRequest(username) {
+  if (!currentUser || !sbUser) return;
+  await sb.from('friends').update({ status: 'accepted' })
+    .eq('requester_username', username)
+    .eq('recipient_username', currentUser.username);
+  friendsList[username] = 'friends';
+  showToast('🎉 You and u/' + username + ' are now friends!');
+  // Notify the requester
+  sb.from('notifications').insert({
+    recipient_username: username,
+    sender_username: currentUser.username,
+    type: 'friend_accepted',
+    message: '<strong>u/'+currentUser.username+'</strong> accepted your friend request 🎉',
+    read: false
+  }).then(function(){});
+  refreshFriendButtons(username);
+  if (currentProfileUser === username) openProfile(username);
+  // Refresh notifications panel
+  if (typeof renderNotifList === 'function') { loadNotifications(); }
+}
+
+// Decline incoming request
+async function declineFriendRequest(username) {
+  if (!currentUser || !sbUser) return;
+  await sb.from('friends').delete()
+    .eq('requester_username', username)
+    .eq('recipient_username', currentUser.username);
+  delete friendsList[username];
+  showToast('Request declined');
+  refreshFriendButtons(username);
+}
+
+// Remove friend
+async function removeFriend(username) {
+  if (!currentUser || !sbUser) return;
+  // Delete both directions
+  await sb.from('friends').delete()
+    .eq('requester_username', currentUser.username).eq('recipient_username', username);
+  await sb.from('friends').delete()
+    .eq('requester_username', username).eq('recipient_username', currentUser.username);
+  delete friendsList[username];
+  showToast('Removed u/' + username + ' from friends');
+  refreshFriendButtons(username);
+  if (currentProfileUser === username) openProfile(username);
+}
+
+// Refresh all friend buttons for a username on the page
+function refreshFriendButtons(username) {
+  document.querySelectorAll('[data-friend-btn="'+username+'"]').forEach(function(btn){
+    var wrap = btn.parentElement;
+    if (wrap) wrap.innerHTML = friendBtnHTML(username);
+  });
+  // Also refresh any inline request buttons
+  document.querySelectorAll('.fr-accept-btn, .fr-decline-btn').forEach(function(btn){
+    var row = btn.closest('.friend-request-item');
+    if (row && row.dataset.username === username) row.remove();
+  });
+}
+
+// Count friends for a username
+function getFriendsCount(username) {
+  return Object.keys(friendsList).filter(function(u){ return friendsList[u] === 'friends'; }).length;
+}
+
+// Render friends tab on profile page
+async function renderProfileFriends() {
+  var container = document.getElementById('profileFriendsFeed');
+  if (!container) return;
+  container.style.display = 'block';
+  container.innerHTML = '<div style="color:var(--text3);font-size:13px;padding:10px">Loading...</div>';
+
+  try {
+    var res = await sb.from('friends').select('*')
+      .or('requester_username.eq.'+currentProfileUser+',recipient_username.eq.'+currentProfileUser)
+      .eq('status', 'accepted');
+    if (res.error) throw new Error(res.error.message);
+    var friends = (res.data || []).map(function(f){
+      return f.requester_username === currentProfileUser ? f.recipient_username : f.requester_username;
+    });
+
+    // Show pending received requests if viewing own profile
+    var pendingHTML = '';
+    if (currentUser && currentUser.username === currentProfileUser) {
+      var pendingRes = await sb.from('friends').select('*')
+        .eq('recipient_username', currentProfileUser).eq('status', 'pending');
+      if (!pendingRes.error && pendingRes.data && pendingRes.data.length) {
+        pendingHTML = '<div style="margin-bottom:16px"><div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;font-family:monospace;margin-bottom:8px">'+
+          pendingRes.data.length+' Pending Request'+(pendingRes.data.length!==1?'s':'')+'</div>';
+        pendingRes.data.forEach(function(req){
+          var prof = getProfile(req.requester_username);
+          pendingHTML += '<div class="friend-request-item" data-username="'+req.requester_username+'">'+
+            '<div style="width:32px;height:32px;border-radius:50%;overflow:hidden;flex-shrink:0">'+
+              getUserAvatarHTML(req.requester_username, prof.avatar_url||null, prof.color, 32)+
+            '</div>'+
+            '<div style="flex:1;min-width:0">'+
+              '<div style="font-size:13px;font-weight:600">u/'+req.requester_username+'</div>'+
+              '<div style="font-size:11px;color:var(--text3)">'+getRole(prof.role||'agent-inbound').name+'</div>'+
+            '</div>'+
+            '<div class="friend-request-actions">'+
+              '<button class="fr-accept-btn" data-friend-btn="'+req.requester_username+'" data-faction="accept">&#10003; Accept</button>'+
+              '<button class="fr-decline-btn" data-friend-btn="'+req.requester_username+'" data-faction="decline">&#10005;</button>'+
+            '</div>'+
+          '</div>';
+        });
+        pendingHTML += '</div>';
+      }
+    }
+
+    if (!friends.length && !pendingHTML) {
+      container.innerHTML = '<div class="empty-state"><div class="empty-icon">👥</div>'+
+        '<p>'+(currentUser&&currentUser.username===currentProfileUser?'You have no friends yet. Visit profiles and click Add Friend!':'No friends yet.')+'</p></div>';
+      return;
+    }
+
+    var html = pendingHTML;
+    if (friends.length) {
+      html += '<div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;font-family:monospace;margin-bottom:10px">'+
+        friends.length+' Friend'+(friends.length!==1?'s':'')+'</div>';
+      html += '<div class="friends-grid">';
+      friends.forEach(function(fname){
+        var prof = getProfile(fname);
+        var role = getRole(prof.role||'agent-inbound');
+        html += '<div class="friend-card" data-open-profile="'+fname+'">'+
+          '<div class="friend-card-av" style="background:transparent">'+getUserAvatarHTML(fname, prof.avatar_url||null, prof.color, 48)+'</div>'+
+          '<div class="friend-card-name">u/'+fname+'</div>'+
+          '<div class="friend-card-role">'+role.icon+' '+role.name+'</div>'+
+        '</div>';
+      });
+      html += '</div>';
+    }
+    container.innerHTML = html;
+  } catch(e) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">👥</div><p>Could not load friends.</p></div>';
+  }
+}
+
 // ═══ EVENTS ═══
 el('authModal').addEventListener('click',function(e){if(e.target.id==='authModal')closeAuth();});
 el('editPostModal').addEventListener('click',function(e){if(e.target.id==='editPostModal')closeEditPost();});
@@ -4204,6 +4530,27 @@ document.addEventListener('click',function(e){
   var nw=document.getElementById('notifBellWrap');if(nw&&notifPanelOpen&&!nw.contains(e.target)){var p=document.getElementById('notifPanel');if(p)p.style.display='none';notifPanelOpen=false;}
 var w=el('userWrap');if(w&&!w.contains(e.target))el('userDD').classList.remove('open');});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeLB();closeAuth();closePostModal();closeProfileModal();closeBuddyModal();closeReferralModal();closeWriteReview();skipOnboard();closeEditPost();closeEditProfile();}});
+
+
+// Event delegation for profile opens and friend buttons
+document.addEventListener('click', function(e) {
+  var profileCard = e.target.closest('[data-open-profile]');
+  if (profileCard) { openProfile(profileCard.dataset.openProfile); return; }
+});
+// Event delegation for friend buttons (avoids inline onclick quote issues)
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('[data-friend-btn]');
+  if (!btn) return;
+  var username = btn.dataset.friendBtn;
+  var action = btn.dataset.faction;
+  if (!username || !action) return;
+  e.stopPropagation();
+  if (action === 'add')     sendFriendRequest(username);
+  if (action === 'remove')  removeFriend(username);
+  if (action === 'cancel')  cancelFriendRequest(username);
+  if (action === 'accept')  acceptFriendRequest(username);
+  if (action === 'decline') declineFriendRequest(username);
+});
 
 // ═══ INIT ═══
 seedProfileBadges();
