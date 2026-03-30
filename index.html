@@ -992,6 +992,185 @@ header {
 }
 .fr-decline-btn:hover { border-color: var(--red); color: var(--red); }
 
+
+/* ══ CALL OF THE DAY ══ */
+.cotd-banner {
+  background: linear-gradient(135deg, #0d1117 0%, #1a0a2e 50%, #0d1117 100%);
+  border: 1px solid rgba(167,139,250,.35);
+  border-radius: var(--radius-lg);
+  padding: 20px 22px;
+  margin-bottom: 18px;
+  position: relative;
+  overflow: hidden;
+  animation: fadeUp .4s ease both;
+}
+.cotd-banner::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 180px; height: 180px;
+  background: radial-gradient(circle, rgba(167,139,250,.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cotd-banner::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--purple), var(--accent));
+}
+.cotd-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.cotd-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--purple);
+  background: rgba(167,139,250,.12);
+  border: 1px solid rgba(167,139,250,.25);
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+.cotd-timer {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text3);
+  margin-left: auto;
+}
+.cotd-timer span {
+  color: var(--purple);
+  font-weight: 700;
+}
+.cotd-scenario-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.cotd-caller-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--text);
+}
+.cotd-anger-tag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.cotd-anger-nuclear { background: rgba(255,107,107,.15); color: var(--red); }
+.cotd-anger-irate   { background: rgba(255,95,31,.15);  color: var(--accent); }
+.cotd-anger-upset   { background: rgba(251,191,36,.15); color: var(--yellow); }
+.cotd-anger-awkward { background: rgba(79,158,255,.15); color: var(--blue); }
+.cotd-scenario {
+  background: rgba(167,139,250,.06);
+  border-left: 2px solid rgba(167,139,250,.4);
+  border-radius: 0 6px 6px 0;
+  padding: 12px 14px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text);
+  margin-bottom: 14px;
+  font-style: italic;
+}
+.cotd-challenge {
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+.cotd-challenge strong { color: var(--purple); }
+.cotd-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.cotd-reply-btn {
+  background: var(--purple);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 20px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background .2s, transform .1s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.cotd-reply-btn:hover { background: #8b6de0; transform: translateY(-1px); }
+.cotd-stats {
+  display: flex;
+  gap: 14px;
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+.cotd-stat {
+  font-size: 12px;
+  color: var(--text3);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.cotd-stat strong { color: var(--purple); }
+/* Winner banner */
+.cotd-winner-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(251,191,36,.08);
+  border: 1px solid rgba(251,191,36,.25);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 12px;
+  font-size: 13px;
+}
+.cotd-winner-crown { font-size: 20px; }
+.cotd-winner-text { flex: 1; color: var(--text2); line-height: 1.5; }
+.cotd-winner-name { color: var(--yellow); font-weight: 700; }
+/* Streak pill on profile */
+.streak-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255,95,31,.12);
+  border: 1px solid rgba(255,95,31,.3);
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 12px;
+  color: var(--accent2);
+  font-family: 'JetBrains Mono', monospace;
+}
+/* COTD winner badge */
+.cotd-badge-card {
+  background: linear-gradient(135deg, rgba(251,191,36,.12), rgba(167,139,250,.08));
+  border: 1px solid rgba(251,191,36,.3);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.cotd-badge-icon { font-size: 24px; }
+.cotd-badge-info { flex: 1; }
+.cotd-badge-title { font-size: 13px; font-weight: 700; color: var(--yellow); }
+.cotd-badge-date  { font-size: 11px; color: var(--text3); font-family: 'JetBrains Mono', monospace; }
+
 </style>
 </head>
 <body>
@@ -1013,6 +1192,11 @@ header {
     <div class="snav-item active" id="snav-feed" onclick="navTo('feed')">
       <span class="sni-icon">📰</span>
       <span class="sni-label">Feed</span>
+    </div>
+    <div class="snav-item" id="snav-cotd" onclick="navTo('feed');setTimeout(scrollToCOTD,300)">
+      <span class="sni-icon">📞</span>
+      <span class="sni-label">Call of the Day</span>
+      <span class="sni-badge" id="snavCotdBadge" style="display:none">NEW</span>
     </div>
     <div class="snav-item" id="snav-reviews" onclick="navTo('reviews')">
       <span class="sni-icon">🏢</span>
@@ -1138,6 +1322,10 @@ header {
     </div>
 
 <!-- MOBILE BUDDY STRIP (visible only on mobile) -->
+
+
+<!-- CALL OF THE DAY BANNER -->
+<div id="cotdBanner" style="display:none"></div>
 
 <!-- WEEKLY CHALLENGE BANNER -->
 <div class="challenge-banner" id="challengeBanner" style="display:none">
@@ -2716,6 +2904,17 @@ function renderProfileBadges(){
   grid.style.display='grid';
   var earned=userBadges[currentProfileUser]||new Set();
   grid.innerHTML='';
+  // Show COTD wins if viewing own profile
+  if(currentProfileUser===currentUser.username && cotdState.wins && cotdState.wins.length){
+    var cotdSection=document.createElement('div');
+    cotdSection.style.cssText='grid-column:1/-1;margin-bottom:14px';
+    cotdSection.innerHTML='<div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;font-family:monospace;margin-bottom:10px">&#127942; Call of the Day Wins</div>';
+    cotdState.wins.slice(-5).reverse().forEach(function(w){
+      var sc=COTD_SCENARIOS.find(function(s){return s.id===w.scenario;})||{caller:'Unknown'};
+      cotdSection.innerHTML+='<div class="cotd-badge-card"><div class="cotd-badge-icon">&#127942;</div><div class="cotd-badge-info"><div class="cotd-badge-title">Best Response — '+w.date+'</div><div class="cotd-badge-date">'+sc.caller+' scenario · '+w.preview+'</div></div></div>';
+    });
+    grid.appendChild(cotdSection);
+  }
   BADGES.forEach(function(b,i){
     var isE=earned.has(b.id);
     var card=document.createElement('div');
@@ -4571,6 +4770,261 @@ async function renderProfileFriends() {
   }
 }
 
+
+// ═══════════════════════════════════════════════════════════════
+// CALL OF THE DAY
+// ═══════════════════════════════════════════════════════════════
+var COTD_SCENARIOS = [{"id": 1, "caller": "Margaret, 68", "anger": "nuclear", "scenario": "Margaret has been on hold for 47 minutes. She is convinced her internet was stolen by her neighbour Terry, wants to speak to 'the person in charge of the whole company', and has already called three times this week. She refers to her router as 'the blinking box of lies'.", "challenge": "De-escalate, take ownership, and resolve \u2014 without mentioning the 47 minute wait time first."}, {"id": 2, "caller": "Dave, 34", "anger": "irate", "scenario": "Dave ordered a birthday cake delivery for his daughter's party happening in 2 hours. The order shows 'delivered' but nothing arrived. He is recording the call. His daughter is crying in the background.", "challenge": "Handle the emotional urgency AND the logistics simultaneously. What do you say in the first 15 seconds?"}, {"id": 3, "caller": "Priya, 29", "anger": "upset", "scenario": "Priya was charged three times for the same subscription. She escalated to a supervisor last week who promised a refund 'within 24 hours'. It has been 8 days. She has the supervisor's name and employee number.", "challenge": "Own the previous agent's promise. How do you rebuild trust without throwing a colleague under the bus?"}, {"id": 4, "caller": "Gerald, 77", "anger": "awkward", "scenario": "Gerald wants to cancel his service but every time you start the cancellation process, he starts telling you about his late wife who 'loved this service'. He has been on the call for 22 minutes. Your AHT target is 6 minutes.", "challenge": "Show genuine human empathy while still completing the transaction. How do you balance both?"}, {"id": 5, "caller": "Zara, 22", "anger": "irate", "scenario": "Zara is a nursing student who says your system has been logging her out mid-exam for three days. She has an exam tomorrow and is threatening to post on social media with her 40,000 followers. Your tech team has no known outage.", "challenge": "No confirmed bug, high social risk, real deadline. What is your move?"}, {"id": 6, "caller": "Ron, 52", "anger": "upset", "scenario": "Ron received a bill for \u00a3340 for a service he cancelled 6 months ago. He has the cancellation confirmation email. Your system shows his account as active with no cancellation on record.", "challenge": "The customer is right and the system is wrong. How do you handle the gap between what he has and what you see?"}, {"id": 7, "caller": "Linda, 45", "anger": "nuclear", "scenario": "Linda works in HR and accidentally sent confidential employee salary data to the wrong email address using your platform. She is panicking, her boss does not know yet, and she needs the email recalled immediately. You have no email recall feature.", "challenge": "She needs a solution you cannot provide. What CAN you offer, and how do you say it without triggering further panic?"}, {"id": 8, "caller": "Hassan, 38", "anger": "upset", "scenario": "Hassan is a small business owner. His payment system has been down since 9am. It is now 2pm. He estimates he has lost \u00a31,200 in sales. He is calm but every sentence ends with 'and I need this fixed NOW'.", "challenge": "He is not shouting but the pressure is real. How do you convey urgency without overpromising a resolution time?"}, {"id": 9, "caller": "Diane, 61", "anger": "awkward", "scenario": "Diane thinks she is talking to her bank. You work for a broadband provider. She has given you her sort code, account number, and PIN in the first 90 seconds. She still does not believe she has the wrong number.", "challenge": "Safeguarding and empathy simultaneously. How do you handle this without alarming her or wasting her time?"}, {"id": 10, "caller": "Tyler, 19", "anger": "irate", "scenario": "Tyler is furious that his gaming account was banned. He insists he did nothing wrong. Your screen shows three confirmed cheating violations and two prior warnings. He says 'I know people at this company'.", "challenge": "The policy is clear and the evidence is clear. He will not accept it. Where is the line between empathy and enabling?"}, {"id": 11, "caller": "Carol, 55", "anger": "upset", "scenario": "Carol is calling about a bereavement discount she read about on your website. That page was removed 6 months ago. The offer no longer exists. Her husband passed away last week and she is organising everything alone.", "challenge": "The expectation was set by outdated content. She is grieving. How do you handle the 'no' with the right humanity?"}, {"id": 12, "caller": "Ahmed, 41", "anger": "nuclear", "scenario": "Ahmed is on his SEVENTH call about the same unresolved issue. Each agent has given him different information. He has kept notes with dates, agent names, and reference numbers. He reads them out slowly. Every. Single. One.", "challenge": "You are the one who finally has to make this right. How do you open this call differently from the six before you?"}, {"id": 13, "caller": "Steph, 33", "anger": "irate", "scenario": "Steph's package was delivered to the wrong address. The photo proof shows it outside a door \u2014 but not her door. The courier says 'delivered successfully'. You have no way to verify the photo address. She has a toddler at home and was waiting in all day.", "challenge": "Two conflicting truths: the system says delivered, she says it was not. How do you hold both without dismissing either?"}, {"id": 14, "caller": "Brian, 48", "anger": "upset", "scenario": "Brian upgraded his plan last month after being told it would lower his monthly bill. His bill is now \u00a318 higher. He upgraded based on what the agent told him, but the recording shows the agent said 'could be' lower.", "challenge": "The agent was technically not wrong. The customer was reasonably misled. How do you approach this ethically?"}, {"id": 15, "caller": "Nkechi, 27", "anger": "awkward", "scenario": "Nkechi needs you to adjust her account details but she is calling from a loud bar and keeps mishearing you. She has failed identity verification three times because of the noise. She needs this done tonight before a flight tomorrow.", "challenge": "Verification is policy. She is not trying to be difficult. The clock is ticking. What options do you actually have?"}, {"id": 16, "caller": "Paul, 63", "anger": "upset", "scenario": "Paul is a retired engineer. He has written a seven-page letter of complaint which he now wants to read to you. In full. You have an AHT target and a queue of 34 waiting. He says 'I will not be rushed'.", "challenge": "He has the right to be heard. You have a queue. Where does real respect for the customer actually start?"}, {"id": 17, "caller": "Fatima, 36", "anger": "nuclear", "scenario": "Fatima received a text message saying her account was accessed from a new device in another country. She did not do this. She is travelling internationally herself. She cannot remember her security questions. Her English is her third language.", "challenge": "Possible fraud, verification barrier, language complexity, high stress. What is your first priority?"}, {"id": 18, "caller": "Simon, 29", "anger": "irate", "scenario": "Simon works in marketing. He accidentally deleted his company's entire account \u2014 3 years of campaign data. He thought he was deleting a test account. He is trying to stay calm but his voice is cracking.", "challenge": "There is no undo button. How do you deliver that news, and what does 'I am sorry' actually look like in this moment?"}, {"id": 19, "caller": "Jean, 72", "anger": "awkward", "scenario": "Jean wants to add her granddaughter to her account as an authorised user. Her granddaughter is on the line too. The granddaughter keeps interrupting and answering questions meant for Jean. Jean seems confused about what she is authorising.", "challenge": "Capacity, consent, and a third party who means well but is overstepping. How do you navigate this carefully?"}, {"id": 20, "caller": "Marcus, 44", "anger": "upset", "scenario": "Marcus is a doctor. His remote consultation platform has been down for 2 hours. He has a waiting list of patients. He is professionally calm but says 'I need you to understand what is at stake here' in a tone that means it.", "challenge": "The stakes are real and the urgency is legitimate. How do you match his professionalism without false promises?"}, {"id": 21, "caller": "Wendy, 51", "anger": "nuclear", "scenario": "Wendy was mis-sold a contract she did not understand. She is 51, not technically confident, and feels embarrassed that she signed something without reading it fully. She is now angry \u2014 but half of the anger is at herself.", "challenge": "The real emotion underneath is shame, not rage. How do you reach the person behind the anger?"}, {"id": 22, "caller": "Jake, 24", "anger": "irate", "scenario": "Jake is in the middle of a job interview on his laptop when his internet cuts out. He calls from his phone, furious, and wants the problem fixed in the next 4 minutes or 'this is on you'. You are estimating 45-60 minutes to resolve.", "challenge": "The timeline is incompatible with the reality. How do you hold the tension between his need and your truth?"}, {"id": 23, "caller": "Dorothy, 80", "anger": "upset", "scenario": "Dorothy has been with your company for 23 years. She has just been told her plan is being discontinued and she must upgrade or leave. No one warned her. She says 'I have never once been late with a payment. Not once in 23 years.'", "challenge": "Loyalty that was not honoured. How do you represent a company decision you may personally disagree with?"}, {"id": 24, "caller": "Carlos, 35", "anger": "awkward", "scenario": "Carlos called to report a fraud charge on his account. Midway through the call he becomes very quiet. When you ask if he is okay, he says 'not really'. The fraud charge was from a gambling site. His tone shifts completely.", "challenge": "The call has changed. This is no longer about the charge. What do you do with what he just told you?"}, {"id": 25, "caller": "Sandra, 42", "anger": "irate", "scenario": "Sandra ordered a wheelchair-accessible hotel room for her mother's birthday trip. The room allocated was not accessible. The trip is tomorrow. She says 'I do not want compensation. I want you to understand what you have done.'", "challenge": "She is right. She is not asking for money. What does accountability without deflection actually look like?"}, {"id": 26, "caller": "Mike, 37", "anger": "upset", "scenario": "Mike is calling for the fourth time today. Each time he calls, the agent tells him a different thing. He now asks you to stay on the line while he speaks with his solicitor. He puts you on hold.", "challenge": "You are now on hold. Your queue is building. What do you do \u2014 and what does it say about how you value him?"}, {"id": 27, "caller": "Yuki, 31", "anger": "awkward", "scenario": "Yuki is calling because she received someone else's medical test results in her patient portal. She is not upset \u2014 she is a nurse and is worried about the other patient. She wants you to alert them urgently. You work for the IT provider, not the hospital.", "challenge": "Safeguarding concern, wrong department, genuinely urgent. How do you act as a human being while respecting your role?"}, {"id": 28, "caller": "Trevor, 58", "anger": "nuclear", "scenario": "Trevor's business broadband has been unstable for six weeks. He has logs. He has screenshots. He has called eleven times. He says 'I am not calling to complain. I am calling to tell you I have already instructed my solicitor and I need your legal department's contact details.'", "challenge": "He has moved past complaining. This is now formal. How do you respond \u2014 and what is the company's best interest here?"}, {"id": 29, "caller": "Amara, 25", "anger": "irate", "scenario": "Amara is a single mum. Her boiler installation has been rescheduled three times. It is January. She has a 2-year-old and no heating. The fourth appointment is showing as 'pending confirmation' on your screen.", "challenge": "The system is failing a vulnerable customer in real time. What do you do right now, on this call, with what you have?"}, {"id": 30, "caller": "Gordon, 67", "anger": "awkward", "scenario": "Gordon calls to cancel his service. You offer a 50 percent discount to retain him. He says yes. You process it. Then he says his wife told him to cancel because she already switched providers and he 'was not supposed to call'. He asks you to undo what you just did.", "challenge": "The retention is now a mistake and the cancellation is the right outcome. How do you unwind this gracefully?"}];
+
+var cotdState = {
+  participated: false,
+  streak: 0,
+  lastParticipated: null,
+  wins: []  // array of {date, scenario}
+};
+
+// Get today's scenario (rotates by day of year)
+function getTodayScenario() {
+  var now = new Date();
+  var start = new Date(now.getFullYear(), 0, 0);
+  var dayOfYear = Math.floor((now - start) / 86400000);
+  return COTD_SCENARIOS[dayOfYear % COTD_SCENARIOS.length];
+}
+
+// Get time remaining until midnight
+function getTimeUntilMidnight() {
+  var now = new Date();
+  var midnight = new Date(now);
+  midnight.setHours(24, 0, 0, 0);
+  var diff = midnight - now;
+  var h = Math.floor(diff / 3600000);
+  var m = Math.floor((diff % 3600000) / 60000);
+  var s = Math.floor((diff % 60000) / 1000);
+  return h + 'h ' + m + 'm ' + s + 's';
+}
+
+// Load COTD state from localStorage
+function loadCOTDState() {
+  try {
+    var saved = localStorage.getItem('dialdown_cotd');
+    if (saved) {
+      var parsed = JSON.parse(saved);
+      cotdState = Object.assign(cotdState, parsed);
+    }
+  } catch(e) {}
+  checkCOTDStreak();
+}
+
+// Save COTD state
+function saveCOTDState() {
+  try { localStorage.setItem('dialdown_cotd', JSON.stringify(cotdState)); } catch(e) {}
+}
+
+// Check and update streak
+function checkCOTDStreak() {
+  if (!cotdState.lastParticipated) return;
+  var last = new Date(cotdState.lastParticipated);
+  var today = new Date();
+  var diffDays = Math.floor((today - last) / 86400000);
+  if (diffDays === 0) {
+    cotdState.participated = true;
+  } else if (diffDays === 1) {
+    cotdState.participated = false; // new day
+  } else if (diffDays > 1) {
+    cotdState.streak = 0; // streak broken
+    cotdState.participated = false;
+    saveCOTDState();
+  }
+}
+
+// Render the COTD banner
+function renderCOTD() {
+  var banner = document.getElementById('cotdBanner');
+  if (!banner) return;
+  var sc = getTodayScenario();
+  var angerClasses = {
+    nuclear: 'cotd-anger-nuclear',
+    irate:   'cotd-anger-irate',
+    upset:   'cotd-anger-upset',
+    awkward: 'cotd-anger-awkward'
+  };
+  var angerLabels = {
+    nuclear: '☢️ Nuclear',
+    irate:   '🔥 Irate',
+    upset:   '😤 Upset',
+    awkward: '😬 Awkward'
+  };
+
+  var todayStr = new Date().toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'});
+  var participantCount = 12 + (sc.id * 7 % 28); // deterministic fake count based on scenario
+
+  // Build HTML via DOM to avoid quote issues
+  var div = document.createElement('div');
+  div.className = 'cotd-banner';
+  div.id = 'cotdInner';
+
+  var angerCls = angerClasses[sc.anger] || 'cotd-anger-upset';
+  var angerLbl = angerLabels[sc.anger] || sc.anger;
+  var actionBtn = cotdState.participated
+    ? '<button class="cotd-reply-btn" style="background:var(--green)" onclick="scrollToCOTDComments()">&#10003; You responded today! View answers</button>'
+    : '<button class="cotd-reply-btn" onclick="openCOTDReply()">&#127911; Share your approach</button>';
+  var streakPill = cotdState.streak > 1
+    ? '<span class="streak-pill">&#128293; ' + cotdState.streak + ' day streak</span>' : '';
+  var streakStat = cotdState.streak > 0
+    ? '<span class="cotd-stat">&#128293; <strong>' + cotdState.streak + '</strong> day streak</span>' : '';
+
+  div.innerHTML =
+    '<div class="cotd-header">' +
+      '<span class="cotd-label">&#128222; Call of the Day</span>' +
+      '<span style="font-size:12px;color:var(--text3)">' + todayStr + '</span>' +
+      '<span class="cotd-timer">Resets in <span id="cotdTimer">' + getTimeUntilMidnight() + '</span></span>' +
+    '</div>' +
+    '<div class="cotd-scenario-meta">' +
+      '<span class="cotd-caller-name">' + sc.caller + '</span>' +
+      '<span class="cotd-anger-tag ' + angerCls + '">' + angerLbl + '</span>' +
+      streakPill +
+    '</div>' +
+    '<div class="cotd-scenario">&ldquo;' + sc.scenario + '&rdquo;</div>' +
+    '<div class="cotd-challenge">&#128172; <strong>Today&#39;s challenge:</strong> ' + sc.challenge + '</div>' +
+    '<div class="cotd-actions">' +
+      actionBtn +
+      '<div class="cotd-stats">' +
+        '<span class="cotd-stat"><strong>' + participantCount + '</strong> responded</span>' +
+        streakStat +
+      '</div>' +
+    '</div>' +
+    renderCOTDWinner(sc);
+
+  banner.innerHTML = '';
+  banner.appendChild(div);
+
+  banner.style.display = 'block';
+
+  // Show sidebar badge if not participated
+  var snavBadge = document.getElementById('snavCotdBadge');
+  if (snavBadge) snavBadge.style.display = cotdState.participated ? 'none' : 'inline-block';
+
+  // Start countdown timer
+  if (window._cotdTimerInterval) clearInterval(window._cotdTimerInterval);
+  window._cotdTimerInterval = setInterval(function(){
+    var t = document.getElementById('cotdTimer');
+    if (t) t.textContent = getTimeUntilMidnight();
+  }, 1000);
+}
+
+// Render yesterday's winner if stored
+function renderCOTDWinner(sc) {
+  // Check if there is a stored winner for the previous scenario
+  var prevWin = cotdState.wins && cotdState.wins[cotdState.wins.length-1];
+  if (!prevWin) return '';
+  return '<div class="cotd-winner-bar">' +
+    '<span class="cotd-winner-crown">🏆</span>' +
+    '<div class="cotd-winner-text">Yesterday&#39;s best response: <span class="cotd-winner-name">u/' + prevWin.winner + '</span> &mdash; <em>&ldquo;' + prevWin.preview + '&rdquo;</em></div>' +
+  '</div>';
+}
+
+// Open reply modal — pre-fills post modal with COTD context
+function openCOTDReply() {
+  if (!currentUser) { openAuth('signup'); return; }
+  var sc = getTodayScenario();
+
+  openPostModal();
+  setTimeout(function(){
+    var roleEl = document.getElementById('postRole');
+    var titleEl = document.getElementById('postTitle');
+    var bodyEl = document.getElementById('postBody');
+    if (roleEl && currentUser.role) roleEl.value = currentUser.role;
+    if (titleEl) titleEl.value = '📞 Call of the Day — ' + sc.caller + ': My approach';
+    if (bodyEl) bodyEl.value = '';
+    if (bodyEl) bodyEl.placeholder = 'Share exactly how you would handle this call. First words, tone, steps — be specific...';
+    if (bodyEl) bodyEl.focus();
+
+    // Tag it as COTD
+    window._pendingCOTDPost = true;
+  }, 300);
+}
+
+// Scroll to COTD banner
+function scrollToCOTD() {
+  var el = document.getElementById('cotdBanner');
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function scrollToCOTDComments() {
+  // Find the COTD post and open its comments
+  var todayTitle = '📞 Call of the Day';
+  var cotdPost = posts.find(function(p){ return p.title && p.title.indexOf(todayTitle) >= 0; });
+  if (cotdPost) gotoPost(cotdPost.id);
+  else scrollToCOTD();
+}
+
+// Hook submitPost to detect COTD replies and update streak
+var _origSubmitPostCOTD = submitPost;
+function submitPost() {
+  _origSubmitPostCOTD();
+  if (window._pendingCOTDPost) {
+    window._pendingCOTDPost = false;
+    var today = new Date().toISOString().split('T')[0];
+    if (!cotdState.participated) {
+      cotdState.participated = true;
+      var lastDate = cotdState.lastParticipated ? cotdState.lastParticipated.split('T')[0] : null;
+      var yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+      if (lastDate === yesterday) {
+        cotdState.streak++;
+      } else {
+        cotdState.streak = 1;
+      }
+      cotdState.lastParticipated = new Date().toISOString();
+      saveCOTDState();
+      renderCOTD(); // refresh banner
+      // Badge if streak milestone
+      if (cotdState.streak === 7) {
+        showBadgeToast({ icon: '📞', name: '7-Day CC Survivor', desc: 'Responded to Call of the Day 7 days in a row' });
+      } else if (cotdState.streak === 30) {
+        showBadgeToast({ icon: '🎯', name: 'Call Center Legend', desc: '30-day COTD streak — unstoppable' });
+      } else if (cotdState.streak >= 1) {
+        showToast('🔥 Day ' + cotdState.streak + ' streak! Keep it going!');
+      }
+    }
+  }
+}
+
+// Award COTD winner (called when user gets high CSAT on a COTD post)
+function checkCOTDWinner(post) {
+  if (!post || !post.title) return;
+  if (post.title.indexOf('📞 Call of the Day') < 0) return;
+  if (post.csat >= 20) { // threshold for "winner"
+    var today = new Date().toISOString().split('T')[0];
+    if (!cotdState.wins) cotdState.wins = [];
+    var alreadyWon = cotdState.wins.find(function(w){ return w.date === today; });
+    if (!alreadyWon) {
+      cotdState.wins.push({
+        date: today,
+        winner: post.author,
+        preview: post.body.slice(0, 80) + '...',
+        scenario: getTodayScenario().id
+      });
+      if (post.author === currentUser.username) {
+        showBadgeToast({
+          icon: '🏆',
+          name: 'Call of the Day Winner',
+          desc: 'Best response on ' + today
+        });
+        addNotif('🏆', 'You won <strong>Call of the Day</strong> for ' + today + '! 🎉', scrollToCOTD);
+      }
+      saveCOTDState();
+    }
+  }
+}
+
+// Hook vote to check for COTD winners
+var _origVoteCOTD = vote;
+function vote(e, id, dir) {
+  _origVoteCOTD(e, id, dir);
+  var post = posts.find(function(p){ return String(p.id) === String(id); });
+  if (post && dir === 'up') checkCOTDWinner(post);
+}
+
 // ═══ EVENTS ═══
 el('authModal').addEventListener('click',function(e){if(e.target.id==='authModal')closeAuth();});
 el('editPostModal').addEventListener('click',function(e){if(e.target.id==='editPostModal')closeEditPost();});
@@ -4631,6 +5085,8 @@ buildTrending();
 buildFeed();
 initChallenge();
 renderLeaderboard();
+loadCOTDState();
+renderCOTD();
 setInterval(nextJoke,20000);
 // Auth handled by onAuthStateChange — no auto-popup
 </script>
