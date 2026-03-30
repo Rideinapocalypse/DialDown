@@ -1370,6 +1370,44 @@ header {
   .dm-window { width: 100%; height: 100vh; max-height: 100vh; border-radius: 0; }
 }
 
+
+/* ══ ONLINE STATUS ══ */
+.av-wrap {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+}
+.online-dot {
+  position: absolute;
+  bottom: 1px; right: 1px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #22c55e;
+  border: 2px solid var(--bg2);
+  z-index: 2;
+}
+.online-dot.sm { width: 8px; height: 8px; bottom: 0; right: 0; }
+.online-dot.lg { width: 13px; height: 13px; bottom: 2px; right: 2px; }
+.online-dot.away {
+  background: var(--yellow);
+}
+/* Pulse animation for online dot */
+@keyframes onlinePulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(34,197,94,.5); }
+  50%      { box-shadow: 0 0 0 4px rgba(34,197,94,0); }
+}
+.online-dot { animation: onlinePulse 2.5s infinite; }
+.online-dot.away { animation: none; }
+
+/* Status badge on DM header */
+.dm-status-badge {
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.dm-status-badge.online { color: #22c55e; }
+.dm-status-badge.away   { color: var(--yellow); }
+.dm-status-badge.offline{ color: var(--text3); }
+
 </style>
 </head>
 <body>
@@ -5302,6 +5340,7 @@ function openDM(toUsername) {
   } else {
     showDMInbox();
   }
+  loadAllPresence();
   loadDMInbox();
   // Poll for new messages every 15s while open
   if (dmPollingInterval) clearInterval(dmPollingInterval);
@@ -5346,7 +5385,10 @@ function openDMConvo(username) {
   var role = getRole(prof.role || 'agent-inbound');
   el('dmConvoAv').innerHTML = getUserAvatarHTML(username, prof.avatar_url || null, prof.color, 34);
   el('dmConvoName').textContent = 'u/' + username;
-  el('dmConvoRole').textContent = role.icon + ' ' + role.name;
+  var dmStatus = getPresenceStatus(username);
+  var dmStatusText = dmStatus === 'online' ? '&#9679; Online' : dmStatus === 'away' ? '&#9679; Away' : 'Offline';
+  el('dmConvoRole').innerHTML = role.icon + ' ' + role.name +
+    ' <span class="dm-status-badge ' + dmStatus + '">' + dmStatusText + '</span>';
 
   loadDMConvo(username);
 
@@ -5642,6 +5684,100 @@ function initDMs() {
   }
 }
 
+
+// ═══════════════════════════════════════════════════════════════
+// ONLINE PRESENCE SYSTEM
+// ═══════════════════════════════════════════════════════════════
+
+var presenceMap = {};          // username -> last_seen ISO string
+var presenceLoaded = false;
+var ONLINE_THRESHOLD  = 2 * 60 * 1000;   // 2 min = online
+var AWAY_THRESHOLD    = 10 * 60 * 1000;  // 10 min = away, else offline
+
+// Heartbeat — ping every 30s while user is logged in
+function startPresenceHeartbeat() {
+  if (!currentUser || !sbUser) return;
+  pingPresence();
+  setInterval(pingPresence, 30000);
+  // Also update on user activity
+  ['click','keydown','scroll'].forEach(function(ev){
+    document.addEventListener(ev, function(){
+      if(Date.now() - (startPresenceHeartbeat._lastPing||0) > 20000){
+        pingPresence();
+      }
+    }, { passive: true });
+  });
+}
+startPresenceHeartbeat._lastPing = 0;
+
+async function pingPresence() {
+  if (!currentUser || !sbUser) return;
+  startPresenceHeartbeat._lastPing = Date.now();
+  try {
+    await sb.from('presence').upsert({
+      username: currentUser.username,
+      last_seen: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    }, { onConflict: 'username' });
+  } catch(e) {}
+}
+
+// Load presence for a list of usernames
+async function loadPresence(usernames) {
+  if (!usernames || !usernames.length) return;
+  try {
+    var res = await sb.from('presence').select('username,last_seen').in('username', usernames);
+    if (res.error) return;
+    (res.data || []).forEach(function(p){
+      presenceMap[p.username] = p.last_seen;
+    });
+    presenceLoaded = true;
+  } catch(e) {}
+}
+
+// Load presence for all seed profiles on page load
+async function loadAllPresence() {
+  var usernames = PROFILES.concat(TR_PROFILES_DATA||[]).map(function(p){ return p.username; });
+  if (currentUser) usernames.push(currentUser.username);
+  await loadPresence(usernames);
+  // Re-render feed to show dots
+  buildFeed();
+}
+
+// Get presence status for a username
+function getPresenceStatus(username) {
+  var lastSeen = presenceMap[username];
+  if (!lastSeen) return 'offline';
+  var diff = Date.now() - new Date(lastSeen).getTime();
+  if (diff < ONLINE_THRESHOLD)  return 'online';
+  if (diff < AWAY_THRESHOLD)    return 'away';
+  return 'offline';
+}
+
+// Get online dot HTML for a given size
+function getOnlineDot(username, size) {
+  var status = getPresenceStatus(username);
+  if (status === 'offline') return '';
+  var szClass = size <= 24 ? 'sm' : size >= 48 ? 'lg' : '';
+  var awayClass = status === 'away' ? ' away' : '';
+  return '<div class="online-dot ' + szClass + awayClass + '" title="' +
+    (status === 'online' ? 'Online now' : 'Away') + '"></div>';
+}
+
+// Wrap avatar HTML with presence dot
+function withPresenceDot(username, avatarHTML, size) {
+  var dot = getOnlineDot(username, size);
+  if (!dot) return avatarHTML;
+  return '<div class="av-wrap" style="width:'+size+'px;height:'+size+'px">' + avatarHTML + dot + '</div>';
+}
+
+// Enhanced getUserAvatarHTML that includes presence dot
+var _origGetUserAvatarHTML = getUserAvatarHTML;
+function getUserAvatarHTML(username, avatarUrl, color, size) {
+  var html = _origGetUserAvatarHTML(username, avatarUrl, color, size);
+  return withPresenceDot(username, html, size || 40);
+}
+
 // ═══ EVENTS ═══
 el('authModal').addEventListener('click',function(e){if(e.target.id==='authModal')closeAuth();});
 el('editPostModal').addEventListener('click',function(e){if(e.target.id==='editPostModal')closeEditPost();});
@@ -5709,6 +5845,7 @@ initChallenge();
 renderLeaderboard();
 loadCOTDState();
 renderCOTD();
+setTimeout(loadAllPresence, 2000);
 setInterval(nextJoke,20000);
 // Auth handled by onAuthStateChange — no auto-popup
 </script>
