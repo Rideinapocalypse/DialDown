@@ -2,7 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<link rel="manifest" href="manifest.json"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="DialDown"/>
+<meta name="application-name" content="DialDown"/>
+<meta name="theme-color" content="#ff5f1f"/>
+<meta name="msapplication-TileColor" content="#ff5f1f"/>
+<link rel="apple-touch-icon" href="icon.svg"/>
+<link rel="icon" type="image/svg+xml" href="icon.svg"/>
 <title>DialDown – The CC Community</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
 <style>
@@ -5802,6 +5812,62 @@ function withPresenceDot(username, avatarHTML, size) {
 }
 
 // Presence dot added inline in buildAvatarHTML — no override needed
+
+
+// ═══════════════════════════════════════════════════════
+// PWA — Register Service Worker
+// ═══════════════════════════════════════════════════════
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/DialDown/sw.js', { scope: '/DialDown/' })
+      .then(function(reg) {
+        console.log('SW registered ✅ scope:', reg.scope);
+      })
+      .catch(function(err) {
+        console.log('SW registration failed:', err);
+      });
+  });
+}
+
+// Show "Install App" prompt when available
+var deferredInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  // Show install button in sidebar after 10s
+  setTimeout(showInstallButton, 10000);
+});
+
+function showInstallButton() {
+  if (!deferredInstallPrompt) return;
+  // Add install item to sidebar
+  var snavSection = document.querySelector('.snav-section');
+  if (!snavSection || document.getElementById('snavInstall')) return;
+  var item = document.createElement('div');
+  item.id = 'snavInstall';
+  item.className = 'snav-item';
+  item.style.cssText = 'background:rgba(255,95,31,.1);border-color:rgba(255,95,31,.3);margin:4px 8px;border-radius:8px;border:1px solid rgba(255,95,31,.3)';
+  item.innerHTML = '<span class="sni-icon">&#128242;</span><span class="sni-label" style="color:var(--accent)">Install App</span>';
+  item.addEventListener('click', function() {
+    if (!deferredInstallPrompt) return;
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.then(function(result) {
+      if (result.outcome === 'accepted') {
+        showToast('DialDown installed! ✅');
+        item.remove();
+      }
+      deferredInstallPrompt = null;
+    });
+  });
+  snavSection.parentNode.insertBefore(item, snavSection);
+}
+
+window.addEventListener('appinstalled', function() {
+  showToast('DialDown installed as an app! 🎉');
+  deferredInstallPrompt = null;
+  var btn = document.getElementById('snavInstall');
+  if (btn) btn.remove();
+});
 
 // ═══ EVENTS ═══
 el('authModal').addEventListener('click',function(e){if(e.target.id==='authModal')closeAuth();});
