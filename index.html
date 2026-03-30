@@ -1124,6 +1124,14 @@ function restoreUserSession(profile) {
   updateMobAuth();
   updateHeaderBadges();
 
+  // Set avatar, location, tenure from DB profile
+  if(profile.avatar_url) {
+    currentUser.avatar_url = profile.avatar_url;
+    updateHeaderAvatar();
+  }
+  if(profile.location) currentUser.location = profile.location;
+  if(profile.tenure) currentUser.tenure = profile.tenure;
+
   // Load persisted data
   loadVotes();
   loadSaves();
@@ -3312,18 +3320,7 @@ function updateHeaderAvatar(){
   }
 }
 
-// Override restoreUserSession to also set avatar
-var _origRestoreSession = restoreUserSession;
-function restoreUserSession(profile){
-  _origRestoreSession(profile);
-  // Set avatar from DB
-  if(profile.avatar_url){
-    currentUser.avatar_url = profile.avatar_url;
-    updateHeaderAvatar();
-  }
-  if(profile.location) currentUser.location = profile.location;
-  if(profile.tenure) currentUser.tenure = profile.tenure;
-}
+// Avatar/location/tenure now handled inside restoreUserSession directly
 
 // ═══ EVENTS ═══
 el('authModal').addEventListener('click',function(e){if(e.target.id==='authModal')closeAuth();});
