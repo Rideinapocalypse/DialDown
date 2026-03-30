@@ -4134,116 +4134,174 @@ function strHash(str) {
   return Math.abs(h);
 }
 
-// Generate a unique illustrated SVG avatar from username
+// Generate a CC Agent headset avatar from username
 function generateDefaultAvatar(username, size) {
   size = size || 40;
-  var hash = strHash(username || 'anon');
+  var h = strHash(username || 'anon');
 
-  // Pick background gradient
-  var gradients = [
-    ['#ff5f1f','#ff8c55'],  // orange
-    ['#4f9eff','#7ab8ff'],  // blue
-    ['#a78bfa','#c4b0ff'],  // purple
-    ['#3ddc84','#6ee9a8'],  // green
-    ['#fbbf24','#fcd96a'],  // yellow
-    ['#f472b6','#f9a8d4'],  // pink
-    ['#34d399','#6edcb8'],  // teal
-    ['#fb923c','#fbb96a'],  // amber
-    ['#e05252','#f08080'],  // red
-    ['#52a8e0','#80c4f0'],  // sky
+  // Skin tones (warm to cool)
+  var skins = ['#FDDBB4','#F5C896','#E8A96A','#C68642','#8D5524','#FFECD2','#FFD5B5','#D4956A'];
+  var skin = skins[h % skins.length];
+
+  // Hair colors
+  var hairs = ['#1a1008','#3d2b1f','#6b3a2a','#8B4513','#C4622D','#E8AC56','#F5D76E','#4a4a5a','#2c2c3e','#1a1a2e'];
+  var hair = hairs[(h >> 2) % hairs.length];
+
+  // Headset colors (vibrant, CC-themed)
+  var headsets = ['#ff5f1f','#4f9eff','#a78bfa','#3ddc84','#fbbf24','#f472b6','#34d399','#ff6b6b','#64b5f6','#81c784'];
+  var hsc = headsets[(h >> 4) % headsets.length];
+  var hsc2 = headsets[(h >> 6) % headsets.length];
+
+  // Background gradients
+  var bgs = [
+    ['#0f2027','#203a43'],['#1a0533','#2d1b69'],['#0d1117','#1e3a5f'],
+    ['#1a0a2e','#3d1a6e'],['#0a1628','#1e3a5f'],['#1a1a0a','#3d3d00'],
+    ['#0d2626','#1a4a4a'],['#1a0d0d','#4a1a1a'],
   ];
-  var grad = gradients[hash % gradients.length];
-  var grad2 = gradients[(hash + 3) % gradients.length];
+  var bg = bgs[(h >> 8) % bgs.length];
 
-  // Pick face/character style (8 styles)
-  var style = (hash >> 4) % 8;
-  var eyeY = 38 + (hash % 6);
-  var eyeGap = 12 + (hash % 5);
-  var eyeSize = 4 + (hash % 3);
-  var mouthY = 55 + (hash % 8);
-  var earSize = 8 + ((hash >> 2) % 5);
+  // Eye colors
+  var eyes = ['#2c2c2c','#1a1a3e','#3d2000','#1a3d00','#00263d'];
+  var eye = eyes[(h >> 10) % eyes.length];
 
-  // Hat / accessory (50% chance)
-  var hasHat = ((hash >> 8) % 2) === 0;
-  var hatColor = ['#1a1a2e','#2d1b69','#0f3460','#16213e','#1a0a2e'][(hash >> 6) % 5];
+  // Shirt colors
+  var shirts = ['#1565C0','#283593','#4527A0','#1B5E20','#B71C1C','#E65100','#37474F','#1a1a2e'];
+  var shirt = shirts[(h >> 12) % shirts.length];
 
-  // Ear shape (round vs pointy)
-  var earShape = (hash % 3);
-  var leftEar = earShape === 0
-    ? '<circle cx="22" cy="45" r="'+earSize+'" fill="'+grad[0]+'"/>'
-    : earShape === 1
-    ? '<ellipse cx="20" cy="43" rx="'+(earSize-2)+'" ry="'+earSize+'" fill="'+grad[0]+'"/>'
-    : '<polygon points="20,35 14,50 26,50" fill="'+grad[0]+'"/>';
-  var rightEar = earShape === 0
-    ? '<circle cx="78" cy="45" r="'+earSize+'" fill="'+grad[0]+'"/>'
-    : earShape === 1
-    ? '<ellipse cx="80" cy="43" rx="'+(earSize-2)+'" ry="'+earSize+'" fill="'+grad[0]+'"/>'
-    : '<polygon points="80,35 74,50 86,50" fill="'+grad[0]+'"/>';
+  // Expression variant (happy/focused/serious)
+  var expr = (h >> 14) % 3;
 
-  // Nose style
-  var nose = (hash % 4) === 0
-    ? '<ellipse cx="50" cy="48" rx="3" ry="2" fill="rgba(0,0,0,.2)"/>'
-    : '<circle cx="50" cy="47" r="2" fill="rgba(0,0,0,.15)"/>';
+  // Headset band style
+  var bandStyle = (h >> 16) % 2;
 
-  // Mouth
-  var mouthW = 10 + (hash % 8);
-  var mouthStyles = [
-    '<path d="M'+(50-mouthW/2)+','+mouthY+' Q50,'+(mouthY+6)+' '+(50+mouthW/2)+','+mouthY+'" stroke="rgba(0,0,0,.35)" stroke-width="2" fill="none" stroke-linecap="round"/>',
-    '<path d="M'+(50-mouthW/2)+','+mouthY+' Q50,'+(mouthY+8)+' '+(50+mouthW/2)+','+mouthY+'" stroke="rgba(0,0,0,.4)" stroke-width="2.5" fill="rgba(0,0,0,.1)" stroke-linecap="round"/>',
-    '<line x1="'+(50-mouthW/2)+'" y1="'+mouthY+'" x2="'+(50+mouthW/2)+'" y2="'+mouthY+'" stroke="rgba(0,0,0,.3)" stroke-width="2" stroke-linecap="round"/>',
-  ];
-  var mouth = mouthStyles[(hash >> 3) % mouthStyles.length];
+  var id = 'av' + (h % 99999);
 
-  // Eyes
-  var eyeStyles = [
-    // Round eyes
-    '<circle cx="'+(50-eyeGap)+'" cy="'+eyeY+'" r="'+eyeSize+'" fill="rgba(0,0,0,.7)"/><circle cx="'+(50+eyeGap)+'" cy="'+eyeY+'" r="'+eyeSize+'" fill="rgba(0,0,0,.7)"/><circle cx="'+(50-eyeGap+1)+'" cy="'+(eyeY-1)+'" r="1.5" fill="white"/><circle cx="'+(50+eyeGap+1)+'" cy="'+(eyeY-1)+'" r="1.5" fill="white"/>',
-    // Happy squint eyes
-    '<path d="M'+(50-eyeGap-eyeSize)+','+eyeY+' Q'+(50-eyeGap)+','+(eyeY-eyeSize*1.5)+' '+(50-eyeGap+eyeSize)+','+eyeY+'" stroke="rgba(0,0,0,.7)" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M'+(50+eyeGap-eyeSize)+','+eyeY+' Q'+(50+eyeGap)+','+(eyeY-eyeSize*1.5)+' '+(50+eyeGap+eyeSize)+','+eyeY+'" stroke="rgba(0,0,0,.7)" stroke-width="2.5" fill="none" stroke-linecap="round"/>',
-    // Star eyes
-    '<text x="'+(50-eyeGap)+'" y="'+(eyeY+4)+'" text-anchor="middle" font-size="10" fill="rgba(0,0,0,.75)">✦</text><text x="'+(50+eyeGap)+'" y="'+(eyeY+4)+'" text-anchor="middle" font-size="10" fill="rgba(0,0,0,.75)">✦</text>',
-  ];
-  var eyes = eyeStyles[(hash >> 5) % eyeStyles.length];
+  // Build face details based on expression
+  var mouth = expr === 0
+    ? '<path d="M44,62 Q50,68 56,62" stroke="#c0392b" stroke-width="1.8" fill="none" stroke-linecap="round"/>' // smile
+    : expr === 1
+    ? '<path d="M44,63 Q50,67 56,63" stroke="#8B4513" stroke-width="1.5" fill="none" stroke-linecap="round"/>' // slight smile
+    : '<line x1="44" y1="63" x2="56" y2="63" stroke="#8B4513" stroke-width="1.5" stroke-linecap="round"/>'; // serious
 
-  // Hat HTML
-  var hat = hasHat
-    ? '<rect x="28" y="18" width="44" height="5" rx="2" fill="'+hatColor+'"/><rect x="33" y="4" width="34" height="16" rx="4" fill="'+hatColor+'"/>'
-    : '';
+  // Eyebrows
+  var brows = expr === 2
+    ? '<path d="M37,47 Q41,44 45,46" stroke="'+hair+'" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M55,46 Q59,44 63,47" stroke="'+hair+'" stroke-width="2" fill="none" stroke-linecap="round"/>'
+    : '<path d="M37,47 Q41,45 45,47" stroke="'+hair+'" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M55,47 Q59,45 63,47" stroke="'+hair+'" stroke-width="1.8" fill="none" stroke-linecap="round"/>';
 
-  // Cheeks (blush)
-  var hasBlush = ((hash >> 9) % 3) === 0;
-  var blush = hasBlush
-    ? '<ellipse cx="33" cy="52" rx="6" ry="4" fill="rgba(255,100,100,.2)"/><ellipse cx="67" cy="52" rx="6" ry="4" fill="rgba(255,100,100,.2)"/>'
-    : '';
+  // Hair style (4 variants)
+  var hairStyle = (h >> 3) % 4;
+  var hairSVG = '';
+  if (hairStyle === 0) { // Short
+    hairSVG = '<ellipse cx="50" cy="36" rx="20" ry="10" fill="'+hair+'"/><rect x="30" y="36" width="40" height="6" fill="'+hair+'"/>';
+  } else if (hairStyle === 1) { // Medium with side part
+    hairSVG = '<ellipse cx="50" cy="36" rx="21" ry="11" fill="'+hair+'"/><rect x="29" y="36" width="42" height="8" fill="'+hair+'"/><path d="M29,36 Q35,28 50,32" fill="'+hair+'" stroke="none"/>';
+  } else if (hairStyle === 2) { // Curly/afro
+    hairSVG = '<ellipse cx="50" cy="34" rx="22" ry="13" fill="'+hair+'"/><circle cx="30" cy="38" r="8" fill="'+hair+'"/><circle cx="70" cy="38" r="8" fill="'+hair+'"/><rect x="28" y="38" width="44" height="6" fill="'+hair+'"/>';
+  } else { // Slicked back
+    hairSVG = '<ellipse cx="50" cy="35" rx="20" ry="9" fill="'+hair+'"/><rect x="30" y="35" width="40" height="7" fill="'+hair+'"/><path d="M30,35 Q50,24 70,35" fill="'+hair+'" stroke="none"/>';
+  }
 
-  var gradId = 'g' + hash;
+  // Shirt/collar
+  var shirtSVG = '<path d="M20,100 L25,80 Q35,90 50,88 Q65,90 75,80 L80,100 Z" fill="'+shirt+'"/>';
+  var collarSVG = '<path d="M40,88 L50,95 L60,88" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
+
+  // ── HEADSET ── (the star of the show)
+  // Ear cups
+  var leftCup = '<ellipse cx="27" cy="55" rx="7" ry="9" fill="'+hsc+'"/><ellipse cx="27" cy="55" rx="4" ry="6" fill="'+hsc2+'" opacity=".7"/>';
+  var rightCup = '<ellipse cx="73" cy="55" rx="7" ry="9" fill="'+hsc+'"/><ellipse cx="73" cy="55" rx="4" ry="6" fill="'+hsc2+'" opacity=".7"/>';
+
+  // Headband over hair
+  var band = bandStyle === 0
+    ? '<path d="M27,50 Q50,22 73,50" stroke="'+hsc+'" stroke-width="4.5" fill="none" stroke-linecap="round"/>'
+    : '<path d="M27,50 Q50,22 73,50" stroke="'+hsc+'" stroke-width="4.5" fill="none" stroke-linecap="round"/><path d="M27,50 Q50,22 73,50" stroke="'+hsc2+'" stroke-width="2" fill="none" stroke-linecap="round" stroke-dasharray="4,4"/>';
+
+  // Microphone boom arm (left side, angled toward mouth)
+  var micBoom = '<path d="M20,58 Q18,65 23,70" stroke="'+hsc+'" stroke-width="2.5" fill="none" stroke-linecap="round"/>';
+  var micHead = '<circle cx="23" cy="70" r="3.5" fill="'+hsc+'"/><circle cx="23" cy="70" r="2" fill="'+hsc2+'"/>';
+
+  // Small LED/status light on headset
+  var led = '<circle cx="31" cy="51" r="1.5" fill="#00ff88" opacity=".9"/>';
+
+  // Build SVG
   var svg =
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="'+size+'" height="'+size+'">' +
     '<defs>' +
-      '<radialGradient id="'+gradId+'" cx="40%" cy="35%" r="60%">' +
-        '<stop offset="0%" stop-color="'+grad[1]+'"/>' +
-        '<stop offset="100%" stop-color="'+grad[0]+'"/>' +
+      '<radialGradient id="bg'+id+'" cx="50%" cy="0%" r="100%">' +
+        '<stop offset="0%" stop-color="'+bg[1]+'"/>' +
+        '<stop offset="100%" stop-color="'+bg[0]+'"/>' +
       '</radialGradient>' +
+      '<radialGradient id="face'+id+'" cx="40%" cy="30%" r="70%">' +
+        '<stop offset="0%" stop-color="'+skin+'" stop-opacity="1"/>' +
+        '<stop offset="100%" stop-color="'+adjustColor(skin, -20)+'" stop-opacity="1"/>' +
+      '</radialGradient>' +
+      '<clipPath id="clip'+id+'">' +
+        '<circle cx="50" cy="50" r="50"/>' +
+      '</clipPath>' +
     '</defs>' +
-    // Background circle
-    '<circle cx="50" cy="50" r="50" fill="url(#'+gradId+')"/>' +
-    // Ears (behind face)
-    leftEar + rightEar +
-    // Face circle
-    '<circle cx="50" cy="52" r="28" fill="'+grad[1]+'" opacity=".85"/>' +
-    // Hat
-    hat +
-    // Eyes
-    eyes +
+
+    // Background
+    '<circle cx="50" cy="50" r="50" fill="url(#bg'+id+')"/>' +
+
+    // Clip everything to circle
+    '<g clip-path="url(#clip'+id+')">' +
+
+    // Shirt + collar
+    shirtSVG + collarSVG +
+
+    // Neck
+    '<rect x="43" y="72" width="14" height="16" rx="4" fill="url(#face'+id+')"/>' +
+
+    // Head/face
+    '<ellipse cx="50" cy="54" rx="21" ry="23" fill="url(#face'+id+')"/>' +
+
+    // Hair
+    hairSVG +
+
+    // Ears
+    '<ellipse cx="29" cy="54" rx="4" ry="5.5" fill="'+skin+'"/>' +
+    '<ellipse cx="71" cy="54" rx="4" ry="5.5" fill="'+skin+'"/>' +
+
+    // Eyebrows
+    brows +
+
+    // Eyes (whites)
+    '<ellipse cx="41" cy="52" rx="6" ry="5.5" fill="white"/>' +
+    '<ellipse cx="59" cy="52" rx="6" ry="5.5" fill="white"/>' +
+    // Iris
+    '<circle cx="41" cy="53" r="3.5" fill="'+eye+'"/>' +
+    '<circle cx="59" cy="53" r="3.5" fill="'+eye+'"/>' +
+    // Pupil
+    '<circle cx="41" cy="53" r="1.8" fill="#111"/>' +
+    '<circle cx="59" cy="53" r="1.8" fill="#111"/>' +
+    // Eye shine
+    '<circle cx="42.5" cy="51.5" r="1" fill="white" opacity=".9"/>' +
+    '<circle cx="60.5" cy="51.5" r="1" fill="white" opacity=".9"/>' +
+
     // Nose
-    nose +
+    '<path d="M47,58 Q50,61 53,58" stroke="'+adjustColor(skin,-30)+'" stroke-width="1.2" fill="none" stroke-linecap="round"/>' +
+
     // Mouth
     mouth +
-    // Blush
-    blush +
+
+    // ── HEADSET ON TOP ──
+    band +
+    leftCup + rightCup +
+    micBoom + micHead +
+    led +
+
+    '</g>' +
     '</svg>';
 
   return svg;
+}
+
+// Helper: darken/lighten a hex color
+function adjustColor(hex, amount) {
+  hex = hex.replace('#','');
+  var r = Math.max(0,Math.min(255,parseInt(hex.slice(0,2),16)+amount));
+  var g = Math.max(0,Math.min(255,parseInt(hex.slice(2,4),16)+amount));
+  var b = Math.max(0,Math.min(255,parseInt(hex.slice(4,6),16)+amount));
+  return '#'+[r,g,b].map(function(x){return x.toString(16).padStart(2,'0');}).join('');
 }
 
 // Get avatar HTML for a user — photo takes priority, then generated
