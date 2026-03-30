@@ -642,15 +642,26 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .avatar-preview-lg:hover .avatar-edit-overlay{opacity:1;}
 .avatar-upload-hint{font-size:12px;color:var(--text3);text-align:center;}
 .color-picker-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
-.color-swatch{width:28px;height:28px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:border-color .15s,transform .15s;flex-shrink:0;}
+.color-swatch{width:28px;height:28px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:border-color .15s,transform .15s;}
 .color-swatch:hover{transform:scale(1.15);}
 .color-swatch.selected{border-color:var(--text);}
 .char-count{font-size:11px;color:var(--text3);text-align:right;margin-top:3px;}
-/* ══ PROFILE PAGE ENHANCEMENTS ══ */
 .profile-av-lg img{width:100%;height:100%;border-radius:50%;object-fit:cover;}
 .profile-edit-btn{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:border-color .2s,color .2s;}
 .profile-edit-btn:hover{border-color:var(--accent);color:var(--accent);}
 .hud-avatar-img{width:100%;height:100%;border-radius:50%;object-fit:cover;}
+/* ══ POST EDIT / DELETE ══ */
+.post-owner-actions{display:flex;gap:6px;margin-left:4px;}
+.post-edit-btn{background:none;border:1px solid var(--border);color:var(--text3);border-radius:6px;padding:3px 9px;font-size:11.5px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.post-edit-btn:hover{border-color:var(--accent);color:var(--accent);}
+.post-delete-btn{background:none;border:1px solid var(--border);color:var(--text3);border-radius:6px;padding:3px 9px;font-size:11.5px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.post-delete-btn:hover{border-color:var(--red);color:var(--red);}
+.delete-confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;display:flex;align-items:center;justify-content:center;}
+.delete-confirm-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px 32px;text-align:center;max-width:340px;animation:modalIn .2s ease;}
+.delete-confirm-title{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;margin-bottom:8px;}
+.delete-confirm-sub{font-size:13px;color:var(--text2);margin-bottom:22px;line-height:1.6;}
+.delete-confirm-btns{display:flex;gap:10px;justify-content:center;}
+.edit-post-modal{max-width:560px;}
 
 </style>
 </head>
@@ -782,10 +793,10 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 <!-- PROFILE PAGE -->
 <div class="page" id="pageProfile">
 <div class="profile-layout">
-  <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
     <button class="profile-back-btn" id="profileBackBtn" style="margin-bottom:0">&#8592; Back to Feed</button>
     <button class="buddy-btn" id="profileBuddyBtn" style="display:none">&#129309; Find Buddy</button>
-    <button class="profile-edit-btn" id="profileEditBtn" onclick="openEditProfile()" style="display:none">✏️ Edit Profile</button>
+    <button class="profile-edit-btn" id="profileEditBtn" onclick="openEditProfile()" style="display:none">&#9999;&#65039; Edit Profile</button>
   </div>
   <div class="profile-hero">
     <div class="profile-av-lg" id="profileAvatar"></div>
@@ -949,65 +960,54 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 </div>
 
 
+<!-- EDIT POST MODAL -->
+<div class="modal-overlay" id="editPostModal">
+  <div class="modal edit-post-modal">
+    <div class="modal-hdr">
+      <div class="modal-hdr-title">&#9999;&#65039; Edit Post</div>
+      <button class="modal-x" onclick="closeEditPost()">&#10005;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editPostId"/>
+      <div><div class="fl">Role</div><select class="fsel" id="editPostRole"></select></div>
+      <div><div class="fl">Title</div><input class="fi" id="editPostTitle" maxlength="120"/></div>
+      <div><div class="fl">Body</div><textarea class="fta" id="editPostBody" style="min-height:120px"></textarea></div>
+      <div style="display:flex;gap:8px">
+        <button class="btn-primary" onclick="saveEditedPost()">Save Changes &#10003;</button>
+        <button class="btn-ghost" onclick="closeEditPost()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- EDIT PROFILE MODAL -->
 <div class="modal-overlay" id="editProfileModal">
   <div class="modal edit-profile-modal">
     <div class="modal-hdr">
-      <div class="modal-hdr-title">✏️ Edit Profile</div>
-      <button class="modal-x" onclick="closeEditProfile()">✕</button>
+      <div class="modal-hdr-title">&#9999;&#65039; Edit Profile</div>
+      <button class="modal-x" onclick="closeEditProfile()">&#10005;</button>
     </div>
     <div class="modal-body">
-      <!-- Avatar -->
       <div class="avatar-upload-wrap">
         <div class="avatar-preview-lg" id="editAvatarPreview" onclick="document.getElementById('avatarUploadInput').click()">
           <span id="editAvatarInitials"></span>
-          <div class="avatar-edit-overlay">📷</div>
+          <div class="avatar-edit-overlay">&#128247;</div>
         </div>
         <input type="file" id="avatarUploadInput" accept="image/*" style="display:none" onchange="handleAvatarUpload(event)"/>
-        <div class="avatar-upload-hint">Click to upload a photo<br>JPG, PNG or GIF · Max 2MB</div>
+        <div class="avatar-upload-hint">Click to upload a photo · max 2MB</div>
         <button class="btn-ghost" id="removeAvatarBtn" onclick="removeAvatar()" style="display:none;font-size:12px;padding:4px 10px">Remove photo</button>
       </div>
-
-      <!-- Color picker -->
       <div>
-        <div class="fl" style="margin-bottom:8px">Avatar Color <span style="color:var(--text3);font-weight:400;text-transform:none">(if no photo)</span></div>
+        <div class="fl">Avatar Color <span style="color:var(--text3);font-weight:400;text-transform:none">(if no photo)</span></div>
         <div class="color-picker-row" id="colorPickerRow"></div>
       </div>
-
-      <!-- Display name -->
-      <div>
-        <div class="fl">Display Name</div>
-        <input class="fi" id="epDisplayName" placeholder="How you appear on posts" maxlength="30"/>
-      </div>
-
-      <!-- Bio -->
-      <div>
-        <div class="fl">Bio</div>
-        <textarea class="fta" id="epBio" placeholder="Tell the community about your CC journey..." maxlength="200" oninput="updateBioCount()" style="min-height:80px"></textarea>
-        <div class="char-count"><span id="bioCharCount">0</span>/200</div>
-      </div>
-
-      <!-- Role -->
-      <div>
-        <div class="fl">Your CC Role</div>
-        <select class="fsel" id="epRole"></select>
-      </div>
-
-      <!-- Location & Tenure -->
+      <div><div class="fl">Bio</div><textarea class="fta" id="epBio" maxlength="200" oninput="updateBioCount()" style="min-height:80px"></textarea><div class="char-count"><span id="bioCharCount">0</span>/200</div></div>
+      <div><div class="fl">Your CC Role</div><select class="fsel" id="epRole"></select></div>
       <div class="frow">
-        <div>
-          <div class="fl">Location</div>
-          <input class="fi" id="epLocation" placeholder="e.g. Istanbul, Turkey"/>
-        </div>
-        <div>
-          <div class="fl">CC Tenure</div>
-          <input class="fi" id="epTenure" placeholder="e.g. 5 years inbound"/>
-        </div>
+        <div><div class="fl">Location</div><input class="fi" id="epLocation" placeholder="e.g. Istanbul, Turkey"/></div>
+        <div><div class="fl">CC Tenure</div><input class="fi" id="epTenure" placeholder="e.g. 5 years inbound"/></div>
       </div>
-
-      <!-- Save -->
       <div style="display:flex;gap:8px">
-        <button class="btn-primary" onclick="saveProfile()" id="saveProfileBtn">Save Changes ✓</button>
+        <button class="btn-primary" onclick="saveProfile()" id="saveProfileBtn">Save Changes &#10003;</button>
         <button class="btn-ghost" onclick="closeEditProfile()">Cancel</button>
       </div>
     </div>
@@ -1038,7 +1038,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 <script>
 
 // ═══════════════════════════════════════════════════════════════════════════
-// SUPABASE INTEGRATION — v4 (INITIAL_SESSION fix, no stray timer)
+// SUPABASE INTEGRATION
 // ═══════════════════════════════════════════════════════════════════════════
 const SUPABASE_URL = 'https://tbmdhjehekzectekzhya.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRibWRoamVoZWt6ZWN0ZWt6aHlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2MDU2NTUsImV4cCI6MjA5MDE4MTY1NX0.hHKpH2Aw6dR77Cxg1guelJXaVWFqNc16jdO_hSXsgWY';
@@ -1050,35 +1050,30 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
     storage: window.localStorage
   }
 });
+// Test connection
+sb.from('profiles').select('count', {count:'exact',head:true}).then(function(r){
+  if(r.error) console.error('Supabase error:', r.error.message);
+  else console.log('Supabase connected ✅');
+});
 
 // ── AUTH STATE ──────────────────────────────────────────────────────────────
-var sbUser = null;
-var sbProfile = null;
-var _sessionChecked = false; // tracks whether we've received the first auth event
+var sbUser = null; // current Supabase auth user
+var sbProfile = null; // profile row from DB
 
-// onAuthStateChange fires immediately on load with either:
-// - INITIAL_SESSION event + session (if logged in) 
-// - INITIAL_SESSION event + null (if not logged in)
-// This is the ONLY reliable way to check session on page load
+// Listen for auth changes (handles page reload persistence)
 sb.auth.onAuthStateChange(function(event, session) {
   console.log('Auth event:', event, session ? 'has session' : 'no session');
   if (session && session.user) {
     sbUser = session.user;
     closeAuth();
-    // Only restore session once — prevents double-init on SIGNED_IN after INITIAL_SESSION
     if (!currentUser) {
       loadUserProfile(session.user.id).then(function(profile) {
-        if (profile) {
-          sbProfile = profile;
-          restoreUserSession(profile);
-        }
+        if (profile) { sbProfile = profile; restoreUserSession(profile); }
       });
     }
   } else {
-    sbUser = null;
-    sbProfile = null;
-    // Never auto-open modal — user browses freely, signs up when they want to post
-    console.log('Auth: no session, mode=read-only');
+    sbUser = null; sbProfile = null;
+    console.log('Auth: no session');
   }
 });
 
@@ -1091,16 +1086,11 @@ async function loadUserProfile(userId) {
 
 // ── RESTORE SESSION AFTER RELOAD ────────────────────────────────────────────
 function restoreUserSession(profile) {
-  // Close auth modal if it was auto-opened before session loaded
-  closeAuth();
   currentUser = {
     username: profile.username,
     role: profile.role || 'agent-inbound',
     color: profile.color || '#4f9eff',
     bio: profile.bio || '',
-    location: profile.location || '',
-    tenure: profile.tenure || '',
-    avatar_url: profile.avatar_url || null,
     firstName: profile.username,
     lastName: ''
   };
@@ -1124,19 +1114,12 @@ function restoreUserSession(profile) {
   updateMobAuth();
   updateHeaderBadges();
 
-  // Set avatar, location, tenure from DB profile
-  if(profile.avatar_url) {
-    currentUser.avatar_url = profile.avatar_url;
-    updateHeaderAvatar();
-  }
-  if(profile.location) currentUser.location = profile.location;
-  if(profile.tenure) currentUser.tenure = profile.tenure;
-
+  // Set avatar/location/tenure from DB
+  if(profile.avatar_url){ currentUser.avatar_url = profile.avatar_url; }
+  if(profile.location)   { currentUser.location   = profile.location;   }
+  if(profile.tenure)     { currentUser.tenure      = profile.tenure;     }
   // Load persisted data
-  loadVotes();
-  loadSaves();
-  loadBadges();
-  loadRealPosts();
+  loadVotes(); loadSaves(); loadBadges(); loadRealPosts();
   console.log('Session restored for:', profile.username);
 }
 
@@ -1312,25 +1295,13 @@ async function loadRealPosts() {
     };
   });
 
-  // Merge DB posts with seed — remove old DB posts first to avoid dupes
+  // Remove existing DB posts then prepend fresh ones
   var localPosts = posts.filter(function(p){
-    // Keep seed posts (numeric id under 1 trillion) and TR posts
     return (typeof p.id === 'number' && p.id < 1000000000000) ||
-           (typeof p.id === 'string' && !p.id.toString().startsWith('db_'));
+           (typeof p.id === 'string' && !String(p.id).startsWith('db_'));
   });
   posts = dbPosts.concat(localPosts);
-  console.log('Posts merged: DB='+dbPosts.length+' seed='+localPosts.length+' total='+posts.length);
   buildFeed(); buildRoleFilter(); buildTrending(); renderLeaderboard();
-  // Refresh profile page if open
-  if(currentProfileUser && el('pageProfile') && el('pageProfile').classList.contains('active')){
-    var activeTab=document.querySelector('.profile-tab.active');
-    if(activeTab && activeTab.id==='ptabPosts') renderProfilePosts();
-  }
-  // Refresh profile page posts if open
-  if(currentProfileUser && el('pageProfile') && el('pageProfile').classList.contains('active')){
-    var activeTab=document.querySelector('.profile-tab.active');
-    if(activeTab && activeTab.id==='ptabPosts') renderProfilePosts();
-  }
 }
 
 function timeAgo(isoStr) {
@@ -1760,6 +1731,14 @@ function buildFeed(){
     save.className='post-action';
     save.innerHTML='🔖 Save';
 
+    if(currentUser&&currentUser.username===p.author){
+      var efb=document.createElement('button'); efb.className='post-edit-btn'; efb.innerHTML='&#9999; Edit';
+      efb.addEventListener('click',(function(pid){return function(e){e.stopPropagation();openEditPost(pid);};})(p.id));
+      var dfb=document.createElement('button'); dfb.className='post-delete-btn'; dfb.innerHTML='&#128465;'; dfb.title='Delete';
+      dfb.addEventListener('click',(function(pid){return function(e){e.stopPropagation();confirmDeletePost(pid);};})(p.id));
+      footer.appendChild(efb); footer.appendChild(dfb);
+    }
+
     var tagWrap=document.createElement('span');
     tagWrap.style.marginLeft='auto';
     (p.tags||[]).forEach(function(t){
@@ -1862,37 +1841,22 @@ function vote(e,id,dir){e.stopPropagation();voteMap[id]=voteMap[id]===dir?null:d
 function setSort(btn,mode){qsa('.sort-tab').forEach(function(t){t.classList.remove('active');});btn.classList.add('active');sortMode=mode;buildFeed();}
 
 // ═══ POST MODAL ═══
-function openPostModal(){if(!currentUser){openAuth('signup');return;}populateRoleSelects();el('postModal').classList.add('open');}
+function openPostModal(){populateRoleSelects();el('postModal').classList.add('open');}
 function closePostModal(){el('postModal').classList.remove('open');el('postTitle').value='';el('postBody').value='';removeUpload({stopPropagation:function(){}});}
 function submitPost(){
+  if(!currentUser){openAuth('signup');return;}
   var role=el('postRole').value,title=el('postTitle').value.trim(),body=el('postBody').value.trim();
   if(!role||!title){alert('Please select a role and add a title.');return;}
-  // Add to local feed immediately
-  posts.unshift({id:Date.now(),role:role,author:currentUser?currentUser.username:'anon',title:title,body:body,image:pendingImg||null,tags:[],csat:1,dsat:0,time:'just now',comments:[]});
+  posts.unshift({id:Date.now(),role:role,author:currentUser.username,title:title,body:body,image:pendingImg||null,tags:[],csat:1,dsat:0,time:'just now',comments:[]});
   sortMode='new';qsa('.sort-tab').forEach(function(t,i){t.classList.toggle('active',i===1);});
   closePostModal();buildFeed();buildRoleFilter();buildTrending();
-  // Save to Supabase if logged in
-  if(sbUser && currentUser){
+  if(sbUser){
     sb.from('posts').insert({
-      author: currentUser.username,
-      role: role,
-      title: title,
-      body: body,
-      image_url: pendingImg||null,
-      tags: [],
-      csat: 1,
-      dsat: 0,
-      language: 'en'
+      author:currentUser.username,role:role,title:title,body:body,
+      image_url:pendingImg||null,tags:[],csat:1,dsat:0,language:'en'
     }).then(function(res){
-      if(res.error){
-        console.error('Post save error:', res.error.message);
-        showToast('⚠️ Post not saved: ' + res.error.message);
-      } else {
-        console.log('Post saved to Supabase ✅');
-        showToast('✅ Post saved permanently!');
-        // Reload from DB to get the real DB id
-        setTimeout(loadRealPosts, 500);
-      }
+      if(res.error){ console.error('Post save error:',res.error.message); showToast('Warning: post may not persist'); }
+      else { console.log('Post saved to Supabase'); showToast('Post saved!'); setTimeout(loadRealPosts,600); }
     });
   }
 }
@@ -2137,18 +2101,7 @@ function openProfile(username){
     var totalD=up.reduce(function(s,p){return s+(p.dsat||0);},0);
     ac=totalC+totalD>0?Math.round((totalC/(totalC+totalD))*100):0;
   }
-  var av=el('profileAvatar');
-  av.style.background=prof.color;
-  if(prof.avatar_url||(currentUser&&currentUser.username===username&&currentUser.avatar_url)){
-    var avatarUrl=prof.avatar_url||(currentUser&&currentUser.avatar_url)||null;
-    if(avatarUrl){
-      av.innerHTML='<img src="'+avatarUrl+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" alt="avatar"/>';
-    } else {
-      av.innerHTML='';av.textContent=username.slice(0,2).toUpperCase();
-    }
-  } else {
-    av.innerHTML='';av.textContent=username.slice(0,2).toUpperCase();
-  }
+  var av=el('profileAvatar'); av.textContent=username.slice(0,2).toUpperCase(); av.style.background=prof.color;
   el('profileUsername').textContent='u/'+username;
   el('profileRoleTag').innerHTML=role.icon+' '+role.name;
   el('profileBio').textContent=prof.bio||'CC community member on DialDown.';
@@ -2160,9 +2113,7 @@ function openProfile(username){
   el('pStatComments').textContent=up.reduce(function(s,p){return s+p.comments.length;},0);
   el('pStatBadges').textContent=eb.length;
   el('profileBackBtn').onclick=function(){showPage('feed');};
-  // Show edit button if viewing own profile
-  var editBtn=document.getElementById('profileEditBtn');
-  if(editBtn){editBtn.style.display=(currentUser&&currentUser.username===username)?'flex':'none';}
+  var epBtn=el('profileEditBtn');if(epBtn)epBtn.style.display=(currentUser&&currentUser.username===username)?'flex':'none';
   // Show buddy info section
   var buddyInfoEl=el('profileBuddyInfo');
   if(buddyInfoEl){
@@ -2203,34 +2154,7 @@ function renderProfilePosts(){
   var up=posts.filter(function(p){return p.author===currentProfileUser;});
   up.sort(function(a,b){return(b.csat||0)-(a.csat||0);});
   var feed=el('profilePostsFeed');
-  // If no posts found locally and Supabase is connected, fetch from DB
-  if(!up.length && sbUser){
-    feed.innerHTML='<div class="empty-state"><div class="empty-icon">⟳</div><p>Loading posts...</p></div>';
-    sb.from('posts').select('*, comments(*)').eq('author', currentProfileUser).order('created_at',{ascending:false}).limit(20).then(function(res){
-      if(res.error||!res.data||!res.data.length){
-        feed.innerHTML='<div class="empty-state"><div class="empty-icon">📭</div><p>No posts yet.</p></div>';
-        return;
-      }
-      var dbPosts = res.data.map(function(p){
-        return {id:'db_'+p.id,role:p.role,author:p.author,title:p.title,body:p.body,
-          image:p.image_url||null,tags:p.tags||[],csat:p.csat||1,dsat:p.dsat||0,
-          time:timeAgo(p.created_at),comments:(p.comments||[]).map(function(c){
-            return{author:c.author,text:c.text,color:c.color||'#4f9eff'};
-          }),fromDB:true};
-      });
-      // Add to local posts to avoid refetching
-      dbPosts.forEach(function(dp){
-        if(!posts.find(function(p){return p.id===dp.id;})) posts.unshift(dp);
-      });
-      up = dbPosts;
-      renderProfilePostsList(up, feed);
-    });
-    return;
-  }
   if(!up.length){feed.innerHTML='<div class="empty-state"><div class="empty-icon">📭</div><p>No posts yet.</p></div>';return;}
-  renderProfilePostsList(up, feed);
-}
-function renderProfilePostsList(up, feed){
   feed.innerHTML='';
   up.forEach(function(p,i){
     var role=getRole(p.role);
@@ -2239,7 +2163,11 @@ function renderProfilePostsList(up, feed){
     card.className='post-card';
     card.style.animationDelay=(i*.05)+'s';
     card.style.cursor='pointer';
-    card.innerHTML='<div class="post-inner"><div class="vote-col"><div class="csat-score '+(sc!==null?sc>=75?'score-high':sc>=50?'score-mid':'score-low':'')+'">'+(sc!==null?sc+'%':'—')+'<br><span style="font-size:9px;opacity:.6">CSAT</span></div></div><div class="post-body"><div class="post-meta"><span class="role-tag '+role.cls+'">'+role.icon+' '+role.name+'</span><span class="post-time">'+p.time+'</span></div><div class="post-title">'+p.title+'</div><div class="post-preview">'+p.body+'</div></div></div>';
+    var isOwner=currentUser&&currentUser.username===p.author;
+    card.innerHTML='<div class="post-inner"><div class="vote-col"><div class="csat-score '+(sc!==null?sc>=75?'score-high':sc>=50?'score-mid':'score-low':'')+'">'+(sc!==null?sc+'%':'—')+'<br><span style="font-size:9px;opacity:.6">CSAT</span></div></div><div class="post-body"><div class="post-meta"><span class="role-tag '+role.cls+'">'+role.icon+' '+role.name+'</span><span class="post-time">'+p.time+'</span>'+(isOwner?'<span class="post-owner-actions"><button class="post-edit-btn" data-eid="'+p.id+'">&#9999; Edit</button><button class="post-delete-btn" data-did="'+p.id+'">&#128465;</button></span>':'')+'</div><div class="post-title">'+p.title+'</div><div class="post-preview">'+p.body+'</div></div></div>';
+    var eb=card.querySelector('.post-edit-btn'), db=card.querySelector('.post-delete-btn');
+    if(eb)eb.addEventListener('click',function(e){e.stopPropagation();openEditPost(this.dataset.eid);});
+    if(db)db.addEventListener('click',function(e){e.stopPropagation();confirmDeletePost(this.dataset.did);});
     card.addEventListener('click',function(){showPage('feed');filterTag=null;filterRole=null;setTimeout(function(){openComments.add(p.id);buildFeed();setTimeout(function(){var e=document.querySelector('[data-pid="'+p.id+'"]');if(e)e.scrollIntoView({behavior:'smooth',block:'center'});},100);},100);});
     feed.appendChild(card);
   });
@@ -3094,236 +3022,143 @@ function onboardFinish(){
 
 
 // ═══════════════════════════════════════════════════════
-// PROFILE SYSTEM — My Profile, Edit, Avatar
+// PROFILE EDIT SYSTEM
 // ═══════════════════════════════════════════════════════
-var pendingAvatar = null; // base64 of new avatar
+var pendingAvatar = null;
 var AVATAR_COLORS = ['#ff5f1f','#4f9eff','#a78bfa','#3ddc84','#fbbf24','#f472b6','#34d399','#fb923c','#e05252','#52a8e0','#e0b452','#52e08a'];
 
-function goMyProfile(){
-  if(!currentUser) return;
-  toggleDD();
-  openProfile(currentUser.username);
-  // Load DB posts in background for profile
-  if(sbUser) loadRealPosts();
-}
-
-function goSavedPosts(){
-  if(!currentUser) return;
-  toggleDD();
-  openProfile(currentUser.username);
-  setTimeout(function(){
-    var btn = document.getElementById('ptabSaves');
-    if(btn) switchProfileTab('saves', btn);
-  }, 200);
-}
+function goMyProfile(){ if(!currentUser)return; if(typeof toggleDD==='function')toggleDD(); openProfile(currentUser.username); if(sbUser)loadRealPosts(); }
+function goSavedPosts(){ if(!currentUser)return; if(typeof toggleDD==='function')toggleDD(); openProfile(currentUser.username); setTimeout(function(){ var b=el('ptabSaves'); if(b)switchProfileTab('saves',b); },200); }
 
 function openEditProfile(){
-  if(!currentUser) return;
-  pendingAvatar = null;
-
-  // Pre-fill fields
-  document.getElementById('epDisplayName').value = currentUser.username || '';
-  document.getElementById('epBio').value = currentUser.bio || '';
-  document.getElementById('epLocation').value = currentUser.location || '';
-  document.getElementById('epTenure').value = currentUser.tenure || '';
+  if(!currentUser)return;
+  pendingAvatar=null;
+  el('epBio').value=currentUser.bio||'';
+  el('epLocation').value=currentUser.location||'';
+  el('epTenure').value=currentUser.tenure||'';
   updateBioCount();
-
-  // Role select
-  var epRole = document.getElementById('epRole');
-  epRole.innerHTML = '<option value="">Select...</option>';
-  ROLES.forEach(function(r){
-    var o = document.createElement('option');
-    o.value = r.id; o.textContent = r.icon + ' ' + r.name;
-    if(r.id === currentUser.role) o.selected = true;
-    epRole.appendChild(o);
-  });
-
-  // Avatar preview
+  var epRole=el('epRole'); epRole.innerHTML='<option value="">Select...</option>';
+  ROLES.forEach(function(r){ var o=document.createElement('option'); o.value=r.id; o.textContent=r.icon+' '+r.name; if(r.id===currentUser.role)o.selected=true; epRole.appendChild(o); });
   updateEditAvatarPreview();
-
-  // Color picker
   buildColorPicker();
-
-  document.getElementById('editProfileModal').classList.add('open');
+  el('editProfileModal').classList.add('open');
 }
-
-function closeEditProfile(){
-  document.getElementById('editProfileModal').classList.remove('open');
-  pendingAvatar = null;
-}
-
-function updateBioCount(){
-  var bio = document.getElementById('epBio');
-  var count = document.getElementById('bioCharCount');
-  if(bio && count) count.textContent = bio.value.length;
-}
-
+function closeEditProfile(){ el('editProfileModal').classList.remove('open'); pendingAvatar=null; }
+function updateBioCount(){ var b=el('epBio'),c=el('bioCharCount'); if(b&&c)c.textContent=b.value.length; }
 function buildColorPicker(){
-  var row = document.getElementById('colorPickerRow');
-  if(!row) return;
-  row.innerHTML = '';
+  var row=el('colorPickerRow'); if(!row)return; row.innerHTML='';
   AVATAR_COLORS.forEach(function(color){
-    var sw = document.createElement('div');
-    sw.className = 'color-swatch' + (color === currentUser.color ? ' selected' : '');
-    sw.style.background = color;
-    sw.dataset.color = color;
-    sw.title = color;
-    sw.addEventListener('click', function(){
-      document.querySelectorAll('.color-swatch').forEach(function(s){ s.classList.remove('selected'); });
-      sw.classList.add('selected');
-      currentUser.color = color; // preview
-      updateEditAvatarPreview();
-    });
+    var sw=document.createElement('div'); sw.className='color-swatch'+(color===currentUser.color?' selected':'');
+    sw.style.background=color; sw.dataset.color=color;
+    sw.addEventListener('click',function(){ document.querySelectorAll('.color-swatch').forEach(function(s){s.classList.remove('selected');}); sw.classList.add('selected'); currentUser.color=color; updateEditAvatarPreview(); });
     row.appendChild(sw);
   });
 }
-
 function updateEditAvatarPreview(){
-  var preview = document.getElementById('editAvatarPreview');
-  var initials = document.getElementById('editAvatarInitials');
-  var removeBtn = document.getElementById('removeAvatarBtn');
-  if(!preview) return;
-
-  var avatarUrl = pendingAvatar || currentUser.avatar_url;
-
+  var preview=el('editAvatarPreview'),initials=el('editAvatarInitials'),removeBtn=el('removeAvatarBtn'); if(!preview)return;
+  var avatarUrl=pendingAvatar==='REMOVE'?null:(pendingAvatar||currentUser.avatar_url);
+  var existing=preview.querySelector('img.ep-av-img');
   if(avatarUrl){
-    // Show photo
-    initials.style.display = 'none';
-    var existing = preview.querySelector('img.ep-av-img');
-    if(!existing){
-      existing = document.createElement('img');
-      existing.className = 'ep-av-img';
-      existing.style.cssText = 'width:100%;height:100%;border-radius:50%;object-fit:cover;position:absolute;inset:0;';
-      preview.insertBefore(existing, preview.firstChild);
-    }
-    existing.src = avatarUrl;
-    if(removeBtn) removeBtn.style.display = 'block';
+    initials.style.display='none';
+    if(!existing){ existing=document.createElement('img'); existing.className='ep-av-img'; existing.style.cssText='width:100%;height:100%;border-radius:50%;object-fit:cover;position:absolute;inset:0;'; preview.insertBefore(existing,preview.firstChild); }
+    existing.src=avatarUrl; if(removeBtn)removeBtn.style.display='block';
   } else {
-    // Show initials
-    var existing = preview.querySelector('img.ep-av-img');
-    if(existing) existing.remove();
-    initials.style.display = '';
-    initials.textContent = (currentUser.username||'?').slice(0,2).toUpperCase();
-    preview.style.background = currentUser.color || '#4f9eff';
-    if(removeBtn) removeBtn.style.display = 'none';
+    if(existing)existing.remove(); initials.style.display=''; initials.textContent=(currentUser.username||'?').slice(0,2).toUpperCase(); preview.style.background=currentUser.color||'#4f9eff'; if(removeBtn)removeBtn.style.display='none';
   }
 }
-
 function handleAvatarUpload(e){
-  var file = e.target.files[0];
-  if(!file) return;
-  if(file.size > 2097152){ showToast('Image must be under 2MB'); return; }
-  var reader = new FileReader();
-  reader.onload = function(ev){
-    pendingAvatar = ev.target.result;
-    updateEditAvatarPreview();
-    showToast('Photo ready — click Save to apply');
-  };
-  reader.readAsDataURL(file);
+  var file=e.target.files[0]; if(!file)return;
+  if(file.size>2097152){showToast('Image must be under 2MB');return;}
+  var reader=new FileReader(); reader.onload=function(ev){ pendingAvatar=ev.target.result; updateEditAvatarPreview(); showToast('Photo ready — click Save'); }; reader.readAsDataURL(file);
 }
-
-function removeAvatar(){
-  pendingAvatar = 'REMOVE';
-  currentUser.avatar_url = null;
-  updateEditAvatarPreview();
-}
-
-async function saveProfile(){
-  if(!currentUser || !sbUser) return;
-  var btn = document.getElementById('saveProfileBtn');
-  btn.textContent = 'Saving...';
-  btn.disabled = true;
-
-  var bio = document.getElementById('epBio').value.trim();
-  var role = document.getElementById('epRole').value;
-  var location = document.getElementById('epLocation').value.trim();
-  var tenure = document.getElementById('epTenure').value.trim();
-  var color = currentUser.color;
-
-  // Handle avatar
-  var avatarUrl = currentUser.avatar_url || null;
-  if(pendingAvatar === 'REMOVE'){
-    avatarUrl = null;
-  } else if(pendingAvatar){
-    avatarUrl = pendingAvatar; // base64 stored directly
-  }
-
-  // Update Supabase
-  var updates = {
-    bio: bio,
-    role: role || currentUser.role,
-    location: location,
-    tenure: tenure,
-    color: color,
-    avatar_url: avatarUrl
-  };
-
-  var res = await sb.from('profiles').update(updates).eq('id', sbUser.id);
-  if(res.error){
-    showToast('Save failed: ' + res.error.message);
-    btn.textContent = 'Save Changes ✓';
-    btn.disabled = false;
-    return;
-  }
-
-  // Update local currentUser
-  currentUser.bio = bio;
-  currentUser.role = role || currentUser.role;
-  currentUser.location = location;
-  currentUser.tenure = tenure;
-  currentUser.color = color;
-  currentUser.avatar_url = avatarUrl;
-
-  // Update header avatar
-  updateHeaderAvatar();
-
-  // Update PROFILES array for the feed
-  var profIdx = PROFILES.findIndex(function(p){ return p.username === currentUser.username; });
-  if(profIdx >= 0){
-    PROFILES[profIdx].bio = bio;
-    PROFILES[profIdx].role = role || currentUser.role;
-    PROFILES[profIdx].location = location;
-    PROFILES[profIdx].tenure = tenure;
-    PROFILES[profIdx].color = color;
-    PROFILES[profIdx].avatar_url = avatarUrl;
-  } else {
-    PROFILES.push({
-      username: currentUser.username,
-      bio: bio, role: role || currentUser.role,
-      location: location, tenure: tenure,
-      color: color, avatar_url: avatarUrl
-    });
-  }
-
-  // Update role display
-  if(role){ userRole = role; el('headerRole').textContent = getRole(role).name; }
-
-  closeEditProfile();
-  showToast('✅ Profile saved!');
-
-  // Refresh profile page if open
-  if(currentProfileUser === currentUser.username) openProfile(currentUser.username);
-
-  btn.textContent = 'Save Changes ✓';
-  btn.disabled = false;
-}
-
+function removeAvatar(){ pendingAvatar='REMOVE'; currentUser.avatar_url=null; updateEditAvatarPreview(); }
 function updateHeaderAvatar(){
-  var av = el('hAvatar');
-  if(!av) return;
-  if(currentUser.avatar_url){
-    av.innerHTML = '<img class="hud-avatar-img" src="'+currentUser.avatar_url+'" alt="avatar"/>';
-    av.style.background = 'transparent';
-  } else {
-    av.innerHTML = (currentUser.username||'?').slice(0,2).toUpperCase();
-    av.style.background = currentUser.color || '#4f9eff';
-  }
+  var av=el('hAvatar'); if(!av)return;
+  if(currentUser.avatar_url){ av.innerHTML='<img class="hud-avatar-img" src="'+currentUser.avatar_url+'" alt=""/>'; av.style.background='transparent'; }
+  else { av.innerHTML=(currentUser.username||'?').slice(0,2).toUpperCase(); av.style.background=currentUser.color||'#4f9eff'; }
+}
+async function saveProfile(){
+  if(!currentUser||!sbUser)return;
+  var btn=el('saveProfileBtn'); btn.textContent='Saving...'; btn.disabled=true;
+  var bio=el('epBio').value.trim(), role=el('epRole').value, location=el('epLocation').value.trim(), tenure=el('epTenure').value.trim(), color=currentUser.color;
+  var avatarUrl=currentUser.avatar_url||null;
+  if(pendingAvatar==='REMOVE')avatarUrl=null; else if(pendingAvatar)avatarUrl=pendingAvatar;
+  var res=await sb.from('profiles').update({bio:bio,role:role||currentUser.role,location:location,tenure:tenure,color:color,avatar_url:avatarUrl}).eq('id',sbUser.id);
+  if(res.error){showToast('Save failed: '+res.error.message);btn.textContent='Save Changes';btn.disabled=false;return;}
+  currentUser.bio=bio; currentUser.role=role||currentUser.role; currentUser.location=location; currentUser.tenure=tenure; currentUser.color=color; currentUser.avatar_url=avatarUrl;
+  var profIdx=PROFILES.findIndex(function(p){return p.username===currentUser.username;});
+  if(profIdx>=0){PROFILES[profIdx].bio=bio;PROFILES[profIdx].role=currentUser.role;PROFILES[profIdx].location=location;PROFILES[profIdx].tenure=tenure;PROFILES[profIdx].color=color;PROFILES[profIdx].avatar_url=avatarUrl;}
+  if(role){userRole=role;el('headerRole').textContent=getRole(role).name;}
+  updateHeaderAvatar();
+  closeEditProfile(); showToast('Profile saved!');
+  if(currentProfileUser===currentUser.username)openProfile(currentUser.username);
+  btn.textContent='Save Changes'; btn.disabled=false;
 }
 
-// Avatar/location/tenure now handled inside restoreUserSession directly
+// ═══════════════════════════════════════════════════════
+// POST EDIT & DELETE
+// ═══════════════════════════════════════════════════════
+function openEditPost(postId){
+  var post=posts.find(function(p){return String(p.id)===String(postId);});
+  if(!post||!currentUser||post.author!==currentUser.username)return;
+  var sel=el('editPostRole'); sel.innerHTML='<option value="">Select...</option>';
+  ROLES.forEach(function(r){var o=document.createElement('option');o.value=r.id;o.textContent=r.icon+' '+r.name;if(r.id===post.role)o.selected=true;sel.appendChild(o);});
+  el('editPostId').value=postId;
+  el('editPostTitle').value=post.title;
+  el('editPostBody').value=post.body;
+  el('editPostModal').classList.add('open');
+}
+function closeEditPost(){ el('editPostModal').classList.remove('open'); }
+
+async function saveEditedPost(){
+  var postId=el('editPostId').value, role=el('editPostRole').value, title=el('editPostTitle').value.trim(), body=el('editPostBody').value.trim();
+  if(!title){showToast('Please add a title');return;}
+  var btn=document.querySelector('#editPostModal .btn-primary'); btn.textContent='Saving...'; btn.disabled=true;
+  var post=posts.find(function(p){return String(p.id)===String(postId);}); 
+  if(post){if(role)post.role=role; post.title=title; post.body=body;}
+  var dbId=String(postId).replace('db_','');
+  if(sbUser&&!isNaN(Number(dbId))&&String(postId).startsWith('db_')){
+    var res=await sb.from('posts').update({role:role||post.role,title:title,body:body}).eq('id',dbId).eq('author',currentUser.username);
+    if(res.error){showToast('Save failed: '+res.error.message);btn.textContent='Save Changes';btn.disabled=false;return;}
+  }
+  closeEditPost(); showToast('Post updated!');
+  btn.textContent='Save Changes'; btn.disabled=false;
+  buildFeed(); buildRoleFilter(); buildTrending();
+  if(currentProfileUser)renderProfilePosts();
+}
+
+function confirmDeletePost(postId){
+  var existing=document.getElementById('deleteConfirmOverlay'); if(existing)existing.remove();
+  var post=posts.find(function(p){return String(p.id)===String(postId);}); if(!post)return;
+  var overlay=document.createElement('div'); overlay.className='delete-confirm-overlay'; overlay.id='deleteConfirmOverlay';
+  var box=document.createElement('div'); box.className='delete-confirm-box';
+  var shortTitle=post.title.slice(0,55)+(post.title.length>55?'...':'');
+  box.innerHTML='<div style="font-size:36px;margin-bottom:10px">&#128465;</div><div class="delete-confirm-title">Delete this post?</div><div class="delete-confirm-sub">'+shortTitle+'<br>This cannot be undone.</div><div class="delete-confirm-btns"></div>';
+  var cancelBtn=document.createElement('button'); cancelBtn.className='btn-ghost'; cancelBtn.textContent='Cancel';
+  cancelBtn.addEventListener('click',function(){var ov=document.getElementById('deleteConfirmOverlay');if(ov)ov.remove();});
+  var delBtn=document.createElement('button'); delBtn.className='btn-primary'; delBtn.style.cssText='background:var(--red);border-color:var(--red)'; delBtn.textContent='Delete';
+  delBtn.addEventListener('click',function(){executeDeletePost(postId);});
+  box.querySelector('.delete-confirm-btns').appendChild(cancelBtn);
+  box.querySelector('.delete-confirm-btns').appendChild(delBtn);
+  overlay.appendChild(box); document.body.appendChild(overlay);
+}
+
+async function executeDeletePost(postId){
+  var overlay=document.getElementById('deleteConfirmOverlay'); if(overlay)overlay.remove();
+  posts=posts.filter(function(p){return String(p.id)!==String(postId);});
+  var dbId=String(postId).replace('db_','');
+  if(sbUser&&!isNaN(Number(dbId))&&String(postId).startsWith('db_')){
+    await sb.from('posts').delete().eq('id',dbId).eq('author',currentUser.username);
+  }
+  showToast('Post deleted');
+  buildFeed(); buildRoleFilter(); buildTrending();
+  if(currentProfileUser)renderProfilePosts();
+}
 
 // ═══ EVENTS ═══
 el('authModal').addEventListener('click',function(e){if(e.target.id==='authModal')closeAuth();});
+el('editPostModal').addEventListener('click',function(e){if(e.target.id==='editPostModal')closeEditPost();});
+el('editProfileModal').addEventListener('click',function(e){if(e.target.id==='editProfileModal')closeEditProfile();});
 el('postModal').addEventListener('click',function(e){if(e.target.id==='postModal')closePostModal();});
 el('roleModal').addEventListener('click',function(e){if(e.target.id==='roleModal')closeRolePicker();});
 el('tplModal').addEventListener('click',function(e){if(e.target.id==='tplModal')closeTplModal();});
@@ -3332,12 +3167,11 @@ el('profileModal').addEventListener('click',function(e){if(e.target.id==='profil
 el('buddyModal').addEventListener('click',function(e){if(e.target.id==='buddyModal')closeBuddyModal();});
 el('referralModal').addEventListener('click',function(e){if(e.target.id==='referralModal')closeReferralModal();});
 el('writeReviewModal').addEventListener('click',function(e){if(e.target.id==='writeReviewModal')closeWriteReview();});
-el('editProfileModal').addEventListener('click',function(e){if(e.target.id==='editProfileModal')closeEditProfile();});
 if(document.getElementById('onboardModal'))document.getElementById('onboardModal').addEventListener('click',function(e){if(e.target.id==='onboardModal')skipOnboard();});
 document.addEventListener('click',function(e){
   var nw=document.getElementById('notifBellWrap');if(nw&&notifPanelOpen&&!nw.contains(e.target)){var p=document.getElementById('notifPanel');if(p)p.style.display='none';notifPanelOpen=false;}
 var w=el('userWrap');if(w&&!w.contains(e.target))el('userDD').classList.remove('open');});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeLB();closeAuth();closePostModal();closeProfileModal();closeBuddyModal();closeReferralModal();closeWriteReview();skipOnboard();closeEditProfile();}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeLB();closeAuth();closePostModal();closeProfileModal();closeBuddyModal();closeReferralModal();closeWriteReview();skipOnboard();closeEditPost();closeEditProfile();}});
 
 // ═══ INIT ═══
 seedProfileBadges();
