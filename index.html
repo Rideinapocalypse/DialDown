@@ -1418,6 +1418,96 @@ header {
 .dm-status-badge.away   { color: var(--yellow); }
 .dm-status-badge.offline{ color: var(--text3); }
 
+
+/* ══ CC DICTIONARY ══ */
+.dict-layout {
+  max-width: 900px; margin: 0 auto; padding: 24px 20px;
+  position: relative; z-index: 1;
+}
+.dict-header {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; margin-bottom: 20px;
+  flex-wrap: wrap; gap: 14px;
+}
+.dict-title {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 22px; margin-bottom: 4px;
+}
+.dict-sub { font-size: 12.5px; color: var(--text3); }
+.dict-search-wrap { position: relative; flex: 1; min-width: 200px; max-width: 360px; }
+.dict-count {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  color: var(--text3); margin-top: 6px; text-align: right;
+}
+.dict-cats {
+  display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px;
+}
+.dict-cat-btn {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 20px; padding: 5px 13px; font-size: 12.5px;
+  cursor: pointer; color: var(--text2); transition: all .2s;
+  font-family: 'DM Sans', sans-serif;
+}
+.dict-cat-btn:hover { border-color: var(--accent); color: var(--accent); }
+.dict-cat-btn.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+.dict-grid {
+  display: flex; flex-direction: column; gap: 8px;
+}
+.dict-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px 16px;
+  transition: border-color .2s; animation: fadeUp .3s ease both;
+  cursor: pointer;
+}
+.dict-card:hover { border-color: #3e4155; }
+.dict-card.open { border-color: var(--accent); }
+.dict-card-header {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.dict-term {
+  font-family: 'JetBrains Mono', monospace; font-weight: 700;
+  font-size: 15px; color: var(--accent); min-width: 80px;
+}
+.dict-full {
+  font-size: 13.5px; font-weight: 600; color: var(--text);
+}
+.dict-cat-tag {
+  font-size: 10.5px; padding: 2px 8px; border-radius: 10px;
+  font-family: 'JetBrains Mono', monospace; font-weight: 600;
+  margin-left: auto;
+}
+.dict-cat-metrics    { background: rgba(79,158,255,.12); color: var(--blue); }
+.dict-cat-wfm        { background: rgba(61,220,132,.12); color: var(--green); }
+.dict-cat-quality    { background: rgba(251,191,36,.12); color: var(--yellow); }
+.dict-cat-operations { background: rgba(167,139,250,.12); color: var(--purple); }
+.dict-cat-technology { background: rgba(100,200,200,.12); color: #5dd6d6; }
+.dict-cat-callhandling{ background: rgba(255,95,31,.12); color: var(--accent2); }
+.dict-cat-training   { background: rgba(61,220,132,.12); color: var(--green); }
+.dict-cat-compliance { background: rgba(255,107,107,.12); color: var(--red); }
+.dict-cat-jargon     { background: rgba(180,180,100,.12); color: #d4d47a; }
+.dict-definition {
+  font-size: 13.5px; color: var(--text2); line-height: 1.7;
+  margin-top: 10px; padding-top: 10px;
+  border-top: 1px solid var(--border);
+  display: none;
+}
+.dict-card.open .dict-definition { display: block; }
+.dict-chevron {
+  margin-left: auto; color: var(--text3); font-size: 12px;
+  transition: transform .2s; flex-shrink: 0;
+}
+.dict-card.open .dict-chevron { transform: rotate(180deg); }
+.dict-empty {
+  text-align: center; padding: 40px 20px;
+  color: var(--text3); font-size: 13px;
+}
+.dict-highlight { background: rgba(255,95,31,.25); border-radius: 2px; }
+@media (max-width: 480px) {
+  .dict-layout { padding: 12px; }
+  .dict-header { flex-direction: column; }
+  .dict-search-wrap { max-width: 100%; }
+}
+
 </style>
 </head>
 <body>
@@ -1444,6 +1534,10 @@ header {
       <span class="sni-icon">📞</span>
       <span class="sni-label">Call of the Day</span>
       <span class="sni-badge" id="snavCotdBadge" style="display:none">NEW</span>
+    </div>
+    <div class="snav-item" id="snav-dictionary" onclick="navTo('dictionary')">
+      <span class="sni-icon">📖</span>
+      <span class="sni-label">CC Dictionary</span>
     </div>
     <div class="snav-item" id="snav-reviews" onclick="navTo('reviews')">
       <span class="sni-icon">🏢</span>
@@ -1739,6 +1833,28 @@ header {
   </div>
 </div>
 
+
+
+<!-- CC DICTIONARY PAGE -->
+<div class="page" id="pageDictionary">
+  <div class="dict-layout">
+    <div class="dict-header">
+      <div>
+        <div class="dict-title">📖 CC Dictionary</div>
+        <div class="dict-sub">120 abbreviations and terms used in call centre environments</div>
+      </div>
+      <div class="dict-search-wrap">
+        <span class="search-icon">🔍</span>
+        <input class="search-input" id="dictSearch"
+          placeholder="Search AHT, FCR, Erlang..."
+          oninput="renderDictionary()" style="padding-left:36px"/>
+        <div class="dict-count" id="dictCount">120 terms</div>
+      </div>
+    </div>
+    <div class="dict-cats" id="dictCats"></div>
+    <div class="dict-grid" id="dictGrid"></div>
+  </div>
+</div>
 
 <!-- COMPANY REVIEWS PAGE -->
 <div class="page" id="pageReviews">
@@ -2435,6 +2551,7 @@ function showPage(name){
   if(name==='news')initNews();
   if(name==='jobs')initJobs();
   if(name==='reviews')initReviews();
+  if(name==='dictionary')initDictionary();
   if(name==='profile'){el('navFeed').style.display='block';el('navGame').style.display='block';el('navTemplates').style.display='block';el('navNews').style.display='block';el('navJobs').style.display='block';}
   var mob={feed:'mnFeed',news:'mnNews',templates:'mnTemplates',game:'mnGame',jobs:'mnJobs'};
   if(mob[name])setMobNav(mob[name]);
@@ -5868,6 +5985,119 @@ window.addEventListener('appinstalled', function() {
   var btn = document.getElementById('snavInstall');
   if (btn) btn.remove();
 });
+
+
+// ═══════════════════════════════════════════════════════════════
+// CC DICTIONARY
+// ═══════════════════════════════════════════════════════════════
+var CC_DICTIONARY = [{"term": "AHT", "full": "Average Handle Time", "category": "metrics", "definition": "The average total time an agent spends on a customer interaction, including talk time, hold time, and after-call work (ACW). Typically measured in seconds or minutes."}, {"term": "FCR", "full": "First Call Resolution", "category": "metrics", "definition": "The percentage of calls resolved in a single interaction without the customer needing to call back. Widely considered the most important CC metric."}, {"term": "CSAT", "full": "Customer Satisfaction Score", "category": "metrics", "definition": "A post-interaction survey score measuring how satisfied a customer was. Usually rated 1\u20135 or 1\u201310. Calculated as: (satisfied responses \u00f7 total responses) \u00d7 100."}, {"term": "DSAT", "full": "Customer Dissatisfaction Score", "category": "metrics", "definition": "Tracks the percentage of customers who rated their experience negatively. Used to identify coaching opportunities and systemic issues."}, {"term": "NPS", "full": "Net Promoter Score", "category": "metrics", "definition": "Measures loyalty by asking 'How likely are you to recommend us?' (0\u201310). Promoters (9\u201310) minus Detractors (0\u20136) = NPS. Ranges from -100 to +100."}, {"term": "CES", "full": "Customer Effort Score", "category": "metrics", "definition": "Measures how easy it was for a customer to resolve their issue. Lower effort = higher loyalty."}, {"term": "SLA", "full": "Service Level Agreement", "category": "metrics", "definition": "A contractual target defining minimum acceptable performance. In CC: 'X% of calls answered within Y seconds' \u2014 e.g. 80/20 means 80% answered within 20 seconds."}, {"term": "SL", "full": "Service Level", "category": "metrics", "definition": "The percentage of contacts answered within a defined threshold. Tracked in real-time by WFM teams."}, {"term": "ASA", "full": "Average Speed of Answer", "category": "metrics", "definition": "The average time customers wait in queue before an agent answers. Also called Average Wait Time (AWT)."}, {"term": "ATT", "full": "Average Talk Time", "category": "metrics", "definition": "The average time an agent spends actually talking to a customer, excluding hold and ACW. One component of AHT."}, {"term": "ACW", "full": "After Call Work", "category": "metrics", "definition": "The time an agent spends completing tasks after a call ends \u2014 logging notes, updating CRM, sending emails. Also called Wrap Time or Post-Call Work."}, {"term": "ABR", "full": "Abandonment Rate", "category": "metrics", "definition": "The percentage of callers who hang up before an agent answers. Industry average is typically 5\u20138%."}, {"term": "OCC", "full": "Occupancy Rate", "category": "metrics", "definition": "The percentage of time agents spend handling contacts vs being available. Formula: (Handle Time \u00f7 Total Logged-In Time) \u00d7 100. Above 85\u201390% risks burnout."}, {"term": "UTIL", "full": "Utilisation Rate", "category": "metrics", "definition": "Similar to occupancy but includes all productive time (training, meetings) against total paid hours."}, {"term": "TTR", "full": "Time To Resolution", "category": "metrics", "definition": "Total elapsed time from issue first reported to fully resolved. May span multiple contacts."}, {"term": "RCR", "full": "Repeat Contact Rate", "category": "metrics", "definition": "Percentage of customers who contact again within a defined window about the same issue. High RCR = low FCR."}, {"term": "CPH", "full": "Calls Per Hour", "category": "metrics", "definition": "The number of calls an agent handles per hour. Must be balanced against quality metrics to avoid rushing."}, {"term": "CTR", "full": "Contact Transfer Rate", "category": "metrics", "definition": "The percentage of contacts transferred to another agent or department. High transfer rates indicate routing or skill issues."}, {"term": "VOC", "full": "Voice of the Customer", "category": "metrics", "definition": "Aggregated customer feedback collected through surveys, calls, and reviews. Used to drive service improvement decisions."}, {"term": "CASE AHT", "full": "Case Average Handle Time", "category": "metrics", "definition": "The average time to fully resolve a case end-to-end, including all contacts. Differs from call AHT which measures single interactions."}, {"term": "DWELL", "full": "Dwell Time", "category": "metrics", "definition": "Time between when an agent becomes available and the next call connects. High dwell = overstaffed. Very low dwell = burnout risk."}, {"term": "TALK TIME", "full": "Talk Time", "category": "metrics", "definition": "Duration of live conversation between agent and customer, excluding hold and ACW. One component of AHT."}, {"term": "WFM", "full": "Workforce Management", "category": "wfm", "definition": "The discipline of forecasting call volumes, scheduling agents, and tracking real-time adherence to ensure right staffing at the right times."}, {"term": "RTA", "full": "Real-Time Adherence", "category": "wfm", "definition": "Monitoring whether agents are following their scheduled activities in real time. WFM software alerts supervisors when agents deviate."}, {"term": "AHR", "full": "Adherence Rate", "category": "wfm", "definition": "The percentage of time agents follow their scheduled activities. Industry standard target is typically 85\u201390%."}, {"term": "SHRINK", "full": "Shrinkage", "category": "wfm", "definition": "Scheduled time lost to non-call activities \u2014 breaks, training, sick leave, meetings. Typically 30\u201335%. WFM accounts for shrinkage when scheduling."}, {"term": "FTE", "full": "Full-Time Equivalent", "category": "wfm", "definition": "A unit representing one full-time employee's work hours. Used in workforce planning regardless of whether staff are full or part time."}, {"term": "ERL", "full": "Erlang C", "category": "wfm", "definition": "A mathematical formula used to calculate agents needed for a given call volume within a target wait time. The foundation of CC staffing."}, {"term": "IDP", "full": "Intraday Performance", "category": "wfm", "definition": "Monitoring and adjusting staffing throughout the day in response to actual vs forecast volumes."}, {"term": "AVAIL", "full": "Available Time", "category": "wfm", "definition": "Time an agent is logged in, not on a call, and ready to receive the next contact."}, {"term": "ROS", "full": "Right On Schedule", "category": "wfm", "definition": "An agent following their schedule exactly \u2014 on the right activity at the right time."}, {"term": "QM", "full": "Quality Monitoring", "category": "quality", "definition": "Evaluating agent interactions against defined quality standards. QM analysts score calls using scorecards and provide feedback for coaching."}, {"term": "QA", "full": "Quality Assurance", "category": "quality", "definition": "Ensuring service quality standards are maintained consistently \u2014 call monitoring, calibration, process improvement, and compliance checking."}, {"term": "CALIB", "full": "Calibration", "category": "quality", "definition": "Multiple evaluators independently score the same interaction then compare results to ensure consistent scoring standards."}, {"term": "NQS", "full": "Net Quality Score", "category": "quality", "definition": "A composite quality metric weighting different evaluation criteria. Calculated like NPS \u2014 positive factors minus negative factors."}, {"term": "COPC", "full": "Customer Operations Performance Centre", "category": "quality", "definition": "An international quality standard and certification for customer experience operations."}, {"term": "TL", "full": "Team Leader", "category": "operations", "definition": "Front-line manager for a team of agents \u2014 typically 10\u201320 people. Handles real-time queue management, coaching, performance reviews, and escalations."}, {"term": "SUP", "full": "Supervisor", "category": "operations", "definition": "Senior role overseeing multiple teams or TLs. Handles complex escalations, policy decisions, and broader operational performance."}, {"term": "OPS", "full": "Operations", "category": "operations", "definition": "The function running the day-to-day contact centre \u2014 staffing, performance, processes, and service delivery."}, {"term": "BPO", "full": "Business Process Outsourcing", "category": "operations", "definition": "When a company contracts a third party to run their customer service. Many large CCs are BPOs serving multiple client brands."}, {"term": "KPI", "full": "Key Performance Indicator", "category": "operations", "definition": "A measurable value evaluating success against objectives. In CC: AHT, FCR, CSAT, SL, and occupancy are typical KPIs."}, {"term": "ROI", "full": "Return on Investment", "category": "operations", "definition": "Financial return generated relative to cost. Used to justify technology purchases, training programmes, and process changes."}, {"term": "CPC", "full": "Cost Per Contact", "category": "operations", "definition": "Total operating cost divided by total contacts handled. A benchmark for comparing efficiency across time periods."}, {"term": "SOP", "full": "Standard Operating Procedure", "category": "operations", "definition": "A documented step-by-step process agents must follow for specific scenarios \u2014 complaints, refunds, escalations. Ensures consistency."}, {"term": "SME", "full": "Subject Matter Expert", "category": "operations", "definition": "An agent with deep knowledge of a specific area. SMEs support other agents, contribute to training, and handle complex escalations."}, {"term": "L1", "full": "Level 1 Support", "category": "operations", "definition": "First-line agents handling general enquiries. If unresolved, escalates to L2 specialists or L3 technical experts. Also called Tier 1."}, {"term": "L2", "full": "Level 2 Support", "category": "operations", "definition": "Specialist agents handling cases escalated from L1. Have deeper knowledge and authority for complex issues. Also called Tier 2."}, {"term": "L3", "full": "Level 3 Support", "category": "operations", "definition": "Senior technical experts handling the most complex cases. Often interface with engineering or product teams. Also called Tier 3."}, {"term": "BAU", "full": "Business As Usual", "category": "operations", "definition": "Normal operational activity as opposed to project work or incidents. 'Team is back to BAU after the product launch.'"}, {"term": "PIP", "full": "Performance Improvement Plan", "category": "operations", "definition": "A structured plan for agents not meeting standards. Sets specific measurable targets with a defined timeframe and support mechanisms."}, {"term": "OOH", "full": "Out of Hours", "category": "operations", "definition": "Contact handling outside standard business hours. May be handled by a different team, IVR, BPO, or not at all."}, {"term": "POC", "full": "Point of Contact", "category": "operations", "definition": "The designated person responsible for a specific account, project, or escalation."}, {"term": "T&A", "full": "Time and Attendance", "category": "operations", "definition": "Tracking scheduled vs actual agent arrival and departure. Used for payroll, adherence reporting, and absence management."}, {"term": "EWS", "full": "Early Warning System", "category": "operations", "definition": "A monitoring process flagging performance issues before they become critical \u2014 e.g. CSAT dropping below threshold."}, {"term": "RAG", "full": "Red Amber Green", "category": "operations", "definition": "Colour-coded status: Red (critical), Amber (at risk), Green (on track). Used in performance reviews and project tracking."}, {"term": "IVR", "full": "Interactive Voice Response", "category": "technology", "definition": "An automated phone system interacting with callers through voice or keypad, routing them to the right department or providing self-service."}, {"term": "ACD", "full": "Automatic Call Distributor", "category": "technology", "definition": "The telephony system routing incoming calls to the appropriate agent or queue based on skills, availability, priority, or time of day."}, {"term": "CTI", "full": "Computer Telephony Integration", "category": "technology", "definition": "Links the phone system to the agent's computer, enabling screen pop and click-to-dial features."}, {"term": "CRM", "full": "Customer Relationship Management", "category": "technology", "definition": "Software storing customer data, interaction history, and case notes. E.g. Salesforce, Zendesk, HubSpot."}, {"term": "WFO", "full": "Workforce Optimisation", "category": "technology", "definition": "A suite combining WFM, QA, speech analytics, and coaching to optimise agent performance and operational efficiency."}, {"term": "CCaaS", "full": "Contact Centre as a Service", "category": "technology", "definition": "Cloud-based CC platforms delivered as subscription \u2014 e.g. Genesys Cloud, Amazon Connect, Five9."}, {"term": "ANI", "full": "Automatic Number Identification", "category": "technology", "definition": "Technology identifying the caller's phone number and delivering it to the agent's system, enabling screen pop."}, {"term": "DNIS", "full": "Dialled Number Identification Service", "category": "technology", "definition": "Identifies which number the customer dialled. Allows one CC to handle multiple brands with different routing."}, {"term": "VOIP", "full": "Voice Over Internet Protocol", "category": "technology", "definition": "Transmits voice calls over the internet rather than traditional phone lines. Lower cost and more flexible than legacy telephony."}, {"term": "ASR", "full": "Automatic Speech Recognition", "category": "technology", "definition": "Converts spoken language into text. Used in IVR for voice-driven self-service and in speech analytics for call transcription."}, {"term": "NLU", "full": "Natural Language Understanding", "category": "technology", "definition": "AI that understands the intent behind spoken or written messages \u2014 not just keywords but meaning and context. Powers modern virtual agents."}, {"term": "TTS", "full": "Text To Speech", "category": "technology", "definition": "Converts written text into spoken words. Used in IVR to deliver dynamic messages without pre-recording every phrase."}, {"term": "CLI", "full": "Calling Line Identity", "category": "technology", "definition": "The phone number displayed to the recipient. CCs configure CLIs for outbound calls to improve answer rates. Also called Caller ID."}, {"term": "PBX", "full": "Private Branch Exchange", "category": "technology", "definition": "An internal telephone system managing calls within an organisation. Modern CCs increasingly use cloud-based alternatives."}, {"term": "API", "full": "Application Programming Interface", "category": "technology", "definition": "A way for different software systems to communicate. CC platforms use APIs to integrate CRM, ticketing, and analytics tools."}, {"term": "DIALLER", "full": "Predictive Dialler", "category": "technology", "definition": "Software for outbound operations that automatically dials numbers and connects agents only when a live person answers."}, {"term": "WHISPER", "full": "Agent Whisper", "category": "technology", "definition": "A brief message played to the agent before the call connects \u2014 e.g. 'This call is from the billing queue' \u2014 without the customer hearing it."}, {"term": "BARGE", "full": "Call Barging", "category": "technology", "definition": "When a supervisor joins an active call \u2014 to listen silently (monitoring), whisper coach the agent, or join the conversation fully."}, {"term": "SSO", "full": "Single Sign-On", "category": "technology", "definition": "Authentication allowing agents to log into multiple systems with one set of credentials. Reduces password fatigue."}, {"term": "AUX", "full": "Auxiliary Code", "category": "callhandling", "definition": "A status code indicating an agent is unavailable for calls \u2014 break, training, meeting, admin. Each code tracked separately. Agents in AUX don't receive calls."}, {"term": "HOLD", "full": "Hold Time", "category": "callhandling", "definition": "Time a customer spends waiting on hold during an active call. Best practice: return every 30\u201360 seconds to update the customer."}, {"term": "XFER", "full": "Transfer", "category": "callhandling", "definition": "Moving a customer to another agent, team, or department. Can be blind (direct) or warm (with introduction)."}, {"term": "WARM", "full": "Warm Transfer", "category": "callhandling", "definition": "Agent stays on line, introduces customer to the receiving agent, and provides context before dropping off. Better experience than blind transfer."}, {"term": "BLIND", "full": "Blind Transfer", "category": "callhandling", "definition": "Customer sent directly to another queue without introduction. Risk: customer has to repeat themselves."}, {"term": "CONF", "full": "Conference Call", "category": "callhandling", "definition": "A call with three or more participants. Used for complex cases requiring multiple experts."}, {"term": "CB", "full": "Callback", "category": "callhandling", "definition": "Instead of waiting in queue, customer receives a call back when an agent is available. Reduces abandonment."}, {"term": "ESCAL", "full": "Escalation", "category": "callhandling", "definition": "Moving a call to a higher authority or specialist when it cannot be resolved at the current level."}, {"term": "OB", "full": "Outbound", "category": "callhandling", "definition": "Calls initiated by the contact centre to customers \u2014 sales, surveys, callbacks, collections, or follow-ups."}, {"term": "IB", "full": "Inbound", "category": "callhandling", "definition": "Calls initiated by customers contacting the centre. The majority of customer service operations are inbound."}, {"term": "DDI", "full": "Direct Dial In", "category": "callhandling", "definition": "A phone number routing directly to a specific agent or team without going through the main IVR."}, {"term": "DND", "full": "Do Not Disturb", "category": "callhandling", "definition": "Status indicating an agent should not receive calls \u2014 typically during coaching, sensitive conversations, or focused work."}, {"term": "BLENDED", "full": "Blended Agent", "category": "callhandling", "definition": "An agent handling both inbound and outbound contacts, switching based on demand."}, {"term": "L&D", "full": "Learning and Development", "category": "training", "definition": "The function responsible for agent training, upskilling, and professional development \u2014 onboarding, product knowledge, soft skills, and leadership."}, {"term": "OJT", "full": "On the Job Training", "category": "training", "definition": "Learning through actual work experience rather than formal classroom instruction."}, {"term": "NESTING", "full": "Nesting Period", "category": "training", "definition": "Structured period after initial training where new agents take live calls with additional support \u2014 mentor nearby, reduced targets."}, {"term": "TTP", "full": "Time To Proficiency", "category": "training", "definition": "Time for a new agent to reach expected performance standard independently. A key metric for training effectiveness."}, {"term": "1-2-1", "full": "One to One", "category": "training", "definition": "A private meeting between agent and TL for performance review or coaching. Best practice: weekly with structured agenda."}, {"term": "PDR", "full": "Performance and Development Review", "category": "training", "definition": "Formal review evaluating performance against targets and setting development goals. Also called Performance Appraisal."}, {"term": "PDP", "full": "Personal Development Plan", "category": "training", "definition": "Individual plan documenting an agent's development goals, actions, and timeline. Created collaboratively between agent and TL."}, {"term": "ROE", "full": "Rules of Engagement", "category": "training", "definition": "Defined guidelines for how agents handle specific situations \u2014 tone, authority levels, escalation triggers, prohibited actions."}, {"term": "GDPR", "full": "General Data Protection Regulation", "category": "compliance", "definition": "EU/UK regulation governing personal data collection, storage, and processing. CC agents must comply when handling customer data."}, {"term": "PCI", "full": "Payment Card Industry", "category": "compliance", "definition": "Security standards for handling cardholder data. Compliance is mandatory for CCs handling payment transactions."}, {"term": "FCA", "full": "Financial Conduct Authority", "category": "compliance", "definition": "UK regulator for financial services. CCs in FS must comply with FCA rules on fair treatment, advice standards, and complaint handling."}, {"term": "TCF", "full": "Treating Customers Fairly", "category": "compliance", "definition": "An FCA principle requiring financial services firms to ensure customers are treated fairly at every stage."}, {"term": "DPA", "full": "Data Protection Act", "category": "compliance", "definition": "UK legislation governing data protection, working alongside GDPR. Agents must understand obligations when handling personal information."}, {"term": "DNCR", "full": "Do Not Call Registry", "category": "compliance", "definition": "A list of numbers outbound operations are legally prohibited from contacting. Scrubbing against DNCR is a legal requirement."}, {"term": "PII", "full": "Personally Identifiable Information", "category": "compliance", "definition": "Data that could identify a specific individual \u2014 name, address, email, phone. Requires strict security protocols."}, {"term": "DEAD AIR", "full": "Dead Air", "category": "jargon", "definition": "Silence during a call where neither agent nor customer is speaking. Prolonged dead air increases DSAT. Best practice: narrate what you are doing."}, {"term": "CALL FLOW", "full": "Call Flow", "category": "jargon", "definition": "The structured path of a customer interaction from greeting to close \u2014 verification, issue capture, resolution, recap, close."}, {"term": "SCREEN POP", "full": "Screen Pop", "category": "jargon", "definition": "Customer information automatically appearing on an agent's screen when a call connects, based on the incoming number."}, {"term": "QUEUE", "full": "Queue", "category": "jargon", "definition": "The waiting line of customers holding for an available agent. WFM manages queue depth in real-time."}, {"term": "SKILL", "full": "Skill Group", "category": "jargon", "definition": "A group of agents with specific knowledge \u2014 e.g. billing specialists, Spanish speakers. The ACD routes to the appropriate skill group."}, {"term": "FLOOR", "full": "The Floor", "category": "jargon", "definition": "The physical or virtual environment where agents take calls. 'On the floor' means actively taking live contacts."}, {"term": "CHERRY PICKING", "full": "Cherry Picking", "category": "jargon", "definition": "Agents selectively taking easier calls and avoiding harder ones. Considered poor practice. Prevented by proper ACD routing."}, {"term": "WRAP", "full": "Wrap Time", "category": "jargon", "definition": "See ACW. Time after a call where the agent completes related admin before becoming available for the next call."}, {"term": "HOT TRANSFER", "full": "Hot Transfer", "category": "jargon", "definition": "Same as warm transfer \u2014 current agent stays connected while introducing the customer to the next agent."}, {"term": "NESTING", "full": "Nesting", "category": "jargon", "definition": "New agent period of supported live call-taking after training, before fully independent performance."}];
+
+var dictFilter = 'all';
+var dictOpenCard = null;
+
+var DICT_CATS = {
+  all:         { label: 'All Terms',    emoji: '🌐' },
+  metrics:     { label: 'Metrics',      emoji: '📊' },
+  wfm:         { label: 'WFM',          emoji: '📅' },
+  quality:     { label: 'Quality',      emoji: '🔍' },
+  operations:  { label: 'Operations',   emoji: '⚙️' },
+  technology:  { label: 'Technology',   emoji: '💻' },
+  callhandling:{ label: 'Call Handling',emoji: '📞' },
+  training:    { label: 'Training',     emoji: '🎓' },
+  compliance:  { label: 'Compliance',   emoji: '⚖️' },
+  jargon:      { label: 'CC Jargon',    emoji: '💬' },
+};
+
+function initDictionary() {
+  renderDictCats();
+  renderDictionary();
+}
+
+function renderDictCats() {
+  var wrap = document.getElementById('dictCats');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  Object.keys(DICT_CATS).forEach(function(key) {
+    var c = DICT_CATS[key];
+    var count = key === 'all'
+      ? CC_DICTIONARY.length
+      : CC_DICTIONARY.filter(function(d){ return d.category === key; }).length;
+    var btn = document.createElement('button');
+    btn.className = 'dict-cat-btn' + (dictFilter === key ? ' active' : '');
+    btn.innerHTML = c.emoji + ' ' + c.label + ' <span style="opacity:.6;font-size:10px">'+count+'</span>';
+    btn.addEventListener('click', function(){
+      dictFilter = key;
+      document.querySelectorAll('.dict-cat-btn').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      renderDictionary();
+    });
+    wrap.appendChild(btn);
+  });
+}
+
+function renderDictionary() {
+  var q = (document.getElementById('dictSearch') ? document.getElementById('dictSearch').value.trim().toLowerCase() : '');
+  var grid = document.getElementById('dictGrid');
+  var countEl = document.getElementById('dictCount');
+  if (!grid) return;
+
+  var filtered = CC_DICTIONARY.filter(function(d) {
+    var catOk = dictFilter === 'all' || d.category === dictFilter;
+    var searchOk = !q ||
+      d.term.toLowerCase().indexOf(q) >= 0 ||
+      d.full.toLowerCase().indexOf(q) >= 0 ||
+      d.definition.toLowerCase().indexOf(q) >= 0;
+    return catOk && searchOk;
+  });
+
+  // Sort alphabetically
+  filtered.sort(function(a,b){ return a.term.localeCompare(b.term); });
+
+  if (countEl) countEl.textContent = filtered.length + ' term' + (filtered.length !== 1 ? 's' : '');
+
+  if (!filtered.length) {
+    grid.innerHTML = '<div class="dict-empty">📖 No terms found for "' + q + '"</div>';
+    return;
+  }
+
+  grid.innerHTML = '';
+  filtered.forEach(function(d, i) {
+    var card = document.createElement('div');
+    card.className = 'dict-card';
+    card.style.animationDelay = (Math.min(i, 20) * 0.02) + 's';
+
+    // Highlight search term in term and full name
+    var termHtml = q ? highlightMatch(d.term, q) : d.term;
+    var fullHtml = q ? highlightMatch(d.full, q) : d.full;
+    var defHtml  = q ? highlightMatch(d.definition, q) : d.definition;
+
+    var catInfo = DICT_CATS[d.category] || { label: d.category, emoji: '' };
+    card.innerHTML =
+      '<div class="dict-card-header">' +
+        '<span class="dict-term">' + termHtml + '</span>' +
+        '<span class="dict-full">' + fullHtml + '</span>' +
+        '<span class="dict-cat-tag dict-cat-' + d.category + '">' + catInfo.emoji + ' ' + catInfo.label + '</span>' +
+        '<span class="dict-chevron">▾</span>' +
+      '</div>' +
+      '<div class="dict-definition">' + defHtml + '</div>';
+
+    card.addEventListener('click', function() {
+      var isOpen = card.classList.contains('open');
+      // Close all others
+      document.querySelectorAll('.dict-card.open').forEach(function(c){ c.classList.remove('open'); });
+      if (!isOpen) card.classList.add('open');
+    });
+
+    grid.appendChild(card);
+  });
+}
+
+function highlightMatch(text, q) {
+  if (!q) return text;
+  var escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp('(' + escaped + ')', 'gi'),
+    '<span class="dict-highlight">$1</span>');
+}
 
 // ═══ EVENTS ═══
 el('authModal').addEventListener('click',function(e){if(e.target.id==='authModal')closeAuth();});
