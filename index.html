@@ -631,6 +631,27 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .onboard-nav{display:flex;gap:8px;justify-content:flex-end;}
 .onboard-welcome-av{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:#fff;margin:0 auto 16px;}
 
+
+/* ══ PROFILE EDIT ══ */
+.edit-profile-modal{max-width:520px;}
+.avatar-upload-wrap{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:20px;}
+.avatar-preview-lg{width:88px;height:88px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:700;color:#fff;position:relative;cursor:pointer;border:3px solid var(--border);transition:border-color .2s;flex-shrink:0;}
+.avatar-preview-lg:hover{border-color:var(--accent);}
+.avatar-preview-lg img{width:100%;height:100%;border-radius:50%;object-fit:cover;}
+.avatar-edit-overlay{position:absolute;inset:0;border-radius:50%;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-size:18px;opacity:0;transition:opacity .2s;}
+.avatar-preview-lg:hover .avatar-edit-overlay{opacity:1;}
+.avatar-upload-hint{font-size:12px;color:var(--text3);text-align:center;}
+.color-picker-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
+.color-swatch{width:28px;height:28px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:border-color .15s,transform .15s;flex-shrink:0;}
+.color-swatch:hover{transform:scale(1.15);}
+.color-swatch.selected{border-color:var(--text);}
+.char-count{font-size:11px;color:var(--text3);text-align:right;margin-top:3px;}
+/* ══ PROFILE PAGE ENHANCEMENTS ══ */
+.profile-av-lg img{width:100%;height:100%;border-radius:50%;object-fit:cover;}
+.profile-edit-btn{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:border-color .2s,color .2s;}
+.profile-edit-btn:hover{border-color:var(--accent);color:var(--accent);}
+.hud-avatar-img{width:100%;height:100%;border-radius:50%;object-fit:cover;}
+
 </style>
 </head>
 <body>
@@ -654,7 +675,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 <div class="user-badges-strip" id="userBadgesStrip"></div><span style="color:var(--text3);font-size:11px">▾</span></div>
       <div class="user-dropdown" id="userDD">
         <div class="dd-header"><div class="dd-name" id="ddName"></div><div class="dd-role" id="ddRole"></div></div>
-        <div class="dd-item">👤 My Profile</div><div class="dd-item">🔖 Saved Posts</div>
+        <div class="dd-item" onclick="goMyProfile()">👤 My Profile</div><div class="dd-item" onclick="goSavedPosts()">🔖 Saved Posts</div>
         <div class="dd-item" onclick="openBuddyModal()">🤝 Find a Buddy</div>
         <div class="dd-item danger" onclick="logout()">🚪 Log Out</div>
       </div>
@@ -761,9 +782,10 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 <!-- PROFILE PAGE -->
 <div class="page" id="pageProfile">
 <div class="profile-layout">
-  <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
     <button class="profile-back-btn" id="profileBackBtn" style="margin-bottom:0">&#8592; Back to Feed</button>
     <button class="buddy-btn" id="profileBuddyBtn" style="display:none">&#129309; Find Buddy</button>
+    <button class="profile-edit-btn" id="profileEditBtn" onclick="openEditProfile()" style="display:none">✏️ Edit Profile</button>
   </div>
   <div class="profile-hero">
     <div class="profile-av-lg" id="profileAvatar"></div>
@@ -923,6 +945,72 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
       <div class="onboard-step-dot" id="odot3"></div>
     </div>
     <div class="onboard-body" id="onboardBody"></div>
+  </div>
+</div>
+
+
+<!-- EDIT PROFILE MODAL -->
+<div class="modal-overlay" id="editProfileModal">
+  <div class="modal edit-profile-modal">
+    <div class="modal-hdr">
+      <div class="modal-hdr-title">✏️ Edit Profile</div>
+      <button class="modal-x" onclick="closeEditProfile()">✕</button>
+    </div>
+    <div class="modal-body">
+      <!-- Avatar -->
+      <div class="avatar-upload-wrap">
+        <div class="avatar-preview-lg" id="editAvatarPreview" onclick="document.getElementById('avatarUploadInput').click()">
+          <span id="editAvatarInitials"></span>
+          <div class="avatar-edit-overlay">📷</div>
+        </div>
+        <input type="file" id="avatarUploadInput" accept="image/*" style="display:none" onchange="handleAvatarUpload(event)"/>
+        <div class="avatar-upload-hint">Click to upload a photo<br>JPG, PNG or GIF · Max 2MB</div>
+        <button class="btn-ghost" id="removeAvatarBtn" onclick="removeAvatar()" style="display:none;font-size:12px;padding:4px 10px">Remove photo</button>
+      </div>
+
+      <!-- Color picker -->
+      <div>
+        <div class="fl" style="margin-bottom:8px">Avatar Color <span style="color:var(--text3);font-weight:400;text-transform:none">(if no photo)</span></div>
+        <div class="color-picker-row" id="colorPickerRow"></div>
+      </div>
+
+      <!-- Display name -->
+      <div>
+        <div class="fl">Display Name</div>
+        <input class="fi" id="epDisplayName" placeholder="How you appear on posts" maxlength="30"/>
+      </div>
+
+      <!-- Bio -->
+      <div>
+        <div class="fl">Bio</div>
+        <textarea class="fta" id="epBio" placeholder="Tell the community about your CC journey..." maxlength="200" oninput="updateBioCount()" style="min-height:80px"></textarea>
+        <div class="char-count"><span id="bioCharCount">0</span>/200</div>
+      </div>
+
+      <!-- Role -->
+      <div>
+        <div class="fl">Your CC Role</div>
+        <select class="fsel" id="epRole"></select>
+      </div>
+
+      <!-- Location & Tenure -->
+      <div class="frow">
+        <div>
+          <div class="fl">Location</div>
+          <input class="fi" id="epLocation" placeholder="e.g. Istanbul, Turkey"/>
+        </div>
+        <div>
+          <div class="fl">CC Tenure</div>
+          <input class="fi" id="epTenure" placeholder="e.g. 5 years inbound"/>
+        </div>
+      </div>
+
+      <!-- Save -->
+      <div style="display:flex;gap:8px">
+        <button class="btn-primary" onclick="saveProfile()" id="saveProfileBtn">Save Changes ✓</button>
+        <button class="btn-ghost" onclick="closeEditProfile()">Cancel</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2021,7 +2109,18 @@ function openProfile(username){
     var totalD=up.reduce(function(s,p){return s+(p.dsat||0);},0);
     ac=totalC+totalD>0?Math.round((totalC/(totalC+totalD))*100):0;
   }
-  var av=el('profileAvatar'); av.textContent=username.slice(0,2).toUpperCase(); av.style.background=prof.color;
+  var av=el('profileAvatar');
+  av.style.background=prof.color;
+  if(prof.avatar_url||(currentUser&&currentUser.username===username&&currentUser.avatar_url)){
+    var avatarUrl=prof.avatar_url||(currentUser&&currentUser.avatar_url)||null;
+    if(avatarUrl){
+      av.innerHTML='<img src="'+avatarUrl+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" alt="avatar"/>';
+    } else {
+      av.innerHTML='';av.textContent=username.slice(0,2).toUpperCase();
+    }
+  } else {
+    av.innerHTML='';av.textContent=username.slice(0,2).toUpperCase();
+  }
   el('profileUsername').textContent='u/'+username;
   el('profileRoleTag').innerHTML=role.icon+' '+role.name;
   el('profileBio').textContent=prof.bio||'CC community member on DialDown.';
@@ -2033,6 +2132,9 @@ function openProfile(username){
   el('pStatComments').textContent=up.reduce(function(s,p){return s+p.comments.length;},0);
   el('pStatBadges').textContent=eb.length;
   el('profileBackBtn').onclick=function(){showPage('feed');};
+  // Show edit button if viewing own profile
+  var editBtn=document.getElementById('profileEditBtn');
+  if(editBtn){editBtn.style.display=(currentUser&&currentUser.username===username)?'flex':'none';}
   // Show buddy info section
   var buddyInfoEl=el('profileBuddyInfo');
   if(buddyInfoEl){
@@ -2935,6 +3037,245 @@ function onboardFinish(){
   setTimeout(openPostModal, 300);
 }
 
+
+// ═══════════════════════════════════════════════════════
+// PROFILE SYSTEM — My Profile, Edit, Avatar
+// ═══════════════════════════════════════════════════════
+var pendingAvatar = null; // base64 of new avatar
+var AVATAR_COLORS = ['#ff5f1f','#4f9eff','#a78bfa','#3ddc84','#fbbf24','#f472b6','#34d399','#fb923c','#e05252','#52a8e0','#e0b452','#52e08a'];
+
+function goMyProfile(){
+  if(!currentUser) return;
+  toggleDD();
+  openProfile(currentUser.username);
+}
+
+function goSavedPosts(){
+  if(!currentUser) return;
+  toggleDD();
+  openProfile(currentUser.username);
+  setTimeout(function(){
+    var btn = document.getElementById('ptabSaves');
+    if(btn) switchProfileTab('saves', btn);
+  }, 200);
+}
+
+function openEditProfile(){
+  if(!currentUser) return;
+  pendingAvatar = null;
+
+  // Pre-fill fields
+  document.getElementById('epDisplayName').value = currentUser.username || '';
+  document.getElementById('epBio').value = currentUser.bio || '';
+  document.getElementById('epLocation').value = currentUser.location || '';
+  document.getElementById('epTenure').value = currentUser.tenure || '';
+  updateBioCount();
+
+  // Role select
+  var epRole = document.getElementById('epRole');
+  epRole.innerHTML = '<option value="">Select...</option>';
+  ROLES.forEach(function(r){
+    var o = document.createElement('option');
+    o.value = r.id; o.textContent = r.icon + ' ' + r.name;
+    if(r.id === currentUser.role) o.selected = true;
+    epRole.appendChild(o);
+  });
+
+  // Avatar preview
+  updateEditAvatarPreview();
+
+  // Color picker
+  buildColorPicker();
+
+  document.getElementById('editProfileModal').classList.add('open');
+}
+
+function closeEditProfile(){
+  document.getElementById('editProfileModal').classList.remove('open');
+  pendingAvatar = null;
+}
+
+function updateBioCount(){
+  var bio = document.getElementById('epBio');
+  var count = document.getElementById('bioCharCount');
+  if(bio && count) count.textContent = bio.value.length;
+}
+
+function buildColorPicker(){
+  var row = document.getElementById('colorPickerRow');
+  if(!row) return;
+  row.innerHTML = '';
+  AVATAR_COLORS.forEach(function(color){
+    var sw = document.createElement('div');
+    sw.className = 'color-swatch' + (color === currentUser.color ? ' selected' : '');
+    sw.style.background = color;
+    sw.dataset.color = color;
+    sw.title = color;
+    sw.addEventListener('click', function(){
+      document.querySelectorAll('.color-swatch').forEach(function(s){ s.classList.remove('selected'); });
+      sw.classList.add('selected');
+      currentUser.color = color; // preview
+      updateEditAvatarPreview();
+    });
+    row.appendChild(sw);
+  });
+}
+
+function updateEditAvatarPreview(){
+  var preview = document.getElementById('editAvatarPreview');
+  var initials = document.getElementById('editAvatarInitials');
+  var removeBtn = document.getElementById('removeAvatarBtn');
+  if(!preview) return;
+
+  var avatarUrl = pendingAvatar || currentUser.avatar_url;
+
+  if(avatarUrl){
+    // Show photo
+    initials.style.display = 'none';
+    var existing = preview.querySelector('img.ep-av-img');
+    if(!existing){
+      existing = document.createElement('img');
+      existing.className = 'ep-av-img';
+      existing.style.cssText = 'width:100%;height:100%;border-radius:50%;object-fit:cover;position:absolute;inset:0;';
+      preview.insertBefore(existing, preview.firstChild);
+    }
+    existing.src = avatarUrl;
+    if(removeBtn) removeBtn.style.display = 'block';
+  } else {
+    // Show initials
+    var existing = preview.querySelector('img.ep-av-img');
+    if(existing) existing.remove();
+    initials.style.display = '';
+    initials.textContent = (currentUser.username||'?').slice(0,2).toUpperCase();
+    preview.style.background = currentUser.color || '#4f9eff';
+    if(removeBtn) removeBtn.style.display = 'none';
+  }
+}
+
+function handleAvatarUpload(e){
+  var file = e.target.files[0];
+  if(!file) return;
+  if(file.size > 2097152){ showToast('Image must be under 2MB'); return; }
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    pendingAvatar = ev.target.result;
+    updateEditAvatarPreview();
+    showToast('Photo ready — click Save to apply');
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeAvatar(){
+  pendingAvatar = 'REMOVE';
+  currentUser.avatar_url = null;
+  updateEditAvatarPreview();
+}
+
+async function saveProfile(){
+  if(!currentUser || !sbUser) return;
+  var btn = document.getElementById('saveProfileBtn');
+  btn.textContent = 'Saving...';
+  btn.disabled = true;
+
+  var bio = document.getElementById('epBio').value.trim();
+  var role = document.getElementById('epRole').value;
+  var location = document.getElementById('epLocation').value.trim();
+  var tenure = document.getElementById('epTenure').value.trim();
+  var color = currentUser.color;
+
+  // Handle avatar
+  var avatarUrl = currentUser.avatar_url || null;
+  if(pendingAvatar === 'REMOVE'){
+    avatarUrl = null;
+  } else if(pendingAvatar){
+    avatarUrl = pendingAvatar; // base64 stored directly
+  }
+
+  // Update Supabase
+  var updates = {
+    bio: bio,
+    role: role || currentUser.role,
+    location: location,
+    tenure: tenure,
+    color: color,
+    avatar_url: avatarUrl
+  };
+
+  var res = await sb.from('profiles').update(updates).eq('id', sbUser.id);
+  if(res.error){
+    showToast('Save failed: ' + res.error.message);
+    btn.textContent = 'Save Changes ✓';
+    btn.disabled = false;
+    return;
+  }
+
+  // Update local currentUser
+  currentUser.bio = bio;
+  currentUser.role = role || currentUser.role;
+  currentUser.location = location;
+  currentUser.tenure = tenure;
+  currentUser.color = color;
+  currentUser.avatar_url = avatarUrl;
+
+  // Update header avatar
+  updateHeaderAvatar();
+
+  // Update PROFILES array for the feed
+  var profIdx = PROFILES.findIndex(function(p){ return p.username === currentUser.username; });
+  if(profIdx >= 0){
+    PROFILES[profIdx].bio = bio;
+    PROFILES[profIdx].role = role || currentUser.role;
+    PROFILES[profIdx].location = location;
+    PROFILES[profIdx].tenure = tenure;
+    PROFILES[profIdx].color = color;
+    PROFILES[profIdx].avatar_url = avatarUrl;
+  } else {
+    PROFILES.push({
+      username: currentUser.username,
+      bio: bio, role: role || currentUser.role,
+      location: location, tenure: tenure,
+      color: color, avatar_url: avatarUrl
+    });
+  }
+
+  // Update role display
+  if(role){ userRole = role; el('headerRole').textContent = getRole(role).name; }
+
+  closeEditProfile();
+  showToast('✅ Profile saved!');
+
+  // Refresh profile page if open
+  if(currentProfileUser === currentUser.username) openProfile(currentUser.username);
+
+  btn.textContent = 'Save Changes ✓';
+  btn.disabled = false;
+}
+
+function updateHeaderAvatar(){
+  var av = el('hAvatar');
+  if(!av) return;
+  if(currentUser.avatar_url){
+    av.innerHTML = '<img class="hud-avatar-img" src="'+currentUser.avatar_url+'" alt="avatar"/>';
+    av.style.background = 'transparent';
+  } else {
+    av.innerHTML = (currentUser.username||'?').slice(0,2).toUpperCase();
+    av.style.background = currentUser.color || '#4f9eff';
+  }
+}
+
+// Override restoreUserSession to also set avatar
+var _origRestoreSession = restoreUserSession;
+function restoreUserSession(profile){
+  _origRestoreSession(profile);
+  // Set avatar from DB
+  if(profile.avatar_url){
+    currentUser.avatar_url = profile.avatar_url;
+    updateHeaderAvatar();
+  }
+  if(profile.location) currentUser.location = profile.location;
+  if(profile.tenure) currentUser.tenure = profile.tenure;
+}
+
 // ═══ EVENTS ═══
 el('authModal').addEventListener('click',function(e){if(e.target.id==='authModal')closeAuth();});
 el('postModal').addEventListener('click',function(e){if(e.target.id==='postModal')closePostModal();});
@@ -2945,11 +3286,12 @@ el('profileModal').addEventListener('click',function(e){if(e.target.id==='profil
 el('buddyModal').addEventListener('click',function(e){if(e.target.id==='buddyModal')closeBuddyModal();});
 el('referralModal').addEventListener('click',function(e){if(e.target.id==='referralModal')closeReferralModal();});
 el('writeReviewModal').addEventListener('click',function(e){if(e.target.id==='writeReviewModal')closeWriteReview();});
+el('editProfileModal').addEventListener('click',function(e){if(e.target.id==='editProfileModal')closeEditProfile();});
 if(document.getElementById('onboardModal'))document.getElementById('onboardModal').addEventListener('click',function(e){if(e.target.id==='onboardModal')skipOnboard();});
 document.addEventListener('click',function(e){
   var nw=document.getElementById('notifBellWrap');if(nw&&notifPanelOpen&&!nw.contains(e.target)){var p=document.getElementById('notifPanel');if(p)p.style.display='none';notifPanelOpen=false;}
 var w=el('userWrap');if(w&&!w.contains(e.target))el('userDD').classList.remove('open');});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeLB();closeAuth();closePostModal();closeProfileModal();closeBuddyModal();closeReferralModal();closeWriteReview();skipOnboard();}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeLB();closeAuth();closePostModal();closeProfileModal();closeBuddyModal();closeReferralModal();closeWriteReview();skipOnboard();closeEditProfile();}});
 
 // ═══ INIT ═══
 seedProfileBadges();
