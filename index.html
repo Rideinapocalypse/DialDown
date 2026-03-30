@@ -1204,8 +1204,16 @@ async function loadRealPosts() {
     };
   });
 
-  // Prepend real posts before seed posts
-  posts = dbPosts.concat(posts);
+  // Reset to seed posts first, then prepend DB posts
+  // This prevents duplicate DB posts on multiple calls
+  var seedPosts = SEED.map(function(p){return Object.assign({},p,{comments:p.comments.map(function(c){return Object.assign({},c);})});});
+  seedPosts = seedPosts.concat(TR_POSTS_DATA.map(function(p){return Object.assign({},p,{comments:p.comments.map(function(c){return Object.assign({},c);})});}));
+  
+  // Remove any existing DB posts to avoid duplicates
+  var localPosts = seedPosts.filter(function(p){ return typeof p.id === 'number' && p.id < 1000000000000; });
+  
+  posts = dbPosts.concat(localPosts);
+  console.log('Total posts after merge:', posts.length, '(DB:', dbPosts.length, '+ seed:', localPosts.length, ')');
   buildFeed(); buildRoleFilter(); buildTrending(); renderLeaderboard();
 }
 
@@ -1762,10 +1770,12 @@ function submitPost(){
     }).then(function(res){
       if(res.error){
         console.error('Post save error:', res.error.message);
-        showToast('Warning: post may not persist after refresh');
+        showToast('⚠️ Post not saved: ' + res.error.message);
       } else {
         console.log('Post saved to Supabase ✅');
-        showToast('Post saved! ✅');
+        showToast('✅ Post saved permanently!');
+        // Reload from DB to get the real DB id
+        setTimeout(loadRealPosts, 500);
       }
     });
   }
