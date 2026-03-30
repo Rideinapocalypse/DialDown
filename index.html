@@ -353,7 +353,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .mob-nav-btn span:first-child{font-size:20px;}
 ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 @media(max-width:768px){header{flex-wrap:wrap;height:auto;padding:10px 16px;gap:8px;}.search-wrap{order:3;max-width:100%;flex:1 1 100%;}.header-right{gap:6px;}.role-badge span{display:none;}.role-badge{padding:6px 8px;border-radius:8px;}.btn-outline{display:none;}.layout{grid-template-columns:1fr;padding:16px;}.sidebar{display:none;}.tpl-layout{grid-template-columns:1fr;padding:16px;gap:14px;}.tpl-sidebar{position:static;}.tpl-cats{flex-direction:row;flex-wrap:wrap;gap:6px;margin-top:10px;}.tpl-cat{padding:5px 10px;font-size:12px;}.news-layout{grid-template-columns:1fr;}.news-sidebar{order:-1;}.hud{grid-template-columns:1fr 1fr;}.game-wrap{padding:16px;}.diff-btns{flex-direction:column;align-items:center;}.diff-btn{width:100%;max-width:300px;}.frow{grid-template-columns:1fr;}.modal-overlay{padding:12px;}.modal{max-height:95vh;}.jobs-grid{grid-template-columns:1fr;}.jobs-header{flex-direction:column;align-items:stretch;}}
-@media(max-width:480px){#mobileBuddyStrip{display:flex!important;}header{padding:8px 12px;}.logo{font-size:18px;}.logo-icon{width:26px;height:26px;font-size:13px;}.nav-btn{font-size:0;padding:6px 8px;}#navGame::before{content:'🎮';font-size:15px;}#navTemplates::before{content:'📝';font-size:15px;}#navNews::before{content:'📰';font-size:15px;}#navJobs::before{content:'💼';font-size:15px;}.layout{padding:10px 12px;}.feed-header{flex-direction:column;align-items:flex-start;gap:10px;}.sort-tabs{width:100%;}.sort-tab{flex:1;text-align:center;}.post-card{padding:11px 12px;}.post-title{font-size:14px;}.post-preview{font-size:13px;}.hud{gap:8px;}.hud-card{padding:9px 8px;}.hud-val{font-size:18px;}.hud-lbl{font-size:9px;}.tpl-layout{padding:10px 12px;}.tpl-cat{font-size:11.5px;padding:4px 8px;}.tpl-card{padding:13px;}.tpl-actions{flex-direction:column;gap:6px;}.tpl-btn{width:100%;}.news-layout{padding:10px 12px;}.rpg{grid-template-columns:1fr;}.modal-body{padding:12px 14px;}.mobile-nav{display:flex;}#pageFeed,#pageGame,#pageTemplates,#pageNews,#pageJobs{padding-bottom:72px;}}
+@media(max-width:480px){#mobileBuddyStrip{display:flex!important;}header{padding:8px 12px;}.logo{font-size:18px;}.logo-icon{width:26px;height:26px;font-size:13px;}.nav-btn{font-size:0;padding:6px 8px;}#navGame::before{content:'🎮';font-size:15px;}#navTemplates::before{content:'📝';font-size:15px;}#navNews::before{content:'📰';font-size:15px;}#navJobs::before{content:'💼';font-size:15px;}.layout{padding:10px 12px;}.feed-header{flex-direction:column;align-items:flex-start;gap:10px;}.sort-tabs{width:100%;}.sort-tab{flex:1;text-align:center;}.post-card{padding:11px 12px;}.post-title{font-size:14px;}.post-preview{font-size:13px;}.hud{gap:8px;}.hud-card{padding:9px 8px;}.hud-val{font-size:18px;}.hud-lbl{font-size:9px;}.tpl-layout{padding:10px 12px;}.tpl-cat{font-size:11.5px;padding:4px 8px;}.tpl-card{padding:13px;}.tpl-actions{flex-direction:column;gap:6px;}.tpl-btn{width:100%;}.news-layout{padding:10px 12px;}.rpg{grid-template-columns:1fr;}.modal-body{padding:12px 14px;}.mobile-nav{display:flex;}/* no bottom nav padding needed — sidebar replaces mobile nav */}
 
 /* ── PROFILE PAGE ── */
 .profile-layout{max-width:960px;margin:0 auto;padding:24px 20px;position:relative;z-index:1;}
@@ -663,11 +663,334 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .delete-confirm-btns{display:flex;gap:10px;justify-content:center;}
 .edit-post-modal{max-width:560px;}
 
+
+/* ═══════════════════════════════════════════
+   APP SHELL — sidebar nav layout
+   ═══════════════════════════════════════════ */
+
+/* Hide old mobile bottom nav & old nav buttons */
+.mobile-nav { display: none !important; }
+#navFeed, #navGame, #navTemplates, #navNews, #navJobs, #navReviews { display: none !important; }
+
+/* App shell */
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── LEFT SIDEBAR ── */
+.sidebar-nav {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 56px; /* below header */
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+  z-index: 90;
+  transition: transform .25s cubic-bezier(.4,0,.2,1);
+}
+.sidebar-nav::-webkit-scrollbar { width: 3px; }
+.sidebar-nav::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* Nav sections */
+.snav-section { padding: 10px 8px 4px; }
+.snav-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text3);
+  font-family: 'JetBrains Mono', monospace;
+  padding: 0 8px;
+  margin-bottom: 4px;
+}
+.snav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13.5px;
+  color: var(--text2);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  transition: background .15s, color .15s;
+  border: 1px solid transparent;
+  text-decoration: none;
+  position: relative;
+  white-space: nowrap;
+}
+.snav-item:hover {
+  background: var(--bg3);
+  color: var(--text);
+}
+.snav-item.active {
+  background: var(--accent-dim);
+  border-color: rgba(255,95,31,.2);
+  color: var(--accent);
+}
+.snav-item .sni-icon {
+  font-size: 17px;
+  flex-shrink: 0;
+  width: 22px;
+  text-align: center;
+}
+.snav-item .sni-label { flex: 1; }
+.snav-item .sni-badge {
+  background: var(--accent);
+  color: #fff;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  font-family: 'JetBrains Mono', monospace;
+  min-width: 18px;
+  text-align: center;
+}
+.snav-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 6px 8px;
+}
+
+/* New Post button in sidebar */
+.snav-post-btn {
+  margin: 12px 10px 6px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 13.5px;
+  cursor: pointer;
+  transition: background .2s, transform .1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+.snav-post-btn:hover { background: var(--accent2); transform: translateY(-1px); }
+.snav-post-btn:active { transform: translateY(0); }
+
+/* User mini card at bottom of sidebar */
+.snav-user-card {
+  margin-top: auto;
+  padding: 12px 10px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: background .15s;
+  border-radius: 0;
+}
+.snav-user-card:hover { background: var(--bg3); }
+.snav-user-av {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.snav-user-av img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.snav-user-info { flex: 1; min-width: 0; }
+.snav-user-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.snav-user-role { font-size: 11px; color: var(--text3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Main content area shifted right */
+.app-main {
+  margin-left: 220px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── HEADER minimal ── */
+header {
+  padding: 0 16px;
+  gap: 10px;
+}
+.hamburger-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text2);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.hamburger-btn:hover { background: var(--bg3); color: var(--text); }
+
+/* Sidebar overlay for mobile */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  z-index: 89;
+  backdrop-filter: blur(2px);
+}
+.sidebar-overlay.open { display: block; }
+
+/* ════════════════
+   MOBILE (<768px)
+   ════════════════ */
+@media (max-width: 768px) {
+  .sidebar-nav {
+    transform: translateX(-100%);
+    width: 260px;
+    top: 0;
+    padding-top: 56px;
+    z-index: 91;
+    box-shadow: 4px 0 24px rgba(0,0,0,.4);
+  }
+  .sidebar-nav.open { transform: translateX(0); }
+  .app-main { margin-left: 0; }
+  .hamburger-btn { display: flex; align-items: center; }
+  header { padding: 0 12px; }
+
+  /* Tighten layout on mobile */
+  .layout { padding: 12px; gap: 14px; }
+  .news-layout { padding: 12px; }
+  .jobs-layout { padding: 12px; }
+  .tpl-layout { padding: 12px; }
+  .profile-layout { padding: 12px; }
+  .game-wrap { padding: 12px; }
+}
+
+@media (max-width: 480px) {
+  .search-wrap { max-width: 160px; }
+  .logo { font-size: 18px; }
+  .logo-icon { width: 26px; height: 26px; font-size: 13px; }
+  .role-badge span { display: none; }
+  .role-badge { padding: 6px 8px; }
+}
+
 </style>
 </head>
 <body>
+
+<!-- SIDEBAR OVERLAY (mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- LEFT SIDEBAR NAV -->
+<nav class="sidebar-nav" id="sidebarNav">
+
+  <!-- New Post button -->
+  <button class="snav-post-btn" id="snavPostBtn" onclick="openPostModal()" style="display:none">
+    ✏️ New Post
+  </button>
+
+  <!-- COMMUNITY section -->
+  <div class="snav-section">
+    <div class="snav-label">Community</div>
+    <div class="snav-item active" id="snav-feed" onclick="navTo('feed')">
+      <span class="sni-icon">📰</span>
+      <span class="sni-label">Feed</span>
+    </div>
+    <div class="snav-item" id="snav-reviews" onclick="navTo('reviews')">
+      <span class="sni-icon">🏢</span>
+      <span class="sni-label">Company Reviews</span>
+    </div>
+  </div>
+
+  <div class="snav-divider"></div>
+
+  <!-- TOOLS section -->
+  <div class="snav-section">
+    <div class="snav-label">Tools</div>
+    <div class="snav-item" id="snav-templates" onclick="navTo('templates')">
+      <span class="sni-icon">📝</span>
+      <span class="sni-label">Templates</span>
+    </div>
+    <div class="snav-item" id="snav-game" onclick="navTo('game')">
+      <span class="sni-icon">🎮</span>
+      <span class="sni-label">AHT Runner</span>
+    </div>
+  </div>
+
+  <div class="snav-divider"></div>
+
+  <!-- EXPLORE section -->
+  <div class="snav-section">
+    <div class="snav-label">Explore</div>
+    <div class="snav-item" id="snav-news" onclick="navTo('news')">
+      <span class="sni-icon">📡</span>
+      <span class="sni-label">Industry News</span>
+    </div>
+    <div class="snav-item" id="snav-jobs" onclick="navTo('jobs')">
+      <span class="sni-icon">💼</span>
+      <span class="sni-label">Jobs</span>
+    </div>
+    <div class="snav-item" id="snav-buddy" onclick="openBuddyModalMob()">
+      <span class="sni-icon">🤝</span>
+      <span class="sni-label">Find a Buddy</span>
+    </div>
+  </div>
+
+  <div class="snav-divider"></div>
+
+  <!-- MY ACCOUNT section (logged in only) -->
+  <div class="snav-section" id="snavAccountSection" style="display:none">
+    <div class="snav-label">My Account</div>
+    <div class="snav-item" id="snav-profile" onclick="goMyProfile();closeSidebar()">
+      <span class="sni-icon">👤</span>
+      <span class="sni-label">My Profile</span>
+    </div>
+    <div class="snav-item" id="snav-saves" onclick="goSavedPosts();closeSidebar()">
+      <span class="sni-icon">🔖</span>
+      <span class="sni-label">Saved Posts</span>
+    </div>
+    <div class="snav-item" id="snav-edit-profile" onclick="openEditProfile();closeSidebar()">
+      <span class="sni-icon">✏️</span>
+      <span class="sni-label">Edit Profile</span>
+    </div>
+    <div class="snav-item" style="color:var(--red)" onclick="logout();closeSidebar()">
+      <span class="sni-icon">🚪</span>
+      <span class="sni-label">Log Out</span>
+    </div>
+  </div>
+
+  <!-- User mini card (logged in) / Sign in prompt (logged out) -->
+  <div id="snavUserCard" style="margin-top:auto;padding:12px 10px;border-top:1px solid var(--border)">
+    <div id="snavLoggedOut" style="text-align:center">
+      <div style="font-size:12px;color:var(--text3);margin-bottom:8px">Join the community</div>
+      <button class="btn-primary" onclick="openAuth('signup');closeSidebar()" style="width:100%;padding:8px">Sign Up</button>
+    </div>
+    <div id="snavLoggedIn" style="display:none;cursor:pointer" onclick="goMyProfile();closeSidebar()">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="snav-user-av" id="snavAvatar"></div>
+        <div class="snav-user-info">
+          <div class="snav-user-name" id="snavUsername"></div>
+          <div class="snav-user-role" id="snavRole"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</nav>
+
+<div class="app-shell">
+<div class="app-main">
 <header>
-  <div class="logo" onclick="showPage('feed')"><div class="logo-icon">📞</div><div>Dial<span>Down</span></div></div>
+  <button class="hamburger-btn" onclick="toggleSidebar()" aria-label="Menu">☰</button>
+  <div class="logo" onclick="showPage('feed');"><div class="logo-icon">📞</div><div>Dial<span>Down</span></div></div>
   <div class="search-wrap"><span class="search-icon">🔍</span><input class="search-input" id="searchInput" placeholder="Search posts, tags, authors…" oninput="handleSearch(this.value)" onblur="setTimeout(closeSearch,160)"/><div class="search-results" id="searchResults"></div></div>
   <div class="header-right">
     <button class="nav-btn" id="navFeed" onclick="showPage('feed')" style="display:none">📰 Feed</button>
@@ -1120,7 +1443,8 @@ function restoreUserSession(profile) {
   if(profile.tenure)     { currentUser.tenure      = profile.tenure;     }
   // Load persisted data
   loadVotes(); loadSaves(); loadBadges(); loadRealPosts();
-  setTimeout(loadNotifications, 1500); // Load after posts
+  setTimeout(loadNotifications, 1500);
+  updateSidebarAuth(); // Load after posts
   console.log('Session restored for:', profile.username);
 }
 
@@ -1259,6 +1583,7 @@ async function logout() {
   posts = posts.concat(TR_POSTS_DATA.map(function(p){ return Object.assign({}, p, {comments: p.comments.map(function(c){ return Object.assign({}, c); })}); }));
   voteMap = {}; savedPosts = new Set();
   buildFeed(); buildRoleFilter(); buildTrending();
+  updateSidebarAuth();
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1483,6 +1808,10 @@ var moodHistory=['good','great','meh','good','good','great',''];
 
 // ═══ NAVIGATION ═══
 function showPage(name){
+  // Update sidebar active state
+  document.querySelectorAll('.snav-item[id^="snav-"]').forEach(function(item){
+    item.classList.toggle('active', item.id === 'snav-'+name);
+  });
   qsa('.page').forEach(function(p){p.classList.remove('active');});
   var pg=el('page'+name[0].toUpperCase()+name.slice(1));
   if(pg)pg.classList.add('active');
@@ -1940,7 +2269,7 @@ function loginUser(u,isNew){
   av.style.background=u.color;
   el('hUsername').textContent=u.username;el('ddName').textContent=(u.firstName||'')+' '+(u.lastName||'');
   el('ddRole').textContent=r?r.icon+' '+r.name:'';
-  setTimeout(closeAuth,2000);setTimeout(updateMobAuth,2100);
+  setTimeout(closeAuth,2000);setTimeout(updateMobAuth,2100);setTimeout(updateSidebarAuth,2200);
   showNotifBell();
   seedNotifications(u);
   if(isNew) setTimeout(function(){ openOnboard(u); }, 2500);
@@ -3304,6 +3633,80 @@ function markAllRead(){
   }
 }
 
+
+// ═══════════════════════════════════════════════════════
+// SIDEBAR NAVIGATION
+// ═══════════════════════════════════════════════════════
+
+function toggleSidebar() {
+  var nav = document.getElementById('sidebarNav');
+  var overlay = document.getElementById('sidebarOverlay');
+  if (!nav) return;
+  var isOpen = nav.classList.contains('open');
+  if (isOpen) { closeSidebar(); } else { nav.classList.add('open'); if(overlay) overlay.classList.add('open'); }
+}
+
+function closeSidebar() {
+  var nav = document.getElementById('sidebarNav');
+  var overlay = document.getElementById('sidebarOverlay');
+  if (nav) nav.classList.remove('open');
+  if (overlay) overlay.classList.remove('open');
+}
+
+function navTo(page) {
+  closeSidebar();
+  showPage(page);
+  // Update active state
+  document.querySelectorAll('.snav-item').forEach(function(item) {
+    item.classList.remove('active');
+  });
+  var activeItem = document.getElementById('snav-' + page);
+  if (activeItem) activeItem.classList.add('active');
+}
+
+function updateSidebarAuth() {
+  var loggedOut = document.getElementById('snavLoggedOut');
+  var loggedIn = document.getElementById('snavLoggedIn');
+  var accountSection = document.getElementById('snavAccountSection');
+  var postBtn = document.getElementById('snavPostBtn');
+
+  if (currentUser) {
+    if (loggedOut) loggedOut.style.display = 'none';
+    if (loggedIn) loggedIn.style.display = 'block';
+    if (accountSection) accountSection.style.display = 'block';
+    if (postBtn) postBtn.style.display = 'flex';
+
+    // Update avatar
+    var av = document.getElementById('snavAvatar');
+    if (av) {
+      if (currentUser.avatar_url) {
+        av.innerHTML = '<img src="' + currentUser.avatar_url + '" alt=""/>';
+        av.style.background = 'transparent';
+      } else {
+        av.textContent = (currentUser.username||'?').slice(0,2).toUpperCase();
+        av.style.background = currentUser.color || '#4f9eff';
+      }
+    }
+    var un = document.getElementById('snavUsername');
+    if (un) un.textContent = 'u/' + currentUser.username;
+    var ur = document.getElementById('snavRole');
+    if (ur) {
+      var role = getRole(currentUser.role);
+      ur.textContent = role ? role.icon + ' ' + role.name : currentUser.role || '';
+    }
+  } else {
+    if (loggedOut) loggedOut.style.display = 'block';
+    if (loggedIn) loggedIn.style.display = 'none';
+    if (accountSection) accountSection.style.display = 'none';
+    if (postBtn) postBtn.style.display = 'none';
+  }
+}
+
+// Close sidebar when clicking outside on mobile
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeSidebar();
+});
+
 // ═══ EVENTS ═══
 el('authModal').addEventListener('click',function(e){if(e.target.id==='authModal')closeAuth();});
 el('editPostModal').addEventListener('click',function(e){if(e.target.id==='editPostModal')closeEditPost();});
@@ -3346,5 +3749,7 @@ renderLeaderboard();
 setInterval(nextJoke,20000);
 // Auth handled by onAuthStateChange — no auto-popup
 </script>
+</div><!-- /app-main -->
+</div><!-- /app-shell -->
 </body>
 </html>
