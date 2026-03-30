@@ -113,7 +113,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .comment-input-row{display:flex;gap:8px;margin-bottom:12px;}
 .comment-input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .2s;}
 .comment-input:focus{border-color:var(--accent);}
-.comment-send{background:var(--accent);border:none;color:#fff;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:13px;transition:background .2s;}
+.comment-send{background:var(--accent);border:none;color:#fff;border-radius:8px;padding:8px 14px;cursor:pointer;font-size:13px;transition:background .2s;white-space:nowrap;}
 .comment-send:hover{background:var(--accent2);}
 .comment-item{display:flex;gap:9px;margin-bottom:10px;}
 .comment-avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;margin-top:1px;}
@@ -1120,6 +1120,7 @@ function restoreUserSession(profile) {
   if(profile.tenure)     { currentUser.tenure      = profile.tenure;     }
   // Load persisted data
   loadVotes(); loadSaves(); loadBadges(); loadRealPosts();
+  setTimeout(loadNotifications, 1500); // Load after posts
   console.log('Session restored for:', profile.username);
 }
 
@@ -1377,22 +1378,7 @@ function toggleSave(postId, btn) {
 // ═══════════════════════════════════════════════════════════════════════════
 // REAL COMMENTS — saved to DB
 // ═══════════════════════════════════════════════════════════════════════════
-var _origSubmitCommentById = submitCommentById;
-function submitCommentById(postId) {
-  _origSubmitCommentById(postId);
-  if (!sbUser) return;
-  var dbId = String(postId).replace('db_', '');
-  if (isNaN(dbId)) return;
-  var inp = el('ci-' + postId);
-  var text = inp ? inp.value.trim() : '';
-  if (!text) return;
-  sb.from('comments').insert({
-    post_id: dbId,
-    author: currentUser.username,
-    text: text,
-    color: currentUser.color || '#4f9eff'
-  });
-}
+// Comment saving merged into main submitCommentById below
 
 // ═══════════════════════════════════════════════════════════════════════════
 // REAL BADGES — persisted
@@ -1790,13 +1776,33 @@ function buildFeed(){
 function commentsHTML(p){
   var out='';
   if(currentUser){
-    out='<div class="comment-input-row"><input class="comment-input" id="ci-'+p.id+'" placeholder="Add a comment..."/><button class="comment-send" onclick="submitCommentById('+p.id+')">&#8629;</button></div>';
+    var av=currentUser.avatar_url
+      ? '<img src="'+currentUser.avatar_url+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"/>'
+      : (currentUser.username||'?').slice(0,2).toUpperCase();
+    out='<div class="comment-input-row">'+
+      '<div class="comment-avatar" style="background:'+(currentUser.avatar_url?'transparent':currentUser.color||'#4f9eff')+'">'+av+'</div>'+
+      '<input class="comment-input" id="ci-'+p.id+'" placeholder="Write a comment..." data-pid="'+p.id+'"/>'+
+      '<button class="comment-send" id="csend-'+p.id+'">&#8629; Send</button>'+
+    '</div>';
   } else {
     out='<div class="comments-login"><span class="cl-su" style="color:var(--accent);cursor:pointer">Sign up</span> or <span class="cl-li" style="color:var(--accent);cursor:pointer">log in</span> to comment</div>';
   }
   if(p.comments.length){
     p.comments.forEach(function(c){
-      out+='<div class="comment-item"><div class="comment-avatar cam-click" data-cauth="'+c.author+'" style="background:'+(c.color||'#555')+';cursor:pointer" title="'+c.author+'">'+c.author.slice(0,2).toUpperCase()+'</div><div class="comment-bubble"><div class="comment-meta"><strong>u/'+c.author+'</strong></div><div class="comment-text">'+c.text+'</div></div></div>';
+      var prof=getProfile(c.author);
+      var cavUrl=prof.avatar_url||(currentUser&&currentUser.username===c.author?currentUser.avatar_url:null);
+      var cavHtml=cavUrl?'<img src="'+cavUrl+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"/>':c.author.slice(0,2).toUpperCase();
+      var isOwn=currentUser&&currentUser.username===c.author;
+      out+='<div class="comment-item">'+
+        '<div class="comment-avatar cam-click" data-cauth="'+c.author+'" style="background:'+(cavUrl?'transparent':c.color||'#555')+';cursor:pointer" title="'+c.author+'">'+cavHtml+'</div>'+
+        '<div class="comment-bubble">'+
+          '<div class="comment-meta">'+
+            '<strong>u/'+c.author+'</strong>'+
+            (isOwn?'<span style="font-size:10px;color:var(--text3);margin-left:4px">you</span>':'')+
+          '</div>'+
+          '<div class="comment-text">'+c.text+'</div>'+
+        '</div>'+
+      '</div>';
     });
   } else {
     out+='<div class="comments-empty">No comments yet — be the first!</div>';
@@ -1804,22 +1810,69 @@ function commentsHTML(p){
   return out;
 }
 
+
+function wireCommentInput(postId){
+  var inp = el('ci-'+postId);
+  if(!inp) return;
+  inp.removeEventListener('keydown', inp._ckd);
+  inp._ckd = function(e){
+    if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); submitCommentById(String(postId)); }
+  };
+  inp.addEventListener('keydown', inp._ckd);
+  // Also wire send button
+  var btn = el('csend-'+postId);
+  if(btn){
+    btn.onclick = function(){ submitCommentById(String(postId)); };
+  }
+}
+
 function submitCommentById(postId){
   if(!currentUser){openAuth('signup');return;}
   var inp=el('ci-'+postId);
   var text=inp&&inp.value.trim();
   if(!text)return;
-  if(currentUser){initUserActivity(currentUser.username);userActivity[currentUser.username].commentsLeft++;checkBadges(currentUser.username);updateHeaderBadges();}
-  var post=posts.find(function(p){return p.id===postId;});
+
+  // Clear input immediately for responsive feel
+  if(inp) inp.value='';
+
+  // Update local state
+  initUserActivity(currentUser.username);
+  userActivity[currentUser.username].commentsLeft++;
+  checkBadges(currentUser.username);
+  updateHeaderBadges();
+
+  var post=posts.find(function(p){return String(p.id)===String(postId);});
   if(!post)return;
-  post.comments.push({author:currentUser.username,color:currentUser.color,text:text});
-  if(typeof addNotif==='function')addNotif('💬','You commented on <strong>'+post.title.slice(0,35)+'...</strong>',function(){gotoPost(postId);});
-  if(typeof addNotif !== 'undefined') addNotif('💬', 'You commented on <strong>'+post.title.slice(0,40)+'...</strong>', function(){ gotoPost(postId); });
+
+  var newComment={author:currentUser.username,color:currentUser.color||'#4f9eff',text:text};
+  post.comments.push(newComment);
+
+  // Refresh comment section
   var cs=el('cs-'+postId);
-  if(cs){cs.innerHTML=commentsHTML(post);}
-  // Re-attach keydown on new input
-  var ni=el('ci-'+postId);
-  if(ni)ni.addEventListener('keydown',function(e){if(e.key==='Enter')submitCommentById(postId);});
+  if(cs){ cs.innerHTML=commentsHTML(post); }
+  wireCommentInput(String(postId));
+
+  // Self-notification
+  addNotif('&#128172;','You commented on <strong>'+post.title.slice(0,40)+'...</strong>',function(){gotoPost(postId);});
+
+  // Notify post author if different from commenter
+  notifyPostAuthor(post, text);
+
+  // Save to Supabase
+  if(sbUser){
+    var dbId=String(postId).replace('db_','');
+    if(!isNaN(Number(dbId)) && String(postId).startsWith('db_')){
+      sb.from('comments').insert({
+        post_id: Number(dbId),
+        author: currentUser.username,
+        text: text,
+        color: currentUser.color||'#4f9eff'
+      }).then(function(res){
+        if(res.error) console.error('Comment save error:',res.error.message);
+        else console.log('Comment saved to DB');
+      });
+    }
+  }
 }
 
 function toggleComments(id){
@@ -1830,8 +1883,7 @@ function toggleComments(id){
     openComments.delete(id);sec.classList.remove('open');sec.innerHTML='';
   } else {
     openComments.add(id);sec.classList.add('open');sec.innerHTML=commentsHTML(post);
-    var inp=el('ci-'+id);
-    if(inp)inp.addEventListener('keydown',function(e){if(e.key==='Enter')submitCommentById(id);});
+    wireCommentInput(id);
   }
 }
 
@@ -2794,7 +2846,7 @@ function toggleNotifPanel(){
   if(!panel) return;
   notifPanelOpen = !notifPanelOpen;
   panel.style.display = notifPanelOpen ? 'block' : 'none';
-  if(notifPanelOpen) renderNotifList();
+  if(notifPanelOpen){ renderNotifList(); loadNotifications(); }
 }
 
 function markAllRead(){
@@ -3153,6 +3205,103 @@ async function executeDeletePost(postId){
   showToast('Post deleted');
   buildFeed(); buildRoleFilter(); buildTrending();
   if(currentProfileUser)renderProfilePosts();
+}
+
+
+// ═══════════════════════════════════════════════════════
+// COMMENT NOTIFICATIONS
+// ═══════════════════════════════════════════════════════
+
+// In-memory store for author → notifications
+// In a real multi-user app this would be server-side
+// For now: we persist to Supabase notifications table (if exists)
+// and show unread badge on the bell
+
+function notifyPostAuthor(post, commentText) {
+  // Don't notify yourself
+  if (!post.author || post.author === currentUser.username) return;
+
+  // Build notification message
+  var msg = '<strong>u/' + currentUser.username + '</strong> commented on your post: <em>' + commentText.slice(0,50) + (commentText.length>50?'...':'') + '</em>';
+
+  // Store in Supabase notifications table (fire and forget)
+  if (sbUser) {
+    sb.from('notifications').insert({
+      recipient_username: post.author,
+      sender_username: currentUser.username,
+      type: 'comment',
+      post_id: String(post.id).replace('db_',''),
+      post_title: post.title.slice(0,80),
+      message: msg,
+      read: false
+    }).then(function(res){
+      if(res.error && res.error.code !== '42P01') {
+        // 42P01 = table doesn't exist yet, that's OK
+        console.log('Notif insert note:', res.error.message);
+      }
+    });
+  }
+}
+
+// Load notifications for current user from Supabase
+async function loadNotifications() {
+  if (!sbUser || !currentUser) return;
+  try {
+    var res = await sb.from('notifications')
+      .select('*')
+      .eq('recipient_username', currentUser.username)
+      .order('created_at', {ascending: false})
+      .limit(30);
+    if (res.error) {
+      if (res.error.code !== '42P01') console.log('Notif load note:', res.error.message);
+      return;
+    }
+    if (!res.data || !res.data.length) return;
+
+    // Merge DB notifications with seeded ones
+    var dbNotifs = res.data.map(function(n){
+      return {
+        id: n.id,
+        icon: n.type === 'comment' ? '&#128172;' : '&#128276;',
+        html: n.message,
+        time: timeAgo(n.created_at),
+        read: n.read,
+        onClick: n.post_id ? function(){ gotoPost('db_'+n.post_id); } : null,
+        fromDB: true
+      };
+    });
+
+    // Add DB notifs that aren't already in the list
+    dbNotifs.forEach(function(dn){
+      if(!notifications.find(function(n){ return n.id === dn.id; })){
+        notifications.push(dn);
+      }
+    });
+
+    // Sort by unread first then time
+    notifications.sort(function(a,b){ return (a.read?1:0)-(b.read?1:0); });
+    renderNotifBadge();
+    renderNotifList();
+  } catch(e) {
+    console.log('Notif load skipped:', e.message);
+  }
+}
+
+// Mark notification as read in DB
+async function markNotifRead(notifId) {
+  if (!sbUser) return;
+  try {
+    await sb.from('notifications').update({read:true}).eq('id', notifId);
+  } catch(e) {}
+}
+
+// Override markAllRead to also update DB
+var _origMarkAllRead = markAllRead;
+function markAllRead(){
+  _origMarkAllRead();
+  if(sbUser && currentUser){
+    sb.from('notifications').update({read:true}).eq('recipient_username', currentUser.username).then(function(){});
+  }
 }
 
 // ═══ EVENTS ═══
