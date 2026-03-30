@@ -1303,6 +1303,11 @@ async function loadRealPosts() {
   posts = dbPosts.concat(localPosts);
   console.log('Total posts after merge:', posts.length, '(DB:', dbPosts.length, '+ seed:', localPosts.length, ')');
   buildFeed(); buildRoleFilter(); buildTrending(); renderLeaderboard();
+  // Refresh profile page posts if open
+  if(currentProfileUser && el('pageProfile') && el('pageProfile').classList.contains('active')){
+    var activeTab=document.querySelector('.profile-tab.active');
+    if(activeTab && activeTab.id==='ptabPosts') renderProfilePosts();
+  }
 }
 
 function timeAgo(isoStr) {
@@ -2175,7 +2180,34 @@ function renderProfilePosts(){
   var up=posts.filter(function(p){return p.author===currentProfileUser;});
   up.sort(function(a,b){return(b.csat||0)-(a.csat||0);});
   var feed=el('profilePostsFeed');
+  // If no posts found locally and Supabase is connected, fetch from DB
+  if(!up.length && sbUser){
+    feed.innerHTML='<div class="empty-state"><div class="empty-icon">⟳</div><p>Loading posts...</p></div>';
+    sb.from('posts').select('*, comments(*)').eq('author', currentProfileUser).order('created_at',{ascending:false}).limit(20).then(function(res){
+      if(res.error||!res.data||!res.data.length){
+        feed.innerHTML='<div class="empty-state"><div class="empty-icon">📭</div><p>No posts yet.</p></div>';
+        return;
+      }
+      var dbPosts = res.data.map(function(p){
+        return {id:'db_'+p.id,role:p.role,author:p.author,title:p.title,body:p.body,
+          image:p.image_url||null,tags:p.tags||[],csat:p.csat||1,dsat:p.dsat||0,
+          time:timeAgo(p.created_at),comments:(p.comments||[]).map(function(c){
+            return{author:c.author,text:c.text,color:c.color||'#4f9eff'};
+          }),fromDB:true};
+      });
+      // Add to local posts to avoid refetching
+      dbPosts.forEach(function(dp){
+        if(!posts.find(function(p){return p.id===dp.id;})) posts.unshift(dp);
+      });
+      up = dbPosts;
+      renderProfilePostsList(up, feed);
+    });
+    return;
+  }
   if(!up.length){feed.innerHTML='<div class="empty-state"><div class="empty-icon">📭</div><p>No posts yet.</p></div>';return;}
+  renderProfilePostsList(up, feed);
+}
+function renderProfilePostsList(up, feed){
   feed.innerHTML='';
   up.forEach(function(p,i){
     var role=getRole(p.role);
@@ -3048,6 +3080,8 @@ function goMyProfile(){
   if(!currentUser) return;
   toggleDD();
   openProfile(currentUser.username);
+  // Load DB posts in background for profile
+  if(sbUser) loadRealPosts();
 }
 
 function goSavedPosts(){
@@ -3315,7 +3349,15 @@ buildFeed();
 initChallenge();
 renderLeaderboard();
 setInterval(nextJoke,20000);
-setTimeout(function(){openAuth('signup');},700);
+// Only show signup prompt if no existing session
+sb.auth.getSession().then(function(res){
+  if(!res.data || !res.data.session){
+    // No session — show signup after a short delay
+    setTimeout(function(){ openAuth('signup'); }, 900);
+  } else {
+    console.log('Existing session found — skipping signup prompt');
+  }
+});
 </script>
 </body>
 </html>
