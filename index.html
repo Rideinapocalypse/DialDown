@@ -1078,7 +1078,8 @@ sb.auth.onAuthStateChange(function(event, session) {
     // Only show signup on first check (INITIAL_SESSION with no user)
     // Not on SIGNED_OUT events which fire when user logs out manually
     if (event === 'INITIAL_SESSION' && !session) {
-      setTimeout(function(){ openAuth('signup'); }, 800);
+      // Don't auto-show modal — users can sign up when they want to post
+      console.log('No session — showing app in read-only mode');
     }
   }
   _sessionChecked = true;
@@ -1856,7 +1857,7 @@ function vote(e,id,dir){e.stopPropagation();voteMap[id]=voteMap[id]===dir?null:d
 function setSort(btn,mode){qsa('.sort-tab').forEach(function(t){t.classList.remove('active');});btn.classList.add('active');sortMode=mode;buildFeed();}
 
 // ═══ POST MODAL ═══
-function openPostModal(){populateRoleSelects();el('postModal').classList.add('open');}
+function openPostModal(){if(!currentUser){openAuth('signup');return;}populateRoleSelects();el('postModal').classList.add('open');}
 function closePostModal(){el('postModal').classList.remove('open');el('postTitle').value='';el('postBody').value='';removeUpload({stopPropagation:function(){}});}
 function submitPost(){
   var role=el('postRole').value,title=el('postTitle').value.trim(),body=el('postBody').value.trim();
@@ -3366,7 +3367,7 @@ buildFeed();
 initChallenge();
 renderLeaderboard();
 setInterval(nextJoke,20000);
-// Signup prompt handled by onAuthStateChange INITIAL_SESSION event
+// Auth handled by onAuthStateChange — no auto-popup
 </script>
 </body>
 </html>
