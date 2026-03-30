@@ -1063,6 +1063,9 @@ var sbProfile = null; // profile row from DB
 sb.auth.onAuthStateChange(function(event, session) {
   if (session && session.user) {
     sbUser = session.user;
+    // Cancel the signup prompt timer — user is already logged in
+    if(typeof _signupTimer !== 'undefined') clearTimeout(_signupTimer);
+    closeAuth();
     loadUserProfile(session.user.id).then(function(profile) {
       if (profile) {
         sbProfile = profile;
@@ -1084,11 +1087,16 @@ async function loadUserProfile(userId) {
 
 // ── RESTORE SESSION AFTER RELOAD ────────────────────────────────────────────
 function restoreUserSession(profile) {
+  // Close auth modal if it was auto-opened before session loaded
+  closeAuth();
   currentUser = {
     username: profile.username,
     role: profile.role || 'agent-inbound',
     color: profile.color || '#4f9eff',
     bio: profile.bio || '',
+    location: profile.location || '',
+    tenure: profile.tenure || '',
+    avatar_url: profile.avatar_url || null,
     firstName: profile.username,
     lastName: ''
   };
@@ -1292,17 +1300,20 @@ async function loadRealPosts() {
     };
   });
 
-  // Reset to seed posts first, then prepend DB posts
-  // This prevents duplicate DB posts on multiple calls
-  var seedPosts = SEED.map(function(p){return Object.assign({},p,{comments:p.comments.map(function(c){return Object.assign({},c);})});});
-  seedPosts = seedPosts.concat(TR_POSTS_DATA.map(function(p){return Object.assign({},p,{comments:p.comments.map(function(c){return Object.assign({},c);})});}));
-  
-  // Remove any existing DB posts to avoid duplicates
-  var localPosts = seedPosts.filter(function(p){ return typeof p.id === 'number' && p.id < 1000000000000; });
-  
+  // Merge DB posts with seed — remove old DB posts first to avoid dupes
+  var localPosts = posts.filter(function(p){
+    // Keep seed posts (numeric id under 1 trillion) and TR posts
+    return (typeof p.id === 'number' && p.id < 1000000000000) ||
+           (typeof p.id === 'string' && !p.id.toString().startsWith('db_'));
+  });
   posts = dbPosts.concat(localPosts);
-  console.log('Total posts after merge:', posts.length, '(DB:', dbPosts.length, '+ seed:', localPosts.length, ')');
+  console.log('Posts merged: DB='+dbPosts.length+' seed='+localPosts.length+' total='+posts.length);
   buildFeed(); buildRoleFilter(); buildTrending(); renderLeaderboard();
+  // Refresh profile page if open
+  if(currentProfileUser && el('pageProfile') && el('pageProfile').classList.contains('active')){
+    var activeTab=document.querySelector('.profile-tab.active');
+    if(activeTab && activeTab.id==='ptabPosts') renderProfilePosts();
+  }
   // Refresh profile page posts if open
   if(currentProfileUser && el('pageProfile') && el('pageProfile').classList.contains('active')){
     var activeTab=document.querySelector('.profile-tab.active');
@@ -3349,15 +3360,13 @@ buildFeed();
 initChallenge();
 renderLeaderboard();
 setInterval(nextJoke,20000);
-// Only show signup prompt if no existing session
-sb.auth.getSession().then(function(res){
-  if(!res.data || !res.data.session){
-    // No session — show signup after a short delay
-    setTimeout(function(){ openAuth('signup'); }, 900);
-  } else {
-    console.log('Existing session found — skipping signup prompt');
+// Show signup only if no session after waiting for onAuthStateChange
+var _signupTimer = setTimeout(function(){
+  if(!sbUser){
+    // Still no session after 1.5s — show signup
+    openAuth('signup');
   }
-});
+}, 1500);
 </script>
 </body>
 </html>
