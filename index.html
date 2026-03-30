@@ -2585,7 +2585,7 @@ function buildFeed(){
     meta.className='post-meta';
     meta.innerHTML='<span class="role-tag '+role.cls+'">'+role.icon+' '+role.name+'</span>'+(p.id>=100?'<span style="font-size:11px;background:rgba(227,10,23,.12);color:#e30a17;padding:2px 7px;border-radius:4px;font-family:monospace">🇹🇷 TR</span>':'')+
       '<span class="author-wrap" data-author="'+p.author+'">'+
-        '<span class="author-av" style="background:transparent;overflow:hidden;padding:0">'+getUserAvatarHTML(p.author, prof.avatar_url||null, prof.color, 20)+'</span>'+
+        '<div class="author-av" style="background:transparent;overflow:hidden;padding:0;position:relative;display:inline-flex">'+getUserAvatarHTML(p.author, prof.avatar_url||null, prof.color, 20)+'</div>'+
         '<span class="post-author">u/'+p.author+(getFriendStatus(p.author)==="friends"?'<span class="friend-indicator" title="Your friend">&#9733;</span>':'')+'</span>'+
         '<div class="author-tooltip">'+
           '<div class="att-name">u/'+p.author+'</div>'+
@@ -2706,7 +2706,7 @@ function commentsHTML(p){
   var out='';
   if(currentUser){
     out='<div class="comment-input-row">'+
-      '<div class="comment-avatar" style="background:transparent;overflow:hidden;padding:0">'+getUserAvatarHTML(currentUser.username, currentUser.avatar_url, currentUser.color, 26)+'</div>'+
+      '<div class="comment-avatar" style="background:transparent;overflow:hidden;padding:0;position:relative">'+getUserAvatarHTML(currentUser.username, currentUser.avatar_url, currentUser.color, 26)+'</div>'+
       '<input class="comment-input" id="ci-'+p.id+'" placeholder="Write a comment..." data-pid="'+p.id+'"/>'+
       '<button class="comment-send" id="csend-'+p.id+'">&#8629; Send</button>'+
     '</div>';
@@ -2721,7 +2721,7 @@ function commentsHTML(p){
       var isOwn=currentUser&&currentUser.username===c.author;
       var cIdx = p.comments.indexOf(c);
       out+='<div class="comment-item" data-post-id="'+p.id+'" data-comment-idx="'+cIdx+'">'+
-        '<div class="comment-avatar cam-click" data-cauth="'+c.author+'" style="background:transparent;overflow:hidden;padding:0;cursor:pointer" title="'+c.author+'">'+cavHtml+'</div>'+
+        '<div class="comment-avatar cam-click" data-cauth="'+c.author+'" style="background:transparent;overflow:hidden;padding:0;cursor:pointer;position:relative" title="'+c.author+'">'+cavHtml+'</div>'+
         '<div class="comment-bubble" style="flex:1">'+
           '<div class="comment-meta" style="display:flex;align-items:center;gap:4px">'+
             '<strong>u/'+c.author+'</strong>'+
