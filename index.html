@@ -4827,13 +4827,20 @@ function adjustColor(hex, amount) {
   return '#'+[r,g,b].map(function(x){return x.toString(16).padStart(2,'0');}).join('');
 }
 
-// Get avatar HTML for a user — photo takes priority, then generated
-function getUserAvatarHTML(username, avatarUrl, color, size) {
+// Base avatar HTML (no presence dot — used internally)
+function _baseGetAvatar(username, avatarUrl, color, size) {
   size = size || 40;
   if (avatarUrl) {
     return '<img src="'+avatarUrl+'" style="width:'+size+'px;height:'+size+'px;border-radius:50%;object-fit:cover;display:block;" alt="'+username+'"/>';
   }
   return '<div class="def-avatar" style="width:'+size+'px;height:'+size+'px;">'+generateDefaultAvatar(username, size)+'</div>';
+}
+
+// Public avatar fn — wraps base with presence dot
+function getUserAvatarHTML(username, avatarUrl, color, size) {
+  size = size || 40;
+  var html = _baseGetAvatar(username, avatarUrl, color, size);
+  return withPresenceDot(username, html, size);
 }
 
 // ═══════════════════════════════════════════════════════
@@ -5771,12 +5778,7 @@ function withPresenceDot(username, avatarHTML, size) {
   return '<div class="av-wrap" style="width:'+size+'px;height:'+size+'px">' + avatarHTML + dot + '</div>';
 }
 
-// Enhanced getUserAvatarHTML that includes presence dot
-var _origGetUserAvatarHTML = getUserAvatarHTML;
-function getUserAvatarHTML(username, avatarUrl, color, size) {
-  var html = _origGetUserAvatarHTML(username, avatarUrl, color, size);
-  return withPresenceDot(username, html, size || 40);
-}
+// Presence dot added inline in buildAvatarHTML — no override needed
 
 // ═══ EVENTS ═══
 el('authModal').addEventListener('click',function(e){if(e.target.id==='authModal')closeAuth();});
