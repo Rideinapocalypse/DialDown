@@ -1171,6 +1171,205 @@ header {
 .cotd-badge-title { font-size: 13px; font-weight: 700; color: var(--yellow); }
 .cotd-badge-date  { font-size: 11px; color: var(--text3); font-family: 'JetBrains Mono', monospace; }
 
+
+/* ══ DIRECT MESSAGES ══ */
+.dm-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.75);
+  backdrop-filter: blur(4px);
+  z-index: 300;
+  display: none; align-items: flex-end; justify-content: flex-end;
+  padding: 20px;
+}
+.dm-overlay.open { display: flex; }
+
+/* DM Window */
+.dm-window {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  width: 380px;
+  max-width: calc(100vw - 40px);
+  height: 560px;
+  max-height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalIn .25s ease;
+  box-shadow: 0 16px 48px rgba(0,0,0,.5);
+}
+
+/* DM Header */
+.dm-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg2);
+  flex-shrink: 0;
+}
+.dm-header-back {
+  background: none; border: none; color: var(--text3);
+  cursor: pointer; font-size: 18px; padding: 2px 6px;
+  border-radius: 6px; line-height: 1;
+}
+.dm-header-back:hover { background: var(--bg3); color: var(--text); }
+.dm-header-av {
+  width: 34px; height: 34px; border-radius: 50%;
+  overflow: hidden; flex-shrink: 0;
+}
+.dm-header-info { flex: 1; min-width: 0; }
+.dm-header-name { font-weight: 700; font-size: 14px; }
+.dm-header-role { font-size: 11px; color: var(--text3); }
+.dm-close {
+  background: none; border: none; color: var(--text3);
+  cursor: pointer; font-size: 20px; padding: 2px 6px;
+  border-radius: 6px; line-height: 1; margin-left: auto;
+}
+.dm-close:hover { background: var(--bg3); color: var(--text); }
+
+/* Inbox list */
+.dm-inbox { flex: 1; overflow-y: auto; }
+.dm-inbox-empty {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; height: 100%;
+  color: var(--text3); font-size: 13px; gap: 10px;
+}
+.dm-inbox-empty-icon { font-size: 40px; }
+.dm-inbox-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 16px; cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  transition: background .15s;
+  position: relative;
+}
+.dm-inbox-item:hover { background: var(--bg3); }
+.dm-inbox-item.unread { background: rgba(79,158,255,.05); }
+.dm-inbox-item-av {
+  width: 40px; height: 40px; border-radius: 50%;
+  overflow: hidden; flex-shrink: 0;
+}
+.dm-inbox-item-info { flex: 1; min-width: 0; }
+.dm-inbox-item-name {
+  font-weight: 600; font-size: 13.5px;
+  display: flex; align-items: center; gap: 6px;
+}
+.dm-inbox-item-preview {
+  font-size: 12px; color: var(--text3);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  margin-top: 2px;
+}
+.dm-inbox-item-time {
+  font-size: 11px; color: var(--text3);
+  font-family: 'JetBrains Mono', monospace;
+  flex-shrink: 0;
+}
+.dm-unread-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent); flex-shrink: 0;
+}
+
+/* Conversation view */
+.dm-messages {
+  flex: 1; overflow-y: auto; padding: 12px 14px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.dm-msg {
+  display: flex; gap: 8px; align-items: flex-end;
+  max-width: 85%;
+}
+.dm-msg.mine { align-self: flex-end; flex-direction: row-reverse; }
+.dm-msg.theirs { align-self: flex-start; }
+.dm-msg-av {
+  width: 24px; height: 24px; border-radius: 50%;
+  overflow: hidden; flex-shrink: 0;
+}
+.dm-bubble {
+  padding: 9px 13px; border-radius: 16px;
+  font-size: 13.5px; line-height: 1.5;
+  max-width: 100%; word-break: break-word;
+}
+.dm-msg.mine .dm-bubble {
+  background: var(--accent); color: #fff;
+  border-bottom-right-radius: 4px;
+}
+.dm-msg.theirs .dm-bubble {
+  background: var(--bg3); color: var(--text);
+  border-bottom-left-radius: 4px;
+}
+.dm-msg-time {
+  font-size: 10px; color: var(--text3);
+  font-family: 'JetBrains Mono', monospace;
+  margin-top: 2px; text-align: right;
+  padding: 0 4px;
+}
+.dm-msg.theirs .dm-msg-time { text-align: left; }
+.dm-msg-wrap { display: flex; flex-direction: column; max-width: 100%; }
+.dm-msg.mine .dm-msg-wrap { align-items: flex-end; }
+
+/* Input bar */
+.dm-input-bar {
+  padding: 12px 14px;
+  border-top: 1px solid var(--border);
+  display: flex; gap: 8px; align-items: flex-end;
+  flex-shrink: 0;
+}
+.dm-input {
+  flex: 1; background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 20px; padding: 9px 14px;
+  color: var(--text); font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px; outline: none; resize: none;
+  max-height: 100px; overflow-y: auto;
+  transition: border-color .2s; line-height: 1.4;
+}
+.dm-input:focus { border-color: var(--accent); }
+.dm-send-btn {
+  background: var(--accent); color: #fff; border: none;
+  border-radius: 50%; width: 36px; height: 36px;
+  cursor: pointer; font-size: 16px; flex-shrink: 0;
+  transition: background .2s, transform .1s;
+  display: flex; align-items: center; justify-content: center;
+}
+.dm-send-btn:hover { background: var(--accent2); transform: scale(1.05); }
+.dm-send-btn:disabled { background: var(--border); cursor: default; transform: none; }
+
+/* New DM button */
+.dm-new-btn {
+  background: var(--accent); color: #fff; border: none;
+  border-radius: 8px; padding: 8px 14px; font-size: 13px;
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+  font-weight: 500; transition: background .2s;
+  display: flex; align-items: center; gap: 6px;
+  margin: 12px 16px 8px;
+}
+.dm-new-btn:hover { background: var(--accent2); }
+
+/* DM button on profiles */
+.dm-profile-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(79,158,255,.1); border: 1px solid rgba(79,158,255,.3);
+  color: var(--blue); border-radius: 8px; padding: 7px 14px;
+  font-size: 13px; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-weight: 500;
+  transition: all .2s; white-space: nowrap;
+}
+.dm-profile-btn:hover { background: rgba(79,158,255,.2); border-color: var(--blue); }
+
+/* Sidebar DM badge */
+.dm-sidebar-badge {
+  background: var(--red); color: #fff; border-radius: 10px;
+  font-size: 10px; font-weight: 700; padding: 1px 6px;
+  font-family: 'JetBrains Mono', monospace; min-width: 18px;
+  text-align: center;
+}
+
+/* Mobile full screen */
+@media (max-width: 480px) {
+  .dm-overlay { padding: 0; align-items: flex-start; justify-content: stretch; }
+  .dm-window { width: 100%; height: 100vh; max-height: 100vh; border-radius: 0; }
+}
+
 </style>
 </head>
 <body>
@@ -1231,6 +1430,11 @@ header {
     <div class="snav-item" id="snav-jobs" onclick="navTo('jobs')">
       <span class="sni-icon">💼</span>
       <span class="sni-label">Jobs</span>
+    </div>
+    <div class="snav-item" id="snav-dm" onclick="openDM()">
+      <span class="sni-icon">&#128172;</span>
+      <span class="sni-label">Messages</span>
+      <span class="sni-badge dm-sidebar-badge" id="snavDMBadge" style="display:none">0</span>
     </div>
     <div class="snav-item" id="snav-buddy" onclick="openBuddyModalMob()">
       <span class="sni-icon">🤝</span>
@@ -1583,6 +1787,62 @@ header {
   </div>
 </div>
 
+
+
+<!-- DM OVERLAY -->
+<div class="dm-overlay" id="dmOverlay" onclick="handleDMOverlayClick(event)">
+  <div class="dm-window" id="dmWindow">
+
+    <!-- INBOX VIEW -->
+    <div id="dmInboxView">
+      <div class="dm-header">
+        <div style="flex:1;font-family:'Syne',sans-serif;font-weight:700;font-size:15px">&#128172; Messages</div>
+        <button class="dm-close" onclick="closeDM()">&#10005;</button>
+      </div>
+      <button class="dm-new-btn" onclick="openDMUserPicker()">&#9998; New Message</button>
+      <div class="dm-inbox" id="dmInboxList">
+        <div class="dm-inbox-empty">
+          <div class="dm-inbox-empty-icon">&#128172;</div>
+          <div>No messages yet</div>
+          <div style="font-size:12px">Send a DM from anyone's profile</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONVERSATION VIEW (hidden by default) -->
+    <div id="dmConvoView" style="display:none;flex-direction:column;height:100%">
+      <div class="dm-header">
+        <button class="dm-header-back" onclick="showDMInbox()">&#8592;</button>
+        <div class="dm-header-av" id="dmConvoAv"></div>
+        <div class="dm-header-info">
+          <div class="dm-header-name" id="dmConvoName"></div>
+          <div class="dm-header-role" id="dmConvoRole"></div>
+        </div>
+        <button class="dm-close" onclick="closeDM()">&#10005;</button>
+      </div>
+      <div class="dm-messages" id="dmMessages"></div>
+      <div class="dm-input-bar">
+        <textarea class="dm-input" id="dmInput" placeholder="Type a message..." rows="1"
+          oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+        <button class="dm-send-btn" id="dmSendBtn" onclick="sendDM()">&#10148;</button>
+      </div>
+    </div>
+
+    <!-- USER PICKER VIEW -->
+    <div id="dmPickerView" style="display:none;flex-direction:column;height:100%">
+      <div class="dm-header">
+        <button class="dm-header-back" onclick="showDMInbox()">&#8592;</button>
+        <div style="flex:1;font-weight:700;font-size:14px">New Message</div>
+        <button class="dm-close" onclick="closeDM()">&#10005;</button>
+      </div>
+      <div style="padding:12px 14px">
+        <input class="fi" id="dmPickerSearch" placeholder="Search users..." oninput="renderDMPicker()" style="margin-bottom:0"/>
+      </div>
+      <div id="dmPickerList" style="overflow-y:auto;flex:1"></div>
+    </div>
+
+  </div>
+</div>
 
 <!-- EDIT POST MODAL -->
 <div class="modal-overlay" id="editPostModal">
@@ -2859,7 +3119,8 @@ function openProfile(username){
   var fbWrap=el('profileFriendBtnWrap');
   if(fbWrap){
     if(currentUser && currentUser.username !== username){
-      fbWrap.innerHTML=friendBtnHTML(username);
+      fbWrap.innerHTML=friendBtnHTML(username)+
+        '<button class="dm-profile-btn" data-dm-to="'+username+'">&#128172; Message</button>';
     } else {
       fbWrap.innerHTML='';
     }
@@ -2972,7 +3233,7 @@ function openProfileModal(username){
     '<div class="pmod-stat"><div class="pmod-stat-num">'+eb.length+'</div><div class="pmod-stat-lbl">Badges</div></div></div>'+
     '<div class="pmod-badges"><div class="pmod-badges-title">Badges</div><div class="pmod-badges-row">'+badgesHTML+'</div></div>'+
     (recentPosts.length?'<div class="pmod-posts-title">Recent Posts</div>'+postsHTML:'')+
-    '<div style="display:flex;gap:8px;align-items:center;padding:0 20px 16px">'+friendBtnHTML(username)+'<button class="pmod-view-all pmod-view-profile" data-user="'+username+'" style="margin:0;flex:1">View full profile &#8594;</button></div>';
+    '<div style="display:flex;gap:8px;align-items:center;padding:0 20px 16px;flex-wrap:wrap">'+friendBtnHTML(username)+'<button class="dm-profile-btn" data-dm-to="'+username+'"  >&#128172; Message</button><button class="pmod-view-all pmod-view-profile" data-user="'+username+'" style="margin:0;flex:1">View full profile &#8594;</button></div>';
   setTimeout(function(){
     el('profileModalContent').querySelectorAll('.pmod-post-preview').forEach(function(e){
       e.addEventListener('click',function(){var pid=parseInt(this.dataset.pid);closeProfileModal();gotoPost(pid);});
@@ -5015,6 +5276,372 @@ function checkCOTDWinner(post) {
 
 // COTD winner check wired via event — no vote override needed
 
+
+// ═══════════════════════════════════════════════════════════════
+// DIRECT MESSAGES
+// ═══════════════════════════════════════════════════════════════
+
+var dmState = {
+  open: false,
+  view: 'inbox',        // 'inbox' | 'convo' | 'picker'
+  activeConvo: null,    // username of current conversation
+  conversations: {},    // { username: [messages] }
+  unread: {}            // { username: count }
+};
+
+var dmPollingInterval = null;
+
+// ── OPEN / CLOSE ─────────────────────────────────────────────────
+function openDM(toUsername) {
+  if (!currentUser) { openAuth('signup'); return; }
+  closeSidebar();
+  el('dmOverlay').classList.add('open');
+  dmState.open = true;
+  if (toUsername) {
+    openDMConvo(toUsername);
+  } else {
+    showDMInbox();
+  }
+  loadDMInbox();
+  // Poll for new messages every 15s while open
+  if (dmPollingInterval) clearInterval(dmPollingInterval);
+  dmPollingInterval = setInterval(function(){
+    if (dmState.open) {
+      loadDMInbox();
+      if (dmState.view === 'convo' && dmState.activeConvo) {
+        loadDMConvo(dmState.activeConvo);
+      }
+    }
+  }, 15000);
+}
+
+function closeDM() {
+  el('dmOverlay').classList.remove('open');
+  dmState.open = false;
+  if (dmPollingInterval) { clearInterval(dmPollingInterval); dmPollingInterval = null; }
+}
+
+function handleDMOverlayClick(e) {
+  if (e.target.id === 'dmOverlay') closeDM();
+}
+
+// ── VIEWS ─────────────────────────────────────────────────────────
+function showDMInbox() {
+  dmState.view = 'inbox';
+  el('dmInboxView').style.display = 'block';
+  el('dmConvoView').style.display = 'none';
+  el('dmPickerView').style.display = 'none';
+  loadDMInbox();
+}
+
+function openDMConvo(username) {
+  dmState.view = 'convo';
+  dmState.activeConvo = username;
+  el('dmInboxView').style.display = 'none';
+  el('dmConvoView').style.display = 'flex';
+  el('dmPickerView').style.display = 'none';
+
+  // Header
+  var prof = getProfile(username);
+  var role = getRole(prof.role || 'agent-inbound');
+  el('dmConvoAv').innerHTML = getUserAvatarHTML(username, prof.avatar_url || null, prof.color, 34);
+  el('dmConvoName').textContent = 'u/' + username;
+  el('dmConvoRole').textContent = role.icon + ' ' + role.name;
+
+  loadDMConvo(username);
+
+  // Focus input
+  setTimeout(function(){ var inp = el('dmInput'); if (inp) inp.focus(); }, 200);
+}
+
+function openDMUserPicker() {
+  dmState.view = 'picker';
+  el('dmInboxView').style.display = 'none';
+  el('dmConvoView').style.display = 'none';
+  el('dmPickerView').style.display = 'flex';
+  el('dmPickerSearch').value = '';
+  renderDMPicker();
+  setTimeout(function(){ el('dmPickerSearch').focus(); }, 100);
+}
+
+// ── INBOX ─────────────────────────────────────────────────────────
+async function loadDMInbox() {
+  if (!currentUser || !sbUser) return;
+  try {
+    var res = await sb.from('messages').select('*')
+      .or('sender_username.eq.'+currentUser.username+',recipient_username.eq.'+currentUser.username)
+      .order('created_at', { ascending: false });
+    if (res.error) { console.log('DM inbox error:', res.error.message); return; }
+
+    // Group by conversation partner
+    var convos = {};
+    (res.data || []).forEach(function(m) {
+      var partner = m.sender_username === currentUser.username
+        ? m.recipient_username : m.sender_username;
+      if (!convos[partner]) {
+        convos[partner] = { latest: m, unread: 0 };
+      }
+      if (!m.read && m.recipient_username === currentUser.username) {
+        convos[partner].unread++;
+      }
+    });
+    dmState.conversations = convos;
+
+    // Update unread count
+    var totalUnread = Object.values(convos).reduce(function(s,c){ return s + c.unread; }, 0);
+    updateDMBadge(totalUnread);
+
+    renderDMInbox(convos);
+  } catch(e) { console.log('DM load skipped:', e.message); }
+}
+
+function renderDMInbox(convos) {
+  var list = el('dmInboxList');
+  if (!list) return;
+  var partners = Object.keys(convos);
+  if (!partners.length) {
+    list.innerHTML = '<div class="dm-inbox-empty"><div class="dm-inbox-empty-icon">&#128172;</div><div>No messages yet</div><div style="font-size:12px">Send a DM from anyone&#39;s profile</div></div>';
+    return;
+  }
+  // Sort by latest message
+  partners.sort(function(a,b){
+    return new Date(convos[b].latest.created_at) - new Date(convos[a].latest.created_at);
+  });
+  list.innerHTML = '';
+  partners.forEach(function(username) {
+    var c = convos[username];
+    var prof = getProfile(username);
+    var isUnread = c.unread > 0;
+    var preview = c.latest.sender_username === currentUser.username
+      ? 'You: ' + c.latest.body : c.latest.body;
+    var item = document.createElement('div');
+    item.className = 'dm-inbox-item' + (isUnread ? ' unread' : '');
+    item.innerHTML =
+      '<div class="dm-inbox-item-av">' + getUserAvatarHTML(username, prof.avatar_url||null, prof.color, 40) + '</div>' +
+      '<div class="dm-inbox-item-info">' +
+        '<div class="dm-inbox-item-name">u/' + username +
+          (isUnread ? '<span class="dm-unread-dot"></span>' : '') +
+        '</div>' +
+        '<div class="dm-inbox-item-preview">' + preview.slice(0,50) + (preview.length>50?'...':'') + '</div>' +
+      '</div>' +
+      '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">' +
+        '<div class="dm-inbox-item-time">' + timeAgo(c.latest.created_at) + '</div>' +
+        (isUnread ? '<div class="dm-unread-dot"></div>' : '') +
+      '</div>';
+    item.addEventListener('click', function(){ openDMConvo(username); });
+    list.appendChild(item);
+  });
+}
+
+// ── CONVERSATION ───────────────────────────────────────────────────
+async function loadDMConvo(username) {
+  if (!currentUser || !sbUser) return;
+  try {
+    var res = await sb.from('messages').select('*')
+      .or(
+        'and(sender_username.eq.'+currentUser.username+',recipient_username.eq.'+username+'),' +
+        'and(sender_username.eq.'+username+',recipient_username.eq.'+currentUser.username+')'
+      )
+      .order('created_at', { ascending: true });
+    if (res.error) { console.log('DM convo error:', res.error.message); return; }
+
+    renderDMConvo(res.data || [], username);
+
+    // Mark unread as read
+    var unreadIds = (res.data || [])
+      .filter(function(m){ return !m.read && m.recipient_username === currentUser.username; })
+      .map(function(m){ return m.id; });
+    if (unreadIds.length) {
+      await sb.from('messages').update({ read: true }).in('id', unreadIds);
+      loadDMInbox(); // refresh unread counts
+    }
+  } catch(e) { console.log('DM convo skipped:', e.message); }
+}
+
+function renderDMConvo(messages, username) {
+  var container = el('dmMessages');
+  if (!container) return;
+  if (!messages.length) {
+    container.innerHTML =
+      '<div style="text-align:center;color:var(--text3);font-size:13px;padding:24px 0">' +
+      getUserAvatarHTML(username, getProfile(username).avatar_url||null, getProfile(username).color, 48) +
+      '<div style="margin-top:10px">Start a conversation with u/' + username + '</div>' +
+      '</div>';
+    return;
+  }
+  container.innerHTML = '';
+  var prevDate = null;
+  messages.forEach(function(m) {
+    var isMine = m.sender_username === currentUser.username;
+    var msgDate = new Date(m.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+
+    // Date separator
+    if (msgDate !== prevDate) {
+      var sep = document.createElement('div');
+      sep.style.cssText = 'text-align:center;font-size:11px;color:var(--text3);font-family:monospace;padding:6px 0;';
+      sep.textContent = msgDate;
+      container.appendChild(sep);
+      prevDate = msgDate;
+    }
+
+    var msgEl = document.createElement('div');
+    msgEl.className = 'dm-msg ' + (isMine ? 'mine' : 'theirs');
+    var prof = isMine ? currentUser : getProfile(m.sender_username);
+    var avHtml = getUserAvatarHTML(m.sender_username, prof.avatar_url||null, prof.color||'#4f9eff', 24);
+    var timeStr = new Date(m.created_at).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    msgEl.innerHTML =
+      '<div class="dm-msg-av">' + avHtml + '</div>' +
+      '<div class="dm-msg-wrap">' +
+        '<div class="dm-bubble">' + escapeHtml(m.body) + '</div>' +
+        '<div class="dm-msg-time">' + timeStr + '</div>' +
+      '</div>';
+    container.appendChild(msgEl);
+  });
+  // Scroll to bottom
+  container.scrollTop = container.scrollHeight;
+}
+
+// ── SEND ─────────────────────────────────────────────────────────
+async function sendDM() {
+  if (!currentUser || !sbUser || !dmState.activeConvo) return;
+  var inp = el('dmInput');
+  var body = inp ? inp.value.trim() : '';
+  if (!body) return;
+
+  var btn = el('dmSendBtn');
+  btn.disabled = true;
+
+  // Optimistic UI — add message immediately
+  var tempMsg = {
+    id: 'temp-' + Date.now(),
+    sender_username: currentUser.username,
+    recipient_username: dmState.activeConvo,
+    body: body,
+    read: false,
+    created_at: new Date().toISOString()
+  };
+
+  // Clear input
+  inp.value = '';
+  inp.style.height = 'auto';
+
+  // Re-render with temp message
+  var existing = await sb.from('messages').select('*')
+    .or(
+      'and(sender_username.eq.'+currentUser.username+',recipient_username.eq.'+dmState.activeConvo+'),' +
+      'and(sender_username.eq.'+dmState.activeConvo+',recipient_username.eq.'+currentUser.username+')'
+    )
+    .order('created_at', { ascending: true });
+  var msgs = (existing.data || []).concat([tempMsg]);
+  renderDMConvo(msgs, dmState.activeConvo);
+
+  // Save to Supabase
+  var res = await sb.from('messages').insert({
+    sender_username: currentUser.username,
+    recipient_username: dmState.activeConvo,
+    body: body
+  });
+
+  btn.disabled = false;
+
+  if (res.error) {
+    showToast('Message not sent: ' + res.error.message);
+    return;
+  }
+
+  // Send notification to recipient
+  sb.from('notifications').insert({
+    recipient_username: dmState.activeConvo,
+    sender_username: currentUser.username,
+    type: 'dm',
+    message: '<strong>u/'+currentUser.username+'</strong> sent you a message: <em>' + body.slice(0,60) + (body.length>60?'...':'') + '</em>',
+    read: false
+  }).then(function(){});
+
+  // Reload to get real message
+  setTimeout(function(){ loadDMConvo(dmState.activeConvo); }, 400);
+}
+
+// ── USER PICKER ───────────────────────────────────────────────────
+function renderDMPicker() {
+  var q = (el('dmPickerSearch').value || '').trim().toLowerCase();
+  var list = el('dmPickerList');
+  // Show friends first, then all profiles
+  var people = PROFILES.concat(TR_PROFILES_DATA || []);
+  // Filter out self
+  people = people.filter(function(p){ return p.username !== currentUser.username; });
+  // Filter by search
+  if (q) people = people.filter(function(p){
+    return p.username.toLowerCase().indexOf(q) >= 0 ||
+           (p.role||'').toLowerCase().indexOf(q) >= 0;
+  });
+  // Friends first
+  people.sort(function(a,b){
+    var af = getFriendStatus(a.username) === 'friends' ? 0 : 1;
+    var bf = getFriendStatus(b.username) === 'friends' ? 0 : 1;
+    return af - bf;
+  });
+  list.innerHTML = '';
+  people.slice(0,20).forEach(function(p) {
+    var role = getRole(p.role || 'agent-inbound');
+    var isFriend = getFriendStatus(p.username) === 'friends';
+    var item = document.createElement('div');
+    item.className = 'dm-inbox-item';
+    item.innerHTML =
+      '<div class="dm-inbox-item-av">' + getUserAvatarHTML(p.username, p.avatar_url||null, p.color, 40) + '</div>' +
+      '<div class="dm-inbox-item-info">' +
+        '<div class="dm-inbox-item-name">u/' + p.username + (isFriend ? ' <span style="font-size:10px;color:var(--green)">&#9733; friend</span>' : '') + '</div>' +
+        '<div class="dm-inbox-item-preview">' + role.icon + ' ' + role.name + '</div>' +
+      '</div>';
+    item.addEventListener('click', function(){ openDMConvo(p.username); });
+    list.appendChild(item);
+  });
+  if (!people.length) {
+    list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text3);font-size:13px">No users found</div>';
+  }
+}
+
+// ── BADGE ─────────────────────────────────────────────────────────
+function updateDMBadge(count) {
+  var badge = el('snavDMBadge');
+  if (!badge) return;
+  if (count > 0) {
+    badge.style.display = 'inline-block';
+    badge.textContent = count > 9 ? '9+' : count;
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────
+function escapeHtml(text) {
+  if (!text) return '';
+  return text
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/\n/g,'<br>');
+}
+
+// Enter to send (Shift+Enter for newline)
+document.addEventListener('keydown', function(e) {
+  if (e.target && e.target.id === 'dmInput' && e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendDM();
+  }
+});
+
+// Load DM inbox on session restore
+function initDMs() {
+  if (currentUser && sbUser) {
+    loadDMInbox();
+    // Poll every 30s for new messages
+    setInterval(function(){
+      if (!dmState.open) loadDMInbox();
+    }, 30000);
+  }
+}
+
 // ═══ EVENTS ═══
 el('authModal').addEventListener('click',function(e){if(e.target.id==='authModal')closeAuth();});
 el('editPostModal').addEventListener('click',function(e){if(e.target.id==='editPostModal')closeEditPost();});
@@ -5034,6 +5661,11 @@ var w=el('userWrap');if(w&&!w.contains(e.target))el('userDD').classList.remove('
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeLB();closeAuth();closePostModal();closeProfileModal();closeBuddyModal();closeReferralModal();closeWriteReview();skipOnboard();closeEditPost();closeEditProfile();}});
 
 
+// DM button delegation
+document.addEventListener('click', function(e) {
+  var dmBtn = e.target.closest('[data-dm-to]');
+  if (dmBtn) { openDM(dmBtn.dataset.dmTo); return; }
+});
 // Event delegation for profile opens and friend buttons
 document.addEventListener('click', function(e) {
   var profileCard = e.target.closest('[data-open-profile]');
