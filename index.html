@@ -1062,27 +1062,24 @@ var _sessionChecked = false; // tracks whether we've received the first auth eve
 // This is the ONLY reliable way to check session on page load
 sb.auth.onAuthStateChange(function(event, session) {
   console.log('Auth event:', event, session ? 'has session' : 'no session');
-  
   if (session && session.user) {
     sbUser = session.user;
-    closeAuth(); // close modal if it opened too early
-    loadUserProfile(session.user.id).then(function(profile) {
-      if (profile) {
-        sbProfile = profile;
-        restoreUserSession(profile);
-      }
-    });
+    closeAuth();
+    // Only restore session once — prevents double-init on SIGNED_IN after INITIAL_SESSION
+    if (!currentUser) {
+      loadUserProfile(session.user.id).then(function(profile) {
+        if (profile) {
+          sbProfile = profile;
+          restoreUserSession(profile);
+        }
+      });
+    }
   } else {
     sbUser = null;
     sbProfile = null;
-    // Only show signup on first check (INITIAL_SESSION with no user)
-    // Not on SIGNED_OUT events which fire when user logs out manually
-    if (event === 'INITIAL_SESSION' && !session) {
-      // Don't auto-show modal — users can sign up when they want to post
-      console.log('No session — showing app in read-only mode');
-    }
+    // Never auto-open modal — user browses freely, signs up when they want to post
+    console.log('Auth: no session, mode=read-only');
   }
-  _sessionChecked = true;
 });
 
 // ── LOAD PROFILE FROM DB ────────────────────────────────────────────────────
