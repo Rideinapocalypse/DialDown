@@ -1220,36 +1220,9 @@ function timeAgo(isoStr) {
 // ═══════════════════════════════════════════════════════════════════════════
 // REAL SUBMIT POST — saves to DB
 // ═══════════════════════════════════════════════════════════════════════════
-var _origSubmitPost = submitPost;
-function submitPost() {
-  if (!sbUser) { _origSubmitPost(); return; }
-  var role  = el('postRole').value;
-  var title = el('postTitle').value.trim();
-  var body  = el('postBody').value.trim();
-  if (!role || !title) { alert('Please select a role and add a title.'); return; }
+// _origSubmitPost wrapper removed
+// submitPost() defined below with Supabase integration
 
-  sb.from('posts').insert({
-    author: currentUser.username,
-    role: role,
-    title: title,
-    body: body,
-    image_url: pendingImg || null,
-    tags: [],
-    csat: 1,
-    dsat: 0,
-    language: 'en'
-  }).then(function(res) {
-    if (res.error) { 
-      console.error('Post save error:', res.error.message, res.error.code);
-      showToast('Post not saved to DB: ' + res.error.message);
-    } else {
-      console.log('Post saved to Supabase ✅');
-    }
-  });
-
-  // Also add locally for instant feedback
-  _origSubmitPost();
-}
 
 // ═══════════════════════════════════════════════════════════════════════════
 // REAL VOTES — persisted per user
@@ -1770,9 +1743,32 @@ function closePostModal(){el('postModal').classList.remove('open');el('postTitle
 function submitPost(){
   var role=el('postRole').value,title=el('postTitle').value.trim(),body=el('postBody').value.trim();
   if(!role||!title){alert('Please select a role and add a title.');return;}
+  // Add to local feed immediately
   posts.unshift({id:Date.now(),role:role,author:currentUser?currentUser.username:'anon',title:title,body:body,image:pendingImg||null,tags:[],csat:1,dsat:0,time:'just now',comments:[]});
   sortMode='new';qsa('.sort-tab').forEach(function(t,i){t.classList.toggle('active',i===1);});
   closePostModal();buildFeed();buildRoleFilter();buildTrending();
+  // Save to Supabase if logged in
+  if(sbUser && currentUser){
+    sb.from('posts').insert({
+      author: currentUser.username,
+      role: role,
+      title: title,
+      body: body,
+      image_url: pendingImg||null,
+      tags: [],
+      csat: 1,
+      dsat: 0,
+      language: 'en'
+    }).then(function(res){
+      if(res.error){
+        console.error('Post save error:', res.error.message);
+        showToast('Warning: post may not persist after refresh');
+      } else {
+        console.log('Post saved to Supabase ✅');
+        showToast('Post saved! ✅');
+      }
+    });
+  }
 }
 
 // ═══ IMAGE ═══
