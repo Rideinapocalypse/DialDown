@@ -2551,36 +2551,28 @@ function vote(e, id, dir) {
   // Check COTD winner
   if (dir === 'up' && post) checkCOTDWinner(post);
 
-  // Persist to Supabase
+  // Persist to Supabase via RPC (bypasses RLS so any user can update vote counts)
   if (!sbUser) return;
   var dbId = String(id).replace('db_', '');
   if (isNaN(Number(dbId))) return; // seed post — no DB
 
-  if (isToggleOff) {
-    // Remove vote
-    sb.from('votes').delete()
-      .eq('user_id', sbUser.id).eq('post_id', dbId)
-      .then(function(){});
-    // Decrement post count in DB
-    if (prevDir === 'up' && post) {
-      sb.from('posts').update({ csat: Math.max(0, post.csat) })
-        .eq('id', Number(dbId)).then(function(){});
+  var voteDir = isToggleOff ? 'remove' : dir;
+  sb.rpc('cast_vote', {
+    p_post_id: Number(dbId),
+    p_user_id: sbUser.id,
+    p_direction: voteDir
+  }).then(function(res){
+    if (res.error) {
+      console.error('Vote RPC error:', res.error.message);
+    } else if (res.data && post) {
+      // Sync local counts with DB truth
+      post.csat = res.data.csat;
+      post.dsat = res.data.dsat;
+      buildFeed();
     }
-    if (prevDir === 'down' && post) {
-      sb.from('posts').update({ dsat: Math.max(0, post.dsat) })
-        .eq('id', Number(dbId)).then(function(){});
-    }
-  } else {
-    // Upsert vote record
-    sb.from('votes').upsert({
-      user_id: sbUser.id, post_id: Number(dbId), direction: dir
-    }, { onConflict: 'user_id,post_id' }).then(function(){});
+  });
 
-    // Update post counts in DB
-    if (post) {
-      sb.from('posts').update({ csat: post.csat, dsat: post.dsat })
-        .eq('id', Number(dbId)).then(function(){});
-    }
+  if (!isToggleOff) {
 
     // Send CSAT notification to post author
     if (dir === 'up' && post && post.author && currentUser.username !== post.author) {
