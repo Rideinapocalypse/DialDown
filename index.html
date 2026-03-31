@@ -2089,6 +2089,11 @@ header {
 }
 .coach-next-btn:hover { background: rgba(167,139,250,.25); }
 
+
+/* Status on profile page */
+#profileStatusWrap { animation: fadeUp .3s ease; }
+#profileStatusText { color: var(--text2); }
+
 </style>
 </head>
 <body>
@@ -2398,6 +2403,13 @@ header {
       <div class="profile-username" id="profileUsername"></div>
       <div class="profile-role-tag" id="profileRoleTag"></div>
       <div class="profile-bio" id="profileBio"></div>
+      <!-- Status message -->
+      <div id="profileStatusWrap" style="display:none;margin:8px 0 4px">
+        <span id="profileStatusDisplay" style="font-size:13.5px;color:var(--text2);display:flex;align-items:center;gap:6px">
+          <span id="profileStatusEmoji"></span>
+          <span id="profileStatusText" style="font-style:italic"></span>
+        </span>
+      </div>
       <div class="profile-meta">
         <span class="profile-meta-item">&#128197; <span id="profileJoined"></span></span>
         <span class="profile-meta-item">&#128205; <span id="profileLocation"></span></span>
@@ -2921,6 +2933,9 @@ function restoreUserSession(profile) {
   // Load persisted data
   loadVotes(); loadSaves(); loadBadges(); loadRealPosts(); loadFriends();
   setTimeout(loadNotifications, 1500);
+  setTimeout(loadMyStatus, 1200); // restore status message on refresh
+  setTimeout(startPresenceHeartbeat, 500);
+  setTimeout(loadAllPresence, 1000);
   updateSidebarAuth(); // Load after posts
   console.log('Session restored for:', profile.username);
 }
@@ -4132,6 +4147,12 @@ function openProfile(username){
   el('pStatBadges').textContent=eb.length;
   el('profileBackBtn').onclick=function(){showPage('feed');};
   var epBtn=el('profileEditBtn');if(epBtn)epBtn.style.display=(currentUser&&currentUser.username===username)?'flex':'none';
+  // Load status from presence table
+  if (username === (currentUser && currentUser.username)) {
+    updateProfileStatusDisplay(username); // use local state for own profile
+  } else {
+    loadProfileStatus(username); // fetch from DB for other profiles
+  }
   // Friend button — show for other users
   var fbWrap=el('profileFriendBtnWrap');
   if(fbWrap){
@@ -7439,8 +7460,15 @@ async function loadMyStatus() {
     if (res.data) {
       currentStatus.emoji = res.data.status_emoji || '🟢';
       currentStatus.message = res.data.status_message || '';
+      // Restore UI fields
+      var inp = document.getElementById('statusMsgInput');
+      if (inp) inp.value = currentStatus.message;
+      var eb = document.getElementById('statusEmojiBtn');
+      if (eb) eb.textContent = currentStatus.emoji;
+      // Update profile page if viewing own profile
+      updateProfileStatusDisplay(currentUser.username);
     }
-  } catch(e) {}
+  } catch(e) { console.log('loadMyStatus skipped:', e.message); }
 }
 
 // Save status
@@ -7450,13 +7478,14 @@ async function saveStatus() {
   currentStatus.message = msg;
   await pingPresenceWithStatus();
   showToast('Status updated ' + currentStatus.emoji);
-  // Refresh online strip
   loadOnlineUsers();
+  updateProfileStatusDisplay(currentUser ? currentUser.username : null);
 }
 
 function clearStatus() {
   currentStatus.message = '';
   currentStatus.emoji = '🟢';
+  updateProfileStatusDisplay(currentUser && currentUser.username);
   var inp = document.getElementById('statusMsgInput');
   if (inp) inp.value = '';
   var eb = document.getElementById('statusEmojiBtn');
@@ -7861,6 +7890,50 @@ function coachNext() {
 function coachPrev() {
   coachIdx = (coachIdx - 1 + COACH_SESSIONS.length) % COACH_SESSIONS.length;
   renderCoach();
+}
+
+
+// ═══════════════════════════════════════════════════════
+// STATUS ON PROFILE PAGE
+// ═══════════════════════════════════════════════════════
+
+async function loadProfileStatus(username) {
+  try {
+    var res = await sb.from('presence')
+      .select('status_emoji, status_message, last_seen')
+      .eq('username', username)
+      .single();
+
+    var wrap = document.getElementById('profileStatusWrap');
+    var emojiEl = document.getElementById('profileStatusEmoji');
+    var textEl = document.getElementById('profileStatusText');
+    if (!wrap || !emojiEl || !textEl) return;
+
+    if (res.data && res.data.status_message) {
+      emojiEl.textContent = res.data.status_emoji || '🟢';
+      textEl.textContent = res.data.status_message;
+      wrap.style.display = 'block';
+    } else {
+      wrap.style.display = 'none';
+    }
+  } catch(e) {}
+}
+
+function updateProfileStatusDisplay(username) {
+  // Update profile page status if we're viewing that user's profile
+  if (currentProfileUser === username) {
+    var emojiEl = document.getElementById('profileStatusEmoji');
+    var textEl = document.getElementById('profileStatusText');
+    var wrap = document.getElementById('profileStatusWrap');
+    if (!wrap) return;
+    if (currentStatus.message) {
+      if (emojiEl) emojiEl.textContent = currentStatus.emoji || '🟢';
+      if (textEl) textEl.textContent = currentStatus.message;
+      wrap.style.display = 'block';
+    } else {
+      wrap.style.display = 'none';
+    }
+  }
 }
 
 // ═══ EVENTS ═══
