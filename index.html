@@ -2467,7 +2467,7 @@ async function loadRealPosts() {
       body: p.body,
       image: p.image_url || null,
       tags: p.tags || [],
-      csat: p.csat || 1,
+      csat: p.csat || 0,
       dsat: p.dsat || 0,
       time: timeAgo(p.created_at),
       comments: (p.comments || []).map(function(c) {
@@ -2507,26 +2507,106 @@ function timeAgo(isoStr) {
 // ═══════════════════════════════════════════════════════════════════════════
 async function loadVotes() {
   if (!sbUser) return;
-  var res = await sb.from('votes').select('post_id, direction').eq('user_id', sbUser.id);
-  if (res.error || !res.data) return;
-  res.data.forEach(function(v) {
-    voteMap['db_' + v.post_id] = v.direction;
-    voteMap[v.post_id] = v.direction;
-  });
-  buildFeed();
+  try {
+    var res = await sb.from('votes').select('post_id, direction').eq('user_id', sbUser.id);
+    if (res.error || !res.data) return;
+    res.data.forEach(function(v) {
+      voteMap['db_' + v.post_id] = v.direction;
+      voteMap[v.post_id] = v.direction;
+    });
+    buildFeed();
+  } catch(e) { console.log('loadVotes skipped:', e.message); }
 }
 
 var _origVoteFn = vote;
 function vote(e, id, dir) {
-  _origVoteFn(e, id, dir);
+  if (e) e.stopPropagation();
+  if (!currentUser) { openAuth('signup'); return; }
+
+  var prevDir = voteMap[id];
+  var isToggleOff = prevDir === dir;
+
+  // Update local voteMap
+  voteMap[id] = isToggleOff ? null : dir;
+
+  // Update local posts array counts so display is immediate + persistent across buildFeed
+  var post = posts.find(function(p){ return String(p.id) === String(id); });
+  if (post) {
+    // Undo previous vote count
+    if (prevDir === 'up')   post.csat = Math.max(0, (post.csat||0) - 1);
+    if (prevDir === 'down') post.dsat = Math.max(0, (post.dsat||0) - 1);
+    // Apply new vote count
+    if (!isToggleOff) {
+      if (dir === 'up')   post.csat = (post.csat||0) + 1;
+      if (dir === 'down') post.dsat = (post.dsat||0) + 1;
+    }
+  }
+
+  // Rebuild feed + post view if open
+  buildFeed();
+  if (currentViewPostId && String(currentViewPostId) === String(id)) {
+    openPostView(id); // refresh post view counts
+  }
+
+  // Check COTD winner
+  if (dir === 'up' && post) checkCOTDWinner(post);
+
+  // Persist to Supabase
   if (!sbUser) return;
   var dbId = String(id).replace('db_', '');
-  if (isNaN(dbId)) return; // seed post, don't save
-  if (voteMap[id] === dir) {
-    // Voted same direction = toggle off
-    sb.from('votes').delete().eq('user_id', sbUser.id).eq('post_id', dbId);
+  if (isNaN(Number(dbId))) return; // seed post — no DB
+
+  if (isToggleOff) {
+    // Remove vote
+    sb.from('votes').delete()
+      .eq('user_id', sbUser.id).eq('post_id', dbId)
+      .then(function(){});
+    // Decrement post count in DB
+    if (prevDir === 'up' && post) {
+      sb.from('posts').update({ csat: Math.max(0, post.csat) })
+        .eq('id', Number(dbId)).then(function(){});
+    }
+    if (prevDir === 'down' && post) {
+      sb.from('posts').update({ dsat: Math.max(0, post.dsat) })
+        .eq('id', Number(dbId)).then(function(){});
+    }
   } else {
-    sb.from('votes').upsert({ user_id: sbUser.id, post_id: dbId, direction: dir });
+    // Upsert vote record
+    sb.from('votes').upsert({
+      user_id: sbUser.id, post_id: Number(dbId), direction: dir
+    }, { onConflict: 'user_id,post_id' }).then(function(){});
+
+    // Update post counts in DB
+    if (post) {
+      sb.from('posts').update({ csat: post.csat, dsat: post.dsat })
+        .eq('id', Number(dbId)).then(function(){});
+    }
+
+    // Send CSAT notification to post author
+    if (dir === 'up' && post && post.author && currentUser.username !== post.author) {
+      sb.from('notifications').insert({
+        recipient_username: post.author,
+        sender_username: currentUser.username,
+        type: 'csat',
+        message: '<strong>u/' + currentUser.username + '</strong> gave your post a CSAT &#128522; — <em>' +
+          (post.title ? post.title.slice(0,60) + (post.title.length>60?'...':'') : 'your post') + '</em>',
+        read: false
+      }).then(function(){});
+      // Badge check — first CSAT received
+      addNotif('😊', '<strong>u/' + currentUser.username + '</strong> rated your post helpful!', function(){});
+    }
+
+    // Send DSAT notification to post author
+    if (dir === 'down' && post && post.author && currentUser.username !== post.author) {
+      sb.from('notifications').insert({
+        recipient_username: post.author,
+        sender_username: currentUser.username,
+        type: 'dsat',
+        message: '<strong>u/' + currentUser.username + '</strong> gave your post a DSAT &#128548; — <em>' +
+          (post.title ? post.title.slice(0,60) + (post.title.length>60?'...':'') : 'your post') + '</em>',
+        read: false
+      }).then(function(){});
+    }
   }
 }
 
