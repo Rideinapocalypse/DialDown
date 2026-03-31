@@ -2722,8 +2722,8 @@ var TR_POSTS_DATA = JSON.parse("[{\"id\": 101, \"role\": \"agent-inbound\", \"au
 function getRole(id){return ROLES.find(function(r){return r.id===id;})||{icon:'👤',name:id,cls:'role-agent'};}
 function getProfile(u){return PROFILES.find(function(p){return p.username===u;})||{username:u,color:'#8b90a7'};}
 function csatScore(p,mv){
-  var c=(p.csat||0)+(mv==='up'?1:0);
-  var d=(p.dsat||0)+(mv==='down'?1:0);
+  var c=p.csat||0;
+  var d=p.dsat||0;
   var t=c+d; return t===0?null:Math.round((c/t)*100);
 }
 function el(id){return document.getElementById(id);}
@@ -2896,7 +2896,7 @@ function buildFeed(){
     var csatBtn=document.createElement('button');
     csatBtn.className='csat-btn'+(mv==='up'?' csat-on':'');
     csatBtn.title='CSAT — This helped me!';
-    csatBtn.innerHTML='😊 <span>'+((p.csat||0)+(mv==='up'?1:0))+'</span>';
+    csatBtn.innerHTML='😊 <span>'+(p.csat||0)+'</span>';
     csatBtn.addEventListener('click',(function(pid){return function(e){e.stopPropagation();vote(e,pid,'up');};})(p.id));
 
     var scoreDiv=document.createElement('div');
@@ -2906,7 +2906,7 @@ function buildFeed(){
     var dsatBtn=document.createElement('button');
     dsatBtn.className='csat-btn'+(mv==='down'?' dsat-on':'');
     dsatBtn.title='DSAT — Not helpful';
-    dsatBtn.innerHTML='😤 <span>'+((p.dsat||0)+(mv==='down'?1:0))+'</span>';
+    dsatBtn.innerHTML='😤 <span>'+(p.dsat||0)+'</span>';
     dsatBtn.addEventListener('click',(function(pid){return function(e){e.stopPropagation();vote(e,pid,'down');};})(p.id));
 
     voteCol.appendChild(csatBtn);
@@ -6380,8 +6380,8 @@ function openPostView(pid) {
   if (pvFooter) {
     var mv = voteMap[pid];
     pvFooter.innerHTML =
-      '<button class="csat-btn'+(mv==='up'?' csat-on':'')+'" data-vote-pid="'+pid+'" data-vote-dir="up">&#128522; <span>'+((p.csat||0)+(mv==='up'?1:0))+'</span></button>'+
-      '<button class="csat-btn'+(mv==='down'?' dsat-on':'')+'" data-vote-pid="'+pid+'" data-vote-dir="down">&#128548; <span>'+((p.dsat||0)+(mv==='down'?1:0))+'</span></button>'+
+      '<button class="csat-btn'+(mv==='up'?' csat-on':'')+'" data-vote-pid="'+pid+'" data-vote-dir="up">&#128522; <span>'+(p.csat||0)+'</span></button>'+
+      '<button class="csat-btn'+(mv==='down'?' dsat-on':'')+'" data-vote-pid="'+pid+'" data-vote-dir="down">&#128548; <span>'+(p.dsat||0)+'</span></button>'+
       '<span style="font-size:13px;color:var(--text3)">&#128172; '+p.comments.length+' comment'+(p.comments.length!==1?'s':'')+'</span>';
     (p.tags||[]).forEach(function(t){
       var tc=document.createElement('span');
