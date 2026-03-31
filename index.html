@@ -3607,6 +3607,7 @@ function renderProfileBadges(){
 
 // ═══ PROFILE MODAL ═══
 function openProfileModal(username){
+  try {
   var prof=getProfile(username), role=getRole(prof.role||'agent-inbound');
   var up=posts.filter(function(p){return p.author===username;});
   var totalC=up.reduce(function(s,p){return s+(p.csat||0);},0);
@@ -3618,7 +3619,7 @@ function openProfileModal(username){
   var postsHTML=recentPosts.map(function(p){return'<div class="pmod-post-preview" data-pid="'+p.id+'"><div class="pmod-post-title">'+p.title+'</div><div class="pmod-post-meta">&#128578; '+p.csat+' &nbsp;&#183;&nbsp; '+p.comments.length+' comments &nbsp;&#183;&nbsp; '+p.time+'</div></div>';}).join('');
   var metaChips=(prof.location?'<span class="pmod-meta-chip">&#128205; '+prof.location+'</span>':'')+(prof.tenure?'<span class="pmod-meta-chip">&#8987; '+prof.tenure+'</span>':'')+(prof.joined?'<span class="pmod-meta-chip">&#128197; Joined '+prof.joined+'</span>':'');
   el('profileModalContent').innerHTML=
-    '<div class="pmod-hero"><div class="pmod-av" style="background:'+prof.color+'">'+username.slice(0,2).toUpperCase()+'</div>'+
+    '<div class="pmod-hero"><div class="pmod-av" style="background:'+prof.color+'">'+_baseGetAvatar(username, prof.avatar_url||null, prof.color, 52)+'</div>'+
     '<div class="pmod-info"><div class="pmod-username">u/'+username+'</div><div class="pmod-role">'+role.icon+' '+role.name+'</div>'+
     '<div class="pmod-bio">'+(prof.bio||'CC community member.')+'</div>'+
     '<div class="pmod-meta-row">'+metaChips+'</div></div></div>'+
@@ -3634,6 +3635,7 @@ function openProfileModal(username){
     });
   },50);
   el('profileModal').classList.add('open');
+  } catch(e) { console.error('ProfileModal crash:', e.message); showToast('Profile unavailable'); }
 }
 function closeProfileModal(){el('profileModal').classList.remove('open');}
 
@@ -4189,21 +4191,26 @@ function renderNotifList(){
   var list = document.getElementById('notifList');
   if(!list) return;
   if(!notifications.length){
-    list.innerHTML = '<div class="notif-empty">🔔 No notifications yet.<br>Start posting and interacting!</div>';
+    list.innerHTML = '<div class="notif-empty">&#128276; No notifications yet.<br>Start posting and interacting!</div>';
     return;
   }
   list.innerHTML = '';
-  notifications.slice(0,15).forEach(function(n){
+  notifications.slice(0,20).forEach(function(n){
+    try {
+    var icon = n.icon || '&#128276;';
+    // Ensure icon is safe text — no raw emoji that could crash innerHTML
+    var safeHtml = (n.html||'').replace(/<script[^>]*>.*?<\/script>/gi,'');
     var item = document.createElement('div');
     item.className = 'notif-item' + (n.read ? '' : ' unread');
-    item.innerHTML = '<div class="notif-icon">'+n.icon+'</div><div class="notif-body"><div class="notif-text">'+n.html+'</div><div class="notif-time">'+n.time+'</div></div>';
+    item.innerHTML = '<div class="notif-icon">'+icon+'</div><div class="notif-body"><div class="notif-text">'+safeHtml+'</div><div class="notif-time">'+(n.time||'')+'</div></div>';
     item.addEventListener('click', function(){
       n.read = true;
       renderNotifBadge();
-      if(n.onClick) n.onClick();
+      try { if(n.onClick) n.onClick(); } catch(e){ console.log('Notif onClick error:', e.message); }
       toggleNotifPanel();
     });
     list.appendChild(item);
+    } catch(e) { console.error('Notif render error:', e.message, n); }
   });
 }
 
@@ -4219,6 +4226,7 @@ function markAllRead(){
   notifications.forEach(function(n){ n.read = true; });
   renderNotifBadge();
   renderNotifList();
+  showToast('All notifications marked as read');
 }
 
 function showNotifBell(){
@@ -4630,7 +4638,12 @@ async function loadNotifications() {
     var dbNotifs = res.data.map(function(n){
       return {
         id: n.id,
-        icon: n.type === 'comment' ? '&#128172;' : '&#128276;',
+        icon: n.type === 'comment' ? '&#128172;' :
+             n.type === 'csat' ? '&#128522;' :
+             n.type === 'dsat' ? '&#128548;' :
+             n.type === 'friend_request' ? '&#128101;' :
+             n.type === 'friend_accepted' ? '&#127881;' :
+             n.type === 'dm' ? '&#128172;' : '&#128276;',
         html: n.message,
         time: timeAgo(n.created_at),
         read: n.read,
@@ -6452,10 +6465,25 @@ document.addEventListener('click', function(e) {
   var dmBtn = e.target.closest('[data-dm-to]');
   if (dmBtn) { openDM(dmBtn.dataset.dmTo); return; }
 });
-// Event delegation for profile opens and friend buttons
+// Event delegation for profile opens, friend buttons and cam-click avatars
 document.addEventListener('click', function(e) {
+  // Profile card click
   var profileCard = e.target.closest('[data-open-profile]');
   if (profileCard) { openProfile(profileCard.dataset.openProfile); return; }
+  // Comment avatar / author click → profile modal
+  var camClick = e.target.closest('.cam-click');
+  if (camClick) {
+    var username = camClick.dataset.cauth || camClick.dataset.author;
+    if (username) { e.stopPropagation(); openProfileModal(username); }
+    return;
+  }
+  // Author wrap click
+  var authorWrap = e.target.closest('.author-wrap');
+  if (authorWrap) {
+    var author = authorWrap.dataset.author;
+    if (author) { e.stopPropagation(); openProfileModal(author); }
+    return;
+  }
 });
 // Event delegation for friend buttons (avoids inline onclick quote issues)
 document.addEventListener('click', function(e) {
