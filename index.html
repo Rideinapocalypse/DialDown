@@ -2557,18 +2557,25 @@ function vote(e, id, dir) {
   if (isNaN(Number(dbId))) return; // seed post — no DB
 
   var voteDir = isToggleOff ? 'remove' : dir;
+  console.log('Voting:', voteDir, 'on post', dbId, 'user:', sbUser.id);
   sb.rpc('cast_vote', {
     p_post_id: Number(dbId),
     p_user_id: sbUser.id,
     p_direction: voteDir
   }).then(function(res){
     if (res.error) {
-      console.error('Vote RPC error:', res.error.message);
-    } else if (res.data && post) {
-      // Sync local counts with DB truth
-      post.csat = res.data.csat;
-      post.dsat = res.data.dsat;
-      buildFeed();
+      console.error('Vote RPC error:', res.error.message, res.error.code, res.error.details);
+      // Fallback: try direct update if RPC not available yet
+      if (res.error.message && res.error.message.indexOf('cast_vote') >= 0) {
+        console.warn('RPC not found — run votes_fix_migration.sql in Supabase');
+      }
+    } else {
+      console.log('Vote saved OK, new counts:', res.data);
+      if (res.data && post) {
+        post.csat = res.data.csat;
+        post.dsat = res.data.dsat;
+        buildFeed();
+      }
     }
   });
 
