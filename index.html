@@ -1685,6 +1685,410 @@ header {
   z-index: 10;
 }
 
+
+/* ══ CALL EVALUATOR ══ */
+.eval-layout {
+  max-width: 760px; margin: 0 auto; padding: 24px 16px 80px;
+}
+.eval-header {
+  text-align: center; margin-bottom: 28px;
+}
+.eval-title {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 24px; margin-bottom: 6px;
+}
+.eval-sub { font-size: 13.5px; color: var(--text3); }
+
+/* Call selector cards */
+.eval-call-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px; margin-bottom: 24px;
+}
+.eval-call-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px; cursor: pointer;
+  transition: all .2s; animation: fadeUp .3s ease both;
+}
+.eval-call-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.eval-call-card.active { border-color: var(--accent); background: var(--accent-dim); }
+.eval-call-number { font-size: 11px; color: var(--text3); font-family: monospace; margin-bottom: 4px; }
+.eval-call-name { font-size: 13.5px; font-weight: 700; margin-bottom: 6px; line-height: 1.4; }
+.eval-diff-badge {
+  font-size: 10px; padding: 2px 8px; border-radius: 10px;
+  font-family: 'JetBrains Mono', monospace; font-weight: 600;
+}
+.eval-diff-easy   { background: rgba(61,220,132,.15); color: var(--green); }
+.eval-diff-medium { background: rgba(251,191,36,.15); color: var(--yellow); }
+.eval-diff-hard   { background: rgba(255,107,107,.15); color: var(--red); }
+
+/* Transcript */
+.eval-transcript-wrap {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 20px;
+}
+.eval-transcript-hdr {
+  padding: 14px 18px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.eval-transcript-title {
+  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px;
+}
+.eval-transcript-meta { font-size: 12px; color: var(--text3); }
+.eval-transcript-body { padding: 16px 18px; max-height: 400px; overflow-y: auto; }
+.eval-line {
+  display: flex; gap: 10px; margin-bottom: 12px; animation: fadeUp .2s ease both;
+}
+.eval-line.agent { flex-direction: row; }
+.eval-line.customer { flex-direction: row-reverse; }
+.eval-speaker-tag {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .5px; font-family: monospace; flex-shrink: 0;
+  padding-top: 4px; min-width: 52px;
+}
+.eval-line.agent .eval-speaker-tag { color: var(--blue); text-align: left; }
+.eval-line.customer .eval-speaker-tag { color: var(--accent); text-align: right; }
+.eval-bubble {
+  max-width: 75%; padding: 9px 13px; border-radius: 12px;
+  font-size: 13.5px; line-height: 1.6;
+}
+.eval-line.agent .eval-bubble {
+  background: var(--bg3); color: var(--text);
+  border-bottom-left-radius: 3px;
+}
+.eval-line.customer .eval-bubble {
+  background: rgba(255,95,31,.12); color: var(--text);
+  border: 1px solid rgba(255,95,31,.2); border-bottom-right-radius: 3px;
+}
+.eval-silence {
+  background: rgba(255,107,107,.1); border: 1px solid rgba(255,107,107,.2);
+  color: var(--red); font-style: italic; font-size: 12.5px;
+}
+.eval-reveal-btn {
+  display: block; width: 100%; padding: 10px;
+  background: none; border: 1px dashed var(--border);
+  color: var(--text3); cursor: pointer; font-size: 12px;
+  border-radius: 8px; margin-top: 8px; transition: all .2s;
+  font-family: 'DM Sans', sans-serif;
+}
+.eval-reveal-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Scoring panel */
+.eval-score-wrap {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 20px; margin-bottom: 20px;
+}
+.eval-score-title {
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: 15px; margin-bottom: 16px;
+}
+.eval-criterion {
+  margin-bottom: 18px;
+}
+.eval-crit-header {
+  display: flex; justify-content: space-between;
+  align-items: center; margin-bottom: 8px;
+}
+.eval-crit-label { font-size: 13.5px; font-weight: 600; }
+.eval-crit-score { font-size: 13px; color: var(--accent); font-family: monospace; font-weight: 700; }
+.eval-slider {
+  width: 100%; appearance: none; height: 6px;
+  border-radius: 3px; outline: none; cursor: pointer;
+  background: var(--bg3);
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-repeat: no-repeat;
+}
+.eval-slider::-webkit-slider-thumb {
+  appearance: none; width: 20px; height: 20px;
+  border-radius: 50%; background: var(--accent);
+  cursor: pointer; border: 2px solid var(--bg);
+  box-shadow: 0 2px 6px rgba(0,0,0,.3);
+}
+.eval-total-bar {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px; background: var(--bg3);
+  border-radius: 10px; margin-top: 16px;
+}
+.eval-total-label { font-size: 13px; color: var(--text3); }
+.eval-total-score {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 28px; color: var(--accent);
+}
+.eval-total-max { font-size: 13px; color: var(--text3); }
+.eval-submit-btn {
+  background: var(--accent); color: #fff; border: none;
+  border-radius: 10px; padding: 13px 28px; font-size: 15px;
+  font-family: 'DM Sans', sans-serif; font-weight: 700;
+  cursor: pointer; width: 100%; margin-top: 12px;
+  transition: background .2s, transform .1s;
+}
+.eval-submit-btn:hover { background: var(--accent2); transform: translateY(-1px); }
+
+/* Verdict card */
+.eval-verdict {
+  background: linear-gradient(135deg, #0d1117 0%, #1a0a2e 100%);
+  border: 2px solid var(--accent); border-radius: var(--radius-lg);
+  padding: 28px 24px; text-align: center; margin-bottom: 20px;
+  animation: fadeUp .4s ease both; display: none;
+}
+.eval-verdict.show { display: block; }
+.eval-verdict-score {
+  font-family: 'Syne', sans-serif; font-weight: 900;
+  font-size: 56px; color: var(--accent); margin-bottom: 8px;
+  line-height: 1;
+}
+.eval-verdict-grade {
+  font-size: 11px; color: var(--text3); font-family: monospace;
+  text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px;
+}
+.eval-verdict-title {
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: 20px; margin-bottom: 10px; color: var(--text);
+}
+.eval-verdict-text {
+  font-size: 14px; color: var(--text2); line-height: 1.7;
+  max-width: 480px; margin: 0 auto 20px;
+}
+.eval-verdict-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.eval-share-btn {
+  background: var(--accent); color: #fff; border: none;
+  border-radius: 8px; padding: 10px 20px; font-size: 13px;
+  cursor: pointer; font-family: 'DM Sans', sans-serif; font-weight: 600;
+  transition: background .2s;
+}
+.eval-share-btn:hover { background: var(--accent2); }
+.eval-next-btn {
+  background: var(--bg3); color: var(--text2);
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: 10px 20px; font-size: 13px; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; transition: all .2s;
+}
+.eval-next-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+@media (max-width: 480px) {
+  .eval-layout { padding: 12px; }
+  .eval-call-grid { grid-template-columns: 1fr 1fr; }
+  .eval-bubble { max-width: 85%; font-size: 13px; }
+}
+
+
+/* ══ WHO'S ONLINE STRIP ══ */
+.online-strip {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 12px 16px;
+  margin-bottom: 14px; animation: fadeUp .4s ease both;
+}
+.online-strip-header {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 10px; font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text3); text-transform: uppercase; letter-spacing: .5px;
+}
+.online-count-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #22c55e; animation: onlinePulse 2s infinite;
+  flex-shrink: 0;
+}
+.online-strip-users {
+  display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+}
+.online-user-chip {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 20px; padding: 4px 10px 4px 4px;
+  cursor: pointer; transition: border-color .2s;
+  font-size: 12.5px;
+}
+.online-user-chip:hover { border-color: var(--accent); }
+.online-user-chip-av {
+  width: 22px; height: 22px; border-radius: 50%;
+  overflow: hidden; position: relative; flex-shrink: 0;
+}
+.online-user-chip-name { color: var(--text2); font-weight: 500; }
+.online-user-chip-status {
+  color: var(--text3); font-size: 11px; max-width: 100px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* ══ STATUS MESSAGE ══ */
+.status-set-wrap {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 0; flex-wrap: wrap;
+}
+.status-emoji-btn {
+  font-size: 20px; cursor: pointer; padding: 4px 8px;
+  border-radius: 8px; border: 1px solid var(--border);
+  background: var(--bg3); transition: border-color .2s;
+  line-height: 1;
+}
+.status-emoji-btn:hover { border-color: var(--accent); }
+.status-msg-input {
+  flex: 1; background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 8px; padding: 7px 12px; color: var(--text);
+  font-family: 'DM Sans', sans-serif; font-size: 13px; outline: none;
+  transition: border-color .2s; min-width: 140px;
+}
+.status-msg-input:focus { border-color: var(--accent); }
+.status-save-btn {
+  background: var(--accent); color: #fff; border: none;
+  border-radius: 8px; padding: 7px 14px; font-size: 13px;
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+  font-weight: 600; transition: background .2s;
+}
+.status-save-btn:hover { background: var(--accent2); }
+.status-clear-btn {
+  background: none; border: 1px solid var(--border); color: var(--text3);
+  border-radius: 8px; padding: 7px 10px; font-size: 12px;
+  cursor: pointer; transition: all .2s;
+}
+.status-clear-btn:hover { border-color: var(--red); color: var(--red); }
+/* Status shown on profile */
+.profile-status-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 20px; padding: 3px 10px; font-size: 12.5px;
+  color: var(--text2); margin-top: 6px;
+}
+/* Emoji picker */
+.emoji-picker-wrap {
+  position: relative; display: inline-block;
+}
+.emoji-picker-grid {
+  position: absolute; top: 110%; left: 0; z-index: 200;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 8px; display: grid;
+  grid-template-columns: repeat(6, 1fr); gap: 4px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.4); min-width: 180px;
+}
+.emoji-picker-btn {
+  font-size: 20px; cursor: pointer; padding: 4px;
+  border-radius: 6px; border: none; background: none;
+  transition: background .15s; line-height: 1; text-align: center;
+}
+.emoji-picker-btn:hover { background: var(--bg3); }
+
+/* ══ CALL SIMULATOR ══ */
+.call-sim-page { max-width: 680px; margin: 0 auto; padding: 24px 16px; }
+.call-sim-phone {
+  background: linear-gradient(135deg, #0e0f13, #1a1d26);
+  border: 1px solid var(--border); border-radius: 24px;
+  padding: 28px 24px; text-align: center; position: relative;
+  overflow: hidden; margin-bottom: 16px;
+}
+.call-sim-phone::before {
+  content: ''; position: absolute; top: -40px; right: -40px;
+  width: 140px; height: 140px;
+  background: radial-gradient(circle, rgba(34,197,94,.1), transparent);
+  pointer-events: none;
+}
+.call-sim-status {
+  font-size: 12px; color: var(--text3);
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;
+}
+.call-sim-caller {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 22px; margin-bottom: 4px;
+}
+.call-sim-type {
+  font-size: 13px; color: var(--text3); margin-bottom: 20px;
+}
+.call-sim-timer {
+  font-family: 'JetBrains Mono', monospace; font-size: 32px;
+  font-weight: 700; color: #22c55e; margin-bottom: 20px;
+  letter-spacing: 2px;
+}
+.call-sim-wave {
+  display: flex; align-items: center; justify-content: center;
+  gap: 3px; height: 40px; margin-bottom: 20px;
+}
+.call-sim-wave-bar {
+  width: 3px; border-radius: 2px; background: #22c55e;
+  animation: waveAnim 0.6s ease-in-out infinite alternate;
+}
+@keyframes waveAnim {
+  from { height: 4px; opacity: .4; }
+  to   { height: 28px; opacity: 1; }
+}
+.call-sim-btn-row {
+  display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+}
+.call-sim-btn {
+  border: none; border-radius: 50%; width: 56px; height: 56px;
+  font-size: 22px; cursor: pointer; transition: transform .15s, box-shadow .15s;
+  display: flex; align-items: center; justify-content: center;
+}
+.call-sim-btn:hover { transform: scale(1.1); }
+.call-sim-btn.answer { background: #22c55e; }
+.call-sim-btn.hangup { background: var(--red); }
+.call-sim-btn.hold   { background: var(--yellow); }
+.call-sim-btn.mute   { background: var(--bg3); border: 1px solid var(--border); }
+/* QA Result */
+.qa-result-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 20px 22px;
+  animation: fadeUp .4s ease both; margin-top: 14px;
+}
+.qa-score-big {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 52px; text-align: center; margin-bottom: 4px;
+}
+.qa-score-label {
+  text-align: center; font-size: 13px; color: var(--text3);
+  font-family: 'JetBrains Mono', monospace; margin-bottom: 16px;
+}
+.qa-criteria {
+  display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;
+}
+.qa-criterion {
+  display: flex; align-items: center; gap: 10px; font-size: 13.5px;
+}
+.qa-crit-score {
+  font-family: 'JetBrains Mono', monospace; font-weight: 700;
+  min-width: 36px; text-align: right;
+}
+.qa-crit-bar-wrap {
+  flex: 1; height: 6px; background: var(--bg3); border-radius: 3px; overflow: hidden;
+}
+.qa-crit-bar { height: 100%; border-radius: 3px; transition: width .8s ease; }
+.qa-verdict {
+  background: var(--bg3); border-radius: 8px; padding: 12px 14px;
+  font-size: 13.5px; line-height: 1.7; font-style: italic; color: var(--text2);
+  border-left: 3px solid var(--accent);
+}
+
+/* ══ AGENT COACH ══ */
+.coach-card {
+  background: linear-gradient(135deg, rgba(167,139,250,.08), rgba(79,158,255,.05));
+  border: 1px solid rgba(167,139,250,.2); border-radius: var(--radius-lg);
+  padding: 20px 22px; margin-bottom: 12px; animation: fadeUp .4s ease both;
+}
+.coach-avatar {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--purple), var(--blue));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; margin-bottom: 12px;
+}
+.coach-name {
+  font-weight: 700; font-size: 14px; color: var(--purple); margin-bottom: 2px;
+}
+.coach-title { font-size: 11px; color: var(--text3); margin-bottom: 12px;
+  font-family: 'JetBrains Mono', monospace; }
+.coach-message {
+  font-size: 14px; line-height: 1.75; color: var(--text2); margin-bottom: 14px;
+}
+.coach-tip-box {
+  background: rgba(167,139,250,.08); border-radius: 8px;
+  padding: 10px 14px; font-size: 13px; color: var(--text);
+  border-left: 2px solid var(--purple); line-height: 1.6; margin-bottom: 14px;
+}
+.coach-next-btn {
+  background: rgba(167,139,250,.15); border: 1px solid rgba(167,139,250,.3);
+  color: var(--purple); border-radius: 8px; padding: 8px 16px;
+  font-size: 13px; cursor: pointer; font-family: 'DM Sans', sans-serif;
+  font-weight: 600; transition: all .2s;
+}
+.coach-next-btn:hover { background: rgba(167,139,250,.25); }
+
 </style>
 </head>
 <body>
@@ -1730,6 +2134,18 @@ header {
     <div class="snav-item" id="snav-templates" onclick="navTo('templates')">
       <span class="sni-icon">📝</span>
       <span class="sni-label">Templates</span>
+    </div>
+    <div class="snav-item" id="snav-evaluator" onclick="navTo('evaluator')">
+      <span class="sni-icon">📞</span>
+      <span class="sni-label">Call Evaluator</span>
+    </div>
+    <div class="snav-item" id="snav-callsim" onclick="navTo('callSim')">
+      <span class="sni-icon">🎧</span>
+      <span class="sni-label">Call Simulator</span>
+    </div>
+    <div class="snav-item" id="snav-coach" onclick="navTo('coach')">
+      <span class="sni-icon">🧑‍🏫</span>
+      <span class="sni-label">Agent Coach</span>
     </div>
     <div class="snav-item" id="snav-game" onclick="navTo('game')">
       <span class="sni-icon">🎮</span>
@@ -1782,6 +2198,21 @@ header {
     <div class="snav-item" id="snav-edit-profile" onclick="openEditProfile();closeSidebar()">
       <span class="sni-icon">✏️</span>
       <span class="sni-label">Edit Profile</span>
+    </div>
+    <!-- Status setter in sidebar -->
+    <div id="snavStatusWrap" style="padding:8px 10px;display:none">
+      <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;font-family:monospace;margin-bottom:6px">Your Status</div>
+      <div class="status-set-wrap">
+        <div class="emoji-picker-wrap">
+          <button class="status-emoji-btn" id="statusEmojiBtn" onclick="toggleEmojiPicker()">🟢</button>
+          <div class="emoji-picker-grid" id="statusEmojiGrid" style="display:none"></div>
+        </div>
+        <input class="status-msg-input" id="statusMsgInput" placeholder="What's your status?" maxlength="60"/>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:4px">
+        <button class="status-save-btn" onclick="saveStatus()">Set</button>
+        <button class="status-clear-btn" onclick="clearStatus()">Clear</button>
+      </div>
     </div>
     <div class="snav-item" style="color:var(--red)" onclick="logout();closeSidebar()">
       <span class="sni-icon">🚪</span>
@@ -1876,6 +2307,19 @@ header {
     <div id="feed"></div>
   </main>
   <aside class="sidebar">
+    <!-- WHO'S ONLINE -->
+    <div class="sidebar-card" id="onlineStripCard">
+      <div class="sc-header">
+        <span class="online-count-dot" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#22c55e;animation:onlinePulse 2s infinite;margin-right:6px;vertical-align:middle"></span>
+        Who's Online
+        <span id="onlineCountLabel" style="color:var(--text3);font-size:11px;font-family:monospace;margin-left:4px"></span>
+      </div>
+      <div class="sc-body">
+        <div class="online-strip-users" id="onlineUsersList" style="padding:4px 0">
+          <span style="font-size:12px;color:var(--text3)">Loading...</span>
+        </div>
+      </div>
+    </div>
     <div class="sidebar-card"><div class="sc-header">🎯 Browse by Role</div><div class="sc-body"><div class="role-list" id="roleFilterList"></div></div></div>
     <div class="sidebar-card"><div class="sc-header">📊 Stats</div><div class="sc-body"><div class="stats-grid"><div class="stat-item"><div class="stat-num">4.2k</div><div class="stat-label">Members</div></div><div class="stat-item"><div class="stat-num" id="statPosts">25</div><div class="stat-label">Posts</div></div><div class="stat-item"><div class="stat-num">12k</div><div class="stat-label">Tips</div></div><div class="stat-item"><div class="stat-num">99%</div><div class="stat-label">AHT Stress</div></div></div></div></div>
     <div class="sidebar-card"><div class="sc-header">📈 Trending</div><div class="sc-body"><div id="trendingList"></div></div></div>
@@ -2018,6 +2462,50 @@ header {
 
 
 
+
+<!-- CALL EVALUATOR PAGE -->
+<div class="page" id="pageEvaluator">
+  <div class="eval-layout">
+    <div class="eval-header">
+      <div class="eval-title">📞 Call Evaluator</div>
+      <div class="eval-sub">Listen to a call. Score the agent. Face the verdict.</div>
+    </div>
+    <div class="eval-call-grid" id="evalCallGrid"></div>
+    <div id="evalCallArea" style="display:none">
+      <div class="eval-transcript-wrap">
+        <div class="eval-transcript-hdr">
+          <div>
+            <div class="eval-transcript-title" id="evalCallTitle"></div>
+            <div class="eval-transcript-meta" id="evalCallMeta"></div>
+          </div>
+          <button class="eval-reveal-btn" id="evalRevealBtn" style="width:auto;padding:6px 14px;margin:0" onclick="evalRevealAll()">▶ Reveal full call</button>
+        </div>
+        <div class="eval-transcript-body" id="evalTranscriptBody"></div>
+      </div>
+      <div class="eval-score-wrap">
+        <div class="eval-score-title">🎯 Your QA Scorecard</div>
+        <div id="evalCriteria"></div>
+        <div class="eval-total-bar">
+          <span class="eval-total-label">Total Score:</span>
+          <span class="eval-total-score" id="evalTotalScore">0</span>
+          <span class="eval-total-max" id="evalTotalMax">/ 100</span>
+        </div>
+        <button class="eval-submit-btn" onclick="evalSubmit()">Submit Evaluation →</button>
+      </div>
+      <div class="eval-verdict" id="evalVerdict">
+        <div class="eval-verdict-score" id="evalVerdictScore"></div>
+        <div class="eval-verdict-grade" id="evalVerdictGrade"></div>
+        <div class="eval-verdict-title" id="evalVerdictTitle"></div>
+        <div class="eval-verdict-text" id="evalVerdictText"></div>
+        <div class="eval-verdict-actions">
+          <button class="eval-share-btn" onclick="evalShareResult()">📤 Share to Feed</button>
+          <button class="eval-next-btn" onclick="evalNextCall()">Next Call →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- NOTIFICATIONS PAGE -->
 <div class="page" id="pageNotifications">
   <div class="notif-page-wrap">
@@ -2028,6 +2516,53 @@ header {
       </button>
     </div>
     <div id="notifPageList"></div>
+  </div>
+</div>
+
+
+<!-- CALL SIMULATOR PAGE -->
+<div class="page" id="pageCallSim">
+  <div class="call-sim-page">
+    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:22px;margin-bottom:6px">🎧 Call Simulator</div>
+    <div style="font-size:13px;color:var(--text3);margin-bottom:20px">Handle a live customer call. Get QA scored — honestly.</div>
+
+    <!-- Phone UI -->
+    <div class="call-sim-phone" id="callSimPhone">
+      <div class="call-sim-status" id="callSimStatus">Incoming call...</div>
+      <div class="call-sim-caller" id="callSimCaller">Margaret, 68</div>
+      <div class="call-sim-type" id="callSimType">📞 Billing dispute · Nuclear</div>
+      <div class="call-sim-timer" id="callSimTimer" style="display:none">0:00</div>
+      <div class="call-sim-wave" id="callSimWave" style="display:none">
+        <!-- bars added by JS -->
+      </div>
+      <div class="call-sim-btn-row">
+        <button class="call-sim-btn answer" id="csAnswerBtn" onclick="csAnswer()" title="Answer">📞</button>
+        <button class="call-sim-btn mute"   id="csMuteBtn"   onclick="csMute()"   title="Mute" style="display:none">🎙️</button>
+        <button class="call-sim-btn hold"   id="csHoldBtn"   onclick="csHold()"   title="Hold" style="display:none">⏸️</button>
+        <button class="call-sim-btn hangup" id="csHangupBtn" onclick="csHangup()" title="Hang up" style="display:none">📵</button>
+      </div>
+    </div>
+
+    <!-- Call transcript (appears during call) -->
+    <div id="callSimTranscript" style="display:none;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px;max-height:220px;overflow-y:auto"></div>
+
+    <!-- QA Result -->
+    <div id="callSimQAResult" style="display:none"></div>
+
+    <!-- Try another -->
+    <div style="text-align:center;margin-top:16px">
+      <button onclick="initCallSim()" style="background:none;border:1px solid var(--border);color:var(--text3);border-radius:8px;padding:8px 18px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif">🎲 New Scenario</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- AGENT COACH PAGE -->
+<div class="page" id="pageCoach">
+  <div class="call-sim-page">
+    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:22px;margin-bottom:6px">🧑‍🏫 Agent Coach</div>
+    <div style="font-size:13px;color:var(--text3);margin-bottom:20px">Daily coaching from Coach Karen. She means well.</div>
+    <div id="coachContent"></div>
   </div>
 </div>
 
@@ -2846,7 +3381,10 @@ function showPage(name){
   if(name==='jobs')initJobs();
   if(name==='reviews')initReviews();
   if(name==='dictionary')initDictionary();
+  if(name==='callSim'){ initCallSim(); }
+  if(name==='coach'){ initCoach(); }
   if(name==='notifications'){ renderNotifPage(); loadNotifications(); }
+  if(name==='evaluator') initEvaluator();
   if(name==='profile'){el('navFeed').style.display='block';el('navGame').style.display='block';el('navTemplates').style.display='block';el('navNews').style.display='block';el('navJobs').style.display='block';}
   var mob={feed:'mnFeed',news:'mnNews',templates:'mnTemplates',game:'mnGame',jobs:'mnJobs'};
   if(mob[name])setMobNav(mob[name]);
@@ -4814,8 +5352,10 @@ function updateSidebarAuth() {
   var loggedIn = document.getElementById('snavLoggedIn');
   var accountSection = document.getElementById('snavAccountSection');
   var postBtn = document.getElementById('snavPostBtn');
+  var statusWrap = document.getElementById('snavStatusWrap');
 
   if (currentUser) {
+    if (statusWrap) { statusWrap.style.display = 'block'; renderStatusEmojiGrid(); }
     if (loggedOut) loggedOut.style.display = 'none';
     if (loggedIn) loggedIn.style.display = 'block';
     if (accountSection) accountSection.style.display = 'block';
@@ -4841,6 +5381,7 @@ function updateSidebarAuth() {
     if (loggedIn) loggedIn.style.display = 'none';
     if (accountSection) accountSection.style.display = 'none';
     if (postBtn) postBtn.style.display = 'none';
+    if (statusWrap) statusWrap.style.display = 'none';
   }
 }
 
@@ -6187,6 +6728,7 @@ function startPresenceHeartbeat() {
   if (!currentUser || !sbUser) return;
   pingPresence();
   setInterval(pingPresence, 30000);
+  setInterval(loadOnlineUsers, 60000);
   // Also update on user activity
   ['click','keydown','scroll'].forEach(function(ev){
     document.addEventListener(ev, function(){
@@ -6588,6 +7130,737 @@ function renderNotifPage() {
     b2.style.display = unread > 0 ? 'inline-block' : 'none';
     b2.textContent = unread > 9 ? '9+' : unread;
   }
+}
+
+
+// ═══════════════════════════════════════════════════════════════
+// CALL EVALUATOR
+// ═══════════════════════════════════════════════════════════════
+var EVAL_CALLS = [{"id": 1, "title": "The Password Reset That Wasn't", "difficulty": "easy", "category": "Tech Support", "transcript": [{"speaker": "agent", "text": "Thank you for calling TechHelp, this is Daniel, how can I help you today?"}, {"speaker": "customer", "text": "Yes hello I need to reset my password."}, {"speaker": "agent", "text": "Of course! I can help with that. Can I take your email address please?"}, {"speaker": "customer", "text": "It's margaret at... wait let me find it. Hold on."}, {"speaker": "agent", "text": "Take your time."}, {"speaker": "customer", "text": "...I wrote it somewhere... Terry! TERRY WHERE DID I WRITE MY EMAIL"}, {"speaker": "agent", "text": "No rush at all."}, {"speaker": "customer", "text": "Okay I found it. It's margaret1947 at hotmail."}, {"speaker": "agent", "text": "Perfect. And can I verify your date of birth?"}, {"speaker": "customer", "text": "Why do you need that? Is this a scam?"}, {"speaker": "agent", "text": "Not at all, it's just for security so I know I'm speaking to the right person."}, {"speaker": "customer", "text": "Well I was born in 1947. March. The 3rd. Are you writing this down?"}, {"speaker": "agent", "text": "I have it, thank you. I'm sending a reset link to your email now."}, {"speaker": "customer", "text": "To which email?"}, {"speaker": "agent", "text": "To margaret1947 at hotmail."}, {"speaker": "customer", "text": "Oh I don't use that one anymore. I use the Gmail now. Terry set it up."}, {"speaker": "agent", "text": "No problem! What's the Gmail address?"}, {"speaker": "customer", "text": "I don't know. Terry set it up. TERRY WHAT'S MY GMAIL"}], "criteria": [{"id": "greeting", "label": "Professional greeting", "max": 10}, {"id": "patience", "label": "Patience with customer", "max": 25}, {"id": "verification", "label": "Correct verification process", "max": 20}, {"id": "empathy", "label": "Empathy shown", "max": 20}, {"id": "resolution", "label": "Issue resolved", "max": 25}], "verdicts": {"90": "QA Legend \ud83c\udfc6 \u2014 You found excellence in a call that ended with a man named Terry being shouted at through a wall.", "70": "Solid Agent \ud83d\udc4d \u2014 You recognised patience as the entire job. Daniel survived and that alone deserves points.", "50": "Getting There \ud83d\udccb \u2014 You docked for resolution but Terry has the email. This was never going to resolve.", "0": "Needs Coaching \ud83d\ude2c \u2014 That agent stayed on the line while Margaret shouted at Terry. They deserve a trophy, not a PIP."}}, {"id": 2, "title": "The Supervisor Demand", "difficulty": "medium", "category": "Escalation", "transcript": [{"speaker": "agent", "text": "Good afternoon, Customer Care, this is Priya speaking."}, {"speaker": "customer", "text": "I want to speak to your supervisor RIGHT NOW."}, {"speaker": "agent", "text": "I'm sorry to hear you're frustrated. Can I ask what's happened today?"}, {"speaker": "customer", "text": "Your company charged me twice and I've been waiting three weeks for a refund."}, {"speaker": "agent", "text": "I completely understand why you're upset \u2014 a three week wait is too long. Let me look into this for you right now."}, {"speaker": "customer", "text": "I don't want you to look into it. I want your supervisor."}, {"speaker": "agent", "text": "Of course, I can arrange that. But while I get them, would it be okay if I pulled up your account so they have everything ready?"}, {"speaker": "customer", "text": "Fine. But I'm not happy."}, {"speaker": "agent", "text": "You have every right to feel that way. Account number or email?"}, {"speaker": "customer", "text": "Email. It's dave at daveconstruction dot co dot uk."}, {"speaker": "agent", "text": "Got it. I can see the double charge here. Actually \u2014 I have the authority to process this refund myself right now. It would reach you in 3 to 5 days. Would that help?"}, {"speaker": "customer", "text": "...You can do that?"}, {"speaker": "agent", "text": "Yes, I've processed it. You'll get a confirmation email shortly."}, {"speaker": "customer", "text": "Oh. Well. That's... okay then. Thank you."}, {"speaker": "agent", "text": "I'm really sorry it took this long. Is there anything else I can do?"}, {"speaker": "customer", "text": "No that's fine. Sorry for being rude."}], "criteria": [{"id": "greeting", "label": "Professional greeting", "max": 10}, {"id": "deflection", "label": "Supervisor deflection handled", "max": 20}, {"id": "empathy", "label": "Empathy without being a pushover", "max": 20}, {"id": "ownership", "label": "Took ownership of the problem", "max": 25}, {"id": "resolution", "label": "First call resolution", "max": 25}], "verdicts": {"90": "Escalation Wizard \ud83e\uddd9 \u2014 Customer wanted a supervisor. Agent resolved without one. Customer apologised. This is the dream.", "70": "Sharp Eye \ud83d\udc41\ufe0f \u2014 You spotted the deflection technique. Minus points because the 3-week wait was a failure \u2014 but Priya cleaned it up.", "50": "Harsh but Fair \ud83e\udd14 \u2014 You scored empathy low. But note: customer said sorry at the end. That almost never happens.", "0": "Please Retake QA Training \ud83d\udcda \u2014 They resolved a 3-week billing issue, avoided escalation, and made the customer apologise. Under 50%."}}, {"id": 3, "title": "The Muted Agent", "difficulty": "hard", "category": "Catastrophic", "transcript": [{"speaker": "agent", "text": "Hello thank you for calling, how can I\u2014"}, {"speaker": "customer", "text": "Hello? Hello are you there?"}, {"speaker": "agent", "text": "Yes! I'm here, can you hear me?"}, {"speaker": "customer", "text": "I can hear you now. Yes. I need to change my address."}, {"speaker": "agent", "text": "Of course. Can I take your account number?"}, {"speaker": "customer", "text": "It's 447-229-0087."}, {"speaker": "agent", "text": "[38 seconds of silence]"}, {"speaker": "customer", "text": "Hello?"}, {"speaker": "agent", "text": "[22 more seconds of silence]"}, {"speaker": "customer", "text": "HELLO? IS ANYONE THERE?"}, {"speaker": "agent", "text": "Sorry! Sorry, I'm so sorry. I was on mute."}, {"speaker": "customer", "text": "You were on mute for a whole minute?!"}, {"speaker": "agent", "text": "I'm really, really sorry. I was trying to find your account and I... yes. I was on mute."}, {"speaker": "customer", "text": "What were you doing?"}, {"speaker": "agent", "text": "I was... looking up your account."}, {"speaker": "customer", "text": "In silence."}, {"speaker": "agent", "text": "Yes. In silence. I'm very sorry."}, {"speaker": "customer", "text": "Right. Can we just change my address please."}, {"speaker": "agent", "text": "Absolutely. What's the new address?"}], "criteria": [{"id": "opening", "label": "Clean call opening", "max": 15}, {"id": "communication", "label": "Keeping customer informed", "max": 30}, {"id": "recovery", "label": "Recovery from mistake", "max": 25}, {"id": "deadair", "label": "Dead air management", "max": 20}, {"id": "resolution", "label": "Issue eventually resolved", "max": 10}], "verdicts": {"90": "Generous Soul \ud83d\ude07 \u2014 You gave high marks despite 60 seconds of dead air. You have been on mute before and you understand.", "70": "Balanced Scorer \u2696\ufe0f \u2014 The mute was bad. The recovery was honest. The customer stayed on. The address will be changed. Success.", "50": "Tough Love School \ud83d\udcaa \u2014 You scored dead air hard. Correct. But the agent owned it without excuses. Points for honesty.", "0": "QA Terminator \ud83e\udd16 \u2014 One minute of dead air, scored zero. You are not wrong. But somewhere an agent knows exactly how this felt."}}, {"id": 4, "title": "The Script Hostage", "difficulty": "medium", "category": "Compliance", "transcript": [{"speaker": "agent", "text": "Thank you for contacting Premier Solutions, my name is James, I hope you are having a wonderful day today, how may I assist you with your query on this fine afternoon?"}, {"speaker": "customer", "text": "Uh. Hi. My internet is down."}, {"speaker": "agent", "text": "I'm so sorry to hear that your internet is not functioning as expected today. I completely understand how frustrating it must be to experience connectivity issues and I want to assure you that you have reached the right department and I am here to help."}, {"speaker": "customer", "text": "...okay. Can you just fix it?"}, {"speaker": "agent", "text": "Absolutely! Before we proceed may I please take a moment to verify your account details for security purposes?"}, {"speaker": "customer", "text": "Yes. Fine."}, {"speaker": "agent", "text": "Wonderful! Could I please have your full name as it appears on the account?"}, {"speaker": "customer", "text": "Steve."}, {"speaker": "agent", "text": "Thank you so much Steve! And could I also have your date of birth?"}, {"speaker": "customer", "text": "Why does fixing my internet require my date of birth?"}, {"speaker": "agent", "text": "I completely understand your concern Steve and I want to assure you that this is purely for the purposes of account verification in line with our security policy."}, {"speaker": "customer", "text": "Can you just restart the line from your end or something?"}, {"speaker": "agent", "text": "I would be more than happy to assist with that however I am first required to verify your identity in order to proceed."}, {"speaker": "customer", "text": "It's been three minutes. My date of birth is the fifth of June 1981."}, {"speaker": "agent", "text": "Wonderful! Thank you so much for your patience Steve. I'll now proceed to investigate the issue with your connectivity."}], "criteria": [{"id": "greeting", "label": "Greeting (not a novel)", "max": 15}, {"id": "natural", "label": "Natural conversation flow", "max": 30}, {"id": "efficiency", "label": "Time efficiency", "max": 25}, {"id": "empathy", "label": "Genuine vs scripted empathy", "max": 20}, {"id": "resolution", "label": "Progress toward resolution", "max": 10}], "verdicts": {"90": "Script Defender \ud83d\udcdc \u2014 You scored this high. You believe in the script. You have said I completely understand 400 times and will say it 400 more.", "70": "Nuanced View \ud83c\udfad \u2014 James followed the script perfectly. James also took 3 minutes to learn Steve's name. Both things are true.", "50": "The Real QA \ud83d\udd0d \u2014 Wonderful is not a feeling. It is a sound a human makes when following a flowchart. You scored correctly.", "0": "Anti-Script Revolutionary \u270a \u2014 James said Wonderful five times. James is trapped in a script and you have correctly identified his prison."}}, {"id": 5, "title": "The Call That Went Somewhere Else", "difficulty": "easy", "category": "Unexpected", "transcript": [{"speaker": "agent", "text": "Good morning, Riverside Insurance, this is Chloe."}, {"speaker": "customer", "text": "Yes hello, I need to report a claim."}, {"speaker": "agent", "text": "Of course, I can help with that. What type of claim are you making today?"}, {"speaker": "customer", "text": "Car. Someone reversed into me at Tesco."}, {"speaker": "agent", "text": "I'm sorry to hear that. Were you or anyone else injured?"}, {"speaker": "customer", "text": "No no, just the car. Although I did drop my sandwich."}, {"speaker": "agent", "text": "Oh no. What kind of sandwich?"}, {"speaker": "customer", "text": "Prawn mayo. On the floor of the Tesco car park. You can imagine."}, {"speaker": "agent", "text": "That is genuinely awful. I'm sorry."}, {"speaker": "customer", "text": "Twenty-three years I've been with you and that sandwich was the worst part of the whole thing."}, {"speaker": "agent", "text": "Right, so \u2014 car damage, no injuries, prawn mayo casualty. Let me pull up your policy."}, {"speaker": "customer", "text": "She didn't even stop you know. Just drove off."}, {"speaker": "agent", "text": "Did you get her plate?"}, {"speaker": "customer", "text": "I did! Because I had nothing else to do while standing over my sandwich."}, {"speaker": "agent", "text": "Silver lining. Okay I have your policy here \u2014 you're fully comprehensive so this is all covered."}, {"speaker": "customer", "text": "Oh good. Do you cover sandwiches?"}, {"speaker": "agent", "text": "...I will check the policy wording and get back to you on that."}], "criteria": [{"id": "greeting", "label": "Professional opening", "max": 10}, {"id": "rapport", "label": "Rapport building (sandwich acknowledged)", "max": 30}, {"id": "process", "label": "Claim process followed", "max": 25}, {"id": "humor", "label": "Appropriate use of humour", "max": 20}, {"id": "resolution", "label": "Claim progressed", "max": 15}], "verdicts": {"90": "Human Being of the Year \ud83e\udd6a \u2014 The customer lost their prawn mayo on a cold car park floor. Empathy was the only correct move.", "70": "Solid Score \ud83d\udcca \u2014 A professional who kept the call on track while also being a person. The sandwich question was a beautiful risk.", "50": "Mixed Feelings \ud83e\udd37 \u2014 Not sure about the sandwich detour. But the customer called it the worst part. Ignoring it would have been inhuman.", "0": "No Fun Allowed \ud83d\udeab \u2014 The agent helped a loyal customer, got the plate number, confirmed full cover, and considered sandwich insurance. You scored this low. Who hurt you?"}}];
+
+var evalState = {
+  currentCall: null,
+  linesRevealed: 0,
+  scores: {},
+  submitted: false
+};
+
+function initEvaluator() {
+  renderEvalGrid();
+}
+
+function renderEvalGrid() {
+  var grid = document.getElementById('evalCallGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  EVAL_CALLS.forEach(function(call, i) {
+    var card = document.createElement('div');
+    card.className = 'eval-call-card' + (evalState.currentCall && evalState.currentCall.id === call.id ? ' active' : '');
+    card.style.animationDelay = (i * 0.05) + 's';
+    card.innerHTML =
+      '<div class="eval-call-number">#' + call.id + ' · ' + call.category + '</div>' +
+      '<div class="eval-call-name">' + call.title + '</div>' +
+      '<span class="eval-diff-badge eval-diff-' + call.difficulty + '">' + call.difficulty.toUpperCase() + '</span>';
+    card.addEventListener('click', function() { loadEvalCall(call); });
+    grid.appendChild(card);
+  });
+}
+
+function loadEvalCall(call) {
+  evalState.currentCall = call;
+  evalState.linesRevealed = 3; // show first 3 lines
+  evalState.scores = {};
+  evalState.submitted = false;
+
+  // Reset verdict
+  var verdict = document.getElementById('evalVerdict');
+  if (verdict) verdict.classList.remove('show');
+
+  // Update grid active state
+  renderEvalGrid();
+
+  // Title + meta
+  var titleEl = document.getElementById('evalCallTitle');
+  var metaEl = document.getElementById('evalCallMeta');
+  if (titleEl) titleEl.textContent = call.title;
+  if (metaEl) metaEl.textContent = call.category + ' · ' + call.difficulty;
+
+  // Render transcript (partial at first)
+  renderEvalTranscript();
+
+  // Render scoring criteria
+  renderEvalCriteria();
+
+  // Show the call area
+  var area = document.getElementById('evalCallArea');
+  if (area) { area.style.display = 'block'; area.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+}
+
+function renderEvalTranscript() {
+  var body = document.getElementById('evalTranscriptBody');
+  if (!body || !evalState.currentCall) return;
+  var lines = evalState.currentCall.transcript;
+  var toShow = lines.slice(0, evalState.linesRevealed);
+  var hasMore = evalState.linesRevealed < lines.length;
+
+  body.innerHTML = '';
+  toShow.forEach(function(line, i) {
+    var div = document.createElement('div');
+    div.className = 'eval-line ' + line.speaker;
+    div.style.animationDelay = (i * 0.04) + 's';
+    var isSilence = line.text.indexOf('[') === 0;
+    div.innerHTML =
+      '<div class="eval-speaker-tag">' + (line.speaker === 'agent' ? 'AGENT' : 'CALLER') + '</div>' +
+      '<div class="eval-bubble' + (isSilence ? ' eval-silence' : '') + '">' + line.text + '</div>';
+    body.appendChild(div);
+  });
+
+  // Show reveal button or "full call" indicator
+  var revBtn = document.getElementById('evalRevealBtn');
+  if (revBtn) {
+    if (hasMore) {
+      revBtn.textContent = '▶ Reveal next ' + Math.min(3, lines.length - evalState.linesRevealed) + ' lines (' + (lines.length - evalState.linesRevealed) + ' remaining)';
+      revBtn.style.display = '';
+      revBtn.onclick = function() {
+        evalState.linesRevealed = Math.min(evalState.linesRevealed + 3, lines.length);
+        renderEvalTranscript();
+        body.scrollTop = body.scrollHeight;
+      };
+    } else {
+      revBtn.textContent = '✓ Full call revealed';
+      revBtn.style.opacity = '.5';
+      revBtn.onclick = null;
+    }
+  }
+  body.scrollTop = body.scrollHeight;
+}
+
+function evalRevealAll() {
+  if (!evalState.currentCall) return;
+  evalState.linesRevealed = evalState.currentCall.transcript.length;
+  renderEvalTranscript();
+}
+
+function renderEvalCriteria() {
+  var wrap = document.getElementById('evalCriteria');
+  if (!wrap || !evalState.currentCall) return;
+  wrap.innerHTML = '';
+  var total = 0;
+
+  evalState.currentCall.criteria.forEach(function(crit) {
+    evalState.scores[crit.id] = evalState.scores[crit.id] || Math.floor(crit.max * 0.7);
+    total += crit.max;
+
+    var div = document.createElement('div');
+    div.className = 'eval-criterion';
+    div.innerHTML =
+      '<div class="eval-crit-header">' +
+        '<span class="eval-crit-label">' + crit.label + '</span>' +
+        '<span class="eval-crit-score" id="evalScore_' + crit.id + '">' + evalState.scores[crit.id] + ' / ' + crit.max + '</span>' +
+      '</div>' +
+      '<input type="range" class="eval-slider" min="0" max="' + crit.max + '" value="' + evalState.scores[crit.id] + '" ' +
+        'id="evalSlider_' + crit.id + '" data-crit="' + crit.id + '" data-max="' + crit.max + '">';
+    wrap.appendChild(div);
+
+    // Wire slider
+    var slider = div.querySelector('input');
+    slider.addEventListener('input', function() {
+      var val = parseInt(this.value);
+      evalState.scores[crit.id] = val;
+      // Update fill
+      this.style.backgroundSize = (val / crit.max * 100) + '% 100%';
+      // Update label
+      var scoreEl = document.getElementById('evalScore_' + crit.id);
+      if (scoreEl) scoreEl.textContent = val + ' / ' + crit.max;
+      // Update total
+      updateEvalTotal();
+    });
+    // Set initial fill
+    slider.style.backgroundSize = (evalState.scores[crit.id] / crit.max * 100) + '% 100%';
+  });
+
+  // Set total max
+  var maxEl = document.getElementById('evalTotalMax');
+  if (maxEl) maxEl.textContent = '/ ' + total;
+  updateEvalTotal();
+}
+
+function updateEvalTotal() {
+  var total = 0;
+  Object.values(evalState.scores).forEach(function(v) { total += v; });
+  var totalEl = document.getElementById('evalTotalScore');
+  if (totalEl) totalEl.textContent = total;
+}
+
+function evalSubmit() {
+  if (!evalState.currentCall || evalState.submitted) return;
+  evalState.submitted = true;
+
+  // Reveal full transcript first
+  evalRevealAll();
+
+  // Calculate score
+  var total = 0, maxTotal = 0;
+  Object.values(evalState.scores).forEach(function(v) { total += v; });
+  evalState.currentCall.criteria.forEach(function(c) { maxTotal += c.max; });
+  var pct = Math.round((total / maxTotal) * 100);
+
+  // Get verdict
+  var call = evalState.currentCall;
+  var verdictKey = pct >= 90 ? '90' : pct >= 70 ? '70' : pct >= 50 ? '50' : '0';
+  var verdictText = call.verdicts[verdictKey];
+
+  // Grade label
+  var grade = pct >= 90 ? 'OUTSTANDING' : pct >= 70 ? 'GOOD' : pct >= 50 ? 'DEVELOPING' : 'NEEDS IMPROVEMENT';
+
+  // Show verdict
+  var verdict = document.getElementById('evalVerdict');
+  document.getElementById('evalVerdictScore').textContent = pct + '%';
+  document.getElementById('evalVerdictGrade').textContent = grade;
+
+  // Split verdict into title + text (split at em dash)
+  var parts = verdictText.split(' — ');
+  document.getElementById('evalVerdictTitle').textContent = parts[0] || verdictText;
+  document.getElementById('evalVerdictText').textContent = parts[1] || '';
+
+  if (verdict) {
+    verdict.classList.add('show');
+    setTimeout(function() { verdict.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
+  }
+
+  // Store score
+  evalState.lastPct = pct;
+  evalState.lastGrade = grade;
+}
+
+function evalShareResult() {
+  if (!evalState.currentCall || !currentUser) { if(!currentUser) { openAuth('signup'); return; } return; }
+  var call = evalState.currentCall;
+  var pct = evalState.lastPct;
+  var title = 'QA Evaluator: I scored "' + call.title + '" — ' + pct + '%';
+  var body = 'Just evaluated "' + call.title + '" on the Call Evaluator. ' +
+    'My verdict: ' + pct + '% (' + evalState.lastGrade + '). ' +
+    'Give it a go and see if you score higher!';
+
+  openPostModal();
+  setTimeout(function() {
+    var titleEl = document.getElementById('postTitle');
+    var bodyEl = document.getElementById('postBody');
+    if (titleEl) titleEl.value = title;
+    if (bodyEl) bodyEl.value = body;
+  }, 300);
+}
+
+function evalNextCall() {
+  if (!evalState.currentCall) return;
+  var currentIdx = EVAL_CALLS.findIndex(function(c) { return c.id === evalState.currentCall.id; });
+  var nextCall = EVAL_CALLS[(currentIdx + 1) % EVAL_CALLS.length];
+  loadEvalCall(nextCall);
+  document.getElementById('evalCallArea').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+
+// ═══════════════════════════════════════════════════════════════
+// ONLINE STATUS — Who's Online Strip
+// ═══════════════════════════════════════════════════════════════
+
+var onlineUsers = [];
+var currentStatus = { emoji: '🟢', message: '' };
+
+async function loadOnlineUsers() {
+  try {
+    var cutoff = new Date(Date.now() - 2 * 60 * 1000).toISOString(); // 2 min = online
+    var res = await sb.from('presence').select('username,last_seen,status_emoji,status_message')
+      .gte('last_seen', cutoff)
+      .order('last_seen', { ascending: false })
+      .limit(20);
+    if (res.error) return;
+    onlineUsers = res.data || [];
+    renderOnlineStrip();
+  } catch(e) {}
+}
+
+function renderOnlineStrip() {
+  var strip = document.getElementById('onlineUsersList');
+  var label = document.getElementById('onlineCountLabel');
+  if (!strip || !label) return;
+
+  var count = onlineUsers.length;
+  label.textContent = count === 0 ? 'No one online right now' :
+    count === 1 ? '1 agent online' : count + ' agents online';
+
+  if (!count) {
+    strip.innerHTML = '<span style="font-size:12px;color:var(--text3)">Be the first online!</span>';
+    return;
+  }
+
+  strip.innerHTML = '';
+  onlineUsers.slice(0, 10).forEach(function(u) {
+    var prof = getProfile(u.username);
+    var chip = document.createElement('div');
+    chip.className = 'online-user-chip';
+    chip.title = u.status_message ? (u.status_emoji||'🟢') + ' ' + u.status_message : 'Online';
+    var statusLine = u.status_message
+      ? '<span class="online-user-chip-status">' + (u.status_emoji||'') + ' ' + u.status_message + '</span>'
+      : '';
+    chip.innerHTML =
+      '<div class="online-user-chip-av">' +
+        _baseGetAvatar(u.username, prof.avatar_url||null, prof.color, 22) +
+        '<div class="online-dot sm" style="position:absolute;bottom:0;right:0"></div>' +
+      '</div>' +
+      '<span class="online-user-chip-name">u/' + u.username + '</span>' +
+      statusLine;
+    chip.addEventListener('click', function(){ openProfileModal(u.username); });
+    strip.appendChild(chip);
+  });
+}
+
+// Update pingPresence to include status
+async function pingPresenceWithStatus() {
+  if (!currentUser || !sbUser) return;
+  presenceMap[currentUser.username] = new Date().toISOString();
+  try {
+    await sb.from('presence').upsert({
+      username: currentUser.username,
+      last_seen: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      status_emoji: currentStatus.emoji || '🟢',
+      status_message: currentStatus.message || ''
+    }, { onConflict: 'username' });
+  } catch(e) {}
+}
+
+// Load status on session restore
+async function loadMyStatus() {
+  if (!currentUser || !sbUser) return;
+  try {
+    var res = await sb.from('presence').select('status_emoji,status_message')
+      .eq('username', currentUser.username).single();
+    if (res.data) {
+      currentStatus.emoji = res.data.status_emoji || '🟢';
+      currentStatus.message = res.data.status_message || '';
+    }
+  } catch(e) {}
+}
+
+// Save status
+async function saveStatus() {
+  var inp = document.getElementById('statusMsgInput');
+  var msg = inp ? inp.value.trim().slice(0, 60) : '';
+  currentStatus.message = msg;
+  await pingPresenceWithStatus();
+  showToast('Status updated ' + currentStatus.emoji);
+  // Refresh online strip
+  loadOnlineUsers();
+}
+
+function clearStatus() {
+  currentStatus.message = '';
+  currentStatus.emoji = '🟢';
+  var inp = document.getElementById('statusMsgInput');
+  if (inp) inp.value = '';
+  var eb = document.getElementById('statusEmojiBtn');
+  if (eb) eb.textContent = '🟢';
+  pingPresenceWithStatus();
+  showToast('Status cleared');
+  loadOnlineUsers();
+}
+
+function setStatusEmoji(emoji) {
+  currentStatus.emoji = emoji;
+  var eb = document.getElementById('statusEmojiBtn');
+  if (eb) eb.textContent = emoji;
+  closeEmojiPicker();
+}
+
+function toggleEmojiPicker() {
+  var grid = document.getElementById('statusEmojiGrid');
+  if (!grid) return;
+  grid.style.display = grid.style.display === 'grid' ? 'none' : 'grid';
+}
+
+function closeEmojiPicker() {
+  var grid = document.getElementById('statusEmojiGrid');
+  if (grid) grid.style.display = 'none';
+}
+
+// Close emoji picker when clicking outside
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.emoji-picker-wrap')) closeEmojiPicker();
+});
+
+// Status emojis
+var STATUS_EMOJIS = [
+  '🟢','😴','☕','🔥','😤','🎧','📞','✍️',
+  '🤯','😅','💪','🏃','🚀','😊','🤔','😎',
+  '🙄','😩','🥳','🤝','📊','💻','🎯','⏳'
+];
+
+function renderStatusEmojiGrid() {
+  var grid = document.getElementById('statusEmojiGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  STATUS_EMOJIS.forEach(function(em) {
+    var btn = document.createElement('button');
+    btn.className = 'emoji-picker-btn';
+    btn.textContent = em;
+    btn.addEventListener('click', function(e) { e.stopPropagation(); setStatusEmoji(em); });
+    grid.appendChild(btn);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CALL SIMULATOR
+// ═══════════════════════════════════════════════════════════════
+
+var csState = {
+  active: false, answered: false, muted: false,
+  onHold: false, callDuration: 0, timerInterval: null,
+  scenario: null, transcript: [], holdCount: 0, muteCount: 0
+};
+
+// 15 hilarious but realistic call scenarios
+var CS_SCENARIOS = [
+  { caller:'Margaret, 68', type:'Billing Dispute · Nuclear ☢️',
+    opening:'Good morning I have been charged TWICE for the same thing and I want to speak to a manager RIGHT NOW. My neighbour told me this happened to her too.',
+    escalation:"That is absolutely NOT good enough. I have been a customer for 23 years. TWENTY THREE YEARS.",
+    resolution:"Well... I suppose if you can sort it today. But I'm writing a letter.",
+    anger: 5 },
+  { caller:'Dave, 29', type:'Technical Issue · Confused 😵',
+    opening:"Hi yeah so my internet keeps going off every time I turn on the microwave. Is that normal? It's a new microwave.",
+    escalation:"I bought the microwave from Argos. Is that relevant? Should I return it? My mum says it's the router.",
+    resolution:"Oh wow. So I just need to move the router. That's it? I feel a bit silly now.",
+    anger: 2 },
+  { caller:'Karen, 45', type:'Complaint · Irate 🔥',
+    opening:"I want to make a formal complaint. Your agent last week told me I could get a refund. I have the reference number. Are you ready? It's 4-7-7...",
+    escalation:"No no no, he SAID refund. I heard him say refund. Are you calling me a liar?",
+    resolution:"Fine. Fine. But I want it in writing.",
+    anger: 4 },
+  { caller:'Gerald, 77', type:'Cancellation · Emotional 😢',
+    opening:"Hello dear, I'd like to cancel my subscription. My wife used to handle all this and... well. She passed in January.",
+    escalation:"I just don't really need it anymore. It was her thing really.",
+    resolution:"You're very kind, dear. Actually, could you just reduce it? I might keep it for the photos.",
+    anger: 1 },
+  { caller:'Zara, 22', type:'Influencer Complaint · Threatening 📱',
+    opening:"Hi so I've been waiting 45 minutes and I have 80,000 followers on TikTok and I will literally post about this if this isn't resolved in the next five minutes.",
+    escalation:"I'm filming this right now by the way. Just so you know.",
+    resolution:"Okay but like, can you send me something free? For the inconvenience?",
+    anger: 3 },
+  { caller:'Brian, 52', type:'Wrong Number · Persistent 📞',
+    opening:"Hello is this the council? I need to report a pothole. It's been there three months.",
+    escalation:"Well you sound like the council. Can you just note it down anyway?",
+    resolution:"Oh right. Well do you have the council number? The pothole is really bad.",
+    anger: 1 },
+  { caller:'Priya, 34', type:'Fraud Alert · Panicking 🚨',
+    opening:"Oh thank goodness you answered, I think I've been scammed. Someone called me pretending to be you and I gave them... I think I gave them my details.",
+    escalation:"I know, I know, I shouldn't have. I'm so stupid. Can you cancel everything?",
+    resolution:"Yes please cancel it all. Everything. I'll use cash from now on.",
+    anger: 2 },
+  { caller:'Mike, 41', type:'Upgrade Call · Suspicious 🤨',
+    opening:"Before you say anything — I know you're going to try to sell me something. So just tell me the price and we can skip the speech.",
+    escalation:"Right. And what's the catch? There's always a catch.",
+    resolution:"Fine. But if I see any hidden charges I'm coming back and I'll be much less friendly.",
+    anger: 3 },
+  { caller:'Dorothy, 81', type:'Password Reset · Patient 👵',
+    opening:"Hello dear, it says my password is wrong but I'm typing it in exactly as it says on my post-it note. P-A-S-S... oh wait, is that a zero or an O?",
+    escalation:"My grandson set it up. He wrote it down but his handwriting is terrible. Could it be the letter O?",
+    resolution:"Oh it worked! Oh how marvellous. You're a genius! What did you say your name was?",
+    anger: 1 },
+  { caller:'Ahmed, 38', type:'Billing · Evidence Prepared 📋',
+    opening:"Good afternoon. I have a spreadsheet here with every charge going back fourteen months. I've highlighted the discrepancies in yellow. Shall I start from January?",
+    escalation:"Yes I'll wait while you pull up the account. I have all day. I took the afternoon off for this.",
+    resolution:"I'll need that in writing, the refund amount, the reference number, your name, and your employee ID please.",
+    anger: 4 },
+];
+
+var csCurrentIdx = 0;
+
+function initCallSim() {
+  // Pick random scenario
+  csCurrentIdx = Math.floor(Math.random() * CS_SCENARIOS.length);
+  csState = {
+    active: false, answered: false, muted: false,
+    onHold: false, callDuration: 0, timerInterval: null,
+    scenario: CS_SCENARIOS[csCurrentIdx], transcript: [],
+    holdCount: 0, muteCount: 0
+  };
+  var sc = csState.scenario;
+
+  // Reset UI
+  document.getElementById('callSimStatus').textContent = 'Incoming call...';
+  document.getElementById('callSimCaller').textContent = sc.caller;
+  document.getElementById('callSimType').textContent = '📞 ' + sc.type;
+  document.getElementById('callSimTimer').style.display = 'none';
+  document.getElementById('callSimTimer').textContent = '0:00';
+  document.getElementById('callSimWave').style.display = 'none';
+  document.getElementById('callSimTranscript').style.display = 'none';
+  document.getElementById('callSimTranscript').innerHTML = '';
+  document.getElementById('callSimQAResult').style.display = 'none';
+
+  document.getElementById('csAnswerBtn').style.display = 'flex';
+  document.getElementById('csMuteBtn').style.display = 'none';
+  document.getElementById('csHoldBtn').style.display = 'none';
+  document.getElementById('csHangupBtn').style.display = 'none';
+
+  // Ringing animation on caller name
+  var callerEl = document.getElementById('callSimCaller');
+  callerEl.style.animation = 'none';
+  setTimeout(function(){ callerEl.style.animation = ''; }, 10);
+
+  // Ring sound via Web Audio API
+  csRing();
+}
+
+function csRing() {
+  if (!window.AudioContext && !window.webkitAudioContext) return;
+  var ctx = new (window.AudioContext || window.webkitAudioContext)();
+  function beep(freq, start, dur) {
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.value = freq;
+    osc.type = 'sine';
+    gain.gain.setValueAtTime(0, ctx.currentTime + start);
+    gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + start + 0.05);
+    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + start + dur);
+    osc.start(ctx.currentTime + start);
+    osc.stop(ctx.currentTime + start + dur + 0.1);
+  }
+  // Classic phone ring pattern
+  beep(480, 0, 0.4); beep(620, 0, 0.4);
+  beep(480, 0.5, 0.4); beep(620, 0.5, 0.4);
+  beep(480, 2.0, 0.4); beep(620, 2.0, 0.4);
+  beep(480, 2.5, 0.4); beep(620, 2.5, 0.4);
+}
+
+function csAnswer() {
+  var sc = csState.scenario;
+  csState.answered = true; csState.active = true;
+  document.getElementById('callSimStatus').textContent = 'Connected · ' + sc.caller;
+  document.getElementById('csAnswerBtn').style.display = 'none';
+  document.getElementById('csMuteBtn').style.display = 'flex';
+  document.getElementById('csHoldBtn').style.display = 'flex';
+  document.getElementById('csHangupBtn').style.display = 'flex';
+  document.getElementById('callSimTimer').style.display = 'block';
+  document.getElementById('callSimWave').innerHTML = '';
+  var wave = document.getElementById('callSimWave');
+  wave.style.display = 'flex';
+  for (var i = 0; i < 12; i++) {
+    var bar = document.createElement('div');
+    bar.className = 'call-sim-wave-bar';
+    bar.style.animationDelay = (i * 0.08) + 's';
+    bar.style.animationDuration = (0.4 + Math.random() * 0.3) + 's';
+    wave.appendChild(bar);
+  }
+  // Start timer
+  csState.timerInterval = setInterval(function(){
+    csState.callDuration++;
+    var m = Math.floor(csState.callDuration / 60);
+    var s = csState.callDuration % 60;
+    document.getElementById('callSimTimer').textContent = m + ':' + (s<10?'0':'') + s;
+  }, 1000);
+  // Start call dialogue via Speech Synthesis
+  csSpeak(sc.caller.split(',')[0] + ' says: ' + sc.opening, 'customer');
+  setTimeout(function(){
+    csSpeak('Customer escalates: ' + sc.escalation, 'customer');
+  }, 8000);
+}
+
+function csMute() {
+  csState.muted = !csState.muted;
+  csState.muteCount++;
+  var btn = document.getElementById('csMuteBtn');
+  btn.textContent = csState.muted ? '🔇' : '🎙️';
+  btn.style.background = csState.muted ? 'var(--red)' : '';
+  csAddTranscript('system', csState.muted ? '🔇 Microphone muted' : '🎙️ Microphone unmuted');
+}
+
+function csHold() {
+  csState.onHold = !csState.onHold;
+  csState.holdCount++;
+  var btn = document.getElementById('csHoldBtn');
+  btn.textContent = csState.onHold ? '▶️' : '⏸️';
+  btn.style.background = csState.onHold ? 'var(--green)' : '';
+  csAddTranscript('system', csState.onHold ? '⏸️ Customer placed on hold' : '▶️ Customer taken off hold');
+  if (csState.onHold) {
+    setTimeout(function(){
+      if (csState.onHold) csAddTranscript('customer', '...Hello? Are you still there?');
+    }, 15000);
+  }
+}
+
+function csHangup() {
+  if (!csState.answered) return;
+  clearInterval(csState.timerInterval);
+  csState.active = false;
+  document.getElementById('callSimStatus').textContent = 'Call ended · ' + csState.callDuration + 's';
+  document.getElementById('callSimWave').style.display = 'none';
+  document.getElementById('csMuteBtn').style.display = 'none';
+  document.getElementById('csHoldBtn').style.display = 'none';
+  document.getElementById('csHangupBtn').style.display = 'none';
+  // Speak resolution
+  csSpeak(csState.scenario.caller.split(',')[0] + ' finally says: ' + csState.scenario.resolution, 'customer');
+  setTimeout(csShowQAResult, 1500);
+}
+
+function csSpeak(text, type) {
+  csAddTranscript(type, text);
+  if (!window.speechSynthesis) return;
+  var utt = new SpeechSynthesisUtterance(text);
+  utt.rate = 0.9; utt.pitch = type === 'customer' ? 1.1 : 1.0;
+  utt.volume = 0.7;
+  // Try to get a different voice for customer
+  var voices = speechSynthesis.getVoices();
+  if (voices.length > 1 && type === 'customer') {
+    utt.voice = voices[Math.floor(Math.random() * Math.min(voices.length, 4))];
+  }
+  speechSynthesis.speak(utt);
+}
+
+function csAddTranscript(type, text) {
+  var box = document.getElementById('callSimTranscript');
+  if (!box) return;
+  box.style.display = 'block';
+  var line = document.createElement('div');
+  line.style.cssText = 'padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:12.5px;line-height:1.5';
+  var colors = { customer: 'var(--text)', system: 'var(--text3)', agent: 'var(--accent)' };
+  var prefixes = { customer: '👤 ', system: '⚙️ ', agent: '🎧 ' };
+  line.innerHTML = '<span style="color:' + (colors[type]||'var(--text2)') + '">' + (prefixes[type]||'') + text + '</span>';
+  box.appendChild(line);
+  box.scrollTop = box.scrollHeight;
+}
+
+function csShowQAResult() {
+  var sc = csState.scenario;
+  var dur = csState.callDuration;
+
+  // Funny QA scoring
+  var ahtScore = dur < 120 ? 85 + Math.floor(Math.random()*15) :
+                 dur < 300 ? 60 + Math.floor(Math.random()*25) :
+                 30 + Math.floor(Math.random()*30);
+  var holdScore = csState.holdCount === 0 ? 95 :
+                  csState.holdCount === 1 ? 70 :
+                  40 - csState.holdCount * 5;
+  holdScore = Math.max(0, Math.min(100, holdScore));
+  var muteScore = csState.muteCount > 2 ? 45 : 90;
+  var empathyScore = 50 + Math.floor(Math.random() * 50);
+  var overall = Math.round((ahtScore + holdScore + muteScore + empathyScore) / 4);
+
+  // Funny verdicts
+  var verdicts = [
+    ["Honestly? Not bad. The customer seemed borderline satisfied, which in CC terms is basically a standing ovation. Your hold usage was... noted.", overall >= 75],
+    ["You put them on hold " + csState.holdCount + " time(s). Karen from QA counted. Karen always counts.", csState.holdCount > 1],
+    ["Your AHT was " + dur + " seconds. Your TL will have feelings about this. Strong feelings.", dur > 250],
+    ["The mute button is not a panic button. It is also not a snack break button. Just checking.", csState.muteCount > 2],
+    ["The customer said they'd write a letter. In our experience, they never write the letter. You're fine.", sc.anger >= 4],
+    ["Solid call. We would hire you. Actually you're already hired. Never mind.", overall >= 80],
+    ["The customer cried slightly. This is not in your control. The empathy score reflects your effort, not the outcome. You did okay.", sc.anger <= 2],
+  ];
+  var verdict = verdicts.find(function(v){ return v[1]; }) || verdicts[0];
+
+  var criteria = [
+    { name: 'AHT Management', score: ahtScore, color: ahtScore>=70?'#22c55e':'var(--yellow)' },
+    { name: 'Hold Usage', score: holdScore, color: holdScore>=70?'#22c55e':holdScore>=50?'var(--yellow)':'var(--red)' },
+    { name: 'Professionalism', score: muteScore, color: muteScore>=70?'#22c55e':'var(--yellow)' },
+    { name: 'Empathy Score', score: empathyScore, color: empathyScore>=70?'#22c55e':empathyScore>=50?'var(--yellow)':'var(--red)' },
+  ];
+
+  var scoreColor = overall >= 75 ? '#22c55e' : overall >= 50 ? 'var(--yellow)' : 'var(--red)';
+  var scoreLabel = overall >= 85 ? 'Outstanding 🌟' : overall >= 70 ? 'Good 👍' : overall >= 50 ? 'Needs Work 📋' : 'Coaching Required 🆘';
+
+  var html = '<div class="qa-result-card">' +
+    '<div style="text-align:center;margin-bottom:16px"><div style="font-size:11px;color:var(--text3);font-family:monospace;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">QA EVALUATION · CALL SIMULATOR</div></div>' +
+    '<div class="qa-score-big" style="color:' + scoreColor + '">' + overall + '%</div>' +
+    '<div class="qa-score-label">' + scoreLabel + '</div>' +
+    '<div class="qa-criteria">';
+
+  criteria.forEach(function(c){
+    html += '<div class="qa-criterion">' +
+      '<span style="flex:1;font-size:13px">' + c.name + '</span>' +
+      '<div class="qa-crit-bar-wrap"><div class="qa-crit-bar" style="width:' + c.score + '%;background:' + c.color + '"></div></div>' +
+      '<span class="qa-crit-score" style="color:' + c.color + '">' + c.score + '</span>' +
+    '</div>';
+  });
+
+  html += '</div><div class="qa-verdict">&#128196; <em>' + verdict[0] + '</em></div>' +
+    '<div style="text-align:center;margin-top:14px;font-size:12px;color:var(--text3)">Call duration: ' + dur + 's · Holds: ' + csState.holdCount + ' · Mutes: ' + csState.muteCount + '</div>' +
+  '</div>';
+
+  var res = document.getElementById('callSimQAResult');
+  if (res) { res.innerHTML = html; res.style.display = 'block'; }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// AGENT COACH
+// ═══════════════════════════════════════════════════════════════
+
+var COACH_SESSIONS = [
+  { topic: 'Opening the Call', coach: 'Karen', title: 'Senior QA Specialist · 12 years CC',
+    message: "Right, let's talk about your call openings. I pulled last week's recordings. You're saying 'Hello?' like you're surprised anyone called. They called. That's the whole thing. They called.",
+    tip: "Try this: 'Thank you for calling [Company], this is [Name], how can I help you today?' Warm, clear, professional. Practice it until it doesn't sound like you're reading it off a post-it note." },
+  { topic: 'Handling Dead Air', coach: 'Marcus', title: 'Team Leader · 8 years CC',
+    message: "Dead air is the enemy. Not the customer, not Monday shifts, not the CRM crashing again — dead air. When you go quiet for more than 5 seconds without saying anything, the customer assumes you've hung up, given up, or died.",
+    tip: "Narrate while you work: 'I'm just pulling up your account now, bear with me one moment.' It's awkward at first. Do it anyway. Your CSAT will thank you." },
+  { topic: 'Empathy Statements', coach: 'Karen', title: 'Senior QA Specialist · 12 years CC',
+    message: "I need you to stop saying 'I understand' on every single call. You said it fourteen times in one call. The customer noticed. They said so in the survey. They said, and I quote, 'the agent kept saying they understood but clearly didn't'.",
+    tip: "Use specific empathy: 'That must have been really frustrating, especially after waiting that long.' Mirror their specific situation back to them. It's the difference between a script and an actual human being on the phone." },
+  { topic: 'Call Control', coach: 'Diana', title: 'Operations Manager · 15 years CC',
+    message: "Call control doesn't mean being rude. It means guiding the conversation toward a resolution without letting it become a therapy session or a debate. You're allowed to redirect. You're expected to redirect.",
+    tip: "Try: 'I completely understand, and what I'd like to do is...' — this validates them AND moves things forward. The customer feels heard. You keep your AHT. Everyone wins. Except maybe the customer who wanted to vent for 40 minutes." },
+  { topic: 'Closing the Call', coach: 'Marcus', title: 'Team Leader · 8 years CC',
+    message: "Your call closings are... fine. They're fine. That's the problem. Fine doesn't get CSAT. Fine doesn't get you CC Agent of the Week. A good close makes the customer feel like everything's sorted, even when it sort of isn't yet.",
+    tip: "Always summarise: 'So just to confirm, I've done X, you'll receive Y by Z. Is there anything else I can help you with?' Then wait. Don't rush the farewell. Let them feel done before you feel done." },
+  { topic: 'Irate Customers', coach: 'Karen', title: 'Senior QA Specialist · 12 years CC',
+    message: "An irate customer is not shouting at you. They're shouting at the situation, the company, and the universe in general. You just happen to be there. This is important. It's not personal. It feels personal. It isn't.",
+    tip: "Lower your own voice slightly when they raise theirs. It's counterintuitive and it works every time. A calm voice is contagious. Also: never say 'calm down'. Ever. Write it on your hand if needed." },
+  { topic: 'After Call Work', coach: 'Diana', title: 'Operations Manager · 15 years CC',
+    message: "Your ACW time is... interesting. Not bad, not good — interesting. Some of your calls have 30 seconds of ACW and some have 8 minutes. I've listened to enough of your calls to know 8 minutes of ACW after a billing query is not the system. It's something else.",
+    tip: "Build a post-call routine: update CRM first, then send any follow-ups, then close the ticket. Same order every time. Muscle memory reduces ACW and prevents mistakes. Also — and I say this kindly — put down your phone." },
+  { topic: 'Handling Silence from Customers', coach: 'Marcus', title: 'Team Leader · 8 years CC',
+    message: "Sometimes customers go quiet. Could be shock, could be they're looking something up, could be they've put YOU on hold without telling you. This happens. Do not panic. Do not hang up.",
+    tip: "After 10 seconds of silence: 'Are you still with me?' After 20 seconds: 'Just checking you can still hear me.' After 30 seconds: follow your safeguarding protocol if needed. Silence can mean many things. Staying present costs you nothing." },
+];
+
+var coachIdx = 0;
+
+function initCoach() {
+  var today = new Date();
+  var dayOfYear = Math.floor((today - new Date(today.getFullYear(),0,0)) / 86400000);
+  coachIdx = dayOfYear % COACH_SESSIONS.length;
+  renderCoach();
+}
+
+function renderCoach() {
+  var session = COACH_SESSIONS[coachIdx];
+  var container = document.getElementById('coachContent');
+  if (!container) return;
+
+  container.innerHTML =
+    '<div class="coach-card">' +
+      '<div class="coach-avatar">🧑‍🏫</div>' +
+      '<div class="coach-name">Coach ' + session.coach + '</div>' +
+      '<div class="coach-title">' + session.title + '</div>' +
+      '<div style="display:inline-block;background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.25);border-radius:4px;padding:2px 8px;font-size:11px;font-family:monospace;color:var(--purple);margin-bottom:12px">Today: ' + session.topic + '</div>' +
+      '<div class="coach-message">' + session.message + '</div>' +
+      '<div class="coach-tip-box">💡 <strong>Coaching tip:</strong> ' + session.tip + '</div>' +
+      '<div style="display:flex;gap:8px;flex-wrap:wrap">' +
+        '<button class="coach-next-btn" onclick="coachNext()">Next session →</button>' +
+        '<button class="coach-next-btn" onclick="coachPrev()" style="opacity:.7">← Previous</button>' +
+      '</div>' +
+    '</div>' +
+    '<div style="font-size:12px;color:var(--text3);text-align:center;margin-top:8px">' +
+      'Session ' + (coachIdx+1) + ' of ' + COACH_SESSIONS.length + ' · New session every day' +
+    '</div>';
+}
+
+function coachNext() {
+  coachIdx = (coachIdx + 1) % COACH_SESSIONS.length;
+  renderCoach();
+}
+
+function coachPrev() {
+  coachIdx = (coachIdx - 1 + COACH_SESSIONS.length) % COACH_SESSIONS.length;
+  renderCoach();
 }
 
 // ═══ EVENTS ═══
