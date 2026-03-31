@@ -1619,6 +1619,44 @@ header {
   .post-view-title { font-size:19px; }
 }
 
+
+/* ══ NOTIFICATIONS PAGE ══ */
+.notif-page-wrap {
+  max-width: 640px; margin: 0 auto; padding: 20px 16px;
+}
+.notif-page-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 18px; flex-wrap: wrap; gap: 10px;
+}
+.notif-page-title {
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 20px;
+}
+.notif-mark-all-btn {
+  background: none; border: 1px solid var(--border); color: var(--text3);
+  border-radius: 8px; padding: 6px 14px; font-size: 12px; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; transition: all .2s;
+}
+.notif-mark-all-btn:hover { border-color: var(--accent); color: var(--accent); }
+.notif-page-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 14px 16px; background: var(--bg2);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  margin-bottom: 8px; cursor: pointer; transition: all .2s;
+  animation: fadeUp .3s ease both;
+}
+.notif-page-item:hover { border-color: rgba(255,95,31,.3); background: var(--bg3); }
+.notif-page-item.unread { border-left: 3px solid var(--accent); }
+.notif-page-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+.notif-page-body { flex: 1; min-width: 0; }
+.notif-page-text { font-size: 14px; line-height: 1.6; color: var(--text); }
+.notif-page-time { font-size: 11px; color: var(--text3); margin-top: 4px;
+  font-family: 'JetBrains Mono', monospace; }
+.notif-page-empty {
+  text-align: center; padding: 60px 20px;
+  color: var(--text3); font-size: 14px;
+}
+.notif-page-empty-icon { font-size: 48px; margin-bottom: 12px; }
+
 </style>
 </head>
 <body>
@@ -1700,6 +1738,11 @@ header {
   <!-- MY ACCOUNT section (logged in only) -->
   <div class="snav-section" id="snavAccountSection" style="display:none">
     <div class="snav-label">My Account</div>
+    <div class="snav-item" id="snav-notifications" onclick="navTo('notifications');closeSidebar()">
+      <span class="sni-icon">&#128276;</span>
+      <span class="sni-label">Notifications</span>
+      <span class="sni-badge" id="snavNotifBadge2" style="display:none">0</span>
+    </div>
     <div class="snav-item" id="snav-profile" onclick="goMyProfile();closeSidebar()">
       <span class="sni-icon">👤</span>
       <span class="sni-label">My Profile</span>
@@ -1945,6 +1988,20 @@ header {
 </div>
 
 
+
+
+<!-- NOTIFICATIONS PAGE -->
+<div class="page" id="pageNotifications">
+  <div class="notif-page-wrap">
+    <div class="notif-page-header">
+      <div class="notif-page-title">&#128276; Notifications</div>
+      <button class="notif-mark-all-btn" onclick="markAllRead()">
+        &#10003; Mark all as read
+      </button>
+    </div>
+    <div id="notifPageList"></div>
+  </div>
+</div>
 
 <!-- CC DICTIONARY PAGE -->
 <div class="page" id="pageDictionary">
@@ -2762,6 +2819,7 @@ function showPage(name){
   if(name==='jobs')initJobs();
   if(name==='reviews')initReviews();
   if(name==='dictionary')initDictionary();
+  if(name==='notifications'){ renderNotifPage(); loadNotifications(); }
   if(name==='profile'){el('navFeed').style.display='block';el('navGame').style.display='block';el('navTemplates').style.display='block';el('navNews').style.display='block';el('navJobs').style.display='block';}
   var mob={feed:'mnFeed',news:'mnNews',templates:'mnTemplates',game:'mnGame',jobs:'mnJobs'};
   if(mob[name])setMobNav(mob[name]);
@@ -4176,6 +4234,10 @@ function addNotif(icon, html, onClick){
 }
 
 function renderNotifBadge(){
+  // Also update sidebar badge
+  var unread2 = notifications.filter(function(n){ return !n.read; }).length;
+  var sb2 = document.getElementById('snavNotifBadge2');
+  if (sb2) { sb2.style.display = unread2 > 0 ? 'inline-block' : 'none'; sb2.textContent = unread2 > 9 ? '9+' : unread2; }
   var unread = notifications.filter(function(n){ return !n.read; }).length;
   var badge = document.getElementById('notifBadge');
   if(!badge) return;
@@ -4634,35 +4696,34 @@ async function loadNotifications() {
     }
     if (!res.data || !res.data.length) return;
 
-    // Merge DB notifications with seeded ones
+    // REPLACE notifications with DB truth — don't merge (prevents stale state)
+    var seeded = notifications.filter(function(n){ return !n.fromDB; });
     var dbNotifs = res.data.map(function(n){
+      var typeIcons = {
+        comment:'&#128172;', csat:'&#128522;', dsat:'&#128548;',
+        friend_request:'&#128101;', friend_accepted:'&#127881;',
+        dm:'&#128172;', badge:'&#127942;'
+      };
       return {
         id: n.id,
-        icon: n.type === 'comment' ? '&#128172;' :
-             n.type === 'csat' ? '&#128522;' :
-             n.type === 'dsat' ? '&#128548;' :
-             n.type === 'friend_request' ? '&#128101;' :
-             n.type === 'friend_accepted' ? '&#127881;' :
-             n.type === 'dm' ? '&#128172;' : '&#128276;',
+        icon: typeIcons[n.type] || '&#128276;',
         html: n.message,
         time: timeAgo(n.created_at),
-        read: n.read,
-        onClick: n.post_id ? function(){ gotoPost('db_'+n.post_id); } : null,
-        fromDB: true
+        read: n.read,   // always use DB read status
+        fromDB: true,
+        type: n.type
       };
     });
 
-    // Add DB notifs that aren't already in the list
-    dbNotifs.forEach(function(dn){
-      if(!notifications.find(function(n){ return n.id === dn.id; })){
-        notifications.push(dn);
-      }
-    });
-
-    // Sort by unread first then time
-    notifications.sort(function(a,b){ return (a.read?1:0)-(b.read?1:0); });
+    // Seeded notifs first, then DB notifs (newest first)
+    notifications = seeded.concat(dbNotifs);
     renderNotifBadge();
     renderNotifList();
+    // Also refresh dedicated notif page if open
+    if (document.getElementById('pageNotifications') &&
+        document.getElementById('pageNotifications').style.display !== 'none') {
+      renderNotifPage();
+    }
   } catch(e) {
     console.log('Notif load skipped:', e.message);
   }
@@ -4678,10 +4739,17 @@ async function markNotifRead(notifId) {
 
 // Override markAllRead to also update DB
 var _origMarkAllRead = markAllRead;
-function markAllRead(){
+async function markAllRead(){
+  // Update local state immediately
   _origMarkAllRead();
+  showToast('All notifications cleared ✓');
+  // Persist to DB and re-fetch to confirm
   if(sbUser && currentUser){
-    sb.from('notifications').update({read:true}).eq('recipient_username', currentUser.username).then(function(){});
+    await sb.from('notifications')
+      .update({read: true})
+      .eq('recipient_username', currentUser.username);
+    // Small delay then reload to confirm DB state
+    setTimeout(loadNotifications, 500);
   }
 }
 
@@ -6440,6 +6508,62 @@ function handlePostViewClick(e) {
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape' && currentViewPostId) closePostView();
 });
+
+
+// ═══════════════════════════════════════════════════════════════
+// NOTIFICATIONS PAGE
+// ═══════════════════════════════════════════════════════════════
+
+function renderNotifPage() {
+  var list = document.getElementById('notifPageList');
+  if (!list) return;
+
+  if (!notifications.length) {
+    list.innerHTML =
+      '<div class="notif-page-empty">' +
+        '<div class="notif-page-empty-icon">&#128276;</div>' +
+        '<div>No notifications yet</div>' +
+        '<div style="font-size:12px;margin-top:6px">Interact with the community to get started</div>' +
+      '</div>';
+    return;
+  }
+
+  list.innerHTML = '';
+  notifications.forEach(function(n, i) {
+    try {
+      var item = document.createElement('div');
+      item.className = 'notif-page-item' + (n.read ? '' : ' unread');
+      item.style.animationDelay = (Math.min(i, 15) * 0.03) + 's';
+      item.innerHTML =
+        '<div class="notif-page-icon">' + (n.icon || '&#128276;') + '</div>' +
+        '<div class="notif-page-body">' +
+          '<div class="notif-page-text">' + (n.html || '') + '</div>' +
+          '<div class="notif-page-time">' + (n.time || '') + '</div>' +
+        '</div>' +
+        (!n.read ? '<div style="width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:6px"></div>' : '');
+
+      item.addEventListener('click', function() {
+        n.read = true;
+        renderNotifBadge();
+        renderNotifPage();
+        // Mark as read in DB
+        if (sbUser && n.id) {
+          sb.from('notifications').update({read: true}).eq('id', n.id).then(function(){});
+        }
+        try { if (n.onClick) n.onClick(); } catch(e) {}
+      });
+      list.appendChild(item);
+    } catch(e) { console.error('Notif page render error:', e.message); }
+  });
+
+  // Update sidebar badge
+  var unread = notifications.filter(function(n){ return !n.read; }).length;
+  var b2 = document.getElementById('snavNotifBadge2');
+  if (b2) {
+    b2.style.display = unread > 0 ? 'inline-block' : 'none';
+    b2.textContent = unread > 9 ? '9+' : unread;
+  }
+}
 
 // ═══ EVENTS ═══
 el('authModal').addEventListener('click',function(e){if(e.target.id==='authModal')closeAuth();});
