@@ -82,8 +82,20 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .filter-bar-tag{font-weight:600;}
 .filter-bar-clear{margin-left:auto;background:none;border:none;color:var(--text3);cursor:pointer;font-size:13px;padding:2px 6px;border-radius:4px;}
 .filter-bar-clear:hover{color:var(--text);background:var(--bg3);}
-.post-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:9px;display:flex;flex-direction:column;transition:border-color .2s,background .2s;animation:fadeUp .4s ease both;}
-.post-card:hover{border-color:#3e4155;background:#1a1d26;}
+.post-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:0;margin-bottom:12px;
+  display:flex;flex-direction:column;
+  transition:border-color .25s,transform .2s,box-shadow .2s;
+  animation:fadeUp .4s ease both;
+  cursor:pointer;overflow:hidden;
+}
+.post-card:hover{
+  border-color:rgba(255,95,31,.35);
+  transform:translateY(-2px);
+  box-shadow:0 6px 24px rgba(0,0,0,.3);
+}
+.post-card:active{ transform:translateY(0); }
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 @keyframes modalIn{from{opacity:0;transform:scale(.96) translateY(10px);}to{opacity:1;transform:scale(1) translateY(0);}}
 .post-inner{display:flex;gap:12px;}
@@ -94,7 +106,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .csat-btn.dsat-on{background:rgba(255,107,107,.12);border-color:var(--red);color:var(--red);}
 .csat-score{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:var(--text3);text-align:center;line-height:1.3;}
 .score-high{color:var(--green);}.score-mid{color:var(--yellow);}.score-low{color:var(--red);}
-.post-body{flex:1;min-width:0;}
+.post-body{flex:1;min-width:0;padding:14px 16px 12px;}
 .post-meta{display:flex;align-items:center;gap:7px;margin-bottom:5px;flex-wrap:wrap;}
 .role-tag{font-size:11px;font-weight:600;padding:2px 7px;border-radius:4px;font-family:'JetBrains Mono',monospace;}
 .role-agent{background:rgba(79,158,255,.15);color:var(--blue);}
@@ -109,8 +121,13 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .author-av{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0;}
 .post-author{font-size:12px;color:var(--text3);}
 .post-time{font-size:12px;color:var(--text3);margin-left:auto;}
-.post-title{font-family:'Syne',sans-serif;font-weight:600;font-size:15px;line-height:1.4;margin-bottom:5px;}
-.post-preview{font-size:13.5px;color:var(--text2);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.post-title{
+  font-family:'Syne',sans-serif;font-weight:700;
+  font-size:17px;line-height:1.45;margin-bottom:8px;
+  color:var(--text);letter-spacing:-.2px;
+}
+.post-card:hover .post-title{ color:var(--accent); }
+.post-preview{font-size:14px;color:var(--text2);line-height:1.75;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:12px;}
 .post-image-thumb{width:100%;max-height:220px;object-fit:cover;border-radius:8px;margin-top:9px;border:1px solid var(--border);cursor:zoom-in;transition:opacity .2s;display:block;}
 .post-image-thumb:hover{opacity:.9;}
 .post-footer{display:flex;align-items:center;gap:12px;margin-top:9px;flex-wrap:wrap;}
@@ -1531,6 +1548,77 @@ header {
   }
 }
 
+
+/* ══ FULL POST VIEW ══ */
+.post-view-overlay {
+  position:fixed;inset:0;background:rgba(0,0,0,.8);
+  backdrop-filter:blur(6px);z-index:200;
+  display:none;overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+.post-view-overlay.open { display:block; }
+.post-view-wrap {
+  max-width:680px;margin:24px auto;padding:0 16px 80px;
+}
+.post-view-card {
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--radius-lg);overflow:hidden;
+  animation:modalIn .25s ease;
+}
+.post-view-header {
+  padding:16px 20px 0;
+}
+.post-view-back {
+  background:none;border:none;color:var(--text3);
+  cursor:pointer;font-size:13px;padding:0;
+  display:flex;align-items:center;gap:5px;
+  margin-bottom:14px;transition:color .15s;
+  font-family:'DM Sans',sans-serif;
+}
+.post-view-back:hover { color:var(--text); }
+.post-view-title {
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:22px;line-height:1.4;margin-bottom:12px;
+  letter-spacing:-.3px;
+}
+.post-view-body {
+  padding:0 20px 20px;
+  font-size:15px;line-height:1.85;
+  color:var(--text2);white-space:pre-wrap;
+  border-bottom:1px solid var(--border);
+}
+.post-view-image {
+  width:100%;max-height:400px;object-fit:cover;
+  border-radius:8px;margin-top:14px;cursor:pointer;
+}
+.post-view-footer {
+  padding:12px 20px;
+  display:flex;align-items:center;gap:10px;
+  flex-wrap:wrap;
+}
+.post-view-comments {
+  padding:0 20px 20px;
+}
+.post-view-comments-title {
+  font-size:13px;font-weight:700;
+  color:var(--text3);text-transform:uppercase;
+  letter-spacing:.5px;font-family:'JetBrains Mono',monospace;
+  margin-bottom:14px;padding-top:16px;
+  border-top:1px solid var(--border);
+}
+/* Read more link on card */
+.post-read-more {
+  font-size:12.5px;color:var(--accent);
+  font-weight:600;cursor:pointer;
+  display:inline-block;margin-top:4px;
+}
+.post-read-more:hover { text-decoration:underline; }
+@media (max-width:480px){
+  .post-view-wrap { margin:0; padding:0 0 80px; }
+  .post-view-card { border-radius:0; border-left:none; border-right:none; }
+  .post-view-title { font-size:19px; }
+}
+
 </style>
 </head>
 <body>
@@ -1975,6 +2063,26 @@ header {
 </div>
 
 
+
+
+<!-- FULL POST VIEW -->
+<div class="post-view-overlay" id="postViewOverlay" onclick="handlePostViewClick(event)">
+  <div class="post-view-wrap">
+    <div class="post-view-card" id="postViewCard">
+      <div class="post-view-header">
+        <button class="post-view-back" onclick="closePostView()">&#8592; Back to feed</button>
+        <div id="pvMeta"></div>
+        <div class="post-view-title" id="pvTitle"></div>
+      </div>
+      <div class="post-view-body" id="pvBody"></div>
+      <div class="post-view-footer" id="pvFooter"></div>
+      <div class="post-view-comments">
+        <div class="post-view-comments-title" id="pvCommentsTitle"></div>
+        <div id="pvComments"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- DM OVERLAY -->
 <div class="dm-overlay" id="dmOverlay" onclick="handleDMOverlayClick(event)">
@@ -2763,6 +2871,18 @@ function buildFeed(){
     body.appendChild(title);
     body.appendChild(preview);
 
+    // Read more hint for long posts
+    if(p.body && p.body.length > 180){
+      var readMore=document.createElement('span');
+      readMore.className='post-read-more';
+      readMore.textContent='Read more →';
+      readMore.addEventListener('click', function(e){
+        e.stopPropagation();
+        openPostView(p.id);
+      });
+      body.appendChild(readMore);
+    }
+
     // Image
     if(p.image){
       var img=document.createElement('img');
@@ -2826,6 +2946,13 @@ function buildFeed(){
     cs.className='comments-section'+(openComments.has(p.id)?' open':'');
     cs.id='cs-'+p.id;
     if(openComments.has(p.id))cs.innerHTML=commentsHTML(p);
+
+    // Click card body to open full post view
+    body.addEventListener('click', function(e){
+      // Don't open if clicking a button/link/action
+      if(e.target.closest('button,a,.post-action,.tag-chip,.author-wrap,.save-btn')) return;
+      openPostView(p.id);
+    });
 
     // Assemble
     var inner=document.createElement('div');
@@ -6121,6 +6248,106 @@ function highlightMatch(text, q) {
   return text.replace(new RegExp('(' + escaped + ')', 'gi'),
     '<span class="dict-highlight">$1</span>');
 }
+
+
+// ═══════════════════════════════════════════════════════════════
+// FULL POST VIEW
+// ═══════════════════════════════════════════════════════════════
+
+var currentViewPostId = null;
+
+function openPostView(pid) {
+  var p = posts.find(function(p){ return String(p.id) === String(pid); });
+  if (!p) return;
+  currentViewPostId = pid;
+
+  var prof = getProfile(p.author);
+  var role = getRole(prof.role || p.role);
+
+  // Meta
+  var pvMeta = el('pvMeta');
+  if (pvMeta) {
+    pvMeta.innerHTML =
+      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">' +
+        '<span class="role-tag '+role.cls+'">'+role.icon+' '+role.name+'</span>' +
+        '<div style="width:28px;height:28px;border-radius:50%;overflow:hidden;flex-shrink:0">'+
+          getUserAvatarHTML(p.author, prof.avatar_url||null, prof.color, 28) +
+        '</div>' +
+        '<span style="font-size:13px;font-weight:600">u/'+p.author+'</span>' +
+        '<span style="font-size:12px;color:var(--text3)">'+p.time+'</span>' +
+      '</div>';
+  }
+
+  // Title
+  var pvTitle = el('pvTitle');
+  if (pvTitle) pvTitle.textContent = p.title;
+
+  // Body
+  var pvBody = el('pvBody');
+  if (pvBody) {
+    pvBody.textContent = p.body || '';
+    // Image
+    if (p.image) {
+      var img = document.createElement('img');
+      img.src = p.image;
+      img.className = 'post-view-image';
+      img.addEventListener('click', function(e){ openLB(e, p.image); });
+      pvBody.appendChild(img);
+    }
+  }
+
+  // Footer — vote + comments + save + tags
+  var pvFooter = el('pvFooter');
+  if (pvFooter) {
+    var mv = voteMap[pid];
+    pvFooter.innerHTML =
+      '<button class="csat-btn'+(mv==='up'?' csat-on':'')+'" data-vote-pid="'+pid+'" data-vote-dir="up">&#128522; <span>'+((p.csat||0)+(mv==='up'?1:0))+'</span></button>'+
+      '<button class="csat-btn'+(mv==='down'?' dsat-on':'')+'" data-vote-pid="'+pid+'" data-vote-dir="down">&#128548; <span>'+((p.dsat||0)+(mv==='down'?1:0))+'</span></button>'+
+      '<span style="font-size:13px;color:var(--text3)">&#128172; '+p.comments.length+' comment'+(p.comments.length!==1?'s':'')+'</span>';
+    (p.tags||[]).forEach(function(t){
+      var tc=document.createElement('span');
+      tc.className='tag-chip';
+      tc.textContent='#'+t;
+      tc.addEventListener('click',function(){ setTagFilter(t); closePostView(); });
+      pvFooter.appendChild(tc);
+    });
+  }
+
+  // Comments
+  var pvCT = el('pvCommentsTitle');
+  if (pvCT) pvCT.textContent = p.comments.length + ' Comment' + (p.comments.length !== 1 ? 's' : '');
+
+  var pvComments = el('pvComments');
+  if (pvComments) {
+    pvComments.innerHTML = commentsHTML(p);
+    // Wire comment input
+    wireCommentInput(String(pid));
+  }
+
+  // Open overlay
+  el('postViewOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePostView() {
+  el('postViewOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  currentViewPostId = null;
+  // Refresh feed in case votes/comments changed
+  buildFeed();
+}
+
+function handlePostViewClick(e) {
+  if (e.target.id === 'postViewOverlay') { closePostView(); return; }
+  // Vote button delegation
+  var vb = e.target.closest('[data-vote-pid]');
+  if (vb) { vote(e, vb.dataset.votePid, vb.dataset.voteDir); return; }
+}
+
+// Close on Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && currentViewPostId) closePostView();
+});
 
 // ═══ EVENTS ═══
 el('authModal').addEventListener('click',function(e){if(e.target.id==='authModal')closeAuth();});
