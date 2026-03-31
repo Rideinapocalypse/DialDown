@@ -2648,8 +2648,7 @@ function vote(e, id, dir) {
           (post.title ? post.title.slice(0,60) + (post.title.length>60?'...':'') : 'your post') + '</em>',
         read: false
       }).then(function(){});
-      // Badge check — first CSAT received
-      addNotif('😊', '<strong>u/' + currentUser.username + '</strong> rated your post helpful!', function(){});
+      // CSAT notification saved to DB — loaded via loadNotifications()
     }
 
     // Send DSAT notification to post author
@@ -3213,7 +3212,7 @@ function submitCommentById(postId){
   wireCommentInput(String(postId));
 
   // Self-notification
-  addNotif('&#128172;','You commented on <strong>'+post.title.slice(0,40)+'...</strong>',function(){gotoPost(postId);});
+  // Comment notification saved to DB only — no local duplicate
 
   // Notify post author if different from commenter
   notifyPostAuthor(post, text);
@@ -4286,9 +4285,11 @@ function toggleNotifPanel(){
 
 function markAllRead(){
   notifications.forEach(function(n){ n.read = true; });
+  window._notifAllReadAt = new Date();
   renderNotifBadge();
   renderNotifList();
-  showToast('All notifications marked as read');
+  renderNotifPage();
+  showToast('All notifications cleared ✓');
 }
 
 function showNotifBell(){
@@ -4298,14 +4299,9 @@ function showNotifBell(){
 
 // Seed some starter notifications when user logs in
 function seedNotifications(user){
-  notifications = [];
-  addNotif('🎉', '<strong>Welcome to DialDown!</strong> Your account is live. Start by reading the feed.', null);
-  addNotif('🏆', 'You earned your first badge: <strong>CC Veteran</strong>', function(){ openProfile(user.username); });
-  addNotif('💡', 'This week challenge is live — <strong>share your de-escalation tip</strong>!', null);
-  // Simulate a like on a recent post
-  setTimeout(function(){
-    addNotif('😊', '<strong>burnoutTL</strong> liked your CSAT score on a post', null);
-  }, 8000);
+  // Seeded fake notifications removed — using real DB notifications only
+  // notifications array is populated by loadNotifications() from Supabase
+  notifications = notifications.filter(function(n){ return n.fromDB; });
 }
 
 // Vote notification — added to real vote fn below
@@ -4696,27 +4692,28 @@ async function loadNotifications() {
     }
     if (!res.data || !res.data.length) return;
 
-    // REPLACE notifications with DB truth — don't merge (prevents stale state)
-    var seeded = notifications.filter(function(n){ return !n.fromDB; });
+    // REPLACE with DB truth — no local merging
+    var typeIcons = {
+      comment:'&#128172;', csat:'&#128522;', dsat:'&#128548;',
+      friend_request:'&#128101;', friend_accepted:'&#127881;',
+      dm:'&#128172;', badge:'&#127942;'
+    };
     var dbNotifs = res.data.map(function(n){
-      var typeIcons = {
-        comment:'&#128172;', csat:'&#128522;', dsat:'&#128548;',
-        friend_request:'&#128101;', friend_accepted:'&#127881;',
-        dm:'&#128172;', badge:'&#127942;'
-      };
+      // If user marked all read locally after this notif was created, honour it
+      var locallyRead = n.read || (window._notifAllReadAt && new Date(n.created_at) < window._notifAllReadAt);
       return {
         id: n.id,
         icon: typeIcons[n.type] || '&#128276;',
         html: n.message,
         time: timeAgo(n.created_at),
-        read: n.read,   // always use DB read status
+        read: locallyRead,
         fromDB: true,
         type: n.type
       };
     });
 
-    // Seeded notifs first, then DB notifs (newest first)
-    notifications = seeded.concat(dbNotifs);
+    // Only DB notifs — no fake seeded ones
+    notifications = dbNotifs;
     renderNotifBadge();
     renderNotifList();
     // Also refresh dedicated notif page if open
