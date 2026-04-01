@@ -2856,7 +2856,7 @@ header {
 </div>
 
 <!-- POST MODAL -->
-<div class="modal-overlay" id="postModal"><div class="modal"><div class="modal-hdr"><div class="modal-hdr-title">Share your know-how</div><button class="modal-x" onclick="closePostModal()">✕</button></div><div class="modal-body"><div><div class="fl">Your Role</div><select class="fsel" id="postRole"><option value="">Select…</option></select></div><div><div class="fl">Title</div><input class="fi" id="postTitle" placeholder="Tips, rants, wins…"/></div><div><div class="fl">Body</div><textarea class="fta" id="postBody" placeholder="Share the full story…"></textarea></div><div><div class="fl">Image <span style="color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></div><div class="upload-area" id="upArea" onclick="document.getElementById('upFile').click()"><input type="file" id="upFile" accept="image/*" onchange="handleUpload(event)"/><div id="upPH"><div style="font-size:24px;margin-bottom:5px">🖼</div><div style="font-size:13px;color:var(--text2)">Click to upload</div><div style="font-size:11.5px;color:var(--text3);margin-top:3px">PNG, JPG, GIF — max 5MB</div><div style="margin-top:8px;display:flex;gap:6px;justify-content:center"><button type="button" onclick="event.stopPropagation();var f=document.getElementById('upFile');f.removeAttribute('capture');f.click()" style="background:var(--bg3);border:1px solid var(--border);color:var(--text2);border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer">&#128444; Library</button><button type="button" onclick="event.stopPropagation();var f=document.getElementById('upFile');f.setAttribute('capture','environment');f.click()" style="background:var(--bg3);border:1px solid var(--border);color:var(--text2);border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer">&#128247; Camera</button></div></div><img id="upPreview" class="up-preview" style="display:none"/><button class="up-remove" id="upRemove" style="display:none" onclick="removeUpload(event)">✕</button></div></div></div><div class="modal-footer"><button class="btn-ghost" onclick="closePostModal()">Cancel</button><button class="btn-primary" onclick="submitPost()">Post It 🚀</button></div></div></div>
+<div class="modal-overlay" id="postModal"><div class="modal"><div class="modal-hdr"><div class="modal-hdr-title">Share your know-how</div><button class="modal-x" onclick="closePostModal()">✕</button></div><div class="modal-body"><div><div class="fl">Your Role</div><select class="fsel" id="postRole"><option value="">Select…</option></select></div><div><div class="fl">Title</div><input class="fi" id="postTitle" placeholder="Tips, rants, wins…"/></div><div><div class="fl">Body</div><textarea class="fta" id="postBody" placeholder="Share the full story…"></textarea></div><div><div class="fl">Image <span style="color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></div><div class="upload-area" id="upArea"><input type="file" id="upFile" accept="image/*" onchange="handleUpload(event)"/><div id="upPH"><div style="font-size:24px;margin-bottom:5px">🖼</div><div style="font-size:13px;color:var(--text2)">Click to upload</div><div style="font-size:11.5px;color:var(--text3);margin-top:3px">PNG, JPG, GIF — max 5MB</div><div style="margin-top:8px;display:flex;gap:6px;justify-content:center"><button type="button" onclick="event.stopPropagation();var f=document.getElementById('upFile');f.removeAttribute('capture');f.click()" style="background:var(--bg3);border:1px solid var(--border);color:var(--text2);border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer">&#128444; Library</button><button type="button" onclick="event.stopPropagation();var f=document.getElementById('upFile');f.setAttribute('capture','environment');f.click()" style="background:var(--bg3);border:1px solid var(--border);color:var(--text2);border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer">&#128247; Camera</button></div></div><img id="upPreview" class="up-preview" style="display:none"/><button class="up-remove" id="upRemove" style="display:none" onclick="removeUpload(event)">✕</button></div></div></div><div class="modal-footer"><button class="btn-ghost" onclick="closePostModal()">Cancel</button><button class="btn-primary" onclick="submitPost()">Post It 🚀</button></div></div></div>
 <!-- ROLE PICKER -->
 <div class="modal-overlay" id="roleModal"><div class="modal"><div class="modal-hdr"><div class="modal-hdr-title">What's your role in CC?</div><button class="modal-x" onclick="closeRolePicker()">✕</button></div><div class="modal-body"><div class="rpg" id="rpg"></div></div></div></div>
 <!-- AUTH MODAL -->
@@ -3458,7 +3458,7 @@ function showPage(name){
   el('navTemplates').style.display=name==='templates'?'none':'block';
   el('navNews').style.display=name==='news'?'none':'block';
   el('navJobs').style.display=name==='jobs'?'none':'block';
-  if(name==='feed'){buildFeed();buildRoleFilter();buildTrending();initChallenge();renderLeaderboard();if(sbUser){ var hasRecentVote=posts.some(function(p){return p._votedAt&&(Date.now()-p._votedAt)<30000;}); if(!hasRecentVote)loadRealPosts(); }}
+  if(name==='feed'){buildFeed();buildRoleFilter();buildTrending();initChallenge();renderLeaderboard();if(sbUser)loadRealPosts();}
   if(name==='templates')renderTemplates();
   if(name==='news')initNews();
   if(name==='jobs')initJobs();
@@ -3932,7 +3932,7 @@ function submitPost(){
       image_url:pendingImg||null,tags:[],csat:1,dsat:0,language:'en'
     }).then(function(res){
       if(res.error){ console.error('Post save error:',res.error.message); showToast('Warning: post may not persist'); }
-      else { console.log('Post saved to Supabase'); showToast('Post saved!'); setTimeout(function(){ var hasRecentVote3=posts.some(function(p){return p._votedAt&&(Date.now()-p._votedAt)<30000;}); if(!hasRecentVote3)loadRealPosts(); },1500); }
+      else { console.log('Post saved to Supabase'); showToast('Post saved!'); setTimeout(loadRealPosts, 1500); }
     });
   }
   // COTD streak tracking — inline, no override needed
@@ -5179,7 +5179,7 @@ function onboardFinish(){
 var pendingAvatar = null;
 var AVATAR_COLORS = ['#ff5f1f','#4f9eff','#a78bfa','#3ddc84','#fbbf24','#f472b6','#34d399','#fb923c','#e05252','#52a8e0','#e0b452','#52e08a'];
 
-function goMyProfile(){ if(!currentUser)return; if(typeof toggleDD==='function')toggleDD(); openProfile(currentUser.username); if(sbUser){var _hrv=posts.some(function(p){return p._votedAt&&(Date.now()-p._votedAt)<30000;});if(!_hrv)loadRealPosts();} }
+function goMyProfile(){ if(!currentUser)return; if(typeof toggleDD==='function')toggleDD(); openProfile(currentUser.username); if(sbUser)loadRealPosts(); }
 function goSavedPosts(){ if(!currentUser)return; if(typeof toggleDD==='function')toggleDD(); openProfile(currentUser.username); setTimeout(function(){ var b=el('ptabSaves'); if(b)switchProfileTab('saves',b); },200); }
 
 function openEditProfile(){
@@ -8075,6 +8075,18 @@ document.addEventListener('click', function(e) {
   if (action === 'accept')  acceptFriendRequest(username);
   if (action === 'decline') declineFriendRequest(username);
 });
+
+
+// Wire upload area click — ignore clicks on inner buttons
+var upAreaEl = document.getElementById('upArea');
+if (upAreaEl) {
+  upAreaEl.addEventListener('click', function(e) {
+    // Don't fire if user clicked a button inside the area
+    if (e.target.tagName === 'BUTTON') return;
+    var upFile = document.getElementById('upFile');
+    if (upFile) { upFile.removeAttribute('capture'); upFile.click(); }
+  });
+}
 
 // ═══ INIT ═══
 seedProfileBadges();
