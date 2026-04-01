@@ -2831,6 +2831,10 @@ header {
         </div>
         <input type="file" id="avatarUploadInput" accept="image/*" style="display:none" onchange="handleAvatarUpload(event)"/>
         <div class="avatar-upload-hint">Click to upload a photo · max 2MB</div>
+        <div style="margin-top:8px;display:flex;gap:6px;justify-content:center">
+          <button type="button" onclick="event.stopPropagation();var f=document.getElementById('avatarUploadInput');f.removeAttribute('capture');f.click()" style="background:var(--bg3);border:1px solid var(--border);color:var(--text2);border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer">🖼 Library</button>
+          <button type="button" onclick="event.stopPropagation();var f=document.getElementById('avatarUploadInput');f.setAttribute('capture','user');f.click()" style="background:var(--bg3);border:1px solid var(--border);color:var(--text2);border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer">🤳 Selfie</button>
+        </div>
         <button class="btn-ghost" id="removeAvatarBtn" onclick="removeAvatar()" style="display:none;font-size:12px;padding:4px 10px">Remove photo</button>
       </div>
       <div>
@@ -2852,7 +2856,7 @@ header {
 </div>
 
 <!-- POST MODAL -->
-<div class="modal-overlay" id="postModal"><div class="modal"><div class="modal-hdr"><div class="modal-hdr-title">Share your know-how</div><button class="modal-x" onclick="closePostModal()">✕</button></div><div class="modal-body"><div><div class="fl">Your Role</div><select class="fsel" id="postRole"><option value="">Select…</option></select></div><div><div class="fl">Title</div><input class="fi" id="postTitle" placeholder="Tips, rants, wins…"/></div><div><div class="fl">Body</div><textarea class="fta" id="postBody" placeholder="Share the full story…"></textarea></div><div><div class="fl">Image <span style="color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></div><div class="upload-area" id="upArea" onclick="document.getElementById('upFile').click()"><input type="file" id="upFile" accept="image/*" onchange="handleUpload(event)"/><div id="upPH"><div style="font-size:24px;margin-bottom:5px">🖼</div><div style="font-size:13px;color:var(--text2)">Click to upload</div><div style="font-size:11.5px;color:var(--text3);margin-top:3px">PNG, JPG, GIF — max 5MB</div></div><img id="upPreview" class="up-preview" style="display:none"/><button class="up-remove" id="upRemove" style="display:none" onclick="removeUpload(event)">✕</button></div></div></div><div class="modal-footer"><button class="btn-ghost" onclick="closePostModal()">Cancel</button><button class="btn-primary" onclick="submitPost()">Post It 🚀</button></div></div></div>
+<div class="modal-overlay" id="postModal"><div class="modal"><div class="modal-hdr"><div class="modal-hdr-title">Share your know-how</div><button class="modal-x" onclick="closePostModal()">✕</button></div><div class="modal-body"><div><div class="fl">Your Role</div><select class="fsel" id="postRole"><option value="">Select…</option></select></div><div><div class="fl">Title</div><input class="fi" id="postTitle" placeholder="Tips, rants, wins…"/></div><div><div class="fl">Body</div><textarea class="fta" id="postBody" placeholder="Share the full story…"></textarea></div><div><div class="fl">Image <span style="color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></div><div class="upload-area" id="upArea" onclick="document.getElementById('upFile').click()"><input type="file" id="upFile" accept="image/*" onchange="handleUpload(event)"/><div id="upPH"><div style="font-size:24px;margin-bottom:5px">🖼</div><div style="font-size:13px;color:var(--text2)">Click to upload</div><div style="font-size:11.5px;color:var(--text3);margin-top:3px">PNG, JPG, GIF — max 5MB</div><div style="margin-top:8px;display:flex;gap:6px;justify-content:center"><button type="button" onclick="event.stopPropagation();var f=document.getElementById('upFile');f.removeAttribute('capture');f.click()" style="background:var(--bg3);border:1px solid var(--border);color:var(--text2);border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer">&#128444; Library</button><button type="button" onclick="event.stopPropagation();var f=document.getElementById('upFile');f.setAttribute('capture','environment');f.click()" style="background:var(--bg3);border:1px solid var(--border);color:var(--text2);border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer">&#128247; Camera</button></div></div><img id="upPreview" class="up-preview" style="display:none"/><button class="up-remove" id="upRemove" style="display:none" onclick="removeUpload(event)">✕</button></div></div></div><div class="modal-footer"><button class="btn-ghost" onclick="closePostModal()">Cancel</button><button class="btn-primary" onclick="submitPost()">Post It 🚀</button></div></div></div>
 <!-- ROLE PICKER -->
 <div class="modal-overlay" id="roleModal"><div class="modal"><div class="modal-hdr"><div class="modal-hdr-title">What's your role in CC?</div><button class="modal-x" onclick="closeRolePicker()">✕</button></div><div class="modal-body"><div class="rpg" id="rpg"></div></div></div></div>
 <!-- AUTH MODAL -->
@@ -3225,61 +3229,58 @@ function vote(e, id, dir) {
   // Check COTD winner
   if (dir === 'up' && post) checkCOTDWinner(post);
 
-  // Persist votes — direct Supabase calls, no RPC needed
+  // Persist votes — sequential async to avoid race conditions
   if (!sbUser) return;
   var dbId = String(id).replace('db_', '');
   if (isNaN(Number(dbId))) return; // seed post only
 
   var postIdNum = Number(dbId);
 
-  // Step 1: always delete existing vote for this user+post
-  sb.from('votes').delete()
-    .eq('user_id', sbUser.id)
-    .eq('post_id', postIdNum)
-    .then(function(delRes) {
-      if (delRes.error) console.error('Vote delete error:', delRes.error.message);
+  // Sequential: delete → insert → count → update (all awaited properly)
+  (async function() {
+    try {
+      // Step 1: delete existing vote
+      var delRes = await sb.from('votes').delete()
+        .eq('user_id', sbUser.id).eq('post_id', postIdNum);
+      if (delRes.error && delRes.error.code !== 'PGRST116') {
+        console.error('Vote delete:', delRes.error.message);
+      }
 
-      // Step 2: insert new vote if not toggling off
+      // Step 2: insert new vote (if not toggling off)
       if (!isToggleOff) {
-        sb.from('votes').insert({
+        var insRes = await sb.from('votes').insert({
           user_id: sbUser.id,
           post_id: postIdNum,
           direction: dir
-        }).then(function(insRes) {
-          if (insRes.error) console.error('Vote insert error:', insRes.error.message);
         });
+        if (insRes.error) console.error('Vote insert:', insRes.error.message);
       }
 
-      // Step 3: recalculate counts from votes table and update post
-      sb.from('votes').select('direction').eq('post_id', postIdNum)
-        .then(function(cntRes) {
-          if (cntRes.error) { console.error('Vote count error:', cntRes.error.message); return; }
-          var rows = cntRes.data || [];
-          var newCsat = rows.filter(function(r){ return r.direction === 'up'; }).length;
-          var newDsat = rows.filter(function(r){ return r.direction === 'down'; }).length;
+      // Step 3: count all votes for this post (now accurate)
+      var cntRes = await sb.from('votes').select('direction').eq('post_id', postIdNum);
+      if (cntRes.error) { console.error('Vote count:', cntRes.error.message); return; }
 
-          // Update post counts in DB
-          sb.from('posts').update({ csat: newCsat, dsat: newDsat })
-            .eq('id', postIdNum)
-            .then(function(updRes) {
-              if (updRes.error) console.error('Post count update error:', updRes.error.message);
-              else console.log('Vote saved — csat:', newCsat, 'dsat:', newDsat);
-            });
+      var rows = cntRes.data || [];
+      var newCsat = rows.filter(function(r){ return r.direction === 'up'; }).length;
+      var newDsat = rows.filter(function(r){ return r.direction === 'down'; }).length;
+      console.log('Vote DB counts — csat:', newCsat, 'dsat:', newDsat);
 
-          // DB confirmed — local state is already correct from optimistic update
-          // Only sync if DB count differs significantly (catch drift)
-          if (post) {
-            var localDiff = Math.abs((post.csat - newCsat)) + Math.abs((post.dsat - newDsat));
-            if (localDiff > 2) {
-              // Only override if big discrepancy
-              post.csat = newCsat;
-              post.dsat = newDsat;
-              post._votedAt = Date.now();
-              buildFeed();
-            }
-          }
-        });
-    });
+      // Step 4: update post counts in DB
+      var updRes = await sb.from('posts').update({ csat: newCsat, dsat: newDsat })
+        .eq('id', postIdNum);
+      if (updRes.error) console.error('Post update:', updRes.error.message);
+
+      // Step 5: sync local post with confirmed DB counts
+      if (post) {
+        post.csat = newCsat;
+        post.dsat = newDsat;
+        post._votedAt = Date.now();
+        buildFeed();
+      }
+    } catch(e) {
+      console.error('Vote sequence error:', e.message);
+    }
+  })();
 
   if (!isToggleOff) {
 
