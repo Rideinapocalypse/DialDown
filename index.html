@@ -3105,22 +3105,33 @@ async function loadRealPosts() {
 
   // Convert DB posts to app format
   var dbPosts = res.data.map(function(p) {
+    var pid = 'db_' + p.id;
+    // Preserve local vote counts if user voted recently (within 30s)
+    // This prevents race condition where loadRealPosts overwrites a fresh vote
+    var existingPost = posts.find(function(ep){ return String(ep.id) === pid; });
+    var useCsat = p.csat || 0;
+    var useDsat = p.dsat || 0;
+    if (existingPost && existingPost._votedAt && (Date.now() - existingPost._votedAt) < 30000) {
+      useCsat = existingPost.csat;
+      useDsat = existingPost.dsat;
+    }
     return {
-      id: 'db_' + p.id,
+      id: pid,
       role: p.role,
       author: p.author,
       title: p.title,
       body: p.body,
       image: p.image_url || null,
       tags: p.tags || [],
-      csat: p.csat || 0,
-      dsat: p.dsat || 0,
+      csat: useCsat,
+      dsat: useDsat,
       time: timeAgo(p.created_at),
       comments: (p.comments || []).map(function(c) {
         return { dbId: c.id, author: c.author, text: c.text, color: c.color || '#4f9eff' };
       }),
       language: p.language || 'en',
-      fromDB: true
+      fromDB: true,
+      _votedAt: existingPost ? existingPost._votedAt : null
     };
   });
 
@@ -3186,6 +3197,8 @@ function vote(e, id, dir) {
       if (dir === 'up')   post.csat = (post.csat||0) + 1;
       if (dir === 'down') post.dsat = (post.dsat||0) + 1;
     }
+    // Stamp vote time so loadRealPosts doesn't overwrite for 30s
+    post._votedAt = Date.now();
   }
 
   // Rebuild feed + post view if open
@@ -3242,6 +3255,7 @@ function vote(e, id, dir) {
           if (post) {
             post.csat = newCsat;
             post.dsat = newDsat;
+            post._votedAt = Date.now(); // keep 30s protection
             buildFeed();
           }
         });
