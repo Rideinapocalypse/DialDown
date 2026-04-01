@@ -3197,51 +3197,55 @@ function vote(e, id, dir) {
   // Check COTD winner
   if (dir === 'up' && post) checkCOTDWinner(post);
 
-  // Persist to Supabase via RPC (bypasses RLS so any user can update vote counts)
+  // Persist votes — direct Supabase calls, no RPC needed
   if (!sbUser) return;
   var dbId = String(id).replace('db_', '');
-  if (isNaN(Number(dbId))) return; // seed post — no DB
+  if (isNaN(Number(dbId))) return; // seed post only
 
-  var voteDir = isToggleOff ? 'remove' : dir;
-  sb.rpc('cast_vote', {
-    p_post_id: Number(dbId),
-    p_user_id: sbUser.id,
-    p_direction: voteDir
-  }).then(function(res){
-    if (res.error) {
-      console.error('Vote RPC error:', res.error.message);
-      // Hard fallback: update vote record + post counts directly
-      if (voteDir === 'remove') {
-        sb.from('votes').delete()
-          .eq('user_id', sbUser.id).eq('post_id', Number(dbId)).then(function(){});
-      } else {
-        sb.from('votes').upsert({
+  var postIdNum = Number(dbId);
+
+  // Step 1: always delete existing vote for this user+post
+  sb.from('votes').delete()
+    .eq('user_id', sbUser.id)
+    .eq('post_id', postIdNum)
+    .then(function(delRes) {
+      if (delRes.error) console.error('Vote delete error:', delRes.error.message);
+
+      // Step 2: insert new vote if not toggling off
+      if (!isToggleOff) {
+        sb.from('votes').insert({
           user_id: sbUser.id,
-          post_id: Number(dbId),
-          direction: voteDir
-        }, { onConflict: 'user_id,post_id' }).then(function(){});
-        if (post) {
-          sb.from('posts').update({ csat: post.csat, dsat: post.dsat })
-            .eq('id', Number(dbId)).then(function(){});
-        }
+          post_id: postIdNum,
+          direction: dir
+        }).then(function(insRes) {
+          if (insRes.error) console.error('Vote insert error:', insRes.error.message);
+        });
       }
-    } else {
-      if (res.data && post) {
-        post.csat = res.data.csat;
-        post.dsat = res.data.dsat;
-        buildFeed();
-        if (currentViewPostId && String(currentViewPostId) === String(dbId)) {
-          var pvFooter = el('pvFooter');
-          if (pvFooter) {
-            pvFooter.querySelectorAll('[data-vote-pid]').forEach(function(b){
-              if (b.dataset.voteDir === 'up') b.querySelector('span').textContent = post.csat;
-              if (b.dataset.voteDir === 'down') b.querySelector('span').textContent = post.dsat;
+
+      // Step 3: recalculate counts from votes table and update post
+      sb.from('votes').select('direction').eq('post_id', postIdNum)
+        .then(function(cntRes) {
+          if (cntRes.error) { console.error('Vote count error:', cntRes.error.message); return; }
+          var rows = cntRes.data || [];
+          var newCsat = rows.filter(function(r){ return r.direction === 'up'; }).length;
+          var newDsat = rows.filter(function(r){ return r.direction === 'down'; }).length;
+
+          // Update post counts in DB
+          sb.from('posts').update({ csat: newCsat, dsat: newDsat })
+            .eq('id', postIdNum)
+            .then(function(updRes) {
+              if (updRes.error) console.error('Post count update error:', updRes.error.message);
+              else console.log('Vote saved — csat:', newCsat, 'dsat:', newDsat);
             });
+
+          // Sync local state with DB truth
+          if (post) {
+            post.csat = newCsat;
+            post.dsat = newDsat;
+            buildFeed();
           }
-        }
-      }
-    }
-  });
+        });
+    });
 
   if (!isToggleOff) {
 
