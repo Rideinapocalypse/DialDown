@@ -74,8 +74,8 @@ header{position:sticky;top:0;z-index:100;background:rgba(14,15,19,.95);backdrop-
 .feed-title-wrap{display:flex;align-items:center;gap:10px;}
 .feed-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;}
 .csat-legend{font-size:11px;color:var(--text3);background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:3px 8px;}
-.sort-tabs{display:flex;gap:3px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:3px;}
-.sort-tab{padding:5px 11px;border-radius:5px;font-size:13px;cursor:pointer;transition:background .2s,color .2s;color:var(--text2);border:none;background:none;font-family:'DM Sans',sans-serif;}
+.sort-tabs{display:flex;gap:3px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:3px;position:relative;z-index:10;touch-action:manipulation;}
+.sort-tab{padding:5px 11px;border-radius:5px;font-size:13px;cursor:pointer;transition:background .2s,color .2s;color:var(--text2);border:none;background:none;font-family:'DM Sans',sans-serif;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;}
 .sort-tab.active{background:var(--bg3);color:var(--text);}
 .filter-bar{display:none;align-items:center;gap:10px;background:rgba(255,95,31,.07);border:1px solid rgba(255,95,31,.2);border-radius:8px;padding:7px 13px;margin-bottom:12px;font-size:13px;color:var(--accent2);}
 .filter-bar.visible{display:flex;}
@@ -2105,6 +2105,21 @@ header {
   }
 }
 
+
+@media (max-width: 768px) {
+  .sort-tab {
+    padding: 8px 16px;
+    font-size: 14px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+  }
+  .sort-tabs {
+    flex: 1;
+    justify-content: space-between;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -3251,12 +3266,17 @@ function vote(e, id, dir) {
               else console.log('Vote saved — csat:', newCsat, 'dsat:', newDsat);
             });
 
-          // Sync local state with DB truth
+          // DB confirmed — local state is already correct from optimistic update
+          // Only sync if DB count differs significantly (catch drift)
           if (post) {
-            post.csat = newCsat;
-            post.dsat = newDsat;
-            post._votedAt = Date.now(); // keep 30s protection
-            buildFeed();
+            var localDiff = Math.abs((post.csat - newCsat)) + Math.abs((post.dsat - newDsat));
+            if (localDiff > 2) {
+              // Only override if big discrepancy
+              post.csat = newCsat;
+              post.dsat = newDsat;
+              post._votedAt = Date.now();
+              buildFeed();
+            }
           }
         });
     });
@@ -3437,7 +3457,7 @@ function showPage(name){
   el('navTemplates').style.display=name==='templates'?'none':'block';
   el('navNews').style.display=name==='news'?'none':'block';
   el('navJobs').style.display=name==='jobs'?'none':'block';
-  if(name==='feed'){buildFeed();buildRoleFilter();buildTrending();initChallenge();renderLeaderboard();if(sbUser)loadRealPosts();}
+  if(name==='feed'){buildFeed();buildRoleFilter();buildTrending();initChallenge();renderLeaderboard();if(sbUser){ var hasRecentVote=posts.some(function(p){return p._votedAt&&(Date.now()-p._votedAt)<30000;}); if(!hasRecentVote)loadRealPosts(); }}
   if(name==='templates')renderTemplates();
   if(name==='news')initNews();
   if(name==='jobs')initJobs();
@@ -3547,8 +3567,8 @@ function buildFeed(){
   if(filterRole)f=f.filter(function(p){return p.role===filterRole;});
   if(filterTag)f=f.filter(function(p){return p.tags&&p.tags.indexOf(filterTag)>=0;});
   if(sortMode==='hot')f.sort(function(a,b){return((b.csat||0)+b.comments.length*2)-((a.csat||0)+a.comments.length*2);});
-  else if(sortMode==='new')f.sort(function(a,b){return b.id-a.id;});
-  else f.sort(function(a,b){return(b.csat||0)-(a.csat||0);});
+  else if(sortMode==='new')f.sort(function(a,b){ var ai=parseInt(String(a.id).replace('db_',''))||0; var bi=parseInt(String(b.id).replace('db_',''))||0; return bi-ai; });
+  else f.sort(function(a,b){ return ((b.csat||0)+(b.dsat||0)===0?0:(b.csat||0)) - ((a.csat||0)+(a.dsat||0)===0?0:(a.csat||0)); });
 
   el('feedTitle').textContent=filterTag?'#'+filterTag:'Community Feed';
   el('statPosts').textContent=posts.length;
@@ -3911,7 +3931,7 @@ function submitPost(){
       image_url:pendingImg||null,tags:[],csat:1,dsat:0,language:'en'
     }).then(function(res){
       if(res.error){ console.error('Post save error:',res.error.message); showToast('Warning: post may not persist'); }
-      else { console.log('Post saved to Supabase'); showToast('Post saved!'); setTimeout(loadRealPosts,600); }
+      else { console.log('Post saved to Supabase'); showToast('Post saved!'); setTimeout(function(){ var hasRecentVote3=posts.some(function(p){return p._votedAt&&(Date.now()-p._votedAt)<30000;}); if(!hasRecentVote3)loadRealPosts(); },1500); }
     });
   }
   // COTD streak tracking — inline, no override needed
@@ -5158,7 +5178,7 @@ function onboardFinish(){
 var pendingAvatar = null;
 var AVATAR_COLORS = ['#ff5f1f','#4f9eff','#a78bfa','#3ddc84','#fbbf24','#f472b6','#34d399','#fb923c','#e05252','#52a8e0','#e0b452','#52e08a'];
 
-function goMyProfile(){ if(!currentUser)return; if(typeof toggleDD==='function')toggleDD(); openProfile(currentUser.username); if(sbUser)loadRealPosts(); }
+function goMyProfile(){ if(!currentUser)return; if(typeof toggleDD==='function')toggleDD(); openProfile(currentUser.username); if(sbUser){var _hrv=posts.some(function(p){return p._votedAt&&(Date.now()-p._votedAt)<30000;});if(!_hrv)loadRealPosts();} }
 function goSavedPosts(){ if(!currentUser)return; if(typeof toggleDD==='function')toggleDD(); openProfile(currentUser.username); setTimeout(function(){ var b=el('ptabSaves'); if(b)switchProfileTab('saves',b); },200); }
 
 function openEditProfile(){
