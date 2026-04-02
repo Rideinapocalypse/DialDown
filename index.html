@@ -3155,13 +3155,18 @@ async function loadRealPosts() {
     };
   });
 
-  // Rebuild: DB posts + any local posts newer than 30s (pending DB confirmation)
+  // Rebuild: DB posts + seed posts + recent local posts
   var cutoff = Date.now() - 30000;
-  var pendingLocal = posts.filter(function(p){
-    var isLocal = typeof p.id === 'number' || (typeof p.id === 'string' && !String(p.id).startsWith('db_'));
-    return isLocal && (parseInt(String(p.id)) || 0) > cutoff;
+  var localToKeep = posts.filter(function(p){
+    var isDbPost = typeof p.id === 'string' && String(p.id).startsWith('db_');
+    if (isDbPost) return false; // DB posts are replaced by fresh dbPosts
+    var numId = parseInt(String(p.id)) || 0;
+    var isSeedPost = numId > 0 && numId < 100000; // seed IDs are small numbers
+    var isRecentLocal = numId > cutoff; // recent optimistic posts have timestamp IDs
+    return isSeedPost || isRecentLocal;
   });
-  posts = dbPosts.concat(pendingLocal);
+  // Put DB posts first (newest), then seed/local posts at end
+  posts = dbPosts.concat(localToKeep);
   buildFeed(); buildRoleFilter(); buildTrending(); renderLeaderboard();
 }
 
