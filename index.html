@@ -3145,6 +3145,7 @@ async function loadRealPosts() {
       csat: useCsat,
       dsat: useDsat,
       time: timeAgo(p.created_at),
+      created_at: p.created_at,
       comments: (p.comments || []).map(function(c) {
         return { dbId: c.id, author: c.author, text: c.text, color: c.color || '#4f9eff' };
       }),
@@ -3154,12 +3155,13 @@ async function loadRealPosts() {
     };
   });
 
-  // Remove existing DB posts then prepend fresh ones
-  var localPosts = posts.filter(function(p){
-    return (typeof p.id === 'number' && p.id < 1000000000000) ||
-           (typeof p.id === 'string' && !String(p.id).startsWith('db_'));
+  // Rebuild: DB posts + any local posts newer than 30s (pending DB confirmation)
+  var cutoff = Date.now() - 30000;
+  var pendingLocal = posts.filter(function(p){
+    var isLocal = typeof p.id === 'number' || (typeof p.id === 'string' && !String(p.id).startsWith('db_'));
+    return isLocal && (parseInt(String(p.id)) || 0) > cutoff;
   });
-  posts = dbPosts.concat(localPosts);
+  posts = dbPosts.concat(pendingLocal);
   buildFeed(); buildRoleFilter(); buildTrending(); renderLeaderboard();
 }
 
@@ -3568,7 +3570,15 @@ function buildFeed(){
   if(filterRole)f=f.filter(function(p){return p.role===filterRole;});
   if(filterTag)f=f.filter(function(p){return p.tags&&p.tags.indexOf(filterTag)>=0;});
   if(sortMode==='hot')f.sort(function(a,b){return((b.csat||0)+b.comments.length*2)-((a.csat||0)+a.comments.length*2);});
-  else if(sortMode==='new')f.sort(function(a,b){ var ai=parseInt(String(a.id).replace('db_',''))||0; var bi=parseInt(String(b.id).replace('db_',''))||0; return bi-ai; });
+  else if(sortMode==='new')f.sort(function(a,b){
+    // Use created_at if available (DB posts), else use numeric id (local posts)
+    var at = a.created_at ? new Date(a.created_at).getTime() : (parseInt(String(a.id).replace('db_',''))||0);
+    var bt = b.created_at ? new Date(b.created_at).getTime() : (parseInt(String(b.id).replace('db_',''))||0);
+    // Local posts (no created_at) use timestamp IDs which are ms — comparable to Date.getTime()
+    if (!a.created_at) at = parseInt(String(a.id)) || 0;
+    if (!b.created_at) bt = parseInt(String(b.id)) || 0;
+    return bt - at;
+  });
   else f.sort(function(a,b){ return ((b.csat||0)+(b.dsat||0)===0?0:(b.csat||0)) - ((a.csat||0)+(a.dsat||0)===0?0:(a.csat||0)); });
 
   el('feedTitle').textContent=filterTag?'#'+filterTag:'Community Feed';
@@ -3923,7 +3933,8 @@ function submitPost(){
   if(!currentUser){openAuth('signup');return;}
   var role=el('postRole').value,title=el('postTitle').value.trim(),body=el('postBody').value.trim();
   if(!role||!title){alert('Please select a role and add a title.');return;}
-  posts.unshift({id:Date.now(),role:role,author:currentUser.username,title:title,body:body,image:pendingImg||null,tags:[],csat:1,dsat:0,time:'just now',comments:[]});
+  var _nowTs = Date.now();
+  posts.unshift({id:_nowTs,role:role,author:currentUser.username,title:title,body:body,image:pendingImg||null,tags:[],csat:1,dsat:0,time:'just now',comments:[],created_at:new Date().toISOString()});
   sortMode='new';qsa('.sort-tab').forEach(function(t,i){t.classList.toggle('active',i===1);});
   closePostModal();buildFeed();buildRoleFilter();buildTrending();
   if(sbUser){
