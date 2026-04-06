@@ -3939,13 +3939,13 @@ function submitPost(){
   var role=el('postRole').value,title=el('postTitle').value.trim(),body=el('postBody').value.trim();
   if(!role||!title){alert('Please select a role and add a title.');return;}
   var _nowTs = Date.now();
-  posts.unshift({id:_nowTs,role:role,author:currentUser.username,title:title,body:body,image:pendingImg||null,tags:[],csat:1,dsat:0,time:'just now',comments:[],created_at:new Date().toISOString()});
+  posts.unshift({id:_nowTs,role:role,author:currentUser.username,title:title,body:body,image:pendingImg||null,tags:[],csat:0,dsat:0,time:'just now',comments:[],created_at:new Date().toISOString()});
   sortMode='new';qsa('.sort-tab').forEach(function(t,i){t.classList.toggle('active',i===1);});
   closePostModal();buildFeed();buildRoleFilter();buildTrending();
   if(sbUser){
     sb.from('posts').insert({
       author:currentUser.username,role:role,title:title,body:body,
-      image_url:pendingImg||null,tags:[],csat:1,dsat:0,language:'en'
+      image_url:pendingImg||null,tags:[],csat:0,dsat:0,language:'en'
     }).then(function(res){
       if(res.error){ console.error('Post save error:',res.error.message); showToast('Warning: post may not persist'); }
       else { console.log('Post saved to Supabase'); showToast('Post saved!'); setTimeout(loadRealPosts, 1500); }
