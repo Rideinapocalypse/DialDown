@@ -6942,23 +6942,16 @@ function withPresenceDot(username, avatarHTML, size) {
 // PWA — Register Service Worker
 // ═══════════════════════════════════════════════════════
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    // Unregister old broken SW versions first
-    navigator.serviceWorker.getRegistrations().then(function(regs) {
-      regs.forEach(function(reg) {
-        if (reg.scope && reg.scope.indexOf('DialDown') >= 0) {
-          reg.update(); // Force check for new SW
-        }
-      });
-    });
-    navigator.serviceWorker.register('/DialDown/sw.js?v=2', { scope: '/DialDown/' })
-      .then(function(reg) {
-        console.log('SW registered ✅ scope:', reg.scope);
-      })
-      .catch(function(err) {
-        console.log('SW registration skipped:', err.message);
-      });
+  // Unregister ALL service workers — SW was causing network request failures
+  navigator.serviceWorker.getRegistrations().then(function(registrations) {
+    registrations.forEach(function(reg) { reg.unregister(); });
   });
+  // Clear all caches
+  if (window.caches) {
+    caches.keys().then(function(keys) {
+      keys.forEach(function(key) { caches.delete(key); });
+    });
+  }
 }
 
 // Show "Install App" prompt when available
