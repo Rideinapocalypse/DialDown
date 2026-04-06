@@ -5007,12 +5007,9 @@ function seedNotifications(user){
 // Comment notification — handled inline
 
 // Hook into badge award
-var _origShowBadgeToast = showBadgeToast;
-function showBadgeToast(badge){
-  _origShowBadgeToast(badge);
-  addNotif(badge.icon, 'Badge unlocked: <strong>' + badge.name + '</strong> — ' + badge.desc, function(){
-    if(currentUser) openProfile(currentUser.username);
-  });
+function showBadgeToastWithNotif(badge){
+  showBadgeToast(badge);
+  addNotif(badge.icon, 'Badge unlocked: <strong>' + badge.name + '</strong> — ' + badge.desc, function(){ openProfile(currentUser ? currentUser.username : ''); });
 }
 
 // ═══════════════════════════════════════════════════════
