@@ -3246,11 +3246,15 @@ function vote(e, id, dir) {
   // Sequential: delete → insert → count → update (all awaited properly)
   (async function() {
     try {
+      console.log('🗳️ VOTE START — post:', postIdNum, 'dir:', dir, 'user:', sbUser.id);
+
       // Step 1: delete existing vote
       var delRes = await sb.from('votes').delete()
         .eq('user_id', sbUser.id).eq('post_id', postIdNum);
-      if (delRes.error && delRes.error.code !== 'PGRST116') {
-        console.error('Vote delete:', delRes.error.message);
+      if (delRes.error) {
+        console.error('🗳️ DELETE error:', delRes.error.message, delRes.error.code);
+      } else {
+        console.log('🗳️ DELETE ok');
       }
 
       // Step 2: insert new vote (if not toggling off)
@@ -3260,24 +3264,34 @@ function vote(e, id, dir) {
           post_id: postIdNum,
           direction: dir
         });
-        if (insRes.error) console.error('Vote insert:', insRes.error.message);
+        if (insRes.error) {
+          console.error('🗳️ INSERT error:', insRes.error.message, insRes.error.code);
+        } else {
+          console.log('🗳️ INSERT ok');
+        }
       }
 
-      // Step 3: count all votes for this post (now accurate)
+      // Step 3: count all votes for this post
       var cntRes = await sb.from('votes').select('direction').eq('post_id', postIdNum);
-      if (cntRes.error) { console.error('Vote count:', cntRes.error.message); return; }
-
+      if (cntRes.error) {
+        console.error('🗳️ COUNT error:', cntRes.error.message);
+        return;
+      }
       var rows = cntRes.data || [];
       var newCsat = rows.filter(function(r){ return r.direction === 'up'; }).length;
       var newDsat = rows.filter(function(r){ return r.direction === 'down'; }).length;
-      console.log('Vote DB counts — csat:', newCsat, 'dsat:', newDsat);
+      console.log('🗳️ COUNT result — csat:', newCsat, 'dsat:', newDsat, 'rows:', rows.length);
 
       // Step 4: update post counts in DB
       var updRes = await sb.from('posts').update({ csat: newCsat, dsat: newDsat })
         .eq('id', postIdNum);
-      if (updRes.error) console.error('Post update:', updRes.error.message);
+      if (updRes.error) {
+        console.error('🗳️ UPDATE error:', updRes.error.message, updRes.error.code);
+      } else {
+        console.log('🗳️ UPDATE ok — posts.csat now:', newCsat);
+      }
 
-      // Step 5: sync local post with confirmed DB counts
+      // Step 5: sync local
       if (post) {
         post.csat = newCsat;
         post.dsat = newDsat;
@@ -3285,7 +3299,7 @@ function vote(e, id, dir) {
         buildFeed();
       }
     } catch(e) {
-      console.error('Vote sequence error:', e.message);
+      console.error('🗳️ Vote error:', e.message, e.stack);
     }
   })();
 
